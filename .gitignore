@@ -3,5 +3,14 @@ dist/
 apps/server/data/
 .DS_Store
 *.log
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+__pycache__/
+*.pyc
+.venv/
+venv/
 test-results/
 playwright-report/
+artifacts/playtest/poc_frames/

@@ -1,6 +1,7 @@
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 from PIL import Image, ImageDraw
 
@@ -12,6 +13,7 @@ SLICED_AI_DIR = SOURCE_AI_DIR / "sliced"
 ATLAS_DIR = ASSETS_DIR / "atlases"
 PREVIEW_DIR = ASSETS_DIR / "previews"
 LEGACY_DIR = ASSETS_DIR / "sprites" / "legacy_v1"
+FORCE_REBUILD = "--force" in sys.argv
 
 
 def sha256_file(path: Path) -> str:
@@ -235,147 +237,155 @@ def run_quality_audit(img_path: Path) -> dict:
 
 
 def build_multipose_character(cid: str, spec: dict) -> tuple[dict, dict]:
-    loco_stem = Path(spec["locomotion_source"]).stem
-    comb_stem = Path(spec["combat_source"]).stem
-    loco_dir = ensure_ownership_sliced(loco_stem)
-    comb_dir = ensure_ownership_sliced(comb_stem)
-    key_mode = spec["key_mode"]
-
-    _, ref_l = load_multipose_cell(loco_dir, 0, key_mode)
-    _, ref_c = load_multipose_cell(comb_dir, 0, key_mode)
-
-    sheet = Image.new("RGBA", (80 * 6, 96 * 20), (0, 0, 0, 0))
-    frames_out = ATLAS_DIR / cid / "frames"
-    frames_out.mkdir(parents=True, exist_ok=True)
-    PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
-
-    states = [("idle", 4, 5), ("walk", 6, 9), ("attack", 4, 10), ("cast", 4, 8), ("hurt", 4, 8)]
-    dirs = ["down", "left", "right", "up"]
-
-    for s_idx, (st_name, f_count, _fps) in enumerate(states):
-        for d_idx, d_name in enumerate(dirs):
-            row = s_idx * 4 + d_idx
-            seq = spec["rows"][(st_name, d_name)]
-            for col in range(6):
-                src_type, cell_idx, do_flip, is_crouch, dy_off = seq[col % len(seq)]
-                s_dir = loco_dir if src_type == "L" else comb_dir
-                r_h = ref_c if src_type == "C" else ref_l
-                pose, _ = load_multipose_cell(
-                    s_dir,
-                    cell_idx,
-                    key_mode,
-                    ref_h=r_h if src_type == "C" else None,
-                    crouch=is_crouch,
-                    flip=do_flip,
-                    dy_offset=dy_off
-                )
-                sheet.alpha_composite(pose, (col * 80, row * 96))
-                if col < f_count:
-                    pose.save(frames_out / f"{st_name}_{d_name}_{col:02d}.png")
-
-    rgb = sheet.convert("RGB").quantize(colors=64, method=Image.Quantize.FASTOCTREE).convert("RGB")
-    sheet_q = prune_alpha_orphans(Image.merge("RGBA", (*rgb.split(), sheet.getchannel("A"))))
     out_sprite = ASSETS_DIR / "sprites" / f"{cid}.png"
-    sheet_q.save(out_sprite)
-
     atlas_png = ATLAS_DIR / f"{cid}_atlas.png"
     atlas_json = ATLAS_DIR / f"{cid}_atlas.json"
-    subprocess.run(
-        [
-            "python3",
-            str(ROOT / ".agents/skills/pixel-art/scripts/atlas_pack.py"),
-            "--frames-dir",
-            str(frames_out),
-            "--output",
-            str(atlas_png),
-            "--cols",
-            "8",
-            "--json"
-        ],
-        capture_output=True,
-        check=True
-    )
-
-    atlas_meta = json.loads(atlas_json.read_text(encoding="utf-8"))
-    atlas_meta["characterId"] = cid
-    atlas_meta["logicalFrameSize"] = {"width": 80, "height": 96}
-    atlas_meta["anchor"] = {"x": 0.5, "y": 0.9167}
-    atlas_meta["animations"] = {
-        "idle": {"rows": [0, 1, 2, 3], "framesPerRow": 4, "fps": 5, "loop": True},
-        "walk": {"rows": [4, 5, 6, 7], "framesPerRow": 6, "fps": 9, "loop": True},
-        "attack": {"rows": [8, 9, 10, 11], "framesPerRow": 4, "fps": 11, "loop": False},
-        "cast": {"rows": [12, 13, 14, 15], "framesPerRow": 4, "fps": 9, "loop": False},
-        "hurt": {"rows": [16, 17, 18, 19], "framesPerRow": 4, "fps": 9, "loop": False}
+    frames_out = ATLAS_DIR / cid / "frames"
+    comp_path = PREVIEW_DIR / f"{cid}_before_after.png"
+    states = [("idle", 4, 5), ("walk", 6, 9), ("attack", 4, 10), ("cast", 4, 8), ("hurt", 4, 8)]
+    preview_gifs: dict[str, str] = {
+        "all_states": f"assets/previews/{cid}_all_states.gif",
+        **{st_name: f"assets/previews/{cid}_{st_name}.gif" for st_name, _fc, _fps in states}
     }
-    atlas_json.write_text(json.dumps(atlas_meta, indent=2), encoding="utf-8")
 
-    preview_gifs: dict[str, str] = {}
-    all_gif = PREVIEW_DIR / f"{cid}_all_states.gif"
-    subprocess.run(
-        [
-            "python3",
-            str(ROOT / ".agents/skills/pixel-art/scripts/gif_export.py"),
-            "--frames-dir",
-            str(frames_out),
-            "--fps",
-            "8",
-            "--output",
-            str(all_gif),
-            "--json"
-        ],
-        capture_output=True,
-        check=True
-    )
-    preview_gifs["all_states"] = f"assets/previews/{cid}_all_states.gif"
+    if (
+        FORCE_REBUILD
+        or not out_sprite.exists()
+        or not atlas_png.exists()
+        or not atlas_json.exists()
+        or not comp_path.exists()
+    ):
+        loco_stem = Path(spec["locomotion_source"]).stem
+        comb_stem = Path(spec["combat_source"]).stem
+        loco_dir = ensure_ownership_sliced(loco_stem)
+        comb_dir = ensure_ownership_sliced(comb_stem)
+        key_mode = spec["key_mode"]
 
-    for s_idx, (st_name, f_count, fps) in enumerate(states):
-        row = s_idx * 4
-        strip = sheet_q.crop((0, row * 96, f_count * 80, (row + 1) * 96))
-        tmp_strip = Path(f"/tmp/{cid}_{st_name}_strip.png")
-        strip.save(tmp_strip)
-        gif_path = PREVIEW_DIR / f"{cid}_{st_name}.gif"
+        _, ref_l = load_multipose_cell(loco_dir, 0, key_mode)
+        _, ref_c = load_multipose_cell(comb_dir, 0, key_mode)
+
+        sheet = Image.new("RGBA", (80 * 6, 96 * 20), (0, 0, 0, 0))
+        frames_out.mkdir(parents=True, exist_ok=True)
+        PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
+        dirs = ["down", "left", "right", "up"]
+
+        for s_idx, (st_name, f_count, _fps) in enumerate(states):
+            for d_idx, d_name in enumerate(dirs):
+                row = s_idx * 4 + d_idx
+                seq = spec["rows"][(st_name, d_name)]
+                for col in range(6):
+                    src_type, cell_idx, do_flip, is_crouch, dy_off = seq[col % len(seq)]
+                    s_dir = loco_dir if src_type == "L" else comb_dir
+                    r_h = ref_c if src_type == "C" else ref_l
+                    pose, _ = load_multipose_cell(
+                        s_dir,
+                        cell_idx,
+                        key_mode,
+                        ref_h=r_h if src_type == "C" else None,
+                        crouch=is_crouch,
+                        flip=do_flip,
+                        dy_offset=dy_off
+                    )
+                    sheet.alpha_composite(pose, (col * 80, row * 96))
+                    if col < f_count:
+                        pose.save(frames_out / f"{st_name}_{d_name}_{col:02d}.png")
+
+        rgb = sheet.convert("RGB").quantize(colors=64, method=Image.Quantize.FASTOCTREE).convert("RGB")
+        sheet_q = prune_alpha_orphans(Image.merge("RGBA", (*rgb.split(), sheet.getchannel("A"))))
+        sheet_q.save(out_sprite)
+
         subprocess.run(
             [
                 "python3",
-                str(ROOT / ".agents/skills/pixel-art/scripts/gif_export.py"),
-                "--sheet",
-                str(tmp_strip),
-                "--frame-width",
-                "80",
-                "--frame-height",
-                "96",
-                "--cols",
-                str(f_count),
-                "--fps",
-                str(fps),
+                str(ROOT / ".agents/skills/pixel-art/scripts/atlas_pack.py"),
+                "--frames-dir",
+                str(frames_out),
                 "--output",
-                str(gif_path),
+                str(atlas_png),
+                "--cols",
+                "8",
                 "--json"
             ],
             capture_output=True,
             check=True
         )
-        preview_gifs[st_name] = f"assets/previews/{cid}_{st_name}.gif"
 
-    old_path = LEGACY_DIR / f"{cid}.png"
-    comp_path = PREVIEW_DIR / f"{cid}_before_after.png"
-    if old_path.exists():
-        old_sheet = Image.open(old_path).convert("RGBA")
-        comp = Image.new("RGBA", (960, 560), (22, 26, 36, 255))
-        d = ImageDraw.Draw(comp)
-        d.rectangle((6, 6, 953, 553), outline=(245, 194, 66, 255), width=2)
-        d.line((320, 12, 320, 548), fill=(90, 102, 128, 255), width=2)
-        for r_idx, old_row in enumerate([0, 4, 5, 7, 8, 12]):
-            strip_old = old_sheet.crop((0, old_row * 64, 48 * 6, (old_row + 1) * 64))
-            comp.alpha_composite(strip_old, (16, 24 + r_idx * 84))
-        for r_idx, new_row in enumerate([0, 4, 5, 6, 7, 8, 12, 16]):
-            strip_new = sheet_q.crop((0, new_row * 96, 80 * 6, (new_row + 1) * 96))
-            scaled_new = strip_new.resize(
-                (int(strip_new.width * 0.68), int(strip_new.height * 0.68)),
-                Image.Resampling.NEAREST
+        atlas_meta = json.loads(atlas_json.read_text(encoding="utf-8"))
+        atlas_meta["characterId"] = cid
+        atlas_meta["logicalFrameSize"] = {"width": 80, "height": 96}
+        atlas_meta["anchor"] = {"x": 0.5, "y": 0.9167}
+        atlas_meta["animations"] = {
+            "idle": {"rows": [0, 1, 2, 3], "framesPerRow": 4, "fps": 5, "loop": True},
+            "walk": {"rows": [4, 5, 6, 7], "framesPerRow": 6, "fps": 9, "loop": True},
+            "attack": {"rows": [8, 9, 10, 11], "framesPerRow": 4, "fps": 11, "loop": False},
+            "cast": {"rows": [12, 13, 14, 15], "framesPerRow": 4, "fps": 9, "loop": False},
+            "hurt": {"rows": [16, 17, 18, 19], "framesPerRow": 4, "fps": 9, "loop": False}
+        }
+        atlas_json.write_text(json.dumps(atlas_meta, indent=2), encoding="utf-8")
+
+        all_gif = PREVIEW_DIR / f"{cid}_all_states.gif"
+        subprocess.run(
+            [
+                "python3",
+                str(ROOT / ".agents/skills/pixel-art/scripts/gif_export.py"),
+                "--frames-dir",
+                str(frames_out),
+                "--fps",
+                "8",
+                "--output",
+                str(all_gif),
+                "--json"
+            ],
+            capture_output=True,
+            check=True
+        )
+
+        for s_idx, (st_name, f_count, fps) in enumerate(states):
+            row = s_idx * 4
+            strip = sheet_q.crop((0, row * 96, f_count * 80, (row + 1) * 96))
+            tmp_strip = Path(f"/tmp/{cid}_{st_name}_strip.png")
+            strip.save(tmp_strip)
+            gif_path = PREVIEW_DIR / f"{cid}_{st_name}.gif"
+            subprocess.run(
+                [
+                    "python3",
+                    str(ROOT / ".agents/skills/pixel-art/scripts/gif_export.py"),
+                    "--sheet",
+                    str(tmp_strip),
+                    "--frame-width",
+                    "80",
+                    "--frame-height",
+                    "96",
+                    "--cols",
+                    str(f_count),
+                    "--fps",
+                    str(fps),
+                    "--output",
+                    str(gif_path),
+                    "--json"
+                ],
+                capture_output=True,
+                check=True
             )
-            comp.alpha_composite(scaled_new, (340, 16 + r_idx * 66))
-        comp.save(comp_path)
+
+        old_path = LEGACY_DIR / f"{cid}.png"
+        if old_path.exists():
+            old_sheet = Image.open(old_path).convert("RGBA")
+            comp = Image.new("RGBA", (960, 560), (22, 26, 36, 255))
+            d = ImageDraw.Draw(comp)
+            d.rectangle((6, 6, 953, 553), outline=(245, 194, 66, 255), width=2)
+            d.line((320, 12, 320, 548), fill=(90, 102, 128, 255), width=2)
+            for r_idx, old_row in enumerate([0, 4, 5, 7, 8, 12]):
+                strip_old = old_sheet.crop((0, old_row * 64, 48 * 6, (old_row + 1) * 64))
+                comp.alpha_composite(strip_old, (16, 24 + r_idx * 84))
+            for r_idx, new_row in enumerate([0, 4, 5, 6, 7, 8, 12, 16]):
+                strip_new = sheet_q.crop((0, new_row * 96, 80 * 6, (new_row + 1) * 96))
+                scaled_new = strip_new.resize(
+                    (int(strip_new.width * 0.68), int(strip_new.height * 0.68)),
+                    Image.Resampling.NEAREST
+                )
+                comp.alpha_composite(scaled_new, (340, 16 + r_idx * 66))
+            comp.save(comp_path)
 
     audit_report = run_quality_audit(out_sprite)
 
@@ -486,6 +496,8 @@ def quadrant_box(img_size: tuple[int, int], q: str, margin: int = 18) -> tuple[i
 
 
 def save_normalized_portrait(extracted: Image.Image, out_path: Path) -> None:
+    if out_path.exists() and not FORCE_REBUILD:
+        return
     target_h = 76
     target_w = max(1, int(round(extracted.width * (target_h / max(1, extracted.height)))))
     if target_w > 76:
@@ -743,15 +755,16 @@ def build_portraits_and_sprites() -> tuple[list[dict], list[dict], list[dict], l
 
     prop_entries: list[dict] = []
     for prop_id, src_path, qbox, (pw, ph) in prop_specs:
-        raw_prop = chroma_key_extract(src_path, qbox)
-        scale = min((pw - 4) / max(1, raw_prop.width), (ph - 4) / max(1, raw_prop.height))
-        nw = max(8, int(round(raw_prop.width * scale)))
-        nh = max(8, int(round(raw_prop.height * scale)))
-        resized = raw_prop.resize((nw, nh), Image.Resampling.NEAREST)
-        canvas = Image.new("RGBA", (pw, ph), (0, 0, 0, 0))
-        canvas.alpha_composite(resized, ((pw - nw) // 2, ph - nh))
         out_prop = prop_dir / f"{prop_id}.png"
-        canvas.save(out_prop)
+        if FORCE_REBUILD or not out_prop.exists():
+            raw_prop = chroma_key_extract(src_path, qbox)
+            scale = min((pw - 4) / max(1, raw_prop.width), (ph - 4) / max(1, raw_prop.height))
+            nw = max(8, int(round(raw_prop.width * scale)))
+            nh = max(8, int(round(raw_prop.height * scale)))
+            resized = raw_prop.resize((nw, nh), Image.Resampling.NEAREST)
+            canvas = Image.new("RGBA", (pw, ph), (0, 0, 0, 0))
+            canvas.alpha_composite(resized, ((pw - nw) // 2, ph - nh))
+            canvas.save(out_prop)
         prop_entries.append({
             "assetId": prop_id,
             "file": f"assets/props/{prop_id}.png",
@@ -790,6 +803,22 @@ def stamp_prop_to_tile(prop_name: str) -> Image.Image:
 
 
 def build_tileset() -> dict:
+    out_path = ASSETS_DIR / "tilesets" / "bat_hoang_tileset.png"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    if not FORCE_REBUILD and out_path.exists():
+        return {
+            "assetId": "tileset_bat_hoang",
+            "file": "assets/tilesets/bat_hoang_tileset.png",
+            "category": "tileset",
+            "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+            "license": "Original AI-Assisted Project Asset",
+            "status": "approved",
+            "width": 512,
+            "height": 256,
+            "tileWidth": 32,
+            "tileHeight": 32,
+            "tileCount": 128
+        }
     ts = Image.new("RGBA", (512, 256), (0, 0, 0, 0))
 
     def put_tile(gid_one_based: int, tile_img: Image.Image) -> None:
@@ -914,8 +943,6 @@ def build_tileset() -> dict:
     put_tile(23, stamp_prop_to_tile("prop_spirit_herb"))
     put_tile(24, stamp_prop_to_tile("prop_portal_arch"))
 
-    out_path = ASSETS_DIR / "tilesets" / "bat_hoang_tileset.png"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
     ts.save(out_path)
 
     return {
@@ -937,111 +964,118 @@ def build_vfx_and_contact_sheet() -> tuple[list[dict], dict]:
     vfx_dir = ASSETS_DIR / "vfx"
     vfx_dir.mkdir(parents=True, exist_ok=True)
 
-    portal_vfx = Image.new("RGBA", (64 * 4, 64), (0, 0, 0, 0))
-    for i in range(4):
-        cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
-        d = ImageDraw.Draw(cell)
-        r_outer = 24 + (i % 2) * 3
-        r_inner = 14 + ((i + 1) % 2) * 3
-        d.ellipse((32 - r_outer, 32 - r_outer, 32 + r_outer, 32 + r_outer), outline=(255, 212, 92, 235), width=3)
-        d.ellipse((32 - r_inner, 32 - r_inner, 32 + r_inner, 32 + r_inner), fill=(52, 232, 204, 160), outline=(172, 255, 242, 255), width=2)
-        portal_vfx.alpha_composite(cell, (i * 64, 0))
-    portal_vfx.save(vfx_dir / "portal_ring.png")
+    portal_vfx_path = vfx_dir / "portal_ring.png"
+    if FORCE_REBUILD or not portal_vfx_path.exists():
+        portal_vfx = Image.new("RGBA", (64 * 4, 64), (0, 0, 0, 0))
+        for i in range(4):
+            cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+            d = ImageDraw.Draw(cell)
+            r_outer = 24 + (i % 2) * 3
+            r_inner = 14 + ((i + 1) % 2) * 3
+            d.ellipse((32 - r_outer, 32 - r_outer, 32 + r_outer, 32 + r_outer), outline=(255, 212, 92, 235), width=3)
+            d.ellipse((32 - r_inner, 32 - r_inner, 32 + r_inner, 32 + r_inner), fill=(52, 232, 204, 160), outline=(172, 255, 242, 255), width=2)
+            portal_vfx.alpha_composite(cell, (i * 64, 0))
+        portal_vfx.save(portal_vfx_path)
 
-    blessing_vfx = Image.new("RGBA", (64 * 4, 64), (0, 0, 0, 0))
-    for i in range(4):
-        cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
-        d = ImageDraw.Draw(cell)
-        rad = 12 + i * 5
-        d.ellipse((32 - rad, 32 - rad, 32 + rad, 32 + rad), outline=(255, 216, 76, 245 - i * 35), width=3)
-        d.ellipse((32 - 8, 32 - 8 - i * 3, 32 + 8, 32 + 8 - i * 3), fill=(255, 238, 132, 220))
-        blessing_vfx.alpha_composite(cell, (i * 64, 0))
-    blessing_vfx.save(vfx_dir / "phi_de_blessing.png")
+    blessing_vfx_path = vfx_dir / "phi_de_blessing.png"
+    if FORCE_REBUILD or not blessing_vfx_path.exists():
+        blessing_vfx = Image.new("RGBA", (64 * 4, 64), (0, 0, 0, 0))
+        for i in range(4):
+            cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+            d = ImageDraw.Draw(cell)
+            rad = 12 + i * 5
+            d.ellipse((32 - rad, 32 - rad, 32 + rad, 32 + rad), outline=(255, 216, 76, 245 - i * 35), width=3)
+            d.ellipse((32 - 8, 32 - 8 - i * 3, 32 + 8, 32 + 8 - i * 3), fill=(255, 238, 132, 220))
+            blessing_vfx.alpha_composite(cell, (i * 64, 0))
+        blessing_vfx.save(blessing_vfx_path)
 
-    vfx_sliced = ensure_ownership_sliced("vfx_combat_4x4")
-    vfx_sheet = Image.new("RGBA", (64 * 4, 64 * 4), (0, 0, 0, 0))
-    for idx in range(16):
-        fp = vfx_sliced / "frames" / f"frame-{idx:02d}.png"
-        im = Image.open(fp).convert("RGBA")
-        px = im.load()
-        w, h = im.size
-        for y in range(h):
-            for x in range(w):
-                r, g, b, a = px[x, y]
-                if a < 80 or (r > g + 22 and b > g + 22):
-                    px[x, y] = (0, 0, 0, 0)
-                else:
-                    if r > g + 10 and b > g + 10:
-                        r = min(r, g + 8)
-                        b = min(b, g + 8)
-                    px[x, y] = (r, g, b, 255)
-        bbox = im.getchannel("A").getbbox()
-        crop = im.crop(bbox) if bbox else im
-        scale = min(58.0 / max(1, crop.width), 58.0 / max(1, crop.height))
-        nw = max(1, int(round(crop.width * scale)))
-        nh = max(1, int(round(crop.height * scale)))
-        small = crop.resize((nw, nh), Image.Resampling.NEAREST)
-        cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
-        cell.alpha_composite(small, ((64 - nw) // 2, (64 - nh) // 2))
-        vfx_sheet.alpha_composite(cell, ((idx % 4) * 64, (idx // 4) * 64))
-
-    rgb = vfx_sheet.convert("RGB").quantize(colors=64, method=Image.Quantize.FASTOCTREE).convert("RGB")
-    vfx_q = prune_alpha_orphans(Image.merge("RGBA", (*rgb.split(), vfx_sheet.getchannel("A"))))
     combat_vfx_path = vfx_dir / "combat_vfx.png"
-    vfx_q.save(combat_vfx_path)
+    if FORCE_REBUILD or not combat_vfx_path.exists():
+        vfx_sliced = ensure_ownership_sliced("vfx_combat_4x4")
+        vfx_sheet = Image.new("RGBA", (64 * 4, 64 * 4), (0, 0, 0, 0))
+        for idx in range(16):
+            fp = vfx_sliced / "frames" / f"frame-{idx:02d}.png"
+            im = Image.open(fp).convert("RGBA")
+            px = im.load()
+            w, h = im.size
+            for y in range(h):
+                for x in range(w):
+                    r, g, b, a = px[x, y]
+                    if a < 80 or (r > g + 22 and b > g + 22):
+                        px[x, y] = (0, 0, 0, 0)
+                    else:
+                        if r > g + 10 and b > g + 10:
+                            r = min(r, g + 8)
+                            b = min(b, g + 8)
+                        px[x, y] = (r, g, b, 255)
+            bbox = im.getchannel("A").getbbox()
+            crop = im.crop(bbox) if bbox else im
+            scale = min(58.0 / max(1, crop.width), 58.0 / max(1, crop.height))
+            nw = max(1, int(round(crop.width * scale)))
+            nh = max(1, int(round(crop.height * scale)))
+            small = crop.resize((nw, nh), Image.Resampling.NEAREST)
+            cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+            cell.alpha_composite(small, ((64 - nw) // 2, (64 - nh) // 2))
+            vfx_sheet.alpha_composite(cell, ((idx % 4) * 64, (idx // 4) * 64))
+
+        rgb = vfx_sheet.convert("RGB").quantize(colors=64, method=Image.Quantize.FASTOCTREE).convert("RGB")
+        vfx_q = prune_alpha_orphans(Image.merge("RGBA", (*rgb.split(), vfx_sheet.getchannel("A"))))
+        vfx_q.save(combat_vfx_path)
     vfx_audit = run_quality_audit(combat_vfx_path)
 
-    cs = Image.new("RGBA", (960, 560), (24, 28, 38, 255))
-    csd = ImageDraw.Draw(cs)
-    csd.rectangle((8, 8, 951, 551), outline=(245, 194, 66, 255), width=2)
+    cs_path = ASSETS_DIR / "contact_sheet_preview.png"
+    if FORCE_REBUILD or not cs_path.exists():
+        cs = Image.new("RGBA", (960, 560), (24, 28, 38, 255))
+        csd = ImageDraw.Draw(cs)
+        csd.rectangle((8, 8, 951, 551), outline=(245, 194, 66, 255), width=2)
 
-    p_files = [
-        "portrait_phi_de.png",
-        "portrait_hero_kiem_tu.png",
-        "portrait_chatdvt.png",
-        "portrait_merchant_truong.png",
-        "portrait_hoa_tran.png"
-    ]
-    for idx, pf in enumerate(p_files):
-        pp = ASSETS_DIR / "portraits" / pf
-        if pp.exists():
-            pim = Image.open(pp).convert("RGBA")
-            cs.alpha_composite(pim, (20 + idx * 175, 16))
+        p_files = [
+            "portrait_phi_de.png",
+            "portrait_hero_kiem_tu.png",
+            "portrait_chatdvt.png",
+            "portrait_merchant_truong.png",
+            "portrait_hoa_tran.png"
+        ]
+        for idx, pf in enumerate(p_files):
+            pp = ASSETS_DIR / "portraits" / pf
+            if pp.exists():
+                pim = Image.open(pp).convert("RGBA")
+                cs.alpha_composite(pim, (20 + idx * 175, 16))
 
-    s_files = [
-        "hero_kiem_tu.png",
-        "phi_de.png",
-        "chatdvt.png",
-        "truc_lang.png",
-        "thanh_lan_xa.png",
-        "dam_lon_tien_tu.png"
-    ]
-    for idx, sf in enumerate(s_files):
-        sp = ASSETS_DIR / "sprites" / sf
-        if sp.exists():
-            sim = Image.open(sp).convert("RGBA")
-            if sim.width == 480:
-                strip = sim.crop((0, 4 * 96, 80 * 6, 5 * 96)).resize((288, 64), Image.Resampling.NEAREST)
-            else:
-                strip = sim.crop((0, 4 * 64, 48 * 6, 5 * 64))
-            cs.alpha_composite(strip, (20 + (idx % 3) * 305, 195 + (idx // 3) * 90))
+        s_files = [
+            "hero_kiem_tu.png",
+            "phi_de.png",
+            "chatdvt.png",
+            "truc_lang.png",
+            "thanh_lan_xa.png",
+            "dam_lon_tien_tu.png"
+        ]
+        for idx, sf in enumerate(s_files):
+            sp = ASSETS_DIR / "sprites" / sf
+            if sp.exists():
+                sim = Image.open(sp).convert("RGBA")
+                if sim.width == 480:
+                    strip = sim.crop((0, 4 * 96, 80 * 6, 5 * 96)).resize((288, 64), Image.Resampling.NEAREST)
+                else:
+                    strip = sim.crop((0, 4 * 64, 48 * 6, 5 * 64))
+                cs.alpha_composite(strip, (20 + (idx % 3) * 305, 195 + (idx // 3) * 90))
 
-    prop_preview = [
-        "prop_noodle_stall.png",
-        "prop_than_dinh.png",
-        "prop_portal_arch.png",
-        "prop_temple_pavilion.png",
-        "prop_peach_tree.png",
-        "prop_bamboo_cluster.png"
-    ]
-    for idx, prf in enumerate(prop_preview):
-        prp = ASSETS_DIR / "props" / prf
-        if prp.exists():
-            prim = Image.open(prp).convert("RGBA")
-            prim.thumbnail((96, 96), Image.Resampling.NEAREST)
-            cs.alpha_composite(prim, (25 + idx * 150, 395))
+        prop_preview = [
+            "prop_noodle_stall.png",
+            "prop_than_dinh.png",
+            "prop_portal_arch.png",
+            "prop_temple_pavilion.png",
+            "prop_peach_tree.png",
+            "prop_bamboo_cluster.png"
+        ]
+        for idx, prf in enumerate(prop_preview):
+            prp = ASSETS_DIR / "props" / prf
+            if prp.exists():
+                prim = Image.open(prp).convert("RGBA")
+                prim.thumbnail((96, 96), Image.Resampling.NEAREST)
+                cs.alpha_composite(prim, (25 + idx * 150, 395))
 
-    cs.save(ASSETS_DIR / "contact_sheet_preview.png")
+        cs.save(cs_path)
 
     vfx_provenance = {
         "assetId": "vfx_combat_sheet",
@@ -1119,6 +1153,10 @@ def build_vfx_and_contact_sheet() -> tuple[list[dict], dict]:
 
 def build_tiled_maps() -> None:
     MAPS_DIR.mkdir(parents=True, exist_ok=True)
+    town_map_path = MAPS_DIR / "tan_thu_thon.tmj"
+    forest_map_path = MAPS_DIR / "thanh_truc_lam.tmj"
+    if not FORCE_REBUILD and town_map_path.exists() and forest_map_path.exists():
+        return
 
     w1, h1 = 40, 30
     ground1 = [1 if (x + y) % 5 != 0 else 2 for y in range(h1) for x in range(w1)]
@@ -1219,7 +1257,7 @@ def build_tiled_maps() -> None:
             }
         ]
     }
-    (MAPS_DIR / "tan_thu_thon.tmj").write_text(json.dumps(tmj_town, indent=2), encoding="utf-8")
+    town_map_path.write_text(json.dumps(tmj_town, indent=2), encoding="utf-8")
 
     w2, h2 = 44, 32
     ground2 = [5 if (x * 3 + y) % 4 != 0 else 6 for y in range(h2) for x in range(w2)]
@@ -1311,7 +1349,7 @@ def build_tiled_maps() -> None:
             }
         ]
     }
-    (MAPS_DIR / "thanh_truc_lam.tmj").write_text(json.dumps(tmj_forest, indent=2), encoding="utf-8")
+    forest_map_path.write_text(json.dumps(tmj_forest, indent=2), encoding="utf-8")
 
 
 def main() -> None:
