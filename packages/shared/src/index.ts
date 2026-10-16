@@ -71,6 +71,64 @@ export interface QuestProgressState {
   completedAt?: number;
 }
 
+export type BaseAttributeKey =
+  | "the_phach"
+  | "luc_dao"
+  | "linh_tinh"
+  | "than_phap"
+  | "than_thuc"
+  | "ngo_tinh";
+
+export type BaseAttributes = Record<BaseAttributeKey, number>;
+
+export type CharacterCreationState = "draft" | "confirmed";
+
+export interface CharacterIdentity {
+  characterId: string;
+  accountId: string;
+  name: string;
+  appearanceId: string;
+  createdAtMs: number;
+  creationState: CharacterCreationState;
+  revision: number;
+}
+
+export interface CharacterLevelProgress {
+  level: number;
+  expTowardNext: string;
+  freeAttributePoints: number;
+  allocated: BaseAttributes;
+  earnedPermanent: BaseAttributes;
+}
+
+export type DestinyRarity = "pham" | "hoang" | "tien" | "than";
+
+export type DestinyKind = "ordinary" | "legendary_signature";
+
+export interface DestinyDefinitionMetadata {
+  id: string;
+  displayNameVi: string;
+  rarity: DestinyRarity;
+  kind: DestinyKind;
+  legendaryNpcId: string | null;
+  ownerApprovalState: "APPROVED" | "PROPOSED";
+}
+
+export interface DestinyCollection {
+  innate: [string, string, string];
+  innateConfirmedAtMs: number;
+  acquiredTraitIds: string[];
+  activeAcquiredSlots: [string | null, string | null, string | null];
+  collectionRevision: number;
+}
+
+export interface DestinyRollDraft {
+  characterCreationId: string;
+  rollNonce: string;
+  candidateTraitIds: [string, string, string];
+  expiresAtMs: number;
+}
+
 export interface CharacterSaveState {
   accountId: string;
   characterId: string;
@@ -99,6 +157,10 @@ export interface CharacterSaveState {
   meditationStartedAt: number;
   lastMeditationClaimAt: number;
   partyId: string | null;
+  identity?: CharacterIdentity;
+  levelProgress?: CharacterLevelProgress;
+  destiny?: DestinyCollection | null;
+  rulesetVersion?: string;
 }
 
 export interface RemotePlayerSnapshot {

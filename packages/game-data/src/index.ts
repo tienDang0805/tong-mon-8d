@@ -1,7 +1,13 @@
 import type {
+  BaseAttributeKey,
+  BaseAttributes,
   BuffSlotCategory,
   CanonicalRealmId,
+  CharacterLevelProgress,
   CombatDisciplineId,
+  DestinyCollection,
+  DestinyDefinitionMetadata,
+  DestinyRarity,
   Direction,
   FoodQualityTier,
   NpcRealmId,
@@ -1162,4 +1168,537 @@ export function formatRealmDisplay(realmId: CanonicalRealmId, stage: number): st
   }
   const subLabel = def.subStageLabels[Math.max(0, Math.min(def.subStageLabels.length - 1, stage - 1))] ?? "";
   return subLabel ? `${def.nameVi} • ${subLabel}` : def.nameVi;
+}
+
+export const BASE_ATTRIBUTE_KEYS: readonly BaseAttributeKey[] = Object.freeze([
+  "the_phach",
+  "luc_dao",
+  "linh_tinh",
+  "than_phap",
+  "than_thuc",
+  "ngo_tinh"
+]);
+
+export function isBaseAttributeKey(value: unknown): value is BaseAttributeKey {
+  return typeof value === "string" && (BASE_ATTRIBUTE_KEYS as readonly string[]).includes(value);
+}
+
+export function createZeroBaseAttributes(): BaseAttributes {
+  return {
+    the_phach: 0,
+    luc_dao: 0,
+    linh_tinh: 0,
+    than_phap: 0,
+    than_thuc: 0,
+    ngo_tinh: 0
+  };
+}
+
+export function sumBaseAttributes(attrs: BaseAttributes): number {
+  return (
+    attrs.the_phach +
+    attrs.luc_dao +
+    attrs.linh_tinh +
+    attrs.than_phap +
+    attrs.than_thuc +
+    attrs.ngo_tinh
+  );
+}
+
+export type BaseAttributesValidationResult =
+  | { ok: true; value: BaseAttributes }
+  | {
+      ok: false;
+      code:
+        | "INVALID_ATTRIBUTES_OBJECT"
+        | "MISSING_ATTRIBUTE_KEY"
+        | "EXTRA_ATTRIBUTE_KEY"
+        | "INVALID_ATTRIBUTE_VALUE";
+    };
+
+export function validateBaseAttributes(attrs: unknown): BaseAttributesValidationResult {
+  if (typeof attrs !== "object" || attrs === null || Array.isArray(attrs)) {
+    return { ok: false, code: "INVALID_ATTRIBUTES_OBJECT" };
+  }
+  const record = attrs as Record<string, unknown>;
+  const keys = Object.keys(record);
+  for (const reqKey of BASE_ATTRIBUTE_KEYS) {
+    if (!Object.prototype.hasOwnProperty.call(record, reqKey)) {
+      return { ok: false, code: "MISSING_ATTRIBUTE_KEY" };
+    }
+  }
+  for (const k of keys) {
+    if (!isBaseAttributeKey(k)) {
+      return { ok: false, code: "EXTRA_ATTRIBUTE_KEY" };
+    }
+  }
+  const out = createZeroBaseAttributes();
+  for (const reqKey of BASE_ATTRIBUTE_KEYS) {
+    const rawVal = record[reqKey];
+    if (typeof rawVal !== "number" || !Number.isSafeInteger(rawVal) || rawVal < 0) {
+      return { ok: false, code: "INVALID_ATTRIBUTE_VALUE" };
+    }
+    out[reqKey] = rawVal;
+  }
+  return { ok: true, value: out };
+}
+
+const NON_NEGATIVE_DECIMAL_INT_PATTERN = /^(0|[1-9]\d*)$/;
+
+export function isNonNegativeDecimalIntString(value: unknown): value is string {
+  return typeof value === "string" && NON_NEGATIVE_DECIMAL_INT_PATTERN.test(value);
+}
+
+export function parseExpDecimalString(value: unknown): bigint | null {
+  if (!isNonNegativeDecimalIntString(value)) {
+    return null;
+  }
+  return BigInt(value);
+}
+
+export function formatExpDecimalString(value: unknown): string | null {
+  if (typeof value !== "bigint" || value < 0n) {
+    return null;
+  }
+  return value.toString(10);
+}
+
+export type CharacterLevelProgressValidationResult =
+  | { ok: true }
+  | {
+      ok: false;
+      code:
+        | "INVALID_PROGRESS_OBJECT"
+        | "INVALID_LEVEL"
+        | "INVALID_EXP_DECIMAL_STRING"
+        | "INVALID_FREE_POINTS"
+        | "INVALID_ALLOCATED_ATTRIBUTES"
+        | "INVALID_EARNED_PERMANENT_ATTRIBUTES"
+        | "LEVEL_POINT_INVARIANT_MISMATCH";
+    };
+
+export function validateCharacterLevelProgress(
+  progress: unknown
+): CharacterLevelProgressValidationResult {
+  if (typeof progress !== "object" || progress === null || Array.isArray(progress)) {
+    return { ok: false, code: "INVALID_PROGRESS_OBJECT" };
+  }
+  const p = progress as Record<string, unknown>;
+  if (typeof p.level !== "number" || !Number.isSafeInteger(p.level) || p.level < 1) {
+    return { ok: false, code: "INVALID_LEVEL" };
+  }
+  if (!isNonNegativeDecimalIntString(p.expTowardNext)) {
+    return { ok: false, code: "INVALID_EXP_DECIMAL_STRING" };
+  }
+  if (
+    typeof p.freeAttributePoints !== "number" ||
+    !Number.isSafeInteger(p.freeAttributePoints) ||
+    p.freeAttributePoints < 0
+  ) {
+    return { ok: false, code: "INVALID_FREE_POINTS" };
+  }
+  const allocCheck = validateBaseAttributes(p.allocated);
+  if (!allocCheck.ok) {
+    return { ok: false, code: "INVALID_ALLOCATED_ATTRIBUTES" };
+  }
+  const earnedCheck = validateBaseAttributes(p.earnedPermanent);
+  if (!earnedCheck.ok) {
+    return { ok: false, code: "INVALID_EARNED_PERMANENT_ATTRIBUTES" };
+  }
+  const totalFromLevel = sumBaseAttributes(allocCheck.value) + p.freeAttributePoints;
+  if (totalFromLevel !== p.level - 1) {
+    return { ok: false, code: "LEVEL_POINT_INVARIANT_MISMATCH" };
+  }
+  return { ok: true };
+}
+
+export type AllocateSingleAttributeResult =
+  | { ok: true; next: CharacterLevelProgress }
+  | {
+      ok: false;
+      code:
+        | "INVALID_PROGRESS_STATE"
+        | "INVALID_ATTRIBUTE_KEY"
+        | "INSUFFICIENT_FREE_POINTS";
+    };
+
+export function allocateSingleAttributePoint(
+  progress: CharacterLevelProgress,
+  key: unknown
+): AllocateSingleAttributeResult {
+  const valid = validateCharacterLevelProgress(progress);
+  if (!valid.ok) {
+    return { ok: false, code: "INVALID_PROGRESS_STATE" };
+  }
+  if (!isBaseAttributeKey(key)) {
+    return { ok: false, code: "INVALID_ATTRIBUTE_KEY" };
+  }
+  if (progress.freeAttributePoints < 1) {
+    return { ok: false, code: "INSUFFICIENT_FREE_POINTS" };
+  }
+  const nextAllocated: BaseAttributes = {
+    ...progress.allocated,
+    [key]: progress.allocated[key] + 1
+  };
+  const nextEarnedPermanent: BaseAttributes = {
+    ...progress.earnedPermanent
+  };
+  return {
+    ok: true,
+    next: {
+      level: progress.level,
+      expTowardNext: progress.expTowardNext,
+      freeAttributePoints: progress.freeAttributePoints - 1,
+      allocated: nextAllocated,
+      earnedPermanent: nextEarnedPermanent
+    }
+  };
+}
+
+export const DESTINY_RARITIES: readonly DestinyRarity[] = Object.freeze([
+  "pham",
+  "hoang",
+  "tien",
+  "than"
+]);
+
+export const CANONICAL_LEGENDARY_NPC_IDS: readonly string[] = Object.freeze(
+  LEGENDARY_NPCS.filter((n) => n.isLegendaryTen).map((n) => n.id)
+);
+
+export type DestinyDefinitionMetadataValidationResult =
+  | { ok: true }
+  | {
+      ok: false;
+      code:
+        | "INVALID_DEFINITION_OBJECT"
+        | "INVALID_TRAIT_ID"
+        | "INVALID_DISPLAY_NAME"
+        | "INVALID_RARITY"
+        | "INVALID_KIND"
+        | "INVALID_APPROVAL_STATE"
+        | "SIGNATURE_MUST_BE_THAN_RARITY"
+        | "SIGNATURE_REQUIRES_CANONICAL_NPC_ID"
+        | "ORDINARY_TRAIT_CANNOT_BIND_LEGENDARY_NPC";
+    };
+
+export function validateDestinyDefinitionMetadata(
+  def: unknown
+): DestinyDefinitionMetadataValidationResult {
+  if (typeof def !== "object" || def === null || Array.isArray(def)) {
+    return { ok: false, code: "INVALID_DEFINITION_OBJECT" };
+  }
+  const d = def as Record<string, unknown>;
+  if (typeof d.id !== "string" || d.id.trim().length === 0) {
+    return { ok: false, code: "INVALID_TRAIT_ID" };
+  }
+  if (typeof d.displayNameVi !== "string" || d.displayNameVi.trim().length === 0) {
+    return { ok: false, code: "INVALID_DISPLAY_NAME" };
+  }
+  if (typeof d.rarity !== "string" || !(DESTINY_RARITIES as readonly string[]).includes(d.rarity)) {
+    return { ok: false, code: "INVALID_RARITY" };
+  }
+  if (d.kind !== "ordinary" && d.kind !== "legendary_signature") {
+    return { ok: false, code: "INVALID_KIND" };
+  }
+  if (d.ownerApprovalState !== "APPROVED" && d.ownerApprovalState !== "PROPOSED") {
+    return { ok: false, code: "INVALID_APPROVAL_STATE" };
+  }
+  if (d.kind === "legendary_signature") {
+    if (d.rarity !== "than") {
+      return { ok: false, code: "SIGNATURE_MUST_BE_THAN_RARITY" };
+    }
+    if (
+      typeof d.legendaryNpcId !== "string" ||
+      !CANONICAL_LEGENDARY_NPC_IDS.includes(d.legendaryNpcId)
+    ) {
+      return { ok: false, code: "SIGNATURE_REQUIRES_CANONICAL_NPC_ID" };
+    }
+  } else {
+    if (d.legendaryNpcId !== null) {
+      return { ok: false, code: "ORDINARY_TRAIT_CANNOT_BIND_LEGENDARY_NPC" };
+    }
+  }
+  return { ok: true };
+}
+
+export type DestinyTripleValidationResult =
+  | { ok: true; signatureTraitId: string | null }
+  | {
+      ok: false;
+      code:
+        | "INVALID_TRIPLE_LENGTH"
+        | "UNKNOWN_OR_INVALID_TRAIT"
+        | "DUPLICATE_TRAIT_IN_TRIPLE"
+        | "MULTIPLE_LEGENDARY_SIGNATURES";
+    };
+
+function lookupValidatedDestinyTrait(
+  traitId: unknown,
+  catalog: Readonly<Record<string, DestinyDefinitionMetadata>>
+): DestinyDefinitionMetadata | null {
+  if (typeof traitId !== "string" || traitId.trim().length === 0) {
+    return null;
+  }
+  if (!Object.prototype.hasOwnProperty.call(catalog, traitId)) {
+    return null;
+  }
+  const def = catalog[traitId];
+  if (!def || def.id !== traitId) {
+    return null;
+  }
+  const check = validateDestinyDefinitionMetadata(def);
+  return check.ok ? def : null;
+}
+
+export function validateDestinyTripleIds(
+  traitIds: unknown,
+  catalog: Readonly<Record<string, DestinyDefinitionMetadata>>
+): DestinyTripleValidationResult {
+  if (!Array.isArray(traitIds) || traitIds.length !== 3) {
+    return { ok: false, code: "INVALID_TRIPLE_LENGTH" };
+  }
+  const seen = new Set<string>();
+  let signatureTraitId: string | null = null;
+  for (const rawId of traitIds) {
+    const def = lookupValidatedDestinyTrait(rawId, catalog);
+    if (!def) {
+      return { ok: false, code: "UNKNOWN_OR_INVALID_TRAIT" };
+    }
+    if (seen.has(def.id)) {
+      return { ok: false, code: "DUPLICATE_TRAIT_IN_TRIPLE" };
+    }
+    seen.add(def.id);
+    if (def.kind === "legendary_signature") {
+      if (signatureTraitId !== null) {
+        return { ok: false, code: "MULTIPLE_LEGENDARY_SIGNATURES" };
+      }
+      signatureTraitId = def.id;
+    }
+  }
+  return { ok: true, signatureTraitId };
+}
+
+export type DestinyRollDraftShapeValidationResult =
+  | { ok: true; signatureTraitId: string | null }
+  | {
+      ok: false;
+      code:
+        | "INVALID_DRAFT_OBJECT"
+        | "INVALID_CREATION_ID"
+        | "INVALID_ROLL_NONCE"
+        | "INVALID_EXPIRES_AT"
+        | "INVALID_TRIPLE_LENGTH"
+        | "UNKNOWN_OR_INVALID_TRAIT"
+        | "DUPLICATE_TRAIT_IN_TRIPLE"
+        | "MULTIPLE_LEGENDARY_SIGNATURES";
+    };
+
+export function validateDestinyRollDraftShape(
+  draft: unknown,
+  catalog: Readonly<Record<string, DestinyDefinitionMetadata>>
+): DestinyRollDraftShapeValidationResult {
+  if (typeof draft !== "object" || draft === null || Array.isArray(draft)) {
+    return { ok: false, code: "INVALID_DRAFT_OBJECT" };
+  }
+  const d = draft as Record<string, unknown>;
+  if (typeof d.characterCreationId !== "string" || d.characterCreationId.trim().length === 0) {
+    return { ok: false, code: "INVALID_CREATION_ID" };
+  }
+  if (typeof d.rollNonce !== "string" || d.rollNonce.trim().length === 0) {
+    return { ok: false, code: "INVALID_ROLL_NONCE" };
+  }
+  if (typeof d.expiresAtMs !== "number" || !Number.isSafeInteger(d.expiresAtMs) || d.expiresAtMs <= 0) {
+    return { ok: false, code: "INVALID_EXPIRES_AT" };
+  }
+  return validateDestinyTripleIds(d.candidateTraitIds, catalog);
+}
+
+export function getOwnedDestinyTraitIds(collection: DestinyCollection): Set<string> {
+  return new Set<string>([...collection.innate, ...collection.acquiredTraitIds]);
+}
+
+export function hasOwnedDestinyTrait(collection: DestinyCollection, traitId: string): boolean {
+  if (typeof traitId !== "string" || traitId.trim().length === 0) {
+    return false;
+  }
+  return getOwnedDestinyTraitIds(collection).has(traitId);
+}
+
+export type DestinyCollectionValidationResult =
+  | { ok: true; ownedLegendarySignatureId: string | null }
+  | {
+      ok: false;
+      code:
+        | "INVALID_COLLECTION_OBJECT"
+        | "INVALID_TRIPLE_LENGTH"
+        | "UNKNOWN_OR_INVALID_TRAIT"
+        | "DUPLICATE_TRAIT_IN_TRIPLE"
+        | "INVALID_CONFIRM_TIMESTAMP"
+        | "INVALID_COLLECTION_REVISION"
+        | "INVALID_ACQUIRED_LIST"
+        | "DUPLICATE_ACQUIRED_TRAIT"
+        | "INNATE_ACQUIRED_OVERLAP"
+        | "MULTIPLE_LEGENDARY_SIGNATURES"
+        | "INVALID_ACTIVE_SLOTS_TUPLE"
+        | "UNOWNED_ACTIVE_SLOT_TRAIT"
+        | "DUPLICATE_ACTIVE_SLOT_TRAIT";
+    };
+
+export function validateDestinyCollection(
+  collection: unknown,
+  catalog: Readonly<Record<string, DestinyDefinitionMetadata>>
+): DestinyCollectionValidationResult {
+  if (typeof collection !== "object" || collection === null || Array.isArray(collection)) {
+    return { ok: false, code: "INVALID_COLLECTION_OBJECT" };
+  }
+  const c = collection as Record<string, unknown>;
+  const innateRes = validateDestinyTripleIds(c.innate, catalog);
+  if (!innateRes.ok) {
+    return innateRes;
+  }
+  if (
+    typeof c.innateConfirmedAtMs !== "number" ||
+    !Number.isSafeInteger(c.innateConfirmedAtMs) ||
+    c.innateConfirmedAtMs <= 0
+  ) {
+    return { ok: false, code: "INVALID_CONFIRM_TIMESTAMP" };
+  }
+  if (
+    typeof c.collectionRevision !== "number" ||
+    !Number.isSafeInteger(c.collectionRevision) ||
+    c.collectionRevision < 1
+  ) {
+    return { ok: false, code: "INVALID_COLLECTION_REVISION" };
+  }
+  if (!Array.isArray(c.acquiredTraitIds)) {
+    return { ok: false, code: "INVALID_ACQUIRED_LIST" };
+  }
+  const innateSet = new Set<string>(c.innate as string[]);
+  const acquiredSet = new Set<string>();
+  let ownedSignatureId = innateRes.signatureTraitId;
+
+  for (const rawId of c.acquiredTraitIds) {
+    const def = lookupValidatedDestinyTrait(rawId, catalog);
+    if (!def) {
+      return { ok: false, code: "UNKNOWN_OR_INVALID_TRAIT" };
+    }
+    if (innateSet.has(def.id)) {
+      return { ok: false, code: "INNATE_ACQUIRED_OVERLAP" };
+    }
+    if (acquiredSet.has(def.id)) {
+      return { ok: false, code: "DUPLICATE_ACQUIRED_TRAIT" };
+    }
+    acquiredSet.add(def.id);
+    if (def.kind === "legendary_signature") {
+      if (ownedSignatureId !== null) {
+        return { ok: false, code: "MULTIPLE_LEGENDARY_SIGNATURES" };
+      }
+      ownedSignatureId = def.id;
+    }
+  }
+
+  if (!Array.isArray(c.activeAcquiredSlots) || c.activeAcquiredSlots.length !== 3) {
+    return { ok: false, code: "INVALID_ACTIVE_SLOTS_TUPLE" };
+  }
+  const activeSeen = new Set<string>();
+  for (const slotVal of c.activeAcquiredSlots) {
+    if (slotVal === null) {
+      continue;
+    }
+    if (typeof slotVal !== "string" || !acquiredSet.has(slotVal)) {
+      return { ok: false, code: "UNOWNED_ACTIVE_SLOT_TRAIT" };
+    }
+    if (activeSeen.has(slotVal)) {
+      return { ok: false, code: "DUPLICATE_ACTIVE_SLOT_TRAIT" };
+    }
+    activeSeen.add(slotVal);
+  }
+
+  return { ok: true, ownedLegendarySignatureId: ownedSignatureId };
+}
+
+export interface RealmLevelBand {
+  realmId: CanonicalRealmId;
+  orderIndex: number;
+  stageCount: number;
+  minLevel: number;
+  maxLevel: number | null;
+  postBreakthroughMinLevel: number;
+}
+
+export function getRealmLevelBand(realmId: unknown): RealmLevelBand | null {
+  if (typeof realmId !== "string") {
+    return null;
+  }
+  const def = REALM_PROGRESSION.find((r) => r.id === realmId);
+  if (!def) {
+    return null;
+  }
+  if (def.orderIndex === 0) {
+    return {
+      realmId: def.id,
+      orderIndex: 0,
+      stageCount: def.stageCount,
+      minLevel: 1,
+      maxLevel: 10,
+      postBreakthroughMinLevel: 1
+    };
+  }
+  const isSaintRealm = def.id === "thanh_canh";
+  const minLevel = 11 + 20 * (def.orderIndex - 1);
+  const maxLevel = isSaintRealm ? null : 30 + 20 * (def.orderIndex - 1);
+  return {
+    realmId: def.id,
+    orderIndex: def.orderIndex,
+    stageCount: def.stageCount,
+    minLevel,
+    maxLevel,
+    postBreakthroughMinLevel: minLevel - 1
+  };
+}
+
+export function isValidRealmStage(realmId: unknown, realmStage: unknown): boolean {
+  const band = getRealmLevelBand(realmId);
+  if (!band || typeof realmStage !== "number" || !Number.isSafeInteger(realmStage)) {
+    return false;
+  }
+  return realmStage >= 1 && realmStage <= band.stageCount;
+}
+
+export function isLevelAllowedForRealm(realmId: unknown, level: unknown): boolean {
+  const band = getRealmLevelBand(realmId);
+  if (!band || typeof level !== "number" || !Number.isSafeInteger(level)) {
+    return false;
+  }
+  if (level < band.postBreakthroughMinLevel) {
+    return false;
+  }
+  if (band.maxLevel !== null && level > band.maxLevel) {
+    return false;
+  }
+  return true;
+}
+
+export function isAtNonSaintMajorRealmLevelCap(realmId: unknown, level: unknown): boolean {
+  const band = getRealmLevelBand(realmId);
+  if (!band || typeof level !== "number" || !Number.isSafeInteger(level)) {
+    return false;
+  }
+  return band.maxLevel !== null && level === band.maxLevel;
+}
+
+export function meetsMajorRealmBreakthroughLevelAndStagePrerequisite(
+  realmId: unknown,
+  realmStage: unknown,
+  level: unknown
+): boolean {
+  const band = getRealmLevelBand(realmId);
+  if (!band || band.maxLevel === null) {
+    return false;
+  }
+  if (!isValidRealmStage(realmId, realmStage) || !isLevelAllowedForRealm(realmId, level)) {
+    return false;
+  }
+  return realmStage === band.stageCount && level === band.maxLevel;
 }
