@@ -1,16 +1,17 @@
 # Context Index — Where an agent should read first
 
-> Version: Game Design Baseline v0.2 | Date: 2026-10-16 | Status: DESIGN BASELINE
+> Version: Game Design Baseline v0.2 + Technical Design Freeze v1.0 + G0 Governance | Date: 2026-10-17 | Status: DESIGN BASELINE & G0 GOVERNANCE (`G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`)
 
 ## Reading order for every session
 
-1. `AGENTS.md` and `RULES.md` (security, canon, art provenance, quality gates).
+1. `AGENTS.md` and `RULES.md` (Rules 1–6: zero comments, canonical fidelity, server authority, playfield-first HUD, cohesive pixel art/Tiled maps, genuine generative art & human creative approval).
 2. **`docs/DECISIONS.md`** (new approved gameplay direction supersedes legacy conflicting gameplay).
 3. **`docs/technical/TD_FREEZE_OVERVIEW.md`**, **`docs/technical/TD_FREEZE_APPROVALS.md`**, **`docs/technical/TD_FREEZE_CONTRACT_MAP.md`**, and **`docs/technical/TD_FREEZE_GATES.md`** (Technical Design Freeze v1.0 scope, single-owner contract boundaries, and open gates).
-4. `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`, `docs/ROADMAP.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` (what exists on disk, next safe phase, what is **DESIGN APPROVED / NOT IMPLEMENTED**).
-5. `docs/GAME_VISION.md` / `docs/GAME_DESIGN.md` plus the relevant `docs/systems/*`, `docs/pipelines/*`, and `docs/technical/TD01..TD05_*` specifications and `.agents/skills/*/SKILL.md` only for the active task.
+4. **`docs/technical/AGENT_EXECUTION_CONTRACT.md`**, **`docs/technical/AGENT_SKILL_ROUTER.md`**, and **`docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`** (`G0` 5-stage execution lifecycle, 30-skill classification & task router, and Argon native `image-generator` asset production profile).
+5. `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`, `docs/ROADMAP.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` (what exists on disk, `S0` committed at `6e38c24`, `G0` pending owner review, and what is **DESIGN APPROVED / NOT IMPLEMENTED**).
+6. `docs/GAME_VISION.md` / `docs/GAME_DESIGN.md` plus the relevant `docs/systems/*`, `docs/pipelines/*`, and `docs/technical/TD01..TD05_*` specifications and task-routed `.agents/skills/*/SKILL.md` entries via `docs/technical/AGENT_SKILL_ROUTER.md` only for the active task.
 
-**Conflict policy**: Safety/canon boundaries remain highest. Owner-approved gameplay decisions in `docs/DECISIONS.md` and technical scope approvals in `docs/technical/TD_FREEZE_APPROVALS.md` override historical gameplay/bootstrap instructions where explicitly inconsistent. `packages/game-data/src/index.ts` is current implementation data, not automatic approval of outdated mechanics. Never erase canonical IDs or make undocumented lore changes.
+**Conflict policy**: Safety/canon boundaries remain highest (`AGENTS.md` Section 1). Owner-approved gameplay decisions in `docs/DECISIONS.md` and technical scope approvals in `docs/technical/TD_FREEZE_APPROVALS.md` override historical gameplay/bootstrap instructions and conflicting third-party skill defaults where explicitly inconsistent. `packages/game-data/src/index.ts` is current implementation data, not automatic approval of outdated mechanics. Never erase canonical IDs or make undocumented lore changes.
 
 ## Document responsibilities
 
@@ -18,8 +19,11 @@
 |---|---|---|
 | `docs/DECISIONS.md` | Approved/non-approved decision register | Detailed algorithms or current code correctness |
 | `docs/technical/TD_FREEZE_*.md` | Cross-TD freeze overview, approvals ledger, contract ownership map, open gates, and `S0`–`S8` implementation path | Claim that TD-01..05 code or final art is implemented |
+| `docs/technical/AGENT_EXECUTION_CONTRACT.md` | Mandatory `PLAN → BUILD → REVIEW → VERIFY → COMMIT READY` workflow (where `PLAN` is strictly read-only and any actual DB backup/restore runs only in a separately approved safety preflight before schema mutations), single-owner `TD-01`..`TD-05` enforcement, fail-closed stop gates, and future technical enforcement roadmap | Replacing runtime security barriers with prose |
+| `docs/technical/AGENT_SKILL_ROUTER.md` | 30-skill classification matrix (`ACTIVE`, `POST-PROCESSING SCRIPTS ONLY`, `REFERENCE-ONLY`, `DISABLED FOR PRODUCTION`), per-slice (`S0`–`S8`) routing, and ban on executing legacy `python packages/art-tools/build_assets.py` as a whole command | Overriding `AGENTS.md`, `RULES.md`, or `TD-01`..`TD-05` contracts |
+| `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md` | Argon native `image-generator` workflow (`NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`), ban on external API/CLI/video/codeart2d routes and whole-command `build_assets.py` execution, `Candidate A` as a `PROPOSED` visual reference requiring owner creative approval of an art production proof before scaling, creature-specific geometry (`chatdvt`), audited local Python/Pillow post-processing allowlist, and accurate `verify_manifest.ts` provenance enforcement scope | Autonomous promotion of `TECHNICALLY_VERIFIED` / `PROPOSED` art to `HUMAN_APPROVED` |
 | `docs/systems/*.md` (17 specs) | Domain technical design contracts for `TD-01`..`TD-05` (`DESIGN APPROVED / NOT IMPLEMENTED`) | Final production numeric tuning or `HUMAN_APPROVED` art sign-off |
-| `docs/pipelines/*.md` (5 specs) | Visual content, AI asset production, scene assembly, VFX, and world-first UX pipelines (`DESIGN APPROVED / NOT IMPLEMENTED`) | Autonomous promotion of `TECHNICALLY_VERIFIED` art to `HUMAN_APPROVED` |
+| `docs/pipelines/*.md` (5 frozen specs + `ARGON_NATIVE_ASSET_PROFILE.md`) | Visual content, AI asset production, scene assembly, VFX, and world-first UX pipelines (`DESIGN APPROVED / NOT IMPLEMENTED`) | Autonomous promotion of `TECHNICALLY_VERIFIED` art to `HUMAN_APPROVED` |
 | `docs/technical/TD01..TD05_*.md` (13 specs) | Reference simulations, consistency matrices, migration plans, and vertical-slice acceptance criteria (`DESIGN APPROVED / NOT IMPLEMENTED`) | Authorization to delete local DB saves or run unapproved migrations |
 | `docs/GAME_VISION.md` | Identity, audience, short/long loops, anti-goals | Formula parameters |
 | `docs/GAME_LORE.md` | Canon cosmology, NPC identity, confirmed and proposed plot | Source code schemas |
@@ -35,22 +39,24 @@
 | `docs/IMPLEMENTATION_STATUS.md` | Archived technical baseline | Human visual or gameplay approval |
 | `MASTER_PROMPT.md` | Canonical historical world lore, prior quest candidates | Execute archived bootstrap instructions |
 
-## Task-based routing (Technical Design Freeze v1.0 — All `docs/systems/*` & `docs/pipelines/*` Are `DESIGN APPROVED / NOT IMPLEMENTED`)
+## Task-based routing (Technical Design Freeze v1.0 — All 40 Frozen Specs Are `DESIGN APPROVED / NOT IMPLEMENTED`)
+
+See `docs/technical/AGENT_SKILL_ROUTER.md` for the complete skill and script routing matrix:
 
 | Task type | Additional required reading |
 |---|---|
-| Character/EXP/Cảnh Giới (`TD-01`) | `GAME_DESIGN.md`, `DECISIONS.md`, `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `packages/game-data/src/index.ts` |
-| Destiny/Chân Truyền (`TD-01` + `TD-04`) | `DECISIONS.md`, `NARRATIVE_DESIGN.md`, `docs/systems/DESTINY.md`, `docs/systems/NPC_AFFINITY.md`, `docs/systems/FOOD_CATALOG.md`, `docs/systems/QUEST_CONTENT.md` |
-| Công pháp/Võ kỹ/Đạo Cảnh (`TD-02`) | `GAME_DESIGN.md`, `docs/systems/DAO_MASTERY.md`, `docs/systems/TECHNIQUES.md`, `docs/technical/TD02_SIMULATION.md`, `docs/technical/TD02_MIGRATION_TESTS.md` |
-| Combat/Auto Farm/Navigation (`TD-02` + `TD-03`) | `GAME_DESIGN.md`, `UX_DESIGN.md`, `docs/systems/COMBAT.md`, `docs/systems/AUTO_FARM.md`, `docs/systems/NAVIGATION.md`, `docs/technical/TD03_CONSISTENCY_MATRIX.md`, `docs/technical/TD03_PROTOCOL_MIGRATION_TESTS.md`, `docs/technical/TD03_REFERENCE_SIMULATION.md`, `apps/server/src/worldEngine.ts` |
-| Quest engine/story/world content (`TD-03` + `TD-04`) | `NARRATIVE_DESIGN.md`, `GAME_LORE.md`, `docs/systems/QUEST_ENGINE.md`, `docs/systems/QUEST_CONTENT.md`, `docs/systems/WORLD_CONTENT.md`, `docs/systems/CONTENT_REGISTRY.md`, `docs/technical/TD04_CONSISTENCY_FREEZE.md`, `docs/technical/TD04_MIGRATION_TESTS.md`, `docs/technical/TD04_REFERENCE_CHECKS.md` |
-| Economy/Items/Tụ Bảo Các NPC Shops (`TD-04`) | `docs/systems/ITEMS_ECONOMY.md`, **`docs/systems/NPC_SHOPS.md`** *(sole accepted NPC-only BUY/SELL shop spec; no P2P market)*, `docs/systems/FOOD_CATALOG.md` |
-| Map/zone/động phủ & scene assembly (`TD-04` + `TD-05`) | `WORLD_DESIGN.md`, `ART_BIBLE.md`, `docs/systems/WORLD_CONTENT.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `.agents/skills/world-and-map-qa/SKILL.md` |
-| Art/animation/VFX/visual bindings (`TD-05`) | `ART_BIBLE.md`, `CHARACTER_VISUAL_BIBLE.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md`, `docs/technical/TD05_CROSS_TD_CONSISTENCY.md`, `docs/technical/TD05_MIGRATION_TESTS.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`, `.agents/skills/ai-art-production/SKILL.md` |
-| Production release/test | `PROJECT_STATUS.md`, `ROADMAP.md`, `docs/technical/TD_FREEZE_GATES.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`, `AGENTS.md`, repo test scripts |
+| Character/EXP/Cảnh Giới (`TD-01` + `TD-05` HUD) | `docs/GAME_DESIGN.md`, `docs/DECISIONS.md`, `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `packages/game-data/src/index.ts`, `apps/client/src/hud.ts` |
+| Destiny/Chân Truyền (`TD-01` + `TD-04` + `TD-05`) | `docs/DECISIONS.md`, `docs/NARRATIVE_DESIGN.md`, `docs/systems/DESTINY.md`, `docs/systems/NPC_AFFINITY.md`, `docs/systems/FOOD_CATALOG.md`, `docs/systems/QUEST_CONTENT.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md` |
+| Công pháp/Võ kỹ/Đạo Cảnh (`TD-02` + `TD-05`) | `docs/GAME_DESIGN.md`, `docs/systems/DAO_MASTERY.md`, `docs/systems/TECHNIQUES.md`, `docs/technical/TD02_SIMULATION.md`, `docs/technical/TD02_MIGRATION_TESTS.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md` |
+| Combat/Auto Farm/Navigation (`TD-02` + `TD-03` + `TD-05`) | `docs/GAME_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/systems/COMBAT.md`, `docs/systems/AUTO_FARM.md`, `docs/systems/NAVIGATION.md`, `docs/technical/TD03_CONSISTENCY_MATRIX.md`, `docs/technical/TD03_PROTOCOL_MIGRATION_TESTS.md`, `docs/technical/TD03_REFERENCE_SIMULATION.md`, `apps/server/src/worldEngine.ts`, `apps/client/src/WorldScene.ts`, `apps/client/src/hud.ts` |
+| Quest engine/story/world content (`TD-03` Quest FSM + `TD-04` Authored Content + `TD-05`) | `docs/NARRATIVE_DESIGN.md`, `docs/GAME_LORE.md`, `docs/systems/QUEST_ENGINE.md`, `docs/systems/QUEST_CONTENT.md`, `docs/systems/WORLD_CONTENT.md`, `docs/systems/CONTENT_REGISTRY.md`, `docs/technical/TD04_CONSISTENCY_FREEZE.md`, `docs/technical/TD04_MIGRATION_TESTS.md`, `docs/technical/TD04_REFERENCE_CHECKS.md` |
+| Economy/Items/Tụ Bảo Các NPC Shops (`TD-04` + `TD-03` + `TD-05`) | `docs/systems/ITEMS_ECONOMY.md`, **`docs/systems/NPC_SHOPS.md`** *(sole accepted NPC-only BUY/SELL shop spec; no P2P market)*, `docs/systems/FOOD_CATALOG.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md` |
+| Map/zone/động phủ & scene assembly (`TD-04` + `TD-05`) | `docs/WORLD_DESIGN.md`, `docs/ART_BIBLE.md`, `docs/systems/WORLD_CONTENT.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `.agents/skills/world-and-map-qa/SKILL.md` |
+| Art/animation/VFX/visual bindings (`TD-05`) | `docs/ART_BIBLE.md`, `docs/CHARACTER_VISUAL_BIBLE.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md`, `docs/technical/TD05_CROSS_TD_CONSISTENCY.md`, `docs/technical/TD05_MIGRATION_TESTS.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`, `.agents/skills/ai-art-production/SKILL.md` |
+| Production release/test & agent governance | `docs/PROJECT_STATUS.md`, `docs/ROADMAP.md`, `docs/technical/TD_FREEZE_GATES.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `AGENTS.md` |
 
-All 40 imported `docs/systems/*`, `docs/pipelines/*`, and `docs/technical/*` files are **DESIGN APPROVED / NOT IMPLEMENTED** technical specifications. Individual component files preserve their historical `REVIEW_REQUIRED` / `DRAFT` headers verbatim to maintain verified SHA-256 checksums (`docs/technical/TD_FREEZE_OVERVIEW.md`).
+All 40 imported Technical Design Freeze v1.0 files (`docs/systems/*.md`, the 5 frozen `docs/pipelines/*.md` files, and the 18 frozen `docs/technical/TD*` files) are **DESIGN APPROVED / NOT IMPLEMENTED** technical specifications verified against commit `39c41a6ddb77b93284c56da7ec053f4309ee4943`. Individual component files preserve their historical `REVIEW_REQUIRED` / `DRAFT` headers verbatim to maintain verified SHA-256 checksums (`docs/technical/TD_FREEZE_OVERVIEW.md`).
 
 ## Safe session handoff
 
-Record in `PROJECT_STATUS.md`: current SHA, implemented modules, tests performed, known regressions, and next pending scoped step. In `DECISIONS.md` and `TD_FREEZE_APPROVALS.md`, never silently convert `PROPOSED` or `UNRESOLVED` into `APPROVED`, and never promote `TECHNICALLY_VERIFIED` art to `HUMAN_APPROVED`. Update docs without rewriting historical audit proof.
+Record in `docs/PROJECT_STATUS.md`: current SHA, implemented modules, tests performed, known regressions, and next pending scoped step. In `docs/DECISIONS.md` and `docs/technical/TD_FREEZE_APPROVALS.md`, never silently convert `PROPOSED` or `UNRESOLVED` into `APPROVED`, and never promote `TECHNICALLY_VERIFIED` art to `HUMAN_APPROVED`. Update docs without rewriting historical audit proof.

@@ -4,8 +4,8 @@
 
 When resolving conflicts between documents, prompts, or historical reports, agents MUST follow this strict priority order (highest to lowest):
 
-1. **Project Rules & Safety Boundaries**: `AGENTS.md` and `RULES.md` (including the AI Art Production Policy, zero-comment rule, and safety gates).
-2. **Current Phase, Context Index & Verified Implementation Status**: `docs/CONTEXT_INDEX.md`, `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/ROADMAP.md`, `docs/CONTEXT_AUDIT.md`, `docs/PROJECT_STATUS.md`, `docs/WORKSPACE_HANDOFF.md`, and `docs/NEXT_ACTIONS.md`.
+1. **Project Rules & Safety Boundaries**: `AGENTS.md` and `RULES.md` (Rule 1 Zero Comments in Code, Rule 2 Canonical Fidelity, Rule 3 Server Authority, Rule 4 Playfield First, Rule 5 Cohesive Pixel Art & Tiled Maps, Rule 6 Genuine Generative Art & Human Creative Approval).
+2. **Current Phase, Context Index, Execution Governance & Verified Implementation Status**: `docs/CONTEXT_INDEX.md`, `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/ROADMAP.md`, `docs/CONTEXT_AUDIT.md`, `docs/PROJECT_STATUS.md`, `docs/WORKSPACE_HANDOFF.md`, and `docs/NEXT_ACTIONS.md`.
 3. **Human-Approved Creative, Gameplay & Technical Scope Decisions**:
    - `docs/DECISIONS.md` (authoritative register of `GD-001` through `GD-046`, strictly preserving the distinctions between `APPROVED`, `DESIGN_BASELINE`, `PROPOSED`, `UNRESOLVED`, and `LEGACY`),
    - `docs/technical/TD_FREEZE_APPROVALS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, and `docs/technical/TD_FREEZE_GATES.md` (Technical Design Freeze v1.0 owner-accepted scope vs provisional/open gates), and
@@ -14,7 +14,7 @@ When resolving conflicts between documents, prompts, or historical reports, agen
 5. **Phase 1B.0 Baseline v0.2 & Technical Design Freeze v1.0 Specifications (`DESIGN APPROVED / NOT IMPLEMENTED`)**:
    - Baseline v0.2: `docs/GAME_VISION.md`, `docs/GAME_LORE.md`, `docs/GAME_DESIGN.md`, `docs/NARRATIVE_DESIGN.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/CONTENT_PIPELINE.md`, `docs/ART_BIBLE.md`, and `docs/CHARACTER_VISUAL_BIBLE.md`.
    - Technical Design Freeze v1.0 (35 domain/technical/pipeline specs + 5 freeze guides): `docs/systems/*.md` (including **`docs/systems/NPC_SHOPS.md`** as the sole accepted NPC-only shop specification), `docs/pipelines/*.md`, and `docs/technical/*.md`. *(Note: component files intentionally preserve historical `REVIEW_REQUIRED` / `DRAFT` headers verbatim to maintain verified SHA-256 hashes; `docs/technical/TD_FREEZE_APPROVALS.md` governs their accepted technical-design review state without promoting internal `DESIGN_BASELINE`/`PROPOSED`/`UNRESOLVED` values or visual assets.)*
-6. **Domain-Specific Agent Skills**: `.agents/skills/*/SKILL.md` (starting with `.agents/skills/ai-art-production/SKILL.md`, `pixel-art-director`, `world-and-map-qa`, `mmorpg-server-integrity`, `cultivation-balance`).
+6. **Domain-Specific Agent Skills**: `.agents/skills/*/SKILL.md` as classified and routed by `docs/technical/AGENT_SKILL_ROUTER.md` and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md` (starting with `.agents/skills/ai-art-production/SKILL.md`, `pixel-art-director`, `world-and-map-qa`, `mmorpg-server-integrity`, `cultivation-balance`).
 7. **Archived Master Prompts & Historical Implementation Reports**: Bootstrap instructions and superseded v0.1 mechanics in `MASTER_PROMPT.md` (Sections 0, 8–16), `START_HERE.md`, and historical completion tables in `docs/IMPLEMENTATION_STATUS.md`.
 
 **Critical Distinction**:
@@ -26,17 +26,17 @@ When resolving conflicts between documents, prompts, or historical reports, agen
 ## 2. Project Boundaries & Monorepo Architecture
 
 - `packages/shared/`: Shared TypeScript protocol contracts, message payloads, and deterministic constants.
-- `packages/game-data/`: Canonical source of truth for the 17 cultivation realms (`Phàm Nhân` + 17 realms), 10 legendary NPCs, zones, portals, enemies, items, culinary recipes, quests, and balance simulation models.
-- `packages/art-tools/`: Deterministic pixel-art post-processing (`build_assets.py`) and `assets/manifest.json` + `assets/provenance.json` integrity verifier (`verify_manifest.ts`).
+- `packages/game-data/`: Canonical source of truth for `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries, 10 legendary NPCs, zones, portals, enemies, items, culinary recipes, quests, and balance simulation models.
+- `packages/art-tools/`: Legacy monolithic prototype asset script (`build_assets.py` — contains procedural `ImageDraw` tileset/VFX generation and full manifest/map rewrites; **never execute as a whole production command**, with or without `--force`, pending separately approved command-level audit/refactor) and `assets/manifest.json` + `assets/provenance.json` verifier (`verify_manifest.ts` — implements character source SHA checks and asset dimensions/alpha/frame checks to current validator scope; portable provenance paths across all fields are not comprehensively enforced and provider/method allowlists are not yet implemented).
 - `apps/server/`: Authoritative Node.js + Colyseus (`0.18.x`) multiplayer server (`src/index.ts`, `src/zoneRoom.ts`, `src/worldEngine.ts`) with embedded/external PostgreSQL (`@electric-sql/pglite` / `pg` in `src/db.ts`) persistence, spatial collision validation, monster AI simulation, combat, culinary/shop, quest, party, and offline cultivation services.
-- `apps/client/`: Phaser `4.2.1` + TypeScript + Vite browser client (`src/main.ts`, `src/WorldScene.ts`, `src/ui.ts`, `src/network.ts`, `src/audio.ts`) with Tiled JSON map rendering, Y-sorted depth occlusion, dual-resolution 4-directional sprite animations (`80x96` multi-pose in `480x1920` sheets + preserved legacy `48x64` in `288x1024` sheets), client interpolation, synthesized WebAudio sound effects, and compact xianxia HUD.
+- `apps/client/`: Phaser `4.2.1` + TypeScript + Vite browser client (`src/main.ts`, `src/WorldScene.ts`, `src/hud.ts`, `src/network.ts`, `src/audio.ts`) with Tiled JSON map rendering, Y-sorted depth occlusion, dual-resolution 4-directional sprite animations (`80x96` multi-pose in `480x1920` sheets + preserved legacy `48x64` in `288x1024` sheets), client interpolation, synthesized WebAudio sound effects, and compact xianxia HUD.
 - `assets/` & `maps/`: Source AI grids (`assets/source_ai/`), concept sheets (`assets/concepts/`), runtime sprites/portraits/props/tilesets/VFX, `manifest.json`, `provenance.json`, and Tiled JSON maps (`maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`).
 
 ---
 
 ## 3. Canonical Constraints
 
-- Preserve all 17 cultivation realms in exact order (`Phàm Nhân` plus 17 realms from `Luyện Khí` to `Thánh Cảnh`; per `GD-044`, `Thánh Cảnh` is the last playable major realm, while `Đại Thánh` and `Cổ Thần` exist as lore only).
+- Preserve `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries in exact order (per `GD-044`, `Thánh Cảnh` is the last playable major realm, while `Đại Thánh` and `Cổ Thần` exist as lore only).
 - Preserve all 10 legendary figures (`phi_de`, `rmt_de`, `vaal_de`, `chatdvt`, `dam_lon_tien_tu`, `ngoc_tam`, `thai_tai`, `anh_7`, `gia_bao`, `hoa_tran`).
 - `dam_lon_tien_tu` realm MUST remain `"UNKNOWN"` (`Bất Minh`).
 - `chatdvt` MUST be depicted and animated as a jade-cyan quadruped spirit beast (`Linh Thú Thanh Ngọc`), never a generic human mage.
@@ -47,12 +47,12 @@ When resolving conflicts between documents, prompts, or historical reports, agen
   - **Character Level (`1–350+`), 6 Base Stats & Realm Separation (`GD-020`–`GD-023`, `GD-028`, `TD-01`)**: `Phàm Nhân` spans Levels `1–10` and each of the 17 major realms adds 20 Character Levels (`Lv 11–350`, with `Thánh Cảnh` continuing at `Lv 351+` in the same major realm under `GD-020`, `GD-044`). Character EXP and `Tu Vi` are separate tracks. Each actual Level gained awards `+1` free point (`GD-021`) across the 6 origin stats (`GD-028`, `DESIGN_BASELINE`: **Thể Phách, Lực Đạo, Linh Tính, Thân Pháp, Thần Thức, Ngộ Tính**). Under the owner-accepted `TD-01` baseline (`docs/systems/CHARACTER.md`, `TD_FREEZE_APPROVALS.md`), there is **no excessive EXP overflow banking** at a capped non-Saint major realm. Breaking through from `Phàm Nhân` Lv 10 to `Luyện Khí` requires the Main Quest encounter with a masked/unknown immortal, a starter `công pháp`, and a breakthrough pill (`GD-023`; the immortal's identity is **OPEN/unconfirmed** and must not be labeled Phì Đế).
   - **6 Independent Dao Mastery Paths (`GD-024`–`GD-027`, `TD-02`) & Technique Tiers (`GD-030`–`GD-032`, `TD-02`)**: Exactly six independent mastery paths: **Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu** (10 `Đạo Cảnh` each, progressing independently of major cultivation realm; stages 3→4, 6→7, and 9→10 require path-specific combat or point-and-click `Bí Cảnh` trials per `GD-025`; stage labels `Sơ Thức`..`Chứng Đạo` remain `PROPOSED`). Do not substitute `Đan/Khí/Phù` professions for these six paths. Both `Công pháp` (`GD-030`) and `Võ kỹ` (`GD-031`) use **six rarity tiers** (`GD-032`: **Phàm, Linh, Hoàng, Địa, Thiên, Thần** — never invent a seventh `Thánh` tier).
   - **Destinies (`GD-010`–`GD-018`, `TD-01`) & Exclusive True Disciple Sequence (`GD-006`, `GD-014`–`GD-016`, `GD-040`–`GD-041`, `TD-04`)**: Character creation rolls 3 immutable `Tiên Thiên Nghịch Thiên Cải Mệnh` at once (unlimited full-trio rerolls, no slot locking, `GD-010`–`GD-011`) plus exactly 3 active `Hậu Thiên` slots from an unlimited acquired collection (`GD-013`). Destiny traits use **four rarity tiers** (`GD-012`: **Phàm, Hoàng, Tiên, Thần**). A character may own **at most ONE** of the 10 Legendary-specific `Thần Phẩm` signature destinies across **all innate (`Tiên Thiên`) and acquired (`Hậu Thiên`) traits** (`GD-014`, `GD-018`). The **Main Quest** is playable by all characters without any signature or True Disciple status (`GD-006`, `GD-040`), whereas each Legendary NPC's optional 6-chapter **True Disciple (`Chân Truyền`)** route follows the strict sequence (`GD-015`): **matching signature ownership → NPC affinity → special trigger condition → exclusive questline → completing all 6 chapters → True Disciple** (with no unconditional realm prerequisite).
-  - **Single-Owner System Boundaries & NPC-Only Commerce (`TD-02`–`TD-05`, `docs/systems/NPC_SHOPS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
-    - `TD-02` is the sole combat/damage/Dao credit math engine; `TD-03` schedules legal connected actions only and never implements a second damage or reward path; `TD-04` content grants never award the same item as both direct inventory grant and ground loot.
+  - **Single-Owner System Boundaries & NPC-Only Commerce (`TD-01`–`TD-05`, `docs/systems/NPC_SHOPS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
+    - `TD-01` owns Character, Level, Realm, Cultivation, and Destiny; `TD-02` is the sole combat/damage/technique/Dao mastery and credit math engine; `TD-03` owns connected Auto Farm, Auto-Navigation, Quest Engine/FSM (`docs/systems/QUEST_ENGINE.md`), and manual interactions without implementing a second damage or reward path; `TD-04` owns authored quest content (`docs/systems/QUEST_CONTENT.md`), item/economy/world catalogs, NPC affinity, and NPC Shop (`docs/systems/NPC_SHOPS.md`) and never awards the same item as both direct inventory grant and ground loot; `TD-05` owns the visual content contract, image production, in-world rendering, and creative release gates across all player-visible features in `S1`–`S8`.
     - **Approved NPC-Only Commerce (`docs/systems/NPC_SHOPS.md`)**: In-world physical **Tụ Bảo Các** and specialist NPCs (`Đan Dược Các`, `Tàng Kinh Các`, `Binh Khí Các`, `Linh Trù/Tạp Hóa`, preserving `merchant_truong` / `Lão Trù Trương`) backed by a single server-authoritative `ShopService` and authored `ShopOfferDef` entries with searchable/filterable manual `BUY`/`SELL`. Auto Farm, Auto Navigation, and quests must **NEVER** automatically buy or sell. **NO player-to-player (P2P) marketplace, listings, consignment, escrow, or auctions.**
     - **Visual Content Contract (`TD-05`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`)**: Every player-visible content object requires an authored `VisualBindingDef` and genuine generative art → post-processed atlas/tileset → Phaser/Tiled in-world integration → real gameplay screenshot/review pathway. Popup-only text features fail the production release gate.
   - **Proposed Narrative Scaffolding Protection (`GD-042`, `GD-046`)**: While the Main Quest premise, all 10 Legends' appearances, the cross-dimensional invasion finale, and the late-game reveal that Phì Đế is an incarnation of **Ăn Uống Thiên Tôn** (`GD-043`) are `APPROVED`, the era title (`Thiên Kiêu Kỷ Nguyên`), invading plane (`Hư Tịch Giới`), antagonist (`Tịch Diệt Thánh Quân — Dạ Vô Uyên`), the **seven macro story arcs** (`I. Phàm Nhân Vấn Đạo` .. `VII. Thánh Nhân Chi Chiến`), and Dao stage 1–10 titles remain `PROPOSED` until explicitly approved by the project owner.
-- Zero comments (`//`, `/* */`, `#`, `<!-- -->`) in any source code file or markdown code block, per `RULES.md`.
+- Zero comments (`//`, `/* */`, `#`, `<!-- -->`) in any source code file or markdown code block, per `RULES.md` Rule 1.
 
 ---
 
@@ -74,8 +74,8 @@ When resolving conflicts between documents, prompts, or historical reports, agen
    - Python, Pillow, Node.js, SVG, or Canvas drawing scripts may **NOT** replace genuine generated artwork with geometric or procedural production art.
    - The installed `codeart2d` skill must **NOT** be used to generate final production artwork without explicit project-owner authorization.
    - There is **NO automatic fallback** to procedural art when image generation is unavailable.
-3. **Permitted Script Usage (Post-Processing & Packaging Only)**:
-   Scripts (`packages/art-tools/build_assets.py`, Agent Sprite Forge, `pixel-art/scripts/*`) remain permitted strictly for:
+3. **Permitted Script Usage (Explicitly Audited Non-Generative Post-Processing & Packaging Only)**:
+   Only explicitly audited, non-generative post-processing commands (`.agents/skills/generate2dsprite/scripts/assemble_frames.py`, `.agents/skills/pixel-art/scripts/*`, `.agents/skills/generate2dmap/scripts/*`, `packages/art-tools/verify_manifest.ts`) remain permitted strictly for:
    - Post-processing and scaling
    - Chroma-key / transparency cleanup
    - Palette quantization and corrections
@@ -85,9 +85,10 @@ When resolving conflicts between documents, prompts, or historical reports, agen
    - Tiled map placement and collision layer authoring
    - Asset manifest/provenance validation (`verify_manifest.ts`)
    - Technical gameplay rendering
+   - **Prohibition on Whole-Command `packages/art-tools/build_assets.py` Execution**: Never execute `python packages/art-tools/build_assets.py` as a whole production asset generation/post-processing command, including with `--force` (`npm run generate:art` / `npm run generate:art:force`), because its `main()` invokes `build_portraits_and_sprites()`, `build_tileset()`, `build_vfx_and_contact_sheet()`, `build_tiled_maps()`, rewrites manifest/provenance, and contains procedural `ImageDraw` tileset/VFX generation. Treat existing `packages/art-tools/build_assets.py` as legacy tooling requiring command-level audit/refactor before production execution.
 4. **Placeholder & Legacy Asset Preservation**:
    - Preserve existing placeholders and legacy `48x64` assets until `HUMAN_APPROVED` generative replacements have been produced and approved.
-   - Never run destructive asset regeneration (`npm run generate:art:force`) or paid external image/video APIs without explicit project-owner authorization.
+   - Never run destructive asset regeneration (`npm run generate:art:force` / `python packages/art-tools/build_assets.py`) or paid external image/video APIs without explicit project-owner authorization (`docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`).
 
 ---
 
@@ -95,19 +96,19 @@ When resolving conflicts between documents, prompts, or historical reports, agen
 
 All visual directions and individual assets must be tracked using five distinct lifecycle states:
 - `PROPOSED`: Generated or designed, awaiting human review.
-- `TECHNICALLY_VERIFIED`: Passes automated dimensions, transparency, frame count, and SHA-256 checks (`verify_manifest.ts` / `quality_audit.py`), but has **not** received human creative approval.
+- `TECHNICALLY_VERIFIED`: Passes automated dimensions, transparency, frame count, and SHA-256 checks (`verify_manifest.ts` / `quality_audit.py`), but has **not** received human creative approval. *(Current `packages/art-tools/verify_manifest.ts` enforcement scope: existing character source SHA checks and asset dimensions/alpha/frame checks are implemented to current validator scope; portable provenance paths across all fields are not comprehensively enforced and provider/method allowlists are not yet implemented — future enforcement remains a separately approved tooling task.)*
 - `HUMAN_APPROVED`: Explicitly reviewed and approved by the human project owner at actual gameplay zoom.
 - `REJECTED`: Rejected for style, readability, or lore reasons.
 - `PLACEHOLDER`: Temporary/legacy asset retained solely to keep the build playable until a `HUMAN_APPROVED` asset replaces it.
 
 **Mechanism for Recording Human-Approved Creative Decisions**:
-- Never promote `TECHNICALLY_VERIFIED` (`status: "approved"` in `manifest.json` or `status: "pass"` in `provenance.json`) to `HUMAN_APPROVED` autonomously.
+- Never promote `TECHNICALLY_VERIFIED` (`status: "approved"` in `manifest.json` or `status: "pass"` in `provenance.json`) to `HUMAN_APPROVED` autonomously (`RULES.md` Rule 6).
 - An asset or design direction enters `HUMAN_APPROVED` **only** when the project owner explicitly approves it in conversation and an entry is recorded in the ledger table below (and mirrored in `docs/ART_BIBLE.md` / `docs/DECISIONS.md` / `docs/technical/TD_FREEZE_APPROVALS.md`):
 
 | Decision ID | Date | Scope / Asset / Doc | State | Approved By | Notes |
 |---|---|---|---|---|---|
-| `DEC-001` | 2026-10-16 | Canonical 17 Realms & 10 Legends Lore Baseline | `HUMAN_APPROVED` | Project Owner | Locked via `MASTER_PROMPT.md` & Phase 1A instructions |
-| `DEC-002` | 2026-10-16 | Candidate A Visual Direction (`candidate_a_classic_xianxia.jpg`) | `PROPOSED` / `TECHNICALLY_VERIFIED` | Pending Human Owner | Previously locked by agent; reset to reference direction pending renewed human approval |
+| `DEC-001` | 2026-10-16 | Canonical `Phàm Nhân` + 17 Major Realms (= 18 Ordered Entries) & 10 Legends Lore Baseline | `HUMAN_APPROVED` | Project Owner | Locked via `MASTER_PROMPT.md` & Phase 1A instructions |
+| `DEC-002` | 2026-10-16 | Candidate A Visual Direction (`candidate_a_classic_xianxia.jpg`) | `PROPOSED` / `TECHNICALLY_VERIFIED` | Pending Human Owner | Currently a `PROPOSED` visual reference (not a fully `HUMAN_APPROVED` style lock); an art production proof must receive owner creative approval (`HUMAN_APPROVED`) before scaling asset production |
 | `DEC-003` | 2026-10-16 | Phase 0 Multi-Pose PoC Sprites (`hero_kiem_tu`, `phi_de`, `dam_lon_tien_tu`, `combat_vfx`) | `TECHNICALLY_VERIFIED` | Pending Human Owner | `480x1920` (`80x96` frames) verified in engine; awaiting Phase 1–2 human visual sign-off |
 | `DEC-004` | 2026-10-16 | Game Design Baseline v0.2 (`docs/DECISIONS.md` & 10 Phase 1B.0 docs) | `HUMAN_APPROVED` / `DESIGN_BASELINE` / `PROPOSED` (per `DECISIONS.md`) | Project Owner | `GD-001`–`GD-006`, `GD-010`–`GD-016`, `GD-020`–`GD-027`, `GD-030`–`GD-036`, `GD-040`–`GD-045` are `APPROVED`; `GD-017`, `GD-018`, `GD-028`, `GD-037` are `DESIGN_BASELINE`; `GD-046` (era/plane/villain names & 7 macro arcs) and Dao stage 1–10 names remain `PROPOSED` |
 | `DEC-005` | 2026-10-16 | Technical Design Freeze v1.0 (`TD-01` v0.3, `TD-02` v0.4, `TD-03` v0.5, `TD-04` v0.6 + `NPC_SHOPS.md`, `TD-05` v0.7 — 40 `docs/` files) | `TECHNICAL_DESIGN_ACCEPTED` (`DESIGN APPROVED / NOT IMPLEMENTED`; per `TD_FREEZE_APPROVALS.md`) | Project Owner | Component files preserve historical `REVIEW_REQUIRED` headers for SHA-256 integrity; sample numbers, `GD-046` names/arcs, Food Catalog threshold, shop prices, and `Candidate A` / PoC art remain `DESIGN_BASELINE` / `PROPOSED` / `UNRESOLVED` / `TECHNICALLY_VERIFIED` (not final balance or `HUMAN_APPROVED` art) |
@@ -116,8 +117,8 @@ All visual directions and individual assets must be tracked using five distinct 
 
 ## 6. Safe Tool Usage, Quality Gates & How to Resume
 
-- **Current Active Priority**: **Technical Design Freeze v1.0 Documentation Integration** (40 files imported under `docs/systems/`, `docs/pipelines/`, `docs/technical/`, awaiting human owner review & Git push before starting any scoped implementation slice `S0`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`). Do NOT implement gameplay systems, modify `apps/` or `packages/`, alter databases/assets, or begin `S0`/`S1` before explicit owner approval.
+- **Current Active Priority**: **Slice `S0` is `COMMITTED` (`6e38c24`); Gate `G0` — Agent Workflow Governance & Skill Optimization is `G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`**. Slice `S1` (`Character schema v0.2 and migration` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) remains **`NOT STARTED`** pending explicit project-owner approval of `G0`. Do NOT implement gameplay systems, modify `apps/` or `packages/`, alter databases/assets, or begin `S1` before explicit owner approval.
 - **How to Resume**:
-  1. Read `AGENTS.md`, `RULES.md`, `docs/DECISIONS.md`, `docs/CONTEXT_INDEX.md`, `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, and `docs/NEXT_ACTIONS.md`.
+  1. Read `AGENTS.md`, `RULES.md`, `docs/DECISIONS.md`, `docs/CONTEXT_INDEX.md`, `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, and `docs/NEXT_ACTIONS.md`.
   2. Run `npm run verify:assets && npm test && npm run typecheck && npm run build` to verify workspace health.
   3. Start server + client with `npm run dev` (see `docs/DEVELOPMENT_SETUP.md` for Windows/macOS notes).

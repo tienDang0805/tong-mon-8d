@@ -1,25 +1,26 @@
 # Roadmap — Tông Môn 8D, Design-to-Production
 
-> v0.2 + Technical Design Freeze v1.0 | 2026-10-16 | Current foundation: `master@39c41a6ddb77b93284c56da7ec053f4309ee4943` (Technical Design Freeze v1.0 commit).
+> v0.2 + Technical Design Freeze v1.0 + Slice `S0` + Gate `G0` | 2026-10-17 | Current foundation: `master@6e38c246cabcd020efe137863838d6a61e7b1a72` (Slice `S0` commit; Freeze baseline `39c41a6ddb77b93284c56da7ec053f4309ee4943`).
 
-## Status as of Technical Design Freeze v1.0 & Slice `S0`
+## Status as of Technical Design Freeze v1.0, Slice `S0` & Gate `G0`
 
 | Stage | Status | Evidence / caveat |
 |---|---|---|
 | Phase 0 AI sprites / initial multiplayer technical prototype | `TECHNICALLY_VERIFIED` per legacy reports | Phaser/Colyseus, two Tiled zones, 3 advanced sprites, legacy art; not final visual acceptance |
-| Phase 1A workspace recovery/context reconciliation | `COMMITTED` | `7914c2a` / `e0eab60`; added `CONTEXT_AUDIT.md`, `ai-art-production` and governance fixes |
-| Phase 1B.0 owner-approved game design documentation | `COMMITTED` | `d4e6e17`; 10 Baseline v0.2 docs (`DECISIONS.md`, `GAME_DESIGN.md`, etc.) |
-| **Phase 1B.1–1B.5 Technical Design Freeze v1.0 (`TD-01`–`TD-05` + `NPC_SHOPS.md`)** | **`COMMITTED` (`39c41a6`, `DESIGN APPROVED / NOT IMPLEMENTED`)** | 40 Markdown files under `docs/systems/`, `docs/pipelines/`, `docs/technical/` (`TD_FREEZE_OVERVIEW.md`, `TD_FREEZE_APPROVALS.md`). Provisional numbers/art are NOT promoted to final balance or `HUMAN_APPROVED` art |
-| **Slice `S0` (Foundation, PGlite Backup & Environment Safety)** | **`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`** | Offline PGlite backup + throwaway restore verified; deterministic `resolvePgDataDir` split-brain protection; safe `.env` loading; isolated two-browser `test:e2e` verified in `artifacts/playtest/runs/<run-id>/` |
-| Playable AFK vertical slice (`S1`–`S8` in `TD_FREEZE_IMPLEMENTATION_PATH.md`) | `NOT STARTED` under new design | Each slice (`S1`..`S8`) requires explicit owner authorization (`Plan → Build → Review → Verify`) |
+| Phase 1A workspace recovery/context reconciliation | `COMMITTED` | `7914c2a` / `e0eab60`; added `docs/CONTEXT_AUDIT.md`, `.agents/skills/ai-art-production/SKILL.md` and governance fixes |
+| Phase 1B.0 owner-approved game design documentation | `COMMITTED` | `d4e6e17`; 10 Baseline v0.2 docs (`docs/DECISIONS.md`, `docs/GAME_DESIGN.md`, etc.) |
+| **Phase 1B.1–1B.5 Technical Design Freeze v1.0 (`TD-01`–`TD-05` + `docs/systems/NPC_SHOPS.md`)** | **`COMMITTED` (`39c41a6`, `DESIGN APPROVED / NOT IMPLEMENTED`)** | 40 Markdown files under `docs/systems/`, `docs/pipelines/`, `docs/technical/` (`docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`). Provisional numbers/art are NOT promoted to final balance or `HUMAN_APPROVED` art |
+| **Slice `S0` (Foundation, PGlite Backup & Environment Safety)** | **`COMMITTED` (`6e38c24`)** | Offline PGlite backup + throwaway restore verified; deterministic `resolvePgDataDir` split-brain protection; safe `.env` loading; isolated two-browser `test:e2e` verified in `artifacts/playtest/runs/<run-id>/` |
+| **Gate `G0` (Agent Workflow Governance & Skill Optimization)** | **`G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`** | Added `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md` (`NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`); reconciled 6 governance/index docs |
+| Playable AFK vertical slice (`S1`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) | `NOT STARTED` under new design | Each slice (`S1`..`S8`) requires explicit owner authorization (`Plan → Build → Review → Verify`) |
 
-## Phase 1B.0, Technical Design Freeze v1.0 & Slice `S0` Milestones
+## Phase 1B.0, Technical Design Freeze v1.0, Slice `S0` & Gate `G0` Milestones
 
 1. Safely imported Game Design Baseline v0.2 (`d4e6e17`) and Technical Design Freeze v1.0 (`39c41a6`, 40 files in `docs/systems/`, `docs/pipelines/`, `docs/technical/`) without deleting Phase 1A historical evidence, existing code, art, or raw sources.
 2. Reconciled `AGENTS.md`, `docs/CONTEXT_INDEX.md`, `docs/DECISIONS.md`, `docs/NEXT_ACTIONS.md`, `docs/PROJECT_STATUS.md`, and `docs/ROADMAP.md` to reference `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`, and the authoritative `S0`–`S8` sequence in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`.
-3. Executed **Slice `S0`** (`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`): verified offline PGlite backup + throwaway restore, implemented deterministic `resolvePgDataDir` (preserving existing `apps/server/apps/server/data/pgdata` in place, using canonical `apps/server/data/pgdata` on fresh setups, and failing closed on split-brain), added safe `.env` loading in `apps/server/src/index.ts`, and isolated `npm run test:e2e` (`memory://` storage + gitignored `artifacts/playtest/runs/<run-id>/` per-run output).
-4. Verified all 40 imported Markdown paths and SHA-256 hashes against `FREEZE_MANIFEST.json`.
-5. Stop after `S0` verification for human owner review and sign-off before committing/pushing `S0` or starting `S1`.
+3. Executed and committed **Slice `S0`** (`6e38c24`): verified offline PGlite backup + throwaway restore, implemented deterministic `resolvePgDataDir` (preserving existing `apps/server/apps/server/data/pgdata` in place, using canonical `apps/server/data/pgdata` on fresh setups, and failing closed on split-brain), added safe `.env` loading in `apps/server/src/index.ts`, and isolated `npm run test:e2e` (`memory://` storage + gitignored `artifacts/playtest/runs/<run-id>/` per-run output).
+4. Executed **Gate `G0`** (`G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`): audited all 30 installed skills in `.agents/skills/*/SKILL.md`, authored `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, and verified all 40 frozen Technical Design Markdown files against commit `39c41a6ddb77b93284c56da7ec053f4309ee4943` (note: the external archive's `FREEZE_MANIFEST.json` is not tracked in the repository).
+5. Stop after `G0` verification for human owner review and sign-off before committing/pushing `G0` or starting `S1`.
 
 ## Integrated Technical Design Domains (`DESIGN APPROVED / NOT IMPLEMENTED`)
 
@@ -27,7 +28,7 @@ See `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.
 
 ### TD-01 Character, Destiny, Level, Realm (`v0.3`)
 - Specs: `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`.
-- Defines authoritative 6 origin stats (`Thể Phách, Lực Đạo, Linh Tính, Thân Pháp, Thần Thức, Ngộ Tính`), Character Level `1–350+` (`+1` free point per level), independent EXP vs `Tu Vi`, no excessive EXP overflow banking at capped non-Saint realms, 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` (`Phàm/Hoàng/Tiên/Thần`), and at-most-1-of-10 Legendary signature exclusivity across all innate/acquired sources.
+- Defines authoritative 6 origin stats (`Thể Phách, Lực Đạo, Linh Tính, Thân Pháp, Thần Thức, Ngộ Tính`), Character Level `1–350+` (`+1` free point per level across `Phàm Nhân` starter state + 17 major cultivation realms `Luyện Khí` through `Thánh Cảnh` = 18 ordered entries), independent EXP vs `Tu Vi`, no excessive EXP overflow banking at capped non-Saint realms, 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` (`Phàm/Hoàng/Tiên/Thần`), and at-most-1-of-10 Legendary signature exclusivity across all innate/acquired sources.
 
 ### TD-02 Techniques, Dao Mastery & Combat (`v0.4`)
 - Specs: `docs/systems/DAO_MASTERY.md`, `docs/systems/TECHNIQUES.md`, `docs/systems/COMBAT.md`, `docs/technical/TD02_SIMULATION.md`, `docs/technical/TD02_MIGRATION_TESTS.md`.
@@ -43,7 +44,7 @@ See `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.
 
 ### TD-05 Visual Content Contract, Scene Assembly & AI Asset Pipeline (`v0.7`)
 - Specs: `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md`, `docs/technical/TD05_CROSS_TD_CONSISTENCY.md`, `docs/technical/TD05_MIGRATION_TESTS.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`.
-- Requires an authored `VisualBindingDef` and genuine generative source → post-processed atlas/tileset → Phaser/Tiled world representation for every player-visible content object (popup-only features fail release gates; `HUMAN_APPROVED` sign-off required at gameplay zoom).
+- Requires an authored `VisualBindingDef` and genuine generative source → audited non-generative post-processed atlas/tileset → Phaser/Tiled world representation for every player-visible content object (popup-only features fail release gates; `Candidate A` is currently a `PROPOSED` visual reference and an art production proof requires owner `HUMAN_APPROVED` sign-off at gameplay zoom before scaling production; never execute legacy `python packages/art-tools/build_assets.py` as a whole command).
 
 ## First playable production vertical slice (`S0`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`, only after owner authorization)
 
