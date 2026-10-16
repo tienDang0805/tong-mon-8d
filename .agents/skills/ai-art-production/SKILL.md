@@ -52,7 +52,7 @@ Do not duplicate existing scripts; orchestrate only these approved workspace ski
 
 ### Step 3 — Select Verified Source References
 - Locate visual references and existing character portraits/sheets in `assets/portraits/`, `assets/source_ai/`, and `assets/concepts/` to maintain consistent lighting (`45°` top-left), outline weight, proportion scale, and color ramps across `Tân Thủ Thôn` and `Thanh Trúc Lâm`.
-- Note that `Candidate A` (`assets/concepts/style_candidates/candidate_a_classic_xianxia.jpg`, `DEC-002`) is currently a `PROPOSED` visual reference (`PROPOSED` / `TECHNICALLY_VERIFIED`), not a fully `HUMAN_APPROVED` style lock. An art production proof must receive owner creative approval (`HUMAN_APPROVED`) before scaling asset production across all characters, maps, or items.
+- Note that `Candidate A` (`assets/concepts/candidate_a_classic_xianxia.jpg`, `DEC-002`) is currently a `PROPOSED` visual reference (`PROPOSED` / `TECHNICALLY_VERIFIED`), not a fully `HUMAN_APPROVED` style lock. An art production proof must receive owner creative approval (`HUMAN_APPROVED`) before scaling asset production across all characters, maps, or items.
 
 ### Step 4 — Execute Real Generative Image Creation (Master Still + Native Pose Sheets)
 - Invoke the Argon host's native `image-generator` subagent (`invoke_subagent` with `TypeName: "image-generator"`).

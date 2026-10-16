@@ -1,13 +1,13 @@
 # Argon Native Asset Production Profile — Tông Môn 8D
 
-> Status: `G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING` | Capability Status: `NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: `COMMITTED` (`G0`: `39d71c0`; Updated in `CTX-1` at Base Commit `b04ebdc72ffede9edb678008ed30d002c73b5cc6`) | Capability Status: `NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Capability Status, Style Reference State & Scope
 
 - **Current Verified Capability State**: `NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`
 - During the `G0` audit, the Argon host's built-in `image-generator` subagent (`invoke_subagent` with `TypeName: "image-generator"`) and the local `.venv` Python post-processing environment (`Python 3.12.10`, `Pillow 12.3.0`, `numpy 2.5.4`, `scipy 1.18.1`) were verified as present on disk, while `ffmpeg` and `resvg-py` were confirmed absent.
-- Because `G0` is a read-only governance and routing gate, an end-to-end production asset generation run has **not** been executed in `G0`. The first live end-to-end pipeline proof under this profile will be executed only in a separately approved task.
-- **`Candidate A` Visual Reference Status (`DEC-002` in `AGENTS.md`)**: `Candidate A` (`assets/concepts/style_LOCK_candidates/candidate_a_classic_xianxia.jpg`) is currently a **`PROPOSED` visual reference** (`PROPOSED` / `TECHNICALLY_VERIFIED`), **not** a fully `HUMAN_APPROVED` style lock. Any initial art production proof must receive explicit owner creative approval (`HUMAN_APPROVED`) before scaling asset production across characters, zones, or catalogs.
+- Because `G0` was a read-only governance and routing gate, an end-to-end production asset generation run has **not** been executed in `G0`. The first live end-to-end pipeline proof under this profile will be executed only in a separately approved task.
+- **`Candidate A` Visual Reference Status (`DEC-002` in `AGENTS.md`)**: `Candidate A` (`assets/concepts/candidate_a_classic_xianxia.jpg`) is currently a **`PROPOSED` visual reference** (`PROPOSED` / `TECHNICALLY_VERIFIED`), **not** a fully `HUMAN_APPROVED` style lock. Any initial art production proof must receive explicit owner creative approval (`HUMAN_APPROVED`) before scaling asset production across characters, zones, or catalogs.
 
 ---
 

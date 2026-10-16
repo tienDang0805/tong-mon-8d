@@ -1,8 +1,8 @@
 # Roadmap — Tông Môn 8D, Design-to-Production
 
-> v0.2 + Technical Design Freeze v1.0 + Slice `S0` + Gate `G0` | 2026-10-17 | Current foundation: `master@6e38c246cabcd020efe137863838d6a61e7b1a72` (Slice `S0` commit; Freeze baseline `39c41a6ddb77b93284c56da7ec053f4309ee4943`).
+> v0.2 + Technical Design Freeze v1.0 + Slice `S0` + Gate `G0` + Slice `S1-B1a` (`CTX-1` synced) | 2026-10-17 | Current foundation: `master@b04ebdc72ffede9edb678008ed30d002c73b5cc6` (`S1-B1a` commit; `G0` `39d71c0`; `S0` `6e38c24`; Freeze baseline `39c41a6`).
 
-## Status as of Technical Design Freeze v1.0, Slice `S0` & Gate `G0`
+## Status as of Technical Design Freeze v1.0, `S0`, `G0` & `S1-B1a`
 
 | Stage | Status | Evidence / caveat |
 |---|---|---|
@@ -11,16 +11,17 @@
 | Phase 1B.0 owner-approved game design documentation | `COMMITTED` | `d4e6e17`; 10 Baseline v0.2 docs (`docs/DECISIONS.md`, `docs/GAME_DESIGN.md`, etc.) |
 | **Phase 1B.1–1B.5 Technical Design Freeze v1.0 (`TD-01`–`TD-05` + `docs/systems/NPC_SHOPS.md`)** | **`COMMITTED` (`39c41a6`, `DESIGN APPROVED / NOT IMPLEMENTED`)** | 40 Markdown files under `docs/systems/`, `docs/pipelines/`, `docs/technical/` (`docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`). Provisional numbers/art are NOT promoted to final balance or `HUMAN_APPROVED` art |
 | **Slice `S0` (Foundation, PGlite Backup & Environment Safety)** | **`COMMITTED` (`6e38c24`)** | Offline PGlite backup + throwaway restore verified; deterministic `resolvePgDataDir` split-brain protection; safe `.env` loading; isolated two-browser `test:e2e` verified in `artifacts/playtest/runs/<run-id>/` |
-| **Gate `G0` (Agent Workflow Governance & Skill Optimization)** | **`G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`** | Added `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md` (`NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`); reconciled 6 governance/index docs |
-| Playable AFK vertical slice (`S1`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) | `NOT STARTED` under new design | Each slice (`S1`..`S8`) requires explicit owner authorization (`Plan → Build → Review → Verify`) |
+| **Gate `G0` (Agent Workflow Governance & Skill Optimization)** | **`COMMITTED` (`39d71c0`)** | Added `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md` (`NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`); reconciled 6 governance/index docs |
+| **Slice `S1` (`Character schema v0.2 and migration`)** | **`IN PROGRESS, NOT COMPLETE`** | `S1-A` (`READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED`); `S1-B1a` (`COMMITTED` at `b04ebdc` — pure `TD-01` contracts & `DestinyDefinitionMetadata` validators only, **not** runtime `Character v0.2` gameplay); `CTX-1` (`VERIFIED_READY_FOR_COMMIT`); `S1-B1b` (`PROPOSED NEXT PURE NUMERIC TASK, NOT IMPLEMENTED`), `S1-B2` (`TRANSACTION INFRASTRUCTURE, NOT IMPLEMENTED`), `S1-C` (`SCHEMA / BACKUP / MIGRATION, NOT IMPLEMENTED`), `S1-D` (`AUTHORITATIVE SERVER ACTIONS, NOT IMPLEMENTED`), `S1-E` (`CLIENT/HUD, NOT IMPLEMENTED`), `S1-F` (`E2E ACCEPTANCE, NOT IMPLEMENTED`) |
+| Remaining vertical slice (`S2`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` & `docs/MASTER_PROJECT_PLAN.md`) | `NOT STARTED` | Each slice/sub-task requires explicit owner authorization under the 9-stage `DOC SYNC` lifecycle (`docs/technical/AGENT_EXECUTION_CONTRACT.md`) |
 
-## Phase 1B.0, Technical Design Freeze v1.0, Slice `S0` & Gate `G0` Milestones
+## Phase 1B.0, Technical Design Freeze v1.0, `S0`, `G0` & `S1-B1a` Milestones
 
 1. Safely imported Game Design Baseline v0.2 (`d4e6e17`) and Technical Design Freeze v1.0 (`39c41a6`, 40 files in `docs/systems/`, `docs/pipelines/`, `docs/technical/`) without deleting Phase 1A historical evidence, existing code, art, or raw sources.
 2. Reconciled `AGENTS.md`, `docs/CONTEXT_INDEX.md`, `docs/DECISIONS.md`, `docs/NEXT_ACTIONS.md`, `docs/PROJECT_STATUS.md`, and `docs/ROADMAP.md` to reference `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`, and the authoritative `S0`–`S8` sequence in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`.
 3. Executed and committed **Slice `S0`** (`6e38c24`): verified offline PGlite backup + throwaway restore, implemented deterministic `resolvePgDataDir` (preserving existing `apps/server/apps/server/data/pgdata` in place, using canonical `apps/server/data/pgdata` on fresh setups, and failing closed on split-brain), added safe `.env` loading in `apps/server/src/index.ts`, and isolated `npm run test:e2e` (`memory://` storage + gitignored `artifacts/playtest/runs/<run-id>/` per-run output).
-4. Executed **Gate `G0`** (`G0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`): audited all 30 installed skills in `.agents/skills/*/SKILL.md`, authored `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, and verified all 40 frozen Technical Design Markdown files against commit `39c41a6ddb77b93284c56da7ec053f4309ee4943` (note: the external archive's `FREEZE_MANIFEST.json` is not tracked in the repository).
-5. Stop after `G0` verification for human owner review and sign-off before committing/pushing `G0` or starting `S1`.
+4. Executed and committed **Gate `G0`** (`39d71c0`): audited all 30 installed skills in `.agents/skills/*/SKILL.md`, authored `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, and verified all 40 frozen Technical Design Markdown files against commit `39c41a6ddb77b93284c56da7ec053f4309ee4943` (note: the external archive's `FREEZE_MANIFEST.json` is not tracked in the repository).
+5. Completed **`S1-A`** (`READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED`) and committed **`S1-B1a`** (`b04ebdc`, pure `TD-01` structural contracts and `DestinyDefinitionMetadata` validators in `packages/shared/src/index.ts`, `packages/game-data/src/index.ts`, and `apps/server/src/__tests__/td01Contracts.test.ts`), followed by **`CTX-1`** (`docs/MASTER_PROJECT_PLAN.md`, `docs/implementation/FEATURE_LEDGER.md`, and the 9-stage `DOC SYNC` contract). Stop for human owner review and commit/push approval before starting `S1-B1b` or `S1-B2`.
 
 ## Integrated Technical Design Domains (`DESIGN APPROVED / NOT IMPLEMENTED`)
 
