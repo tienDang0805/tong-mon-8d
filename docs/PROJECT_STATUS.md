@@ -1,12 +1,13 @@
-# TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A & 1B.0 RECONCILED)
+# TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A, 1B.0 & TD FREEZE v1.0 RECONCILED)
 
 ## 1. Current Verified Checkpoint
 
 - **Phase 0 Art Pipeline Commit:** `934f728` (`feat(art-pipeline): upgrade AI multi-pose sprite pipeline for 3 PoC characters and combat VFX`)
 - **Phase 0 Migration Handoff Commit:** `21ae81e` (`chore(migration): finalize Phase 0 workspace migration, asset pipeline protection, and handoff docs`)
-- **Phase 1A Context Audit Commit (Current Base HEAD):** `e0eab60` (author-amended `7914c2a`, `update Phase 1 audit`)
+- **Phase 1A Context Audit Commit:** `e0eab60` (author-amended `7914c2a`, `update Phase 1 audit`)
+- **Phase 1B.0 Baseline v0.2 Commit (Current Base HEAD):** `d4e6e17` (`d4e6e17b5a9e88d9e717e33ebfe3e218b5c39486`, `docs(phase-1b.0): integrate Game Design Baseline v0.2 and reconcile canonical design consistency`)
 - **Branch:** `master` (`origin/master` → `https://github.com/tienDang0805/tong-mon-8d`)
-- **Current Active Phase:** **Phase 1B.0 Integrated (Game Design Baseline v0.2 in `docs/`) → Awaiting Human Owner Review before Gated Technical Design (`TD-01`–`TD-05` in `docs/ROADMAP.md`)**
+- **Current Active Phase:** **Technical Design Freeze v1.0 Integrated (`TD-01`–`TD-05`, 40 files under `docs/systems/`, `docs/pipelines/`, `docs/technical/` — `DESIGN APPROVED / NOT IMPLEMENTED`) → Awaiting Human Owner Review before Gated Implementation Slice `S0` (`docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`)**
 - **Manifest Version:** `2.0.0` (`assets/manifest.json`, 35 verified assets + 2 Tiled maps)
 - **Provenance Version:** `2.0.0` (`assets/provenance.json`, portable relative paths verified)
 - **Reference Style Direction:** Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG (`PROPOSED` / `TECHNICALLY_VERIFIED`, pending `HUMAN_APPROVED` owner sign-off)
@@ -18,7 +19,7 @@
 
 ## 2. Implemented Gameplay & Engine Systems (Verified on Disk — Legacy v0.1 Technical Prototype)
 
-> **Design Intent vs. Implementation Status Notice:** The runtime code in `apps/` and `packages/` currently implements the **v0.1 technical prototype** (3-discipline `Kiếm Tu`/`Pháp Tu`/`Thể Tu` manual combat and open Phì Đế Chapter 1 quest). In **Phase 1B.0**, the project owner approved **Game Design Baseline v0.2** (`docs/DECISIONS.md`), which establishes an **Online AFK Cultivation RPG** with online-only Auto Farm (`GD-002`), manual quest execution + auto-navigation only (`GD-003`, `GD-004`), Character Level `1–350+` (`Phàm Nhân` `1–10` + 17 realms × 20 levels, `GD-020`), 6 independent 10-stage Dao mastery paths (`Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu`, `GD-024`), 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies (`GD-010`–`GD-013`), a universal Main Quest for all players (`GD-006`, `GD-040`), and at-most-1-of-10 exclusive Legendary Signature destiny ownership (across both `Tiên Thiên` and `Hậu Thiên`, `GD-014`, `GD-015`) as the first prerequisite for optional 6-chapter True Disciple routes. Runtime migration will occur only after gated Technical Design (`TD-01`–`TD-05` in `docs/ROADMAP.md`) is approved.
+> **Design Intent vs. Implementation Status Notice:** The runtime code in `apps/` and `packages/` currently implements the **v0.1 technical prototype** (3-discipline `Kiếm Tu`/`Pháp Tu`/`Thể Tu` manual combat and open Phì Đế Chapter 1 quest). In **Phase 1B.0** and **Technical Design Freeze v1.0**, the project owner approved **Game Design Baseline v0.2** (`docs/DECISIONS.md`) and the 40 technical specifications (`TD-01`–`TD-05` under `docs/systems/`, `docs/pipelines/`, `docs/technical/` as **`DESIGN APPROVED / NOT IMPLEMENTED`**), establishing an **Online AFK Cultivation RPG** with online-only Auto Farm (`GD-002`), manual quest execution + auto-navigation only (`GD-003`, `GD-004`), Character Level `1–350+` (`Phàm Nhân` `1–10` + 17 realms × 20 levels, `GD-020`), 6 independent 10-stage Dao mastery paths (`Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu`, `GD-024`), 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies (`GD-010`–`GD-013`), a universal Main Quest for all players (`GD-006`, `GD-040`), at-most-1-of-10 exclusive Legendary Signature destiny ownership (across both `Tiên Thiên` and `Hậu Thiên`, `GD-014`, `GD-015`) as the first prerequisite for optional 6-chapter True Disciple routes, and NPC-only BUY/SELL shops (`docs/systems/NPC_SHOPS.md` under TD-04 authority, with no P2P trading/listings/auctions/escrow). Runtime migration will occur only in owner-authorized slices (`S0`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`).
 
 1. **Shared Protocol & Canonical Game Data (`packages/shared`, `packages/game-data`)**:
    - Canonical 17 cultivation realms (`Phàm Nhân` + 17 realms from `Luyện Khí` through `Thánh Cảnh`) in `packages/game-data/src/index.ts` with exact Tu Vi requirements, HP, MP, attack, defense, and offline meditation curves.
@@ -90,8 +91,9 @@ All three upgraded characters have preserved v1 backups in `assets/sprites/legac
 
 ---
 
-## 6. Current Active Priority (Phase 1B.0 Integrated → Gated Technical Design)
+## 6. Current Active Priority (Technical Design Freeze v1.0 Integrated → Gated Implementation Slices `S0`–`S8`)
 
-**Phase 1B.0 — Game Design Baseline v0.2 Integration (Completed in `docs/`, Awaiting Human Owner Review)**:
-- The 10 Baseline v0.2 documents (`docs/DECISIONS.md`, `docs/CONTEXT_INDEX.md`, `docs/GAME_VISION.md`, `docs/GAME_LORE.md`, `docs/GAME_DESIGN.md`, `docs/NARRATIVE_DESIGN.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/CONTENT_PIPELINE.md`, `docs/ROADMAP.md`) are now integrated alongside `docs/ART_BIBLE.md` and `docs/CHARACTER_VISUAL_BIBLE.md`.
-- **Next Gate**: Wait for explicit project-owner review and commit/push of Phase 1B.0 before starting **Phase 1B.1 (`TD-01`: Character, Destiny, Level, Realm Technical Design)** per `docs/ROADMAP.md`.
+**Technical Design Freeze v1.0 (`TD-01`–`TD-05`, 40 Documents Integrated in `docs/` as `DESIGN APPROVED / NOT IMPLEMENTED`)**:
+- In addition to the 10 Phase 1B.0 Baseline v0.2 documents, all 40 Technical Design Freeze v1.0 documents (17 system specs under `docs/systems/`, 5 pipeline specs under `docs/pipelines/`, 13 TD verification/migration/simulation specs under `docs/technical/TD01..TD05_*.md`, and 5 Freeze coordination guides under `docs/technical/TD_FREEZE_*.md`) are integrated into `docs/`.
+- **Shop Authority Note**: `docs/systems/NPC_SHOPS.md` is the sole accepted NPC-only BUY/SELL shop specification under `TD-04` authority (`SHOP_MARKET.md` and P2P trading/listings/auctions/escrow are prohibited).
+- **Next Gate**: Wait for explicit project-owner review and commit/push of Technical Design Freeze v1.0 before starting **Slice `S0` (Foundations & Migration Safety)** per `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` and `docs/technical/TD_FREEZE_GATES.md`.

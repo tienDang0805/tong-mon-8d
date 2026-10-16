@@ -94,3 +94,12 @@ For claims of implementation, read `docs/PROJECT_STATUS.md` and inspect code/tes
 6. Content registries/schema, migrations and automated AI production acceptance criteria.
 
 **Rule for agents**: When an APPROVED decision conflicts with LEGACY implementation, produce a migration impact report and seek scoped implementation approval. Do NOT silently rewrite the owner-approved game design to fit old code.
+
+---
+
+## G. Technical Design Freeze v1.0 Pointer (2026-10-16)
+
+- The 40 technical design and coordination specifications imported under `docs/systems/*` (17 files), `docs/pipelines/*` (5 files), and `docs/technical/*` (18 files, anchored by `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, and `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) constitute the owner-accepted **Technical Design Freeze v1.0 (`TD-01` v0.3, `TD-02` v0.4, `TD-03` v0.5, `TD-04` v0.6 + `docs/systems/NPC_SHOPS.md` NPC-only commerce addendum, and `TD-05` v0.7)** on top of commit `d4e6e17b5a9e88d9e717e33ebfe3e218b5c39486`.
+- **Scope & Status Governance**:
+  - All 35 original component TD files retain their historical `DRAFT` / `REVIEW_REQUIRED` / `OWNER_REVIEW_REQUIRED` headers verbatim to preserve verified SHA-256 content hashes (`FREEZE_MANIFEST.json`); `docs/technical/TD_FREEZE_APPROVALS.md` governs their overall **technical design acceptance (`DESIGN APPROVED / NOT IMPLEMENTED`)**.
+  - Acceptance of the TD Freeze **does NOT** promote internal `DESIGN_BASELINE`, `PROPOSED`, or `UNRESOLVED` items (such as sample numeric coefficients/curves, `GD-046` macro-arc/era/villain names, the `UNRESOLVED` Phì Đế Food Catalog dish threshold, NPC affinity caps, shop prices/stock, or `Candidate A` / Phase 0 `TECHNICALLY_VERIFIED` sprites) into final production balance or `HUMAN_APPROVED` visual artwork.
