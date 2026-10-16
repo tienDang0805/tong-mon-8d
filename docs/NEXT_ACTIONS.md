@@ -1,8 +1,8 @@
 # Next Actions & Phase 1B Roadmap — Tông Môn 8D: Tu Tiên Chi Lộ
 
-## 1. Current Active Priority: Technical Design Freeze v1.0 Integrated → Gated Implementation Slices (`S0`–`S8`)
+## 1. Current Active Priority: Slice `S0` (`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`)
 
-> **Phase Boundary & Priority Notice:** **Phase 1B.0 (Game Design Baseline v0.2)** and **Technical Design Freeze v1.0 (`TD-01`–`TD-05`, 40 files under `docs/systems/`, `docs/pipelines/`, and `docs/technical/`)** are now integrated in `docs/` as **`DESIGN APPROVED / NOT IMPLEMENTED`**. All gameplay implementation, runtime code refactors (`apps/`, `packages/`), and new asset generation remain **paused** until the project owner reviews/commits the Technical Design Freeze v1.0 documentation and explicitly authorizes **Slice `S0` (Foundations & Migration Safety)** per `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`.
+> **Phase Boundary & Priority Notice:** **Phase 1B.0 (Game Design Baseline v0.2, `d4e6e17`)** and **Technical Design Freeze v1.0 (`TD-01`–`TD-05`, 40 files under `docs/systems/`, `docs/pipelines/`, and `docs/technical/`, `39c41a6`)** are integrated in `docs/` as **`DESIGN APPROVED / NOT IMPLEMENTED`**. **Slice `S0` (Verify original v0.1 game dev loop, offline PGlite backup + throwaway restore verification, deterministic `resolvePgDataDir` split-brain protection, safe `.env` loading, and isolated two-browser `test:e2e` smoke verification in `artifacts/playtest/runs/<run-id>/`)** is at status **`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`**. All `TD-01`–`TD-05` gameplay implementation (`S1`–`S8`) remains **paused** until the project owner explicitly approves/commits `S0` and authorizes **Slice `S1`** per `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`.
 
 ### 1.1 Integrated Phase 1B.0 Specification Suite (Baseline v0.2)
 
@@ -24,7 +24,7 @@
   - `docs/technical/TD_FREEZE_APPROVALS.md` (status ledger separating accepted TD structure from `DESIGN_BASELINE` / `PROPOSED` / `UNRESOLVED` / `TECHNICALLY_VERIFIED` gates)
   - `docs/technical/TD_FREEZE_CONTRACT_MAP.md` (canonical TypeScript contracts, protocol messages, DB tables, authority boundaries)
   - `docs/technical/TD_FREEZE_GATES.md` (blocking invariants, non-blocking implementation gates `TD-01-APP`..`TD-05-APP`, prohibited work)
-  - `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` (ordered `S0`–`S8` implementation slices)
+  - `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` (authoritative `S0`–`S8` implementation slices)
 - **Domain Specifications (`35` Original TD Files)**:
   1. **`TD-01` — Character, Destiny, Level & Realm Technical Spec**: `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`.
   2. **`TD-02` — Techniques, Dao Mastery & Combat Spec**: `docs/systems/DAO_MASTERY.md`, `docs/systems/TECHNIQUES.md`, `docs/systems/COMBAT.md`, `docs/technical/TD02_SIMULATION.md`, `docs/technical/TD02_MIGRATION_TESTS.md`.
@@ -32,17 +32,17 @@
   4. **`TD-04` — World, Item, Affinity, NPC Shops & Content Contract Spec**: `docs/systems/CONTENT_REGISTRY.md`, `docs/systems/ITEMS_ECONOMY.md`, `docs/systems/NPC_SHOPS.md` *(sole accepted NPC-only BUY/SELL shop spec; no `SHOP_MARKET.md` and no P2P trading/listings/auctions/escrow)*, `docs/systems/FOOD_CATALOG.md`, `docs/systems/NPC_AFFINITY.md`, `docs/systems/WORLD_CONTENT.md`, `docs/systems/QUEST_CONTENT.md`, `docs/technical/TD04_CONSISTENCY_FREEZE.md`, `docs/technical/TD04_MIGRATION_TESTS.md`, `docs/technical/TD04_REFERENCE_CHECKS.md`.
   5. **`TD-05` — AI Asset Production, Visual Contract, World-First UX & Vertical Slice Acceptance Spec**: `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/technical/TD05_CROSS_TD_CONSISTENCY.md`, `docs/technical/TD05_MIGRATION_TESTS.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`.
 
-### 1.3 Gated Implementation Sequence (`S0`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` — Do Not Start Without Owner Approval)
+### 1.3 Authoritative Gated Implementation Sequence (`S0`–`S8` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` — Do Not Start Next Slice Without Owner Approval)
 
-1. **`S0` — Foundations & Migration Safety**: Shared protocol/data enums, config tables, legacy v0.1 save backup/migration harness, Windows `PGDATA_DIR` cleanup.
-2. **`S1` — `TD-01` Core**: Character stats, Level `1–350+`, Realm `Phàm Nhân` + 17 realms, `Tiên Thiên` / `Hậu Thiên` destinies, Mortal Lv 10 Main Quest breakthrough gate.
-3. **`S2` — `TD-02` Core**: 6 Dao paths × 10 stages, `Công pháp` / `Võ kỹ` (6 tiers), skill loadouts, combat engine, `Bí Cảnh` trial gates (`3→4`, `6→7`, `9→10`).
-4. **`S3` — `TD-04` Registry & Economy**: Content Registry loader, items/currencies, NPC-only shops (`NPC_SHOPS.md`), `FOOD_CATALOG.md`, NPC affinity/gifts.
-5. **`S4` — `TD-03` Core**: Online-only Auto Farm state machine, `navigateToQuestObjective`, declarative `QUEST_ENGINE.md`.
-6. **`S5` — `TD-04` Narrative & World Content**: Starter zones (`tan_thu_thon`, `thanh_truc_lam`), Main Quest Arc I, Phì Đế Ch.1–2 (`DESIGN_BASELINE`), point-and-click inspection.
-7. **`S6` — `TD-05` Visual & UX Contract**: `VISUAL_CONTENT_CONTRACT.md` loader, `UX_WORLD_FIRST.md` HUD/modals (`C`, `K`, `B`, `Q`, `M`, `F`, `P`, `ESC`), `ANIMATION_VFX_FEEDBACK.md`.
-8. **`S7` — Generative Art Production (Owner-Authorized Only)**: Generative asset production for vertical slice under `AI_ASSET_PRODUCTION.md` and `HUMAN_APPROVED` sign-off.
-9. **`S8` — Vertical Slice Acceptance**: End-to-end verification against `TD05_VERTICAL_SLICE_ACCEPTANCE.md`.
+1. **`S0` — Verify Original v0.1 Game Dev Loop, Backing Up PGlite & Fixing Remaining Environment Configuration Safely (`Current Git + migration docs`)**: Two-browser smoke verification, offline PGlite backup + throwaway restore proof, deterministic `resolvePgDataDir` split-brain protection, safe `.env` loading, no destructive DB action. *(Status: `S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`.)*
+2. **`S1` — Character Schema v0.2 & Migration (`TD-01`)**: 6 origin stats, Level/EXP/Tu Vi separation, 3 immutable `Tiên Thiên` destinies, controlled simulated Level reward (`+1` point/level), no second Legendary signature, restart persistence, no prototype save loss.
+3. **`S2` — Deterministic Stat Recomputation & Realm Breakthrough `Phàm Nhân` → `Luyện Khí` (`TD-01 + TD-03 quest contract`)**: Real masked-mentor Main Quest encounter, starter `Công pháp` + breakthrough pill, manual breakthrough, no level skip.
+4. **`S3` — `TD-02` Common Legal Combat Action, Dao XP & Progression Trial Gate (`TD-02 + TD-01`)**: Same damage via manual and scheduled casts, 6 Dao paths, `3→4` refuses without trial, real animations at target.
+5. **`S4` — Online-Only Auto Farm + One-Character Controller, Map-Safe Path Navigation & Manual Quest (`TD-03 + TD-02`)**: Disconnect halts farming, no offline kills, auto-navigation only travels and stops at destination, manual quest turn-in, two-tab test.
+6. **`S5` — Content Item/Loot/Favor/Food Catalog & Initial Authored Town Quest/Forest Enemy (`TD-04 + TD-01..03`)**: Single committed item reward delivery, distinct story states, Main Quest not gated by signature, synchronized monster HP across browsers.
+7. **`S6` — NPC-Only `Tụ Bảo Các`, `Lão Trù Trương` + Specialists, BUY/SELL with Search/Filter (`TD-04 NPC_SHOPS + TD-05`)**: In-world accessible building + NPCs, no remote sale, no P2P, server-validated price/stock, screenshots with shop closed/open.
+8. **`S7` — First Full Generated Art Pack/Zone & User-Approved Visual Gate (`TD-05 + existing Art Bible / AI skill`)**: Genuine generative source + provenance, sprite/tileset/VFX/market facade, actual scene capture, owner `HUMAN_APPROVED` art sign-off.
+9. **`S8` — 12-Beat Human Playthrough Acceptance of First Production Vertical Slice (`All TDs`)**: Creator approves interactive world, skills, quest, `Tụ Bảo Các`, Auto Farm, Level, and breakthrough in-world (not just text panels).
 
 ---
 

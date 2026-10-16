@@ -1,14 +1,35 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import net from "node:net";
 import path from "node:path";
 import { chromium, type Page } from "playwright";
 import { createServer as createViteServer } from "vite";
 import { startGameServer } from "../../apps/server/src/index.js";
 
 const ROOT_DIR = process.cwd();
-const ARTIFACT_DIR = path.join(ROOT_DIR, "artifacts/playtest");
+const RUN_ID =
+  process.env.PLAYTEST_RUN_ID?.trim() ||
+  `run_${new Date().toISOString().replace(/[:.]/g, "-")}`;
+const ARTIFACT_DIR = path.join(ROOT_DIR, "artifacts/playtest/runs", RUN_ID);
 const POC_FRAMES_DIR = path.join(ARTIFACT_DIR, "poc_frames");
+
+async function assertPortFree(port: number, host = "127.0.0.1"): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    const tester = net.createServer();
+    tester.once("error", (err) => {
+      reject(
+        new Error(
+          `E2E port conflict on ${host}:${port} (${String(err)}). Stop any running server before executing test:e2e.`
+        )
+      );
+    });
+    tester.once("listening", () => {
+      tester.close(() => resolve());
+    });
+    tester.listen(port, host);
+  });
+}
 
 interface DebugGameState {
   zoneId: string;
@@ -67,22 +88,44 @@ async function waitForCondition(
   throw new Error(`Timeout waiting for ${label}`);
 }
 
+async function launchPlaytestBrowser() {
+  try {
+    return await chromium.launch({ headless: true });
+  } catch {
+    try {
+      return await chromium.launch({ headless: true, channel: "chrome" });
+    } catch {
+      return await chromium.launch({ headless: true, channel: "msedge" });
+    }
+  }
+}
+
 async function main(): Promise<void> {
   fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
   fs.rmSync(POC_FRAMES_DIR, { recursive: true, force: true });
   fs.mkdirSync(POC_FRAMES_DIR, { recursive: true });
+  delete process.env.DATABASE_URL;
   process.env.PGDATA_DIR = "memory://";
 
-  const gameSrv = await startGameServer(2567);
+  await assertPortFree(2567);
+  await assertPortFree(5173);
+
+  const gameSrv = await startGameServer(2567, {
+    dataDir: "memory://",
+    connectionString: ""
+  });
+  assert.equal(gameSrv.db.getDataDir(), "memory://");
+
   const viteSrv = await createViteServer({
     configFile: path.join(ROOT_DIR, "apps/client/vite.config.ts"),
-    server: { port: 5173, host: "127.0.0.1" }
+    server: { port: 5173, host: "127.0.0.1", strictPort: true }
   });
   await viteSrv.listen();
 
-  const browser = await chromium.launch({ headless: true });
+  let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
 
   try {
+    browser = await launchPlaytestBrowser();
     const ctx1 = await browser.newContext({ viewport: { width: 1280, height: 720 } });
     const page1 = await ctx1.newPage();
 
@@ -191,6 +234,7 @@ async function main(): Promise<void> {
     await page1.keyboard.press("l");
     await page1.waitForTimeout(100);
     await snapCrop();
+    await page1.waitForTimeout(320);
 
     await page1.evaluate(() => {
       const dbg = (window as unknown as {
@@ -198,13 +242,32 @@ async function main(): Promise<void> {
       }).__TONG_MON_DEBUG__;
       dbg.triggerHurt();
     });
-    await page1.waitForTimeout(90);
+    await waitForCondition(
+      async () => (await readGameState(page1)).localPlayer.spriteAnimKey === "hero_kiem_tu_hurt_down",
+      1500,
+      "hero_kiem_tu_hurt_down anim"
+    );
     const stHurt = await readGameState(page1);
     assert.equal(stHurt.localPlayer.spriteAnimKey, "hero_kiem_tu_hurt_down");
     await snapCrop();
 
+    const gifOutputPath =
+      process.env.UPDATE_PREVIEW_GIF === "1"
+        ? path.join(ROOT_DIR, "assets/previews/phaser_gameplay_poc_capture.gif")
+        : path.join(ARTIFACT_DIR, "phaser_gameplay_poc_capture.gif");
+
+    const venvWinPython = path.join(ROOT_DIR, ".venv/Scripts/python.exe");
+    const venvPosixPython = path.join(ROOT_DIR, ".venv/bin/python");
+    const pythonBin = fs.existsSync(venvWinPython)
+      ? venvWinPython
+      : fs.existsSync(venvPosixPython)
+        ? venvPosixPython
+        : process.platform === "win32"
+          ? "python"
+          : "python3";
+
     execFileSync(
-      "python3",
+      pythonBin,
       [
         path.join(ROOT_DIR, ".agents/skills/pixel-art/scripts/gif_export.py"),
         "--frames-dir",
@@ -212,7 +275,7 @@ async function main(): Promise<void> {
         "--fps",
         "6",
         "--output",
-        path.join(ROOT_DIR, "assets/previews/phaser_gameplay_poc_capture.gif"),
+        gifOutputPath,
         "--json"
       ],
       { stdio: "inherit" }
@@ -418,18 +481,23 @@ async function main(): Promise<void> {
     });
     await mobileCtx.close();
 
+    const relArtifactDir = path.relative(ROOT_DIR, ARTIFACT_DIR).replace(/\\/g, "/");
     process.stdout.write(
       JSON.stringify(
         {
           playtestStatus: "ALL_GATES_PASSED",
+          dbDataDir: gameSrv.db.getDataDir(),
+          artifactRunDir: relArtifactDir,
+          gifOutputPath: path.relative(ROOT_DIR, gifOutputPath).replace(/\\/g, "/"),
           screenshotsGenerated: [
-            "01_tan_thu_thon_desktop_1280x720.png",
-            "02_merchant_shop_modal.png",
-            "03_phi_de_quest_ceremony.png",
-            "04_breakthrough_luyen_khi.png",
-            "05_thanh_truc_lam_forest.png",
-            "06_multiplayer_shared_combat.png",
-            "07_mobile_viewport_390x844.png"
+            `${relArtifactDir}/01_tan_thu_thon_desktop_1280x720.png`,
+            `${relArtifactDir}/02_merchant_shop_modal.png`,
+            `${relArtifactDir}/03_phi_de_quest_ceremony.png`,
+            `${relArtifactDir}/04_breakthrough_luyen_khi.png`,
+            `${relArtifactDir}/05_thanh_truc_lam_forest.png`,
+            `${relArtifactDir}/06_multiplayer_shared_combat.png`,
+            `${relArtifactDir}/07_mobile_viewport_390x844.png`,
+            `${relArtifactDir}/08_poc_sprites_showcase.png`
           ]
         },
         null,
@@ -437,7 +505,9 @@ async function main(): Promise<void> {
       ) + "\n"
     );
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
     await viteSrv.close();
     await gameSrv.shutdown();
   }

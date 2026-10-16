@@ -1,13 +1,14 @@
-# TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A, 1B.0 & TD FREEZE v1.0 RECONCILED)
+# TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A, 1B.0, TD FREEZE v1.0 & SLICE S0 RECONCILED)
 
 ## 1. Current Verified Checkpoint
 
 - **Phase 0 Art Pipeline Commit:** `934f728` (`feat(art-pipeline): upgrade AI multi-pose sprite pipeline for 3 PoC characters and combat VFX`)
 - **Phase 0 Migration Handoff Commit:** `21ae81e` (`chore(migration): finalize Phase 0 workspace migration, asset pipeline protection, and handoff docs`)
 - **Phase 1A Context Audit Commit:** `e0eab60` (author-amended `7914c2a`, `update Phase 1 audit`)
-- **Phase 1B.0 Baseline v0.2 Commit (Current Base HEAD):** `d4e6e17` (`d4e6e17b5a9e88d9e717e33ebfe3e218b5c39486`, `docs(phase-1b.0): integrate Game Design Baseline v0.2 and reconcile canonical design consistency`)
+- **Phase 1B.0 Baseline v0.2 Commit:** `d4e6e17` (`d4e6e17b5a9e88d9e717e33ebfe3e218b5c39486`, `docs(phase-1b.0): integrate Game Design Baseline v0.2 and reconcile canonical design consistency`)
+- **Technical Design Freeze v1.0 Commit (Current Base HEAD):** `39c41a6` (`39c41a6ddb77b93284c56da7ec053f4309ee4943`, `docs: integrate Technical Design Freeze v1.0`)
 - **Branch:** `master` (`origin/master` → `https://github.com/tienDang0805/tong-mon-8d`)
-- **Current Active Phase:** **Technical Design Freeze v1.0 Integrated (`TD-01`–`TD-05`, 40 files under `docs/systems/`, `docs/pipelines/`, `docs/technical/` — `DESIGN APPROVED / NOT IMPLEMENTED`) → Awaiting Human Owner Review before Gated Implementation Slice `S0` (`docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`)**
+- **Current Active Phase:** **Slice `S0` (`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`: Offline PGlite Backup + Throwaway Restore Verified, Deterministic `resolvePgDataDir` Split-Brain Protection, Safe `.env` Loading, Isolated Two-Browser `test:e2e` in `artifacts/playtest/runs/<run-id>/`) → Awaiting Human Owner Review before Slice `S1` (`TD-01` in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`)**
 - **Manifest Version:** `2.0.0` (`assets/manifest.json`, 35 verified assets + 2 Tiled maps)
 - **Provenance Version:** `2.0.0` (`assets/provenance.json`, portable relative paths verified)
 - **Reference Style Direction:** Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG (`PROPOSED` / `TECHNICALLY_VERIFIED`, pending `HUMAN_APPROVED` owner sign-off)
@@ -30,7 +31,7 @@
    - Quantitative progression simulator (`packages/game-data/src/runSimulation.ts`).
 2. **Authoritative Multiplayer Server (`apps/server`)**:
    - Node.js + Colyseus `0.18.x` authoritative `ZoneRoom` (`apps/server/src/zoneRoom.ts`) and `AuthoritativeWorldEngine` (`apps/server/src/worldEngine.ts`) with server-side movement validation, tile collision checking, zone portal transitions (`tan_thu_thon` ↔ `thanh_truc_lam`), shared mob AI & respawns (`truc_lang`, `thanh_lan_xa`), real-time melee/skill combat, loot drops, quests, 2–4 player party Tu Vi bonus, and offline cultivation claim (`<= 8h` cap).
-   - Persistent PostgreSQL storage (`apps/server/src/db.ts`) using embedded `@electric-sql/pglite` by default or external `pg` via `DATABASE_URL`, with `idempotency_ledger` and `economy_audit_log` tables.
+   - Persistent PostgreSQL storage (`apps/server/src/db.ts`) using embedded `@electric-sql/pglite` by default or external `pg` via `DATABASE_URL`, with `idempotency_ledger`, `economy_audit_log`, and deterministic `resolvePgDataDir` split-brain protection.
 3. **Phaser 4 Browser Client (`apps/client`)**:
    - Phaser `4.2.1` + TypeScript + Vite client (`apps/client/src/main.ts`, `apps/client/src/WorldScene.ts`, `apps/client/src/ui.ts`, `apps/client/src/network.ts`, `apps/client/src/audio.ts`).
    - Genuine Tiled `.tmj` multi-layer rendering (`Ground`, `Paths`, `GroundDetails`, `Collision`, `Interactables`, `AbovePlayer`, `Portals`) with Y-sorted depth occlusion.
@@ -85,15 +86,15 @@ All three upgraded characters have preserved v1 backups in `assets/sprites/legac
    - Because `image-generator` produces static `4x4` sheets rather than temporal video clips, subtle per-cell proportion and garment-detail variations occur between frames even after bottom-center foot-anchor locking `(40, 88)` and bounding-box normalization.
 3. **Mixed Scale Coexistence During Transition:**
    - The 3 upgraded `80x96` (`scale = 0.82`) characters coexist on screen with the 9 legacy `48x64` (`scale = 1.0`) sprites and 2 aliased NPCs until the remaining cast is upgraded under the Phase 1 Art Bible.
-4. **Windows `npm run dev:server` Entry Check & Relative `PGDATA_DIR` Status:**
-   - **Patched in Code (`7914c2a` / `e0eab60`):** `apps/server/src/index.ts` (lines 88–91) already normalizes Windows backslashes via `const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");` before checking `endsWith("src/index.ts")` or `endsWith("dist/index.js")`.
-   - **Remaining `.env.example` Relative Path Detail:** When `PGDATA_DIR=./apps/server/data/pgdata` is set in `.env` and `npm run dev:server` runs with working directory `apps/server/`, relative path resolution creates `apps/server/apps/server/data/pgdata` (protected by `.gitignore`; see `docs/DEVELOPMENT_SETUP.md` and `docs/ROADMAP.md`).
+4. **Windows `npm run dev:server` Entry Check & Deterministic `PGDATA_DIR` Resolution (`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`):**
+   - **Patched Entry Check (`7914c2a` / `e0eab60`):** `apps/server/src/index.ts` normalizes Windows backslashes before checking `endsWith("src/index.ts")` or `endsWith("dist/index.js")`, and loads `<repo>/.env` via `loadRepoEnvIfNeeded()` prior to reading `PORT` or DB settings without overriding explicitly supplied environment variables.
+   - **Deterministic `resolvePgDataDir` (`S0`):** `apps/server/src/db.ts` resolves `PGDATA_DIR` deterministically across working directories: preserves existing legacy nested saves at `apps/server/apps/server/data/pgdata` when only the legacy directory is initialized, uses canonical `apps/server/data/pgdata` on fresh setups or when only canonical is initialized, and fails closed with `SPLIT_BRAIN_PGDATA_DIR` if both are initialized.
 
 ---
 
-## 6. Current Active Priority (Technical Design Freeze v1.0 Integrated → Gated Implementation Slices `S0`–`S8`)
+## 6. Current Active Priority (Slice `S0`: `S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`)
 
-**Technical Design Freeze v1.0 (`TD-01`–`TD-05`, 40 Documents Integrated in `docs/` as `DESIGN APPROVED / NOT IMPLEMENTED`)**:
-- In addition to the 10 Phase 1B.0 Baseline v0.2 documents, all 40 Technical Design Freeze v1.0 documents (17 system specs under `docs/systems/`, 5 pipeline specs under `docs/pipelines/`, 13 TD verification/migration/simulation specs under `docs/technical/TD01..TD05_*.md`, and 5 Freeze coordination guides under `docs/technical/TD_FREEZE_*.md`) are integrated into `docs/`.
-- **Shop Authority Note**: `docs/systems/NPC_SHOPS.md` is the sole accepted NPC-only BUY/SELL shop specification under `TD-04` authority (`SHOP_MARKET.md` and P2P trading/listings/auctions/escrow are prohibited).
-- **Next Gate**: Wait for explicit project-owner review and commit/push of Technical Design Freeze v1.0 before starting **Slice `S0` (Foundations & Migration Safety)** per `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` and `docs/technical/TD_FREEZE_GATES.md`.
+**Slice `S0` — Foundation, PGlite Backup & Environment Safety (`S0 BUILD/VERIFY PASS — OWNER REVIEW PENDING`)**:
+- Offline backup of `apps/server/apps/server/data/pgdata` created under `apps/server/data/backups/` and validated via throwaway restore.
+- Deterministic `resolvePgDataDir` split-brain protection, safe `.env` loading, and isolated two-browser `npm run test:e2e` (`memory://` storage + gitignored per-run `artifacts/playtest/runs/<run-id>/` output) implemented and verified.
+- **Next Gate**: Wait for explicit project-owner review, approval, and commit/push of `S0` before starting **Slice `S1` (`Character schema v0.2 and migration with 6 origin stats, Level/EXP/Tu Vi, 3 immutable Tiên Thiên`)** per `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`.

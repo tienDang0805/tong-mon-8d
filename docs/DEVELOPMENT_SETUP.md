@@ -60,9 +60,17 @@ cp .env.example .env
 ```
 
 Default variables in `.env.example`:
-- `PORT=2567` — Colyseus authoritative WebSocket/HTTP server port.
-- `PGDATA_DIR=./apps/server/data/pgdata` — Local embedded PGlite PostgreSQL data directory.
-  - **Working Directory Note:** In `apps/server/src/db.ts`, if `PGDATA_DIR` is left empty, it defaults to `path.resolve(import.meta.dirname, "../data/pgdata")` (`<repo>/apps/server/data/pgdata`). When `PGDATA_DIR=./apps/server/data/pgdata` is set in `.env` and `npm run dev:server` executes with working directory `apps/server/`, relative path resolution creates `apps/server/apps/server/data/pgdata`. Both `apps/server/data/`, `apps/server/apps/`, `.pgdata/`, and `**/pgdata/` are protected in `.gitignore` so local databases can never be accidentally committed.
+- `PORT=2567` — Colyseus authoritative WebSocket/HTTP server port (`apps/server/src/index.ts` calls `loadRepoEnvIfNeeded()` when started as main module before reading `PORT` or database settings, preserving any explicitly exported environment variables).
+- `PGDATA_DIR=./apps/server/data/pgdata` — Local embedded PGlite PostgreSQL data directory, resolved deterministically via `resolvePgDataDir` in `apps/server/src/db.ts`:
+  - `memory://` stays in memory.
+  - Explicit absolute paths are respected as-is.
+  - When `PGDATA_DIR` is empty or targets the default/canonical path (`./apps/server/data/pgdata`), `resolvePgDataDir` checks both the canonical directory (`<repo>/apps/server/data/pgdata`) and the legacy nested directory (`<repo>/apps/server/apps/server/data/pgdata`):
+    - **Existing legacy directory only (`PG_VERSION` present):** preserves and uses `<repo>/apps/server/apps/server/data/pgdata` in place.
+    - **Existing canonical directory only (`PG_VERSION` present):** uses `<repo>/apps/server/data/pgdata`.
+    - **Neither initialized:** uses `<repo>/apps/server/data/pgdata` for fresh installations (even when `cwd` is `<repo>/apps/server`).
+    - **Both initialized:** fails closed with `SPLIT_BRAIN_PGDATA_DIR` rather than silently selecting one.
+  - Custom relative paths resolve relative to `<repo>` by default, preserve an already-initialized `cwd`-relative directory if only that directory is initialized, and fail closed with `SPLIT_BRAIN_PGDATA_DIR` if both `<repo>`-relative and `cwd`-relative directories are initialized.
+  - `apps/server/data/`, `apps/server/apps/`, `.pgdata/`, and `**/pgdata/` are protected in `.gitignore` so local databases and backups (`apps/server/data/backups/`) can never be accidentally committed.
 - `DATABASE_URL=` — Optional external PostgreSQL connection string (overrides `PGDATA_DIR` when non-empty).
 - `VITE_SERVER_URL=http://127.0.0.1:2567` — Client server endpoint.
 - `OPENAI_API_KEY=`, `GEMINI_API_KEY=`, `XAI_API_KEY=`, `ARK_API_KEY=`, `FAL_KEY=` — Optional external AI provider keys for `.agents/skills/generate2dmedia/scripts/route_media.py` (never required to build or run the game, and never invoked without explicit owner authorization).
@@ -77,7 +85,7 @@ Verify `assets/manifest.json`, `assets/provenance.json`, spritesheet dimensions 
 npm run verify:assets
 ```
 
-Run all authoritative server and canonical progression integration tests (`6` tests in `apps/server/src/__tests__/server.test.ts`):
+Run all authoritative server, canonical progression, and `S0` PGlite resolver/env-loader tests (`8` tests in `apps/server/src/__tests__/server.test.ts`):
 
 ```bash
 npm test
@@ -93,6 +101,12 @@ Run the standalone cultivation progression and economy balance simulator:
 
 ```bash
 npm run test:sim
+```
+
+Run the isolated two-browser Playwright multiplayer smoke test (clears `DATABASE_URL`, forces `PGDATA_DIR=memory://`, verifies ports `2567` and `5173` are free before startup, and writes screenshots, frames, and GIF capture to a unique gitignored per-run directory `artifacts/playtest/runs/<run-id>/` without touching tracked `artifacts/playtest/*.png` or `assets/previews/`):
+
+```bash
+npm run test:e2e
 ```
 
 Run the full production build (`verify:assets` + TypeScript compilation + Vite client bundle). This command never overwrites or regenerates artwork:
@@ -121,8 +135,8 @@ npm run dev:server
 npm run dev:client
 ```
 
-- **Windows Platform Compatibility Note (`apps/server/src/index.ts`):**
-  Lines 88–91 of `apps/server/src/index.ts` already normalize Windows backslashes (`const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");`) before checking `normalizedEntry.endsWith("src/index.ts") || normalizedEntry.endsWith("dist/index.js")` (patched in commit `7914c2a` / `e0eab60`). Note that `.env.example` still defines a relative `PGDATA_DIR=./apps/server/data/pgdata`, which resolves relative to `apps/server/` when `npm run dev:server` executes (creating `apps/server/apps/server/data/pgdata`, which is ignored by `.gitignore`; see Section 3 above).
+- **Windows Platform Compatibility & `PGDATA_DIR` Resolution (`apps/server/src/index.ts`, `apps/server/src/db.ts`):**
+  `apps/server/src/index.ts` normalizes Windows backslashes (`const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");`) before checking `normalizedEntry.endsWith("src/index.ts") || normalizedEntry.endsWith("dist/index.js")`, loads `<repo>/.env` via `loadRepoEnvIfNeeded()`, and delegates PGlite path resolution to `resolvePgDataDir` (see Section 3 above).
 
 ---
 

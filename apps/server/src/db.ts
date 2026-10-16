@@ -62,19 +62,158 @@ class PgPoolAdapter implements SqlExecutor {
   }
 }
 
+export interface ResolvePgDataDirOptions {
+  repoRoot?: string;
+  canonicalDir?: string;
+  legacyNestedDir?: string;
+  cwd?: string;
+}
+
+export function isPgDataInitialized(dirPath: string): boolean {
+  return fs.existsSync(path.join(dirPath, "PG_VERSION"));
+}
+
+export function resolvePgDataDir(
+  rawDataDir?: string,
+  options?: ResolvePgDataDirOptions
+): string {
+  const trimmed = (rawDataDir ?? "").trim();
+  if (trimmed === "memory://") {
+    return "memory://";
+  }
+
+  if (trimmed.length > 0 && path.isAbsolute(trimmed)) {
+    return path.normalize(trimmed);
+  }
+
+  const repoRoot = path.resolve(
+    options?.repoRoot ?? path.resolve(import.meta.dirname, "../../..")
+  );
+  const cwd = path.resolve(options?.cwd ?? process.cwd());
+  const canonicalDir = path.resolve(
+    options?.canonicalDir ?? path.join(repoRoot, "apps/server/data/pgdata")
+  );
+  const legacyNestedDir = path.resolve(
+    options?.legacyNestedDir ??
+      path.join(repoRoot, "apps/server/apps/server/data/pgdata")
+  );
+
+  const repoRelativeTarget = trimmed
+    ? path.resolve(repoRoot, trimmed)
+    : canonicalDir;
+  const cwdRelativeTarget = trimmed ? path.resolve(cwd, trimmed) : canonicalDir;
+
+  const isDefaultOrCanonicalTarget =
+    trimmed === "" ||
+    repoRelativeTarget === canonicalDir ||
+    cwdRelativeTarget === canonicalDir ||
+    repoRelativeTarget === legacyNestedDir ||
+    cwdRelativeTarget === legacyNestedDir;
+
+  if (isDefaultOrCanonicalTarget) {
+    const canonicalInit = isPgDataInitialized(canonicalDir);
+    const legacyInit = isPgDataInitialized(legacyNestedDir);
+
+    if (canonicalInit && legacyInit) {
+      throw new Error(
+        `SPLIT_BRAIN_PGDATA_DIR: Both canonical (${canonicalDir}) and legacy (${legacyNestedDir}) PGlite directories are initialized. Consolidate or set an explicit absolute PGDATA_DIR.`
+      );
+    }
+    if (legacyInit) {
+      return legacyNestedDir;
+    }
+    return canonicalDir;
+  }
+
+  const repoTargetInit = isPgDataInitialized(repoRelativeTarget);
+  const cwdTargetInit =
+    cwdRelativeTarget !== repoRelativeTarget &&
+    isPgDataInitialized(cwdRelativeTarget);
+
+  if (repoTargetInit && cwdTargetInit) {
+    throw new Error(
+      `SPLIT_BRAIN_PGDATA_DIR: Both repo-relative (${repoRelativeTarget}) and cwd-relative (${cwdRelativeTarget}) PGlite directories are initialized for PGDATA_DIR=${trimmed}.`
+    );
+  }
+  if (cwdTargetInit) {
+    return cwdRelativeTarget;
+  }
+  return repoRelativeTarget;
+}
+
+export function loadRepoEnvIfNeeded(
+  repoRoot = path.resolve(import.meta.dirname, "../../.."),
+  targetEnv: NodeJS.ProcessEnv = process.env
+): void {
+  const envPath = path.join(repoRoot, ".env");
+  if (!fs.existsSync(envPath)) {
+    return;
+  }
+  const content = fs.readFileSync(envPath, "utf-8");
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.charCodeAt(0) === 35) {
+      continue;
+    }
+    const eqIndex = line.indexOf("=");
+    if (eqIndex <= 0) {
+      continue;
+    }
+    const rawKey = line.slice(0, eqIndex).trim();
+    const key = rawKey.startsWith("export ") ? rawKey.slice(7).trim() : rawKey;
+    if (!key) {
+      continue;
+    }
+    let value = line.slice(eqIndex + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    if (
+      targetEnv[key] === undefined &&
+      !Object.prototype.hasOwnProperty.call(targetEnv, key)
+    ) {
+      targetEnv[key] = value;
+    }
+  }
+}
+
 export class GameDatabase {
   private executor: SqlExecutor;
+  private resolvedDataDir: string | null;
 
-  constructor(options?: { dataDir?: string; connectionString?: string }) {
-    const conn = options?.connectionString ?? process.env.DATABASE_URL;
+  constructor(options?: {
+    dataDir?: string;
+    connectionString?: string;
+    repoRoot?: string;
+    cwd?: string;
+  }) {
+    const explicitDataDir = (options?.dataDir ?? "").trim();
+    const rawConn =
+      explicitDataDir === "memory://"
+        ? (options?.connectionString ?? "")
+        : (options?.connectionString ?? process.env.DATABASE_URL ?? "");
+    const conn = rawConn.trim();
     if (conn) {
+      this.resolvedDataDir = null;
       this.executor = new PgPoolAdapter(conn);
     } else {
-      const defaultDir =
-        options?.dataDir ??
-        path.resolve(import.meta.dirname, "../data/pgdata");
-      this.executor = new PGliteAdapter(defaultDir);
+      const targetDir = resolvePgDataDir(
+        options?.dataDir ?? process.env.PGDATA_DIR,
+        {
+          repoRoot: options?.repoRoot,
+          cwd: options?.cwd
+        }
+      );
+      this.resolvedDataDir = targetDir;
+      this.executor = new PGliteAdapter(targetDir);
     }
+  }
+
+  getDataDir(): string | null {
+    return this.resolvedDataDir;
   }
 
   async init(): Promise<void> {

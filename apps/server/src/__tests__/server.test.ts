@@ -1,10 +1,13 @@
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
 import {
   LEGENDARY_NPCS,
   OFFLINE_MEDITATION_CAP_SECONDS,
   REALM_PROGRESSION
 } from "@tong-mon-8d/game-data";
-import { GameDatabase } from "../db.js";
+import { GameDatabase, loadRepoEnvIfNeeded, resolvePgDataDir } from "../db.js";
 import { AuthoritativeWorldEngine } from "../worldEngine.js";
 
 describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
@@ -209,5 +212,89 @@ describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
     expect(player.realmId).toBe("luyen_khi");
     expect(player.realmStage).toBe(1);
     expect(res.ceremony).toBe("breakthrough_success");
+  });
+
+  it("resolves PGlite data directories deterministically and prevents split-brain across working directories", () => {
+    const tempRepo = fs.mkdtempSync(path.join(os.tmpdir(), "tm8d_s0_resolver_"));
+    try {
+      const serverCwd = path.join(tempRepo, "apps/server");
+      const canonicalDir = path.join(tempRepo, "apps/server/data/pgdata");
+      const legacyNestedDir = path.join(tempRepo, "apps/server/apps/server/data/pgdata");
+      fs.mkdirSync(serverCwd, { recursive: true });
+
+      expect(resolvePgDataDir("memory://", { repoRoot: tempRepo, cwd: serverCwd })).toBe("memory://");
+
+      const explicitAbs = path.join(tempRepo, "explicit_abs_pgdata");
+      expect(resolvePgDataDir(explicitAbs, { repoRoot: tempRepo, cwd: serverCwd })).toBe(
+        path.normalize(explicitAbs)
+      );
+
+      expect(
+        resolvePgDataDir("./apps/server/data/pgdata", { repoRoot: tempRepo, cwd: serverCwd })
+      ).toBe(canonicalDir);
+      expect(resolvePgDataDir(undefined, { repoRoot: tempRepo, cwd: serverCwd })).toBe(canonicalDir);
+
+      fs.mkdirSync(legacyNestedDir, { recursive: true });
+      fs.writeFileSync(path.join(legacyNestedDir, "PG_VERSION"), "16\n");
+      expect(
+        resolvePgDataDir("./apps/server/data/pgdata", { repoRoot: tempRepo, cwd: serverCwd })
+      ).toBe(legacyNestedDir);
+      expect(
+        resolvePgDataDir("./apps/server/data/pgdata", { repoRoot: tempRepo, cwd: tempRepo })
+      ).toBe(legacyNestedDir);
+
+      fs.mkdirSync(canonicalDir, { recursive: true });
+      fs.writeFileSync(path.join(canonicalDir, "PG_VERSION"), "16\n");
+      expect(() =>
+        resolvePgDataDir("./apps/server/data/pgdata", { repoRoot: tempRepo, cwd: serverCwd })
+      ).toThrow(/SPLIT_BRAIN_PGDATA_DIR/);
+
+      fs.rmSync(legacyNestedDir, { recursive: true, force: true });
+      expect(
+        resolvePgDataDir("./apps/server/data/pgdata", { repoRoot: tempRepo, cwd: serverCwd })
+      ).toBe(canonicalDir);
+
+      const customRel = "./custom_store/pgdata";
+      const customRepoTarget = path.join(tempRepo, "custom_store/pgdata");
+      const customCwdTarget = path.join(serverCwd, "custom_store/pgdata");
+      expect(resolvePgDataDir(customRel, { repoRoot: tempRepo, cwd: serverCwd })).toBe(
+        customRepoTarget
+      );
+
+      fs.mkdirSync(customCwdTarget, { recursive: true });
+      fs.writeFileSync(path.join(customCwdTarget, "PG_VERSION"), "16\n");
+      expect(resolvePgDataDir(customRel, { repoRoot: tempRepo, cwd: serverCwd })).toBe(
+        customCwdTarget
+      );
+
+      fs.mkdirSync(customRepoTarget, { recursive: true });
+      fs.writeFileSync(path.join(customRepoTarget, "PG_VERSION"), "16\n");
+      expect(() =>
+        resolvePgDataDir(customRel, { repoRoot: tempRepo, cwd: serverCwd })
+      ).toThrow(/SPLIT_BRAIN_PGDATA_DIR/);
+    } finally {
+      fs.rmSync(tempRepo, { recursive: true, force: true });
+    }
+  });
+
+  it("loads repository .env without overriding explicitly supplied environment variables", () => {
+    const tempRepo = fs.mkdtempSync(path.join(os.tmpdir(), "tm8d_s0_env_"));
+    try {
+      fs.writeFileSync(
+        path.join(tempRepo, ".env"),
+        'PORT=2567\nexport PGDATA_DIR="./apps/server/data/pgdata"\nDATABASE_URL=postgres://should_not_override\nVITE_SERVER_URL=\'http://127.0.0.1:2567\'\n'
+      );
+      const mockEnv: NodeJS.ProcessEnv = {
+        PORT: "3999",
+        DATABASE_URL: ""
+      };
+      loadRepoEnvIfNeeded(tempRepo, mockEnv);
+      expect(mockEnv.PORT).toBe("3999");
+      expect(mockEnv.DATABASE_URL).toBe("");
+      expect(mockEnv.PGDATA_DIR).toBe("./apps/server/data/pgdata");
+      expect(mockEnv.VITE_SERVER_URL).toBe("http://127.0.0.1:2567");
+    } finally {
+      fs.rmSync(tempRepo, { recursive: true, force: true });
+    }
   });
 });

@@ -1,7 +1,7 @@
 import { Server } from "colyseus";
 import { WebSocketTransport } from "@colyseus/ws-transport";
 import express from "express";
-import { GameDatabase } from "./db.js";
+import { GameDatabase, loadRepoEnvIfNeeded } from "./db.js";
 import { AuthoritativeWorldEngine } from "./worldEngine.js";
 import {
   ZoneRoom,
@@ -10,17 +10,20 @@ import {
   getSharedEngine
 } from "./zoneRoom.js";
 
-const PORT = Number(process.env.PORT ?? 2567);
+export { loadRepoEnvIfNeeded };
 
-export async function startGameServer(port = PORT): Promise<{
+export async function startGameServer(
+  port = Number(process.env.PORT ?? 2567),
+  dbOptions?: { dataDir?: string; connectionString?: string }
+): Promise<{
   server: Server;
   db: GameDatabase;
   engine: AuthoritativeWorldEngine;
   shutdown: () => Promise<void>;
 }> {
   const db = new GameDatabase({
-    connectionString: process.env.DATABASE_URL,
-    dataDir: process.env.PGDATA_DIR
+    connectionString: dbOptions?.connectionString ?? process.env.DATABASE_URL,
+    dataDir: dbOptions?.dataDir ?? process.env.PGDATA_DIR
   });
   await db.init();
   const engine = new AuthoritativeWorldEngine(db);
@@ -91,7 +94,9 @@ const isMainModule =
   normalizedEntry.endsWith("dist/index.js");
 
 if (isMainModule && !process.env.VITEST) {
-  startGameServer(PORT).catch((err) => {
+  loadRepoEnvIfNeeded();
+  const runtimePort = Number(process.env.PORT ?? 2567);
+  startGameServer(runtimePort).catch((err) => {
     process.stderr.write(`Server startup error: ${String(err)}\n`);
     process.exit(1);
   });
