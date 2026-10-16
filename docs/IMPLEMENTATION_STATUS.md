@@ -1,6 +1,8 @@
 # Implementation Status — Tông Môn 8D: Tu Tiên Chi Lộ
 
-## 1. Milestone Verification Matrix
+> **Governance & Context Hierarchy Note:** The `PASS` statuses in the table below record **historical technical and automated test completion** (`TECHNICALLY_VERIFIED`) from the initial Milestones A–F vertical slice. They do **not** constitute final human creative approval (`HUMAN_APPROVED`) of visual art direction, sprite quality, tilesets, or UX presentation. For current project status, active Phase 1 priorities, and visual quality gaps, see `AGENTS.md`, `docs/CONTEXT_AUDIT.md`, `docs/PROJECT_STATUS.md`, and `docs/NEXT_ACTIONS.md`.
+
+## 1. Milestone Verification Matrix (Historical Technical Baseline)
 
 | Milestone | Scope | Status | Evidence |
 |---|---|---|---|

@@ -2,10 +2,10 @@
 
 ## 1. Required Runtime Versions
 
-- **Node.js:** `>= 20.x` (verified on `v24.14.1`)
-- **npm:** `>= 10.x` (verified on `11.11.0`)
-- **Python:** `>= 3.11` (verified on `3.14.4`, required only when running Python art-processing or Pixel Art QA scripts)
-- **Database:** Zero external setup required by default — `apps/server` uses embedded PostgreSQL (`@electric-sql/pglite`) stored in `.pgdata/`. An optional external PostgreSQL instance can be used by setting `DATABASE_URL`.
+- **Node.js:** `>= 20.x` (verified on Windows `v22.16.0` and macOS `v24.14.1`)
+- **npm:** `>= 10.x` (verified on `10.9.2` and `11.11.0`)
+- **Python:** `>= 3.11` (verified on `3.12.10` on Windows and `3.14.4` on macOS; required for `npm run verify:assets` and Python art-processing/QA scripts; `python3` executable must be on `PATH`)
+- **Database:** Zero external setup required by default — `apps/server` (`apps/server/src/db.ts`) uses embedded PostgreSQL (`@electric-sql/pglite`). An optional external PostgreSQL instance can be used by setting `DATABASE_URL`.
 
 ---
 
@@ -14,25 +14,36 @@
 Clone the repository and enter the workspace directory:
 
 ```bash
-git clone <YOUR_GITHUB_REMOTE_URL> tong-mon-8d
+git clone https://github.com/tienDang0805/tong-mon-8d tong-mon-8d
 cd tong-mon-8d
 ```
 
-Install Node.js monorepo dependencies (`packages/shared`, `packages/game-data`, `packages/art-tools`, `apps/server`, `apps/client`):
+Install Node.js monorepo dependencies (`packages/shared`, `packages/game-data`, `packages/art-tools`, `apps/server`, `apps/client`) reproducibly from `package-lock.json`:
 
 ```bash
-npm install
+npm ci
 ```
 
-Install Python image-processing dependencies (`Pillow`, `numpy`, `scipy`) in a virtual environment or user environment:
+Install Python image-processing dependencies (`Pillow`, `numpy`, `scipy`) in a virtual environment:
 
+- **macOS / Linux:**
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Install Playwright Chromium browser binaries (required only for running `npm run test:e2e`):
+- **Windows (PowerShell):**
+```powershell
+python -m venv .venv
+Copy-Item .\.venv\Scripts\python.exe .\.venv\Scripts\python3.exe -Force
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+*(Note on Windows: `packages/art-tools/verify_manifest.ts` invokes `python3`. Copying `python.exe` to `python3.exe` inside `.venv\Scripts` and the Python installation directory ensures `npm run verify:assets` resolves `python3` cleanly without relying on the Microsoft Store alias stub.)*
+
+Install Playwright Chromium browser binaries (required only when running `npm run test:e2e`):
 
 ```bash
 npx playwright install chromium
@@ -40,7 +51,7 @@ npx playwright install chromium
 
 ---
 
-## 3. Environment Variable Configuration
+## 3. Environment Variable Configuration & PGlite Persistence Safety
 
 Copy `.env.example` to `.env`:
 
@@ -50,16 +61,51 @@ cp .env.example .env
 
 Default variables in `.env.example`:
 - `PORT=2567` — Colyseus authoritative WebSocket/HTTP server port.
-- `PGDATA_DIR=.pgdata` — Local embedded PGlite PostgreSQL data directory (leave empty for in-memory test mode).
+- `PGDATA_DIR=./apps/server/data/pgdata` — Local embedded PGlite PostgreSQL data directory.
+  - **Working Directory Note:** In `apps/server/src/db.ts`, if `PGDATA_DIR` is left empty, it defaults to `path.resolve(import.meta.dirname, "../data/pgdata")` (`<repo>/apps/server/data/pgdata`). When `PGDATA_DIR=./apps/server/data/pgdata` is set in `.env` and `npm run dev:server` executes with working directory `apps/server/`, relative path resolution creates `apps/server/apps/server/data/pgdata`. Both `apps/server/data/`, `apps/server/apps/`, `.pgdata/`, and `**/pgdata/` are protected in `.gitignore` so local databases can never be accidentally committed.
 - `DATABASE_URL=` — Optional external PostgreSQL connection string (overrides `PGDATA_DIR` when non-empty).
-- `VITE_SERVER_URL=ws://localhost:2567` — Optional client WebSocket endpoint override.
-- `OPENAI_API_KEY=`, `GEMINI_API_KEY=`, `XAI_API_KEY=`, `FAL_KEY=`, `ARK_API_KEY=` — Optional external AI provider keys for `.agents/skills/generate2dmedia/scripts/route_media.py` (never required to build or run the game).
+- `VITE_SERVER_URL=http://127.0.0.1:2567` — Client server endpoint.
+- `OPENAI_API_KEY=`, `GEMINI_API_KEY=`, `XAI_API_KEY=`, `ARK_API_KEY=`, `FAL_KEY=` — Optional external AI provider keys for `.agents/skills/generate2dmedia/scripts/route_media.py` (never required to build or run the game, and never invoked without explicit owner authorization).
 
 ---
 
-## 4. Running Backend & Frontend in Development
+## 4. Verifying Assets, Running Tests & Safe Production Builds
 
-Start both the Colyseus authoritative server (`http://localhost:2567`) and the Phaser 4 + Vite client (`http://localhost:5173`) concurrently:
+Verify `assets/manifest.json`, `assets/provenance.json`, spritesheet dimensions (`480x1920` for upgraded `80x96` multi-pose sheets and `288x1024` for legacy `48x64` sheets), transparency, and Tiled `.tmj` maps:
+
+```bash
+npm run verify:assets
+```
+
+Run all authoritative server and canonical progression integration tests (`6` tests in `apps/server/src/__tests__/server.test.ts`):
+
+```bash
+npm test
+```
+
+Run full TypeScript project-reference typechecking across all packages and apps:
+
+```bash
+npm run typecheck
+```
+
+Run the standalone cultivation progression and economy balance simulator:
+
+```bash
+npm run test:sim
+```
+
+Run the full production build (`verify:assets` + TypeScript compilation + Vite client bundle). This command never overwrites or regenerates artwork:
+
+```bash
+npm run build
+```
+
+---
+
+## 5. Running Backend & Frontend in Development
+
+Start both the Colyseus authoritative server (`http://127.0.0.1:2567`) and the Phaser 4 + Vite client (`http://127.0.0.1:5173`) concurrently:
 
 ```bash
 npm run dev
@@ -75,54 +121,14 @@ npm run dev:server
 npm run dev:client
 ```
 
----
-
-## 5. Verifying Assets, Running Tests & Safe Production Builds
-
-Verify `assets/manifest.json`, `assets/provenance.json`, spritesheet dimensions, transparency, and Tiled `.tmj` maps:
-
-```bash
-npm run verify:assets
-```
-
-Run all unit and authoritative server integration tests (15 tests across `packages/game-data` and `apps/server`):
-
-```bash
-npm test
-```
-
-Run the standalone cultivation progression and economy balance simulator:
-
-```bash
-npm run test:sim
-```
-
-Run the full production build (`verify:assets` + TypeScript compilation + Vite client bundle). This command never overwrites or regenerates artwork:
-
-```bash
-npm run build
-```
-
-Run the two-browser Playwright E2E multiplayer verification suite:
-
-```bash
-npm run test:e2e
-```
+- **Windows Platform Compatibility Note (`apps/server/src/index.ts`):**
+  Lines 88–91 of `apps/server/src/index.ts` guard server startup with `process.argv[1].endsWith("src/index.ts") || process.argv[1].endsWith("dist/index.js")`. On Windows, `node --import tsx src/index.ts` populates `process.argv[1]` with backslashes (`...\apps\server\src\index.ts`), which causes `isMainModule` to evaluate to `false` and `npm run dev:server` to exit immediately with code `0`. When authorized to touch `apps/server/src/index.ts`, normalizing `process.argv[1].replace(/\\/g, "/")` resolves this cross-platform path separator discrepancy.
 
 ---
 
 ## 6. Safe Artwork Pipeline Commands
 
-- **Safe Non-Destructive Asset Check (`npm run generate:art`):**
+- **Non-Destructive Manifest Refresh (`npm run generate:art`):**
   Refreshes `assets/manifest.json` and `assets/provenance.json` while preserving all existing PNG/GIF/JSON files on disk (`FORCE_REBUILD = False`).
-
-```bash
-npm run generate:art
-```
-
-- **Forced Deterministic Re-Packaging from Preserved AI Sources (`npm run generate:art:force`):**
-  Re-slices and re-normalizes runtime sheets exclusively from the preserved `assets/source_ai/` and `assets/concepts/` files in the repository without making any AI generation calls:
-
-```bash
-npm run generate:art:force
-```
+- **Restricted Forced Re-Packaging (`npm run generate:art:force`):**
+  Rebuilds runtime sheets from `assets/source_ai/` and `assets/concepts/`. **Do NOT run `npm run generate:art:force` without explicit project-owner authorization.**

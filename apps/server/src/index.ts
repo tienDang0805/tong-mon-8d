@@ -85,10 +85,10 @@ export async function startGameServer(port = PORT): Promise<{
   return { server, db, engine, shutdown };
 }
 
+const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");
 const isMainModule =
-  Boolean(process.argv[1]) &&
-  (process.argv[1].endsWith("src/index.ts") ||
-    process.argv[1].endsWith("dist/index.js"));
+  normalizedEntry.endsWith("src/index.ts") ||
+  normalizedEntry.endsWith("dist/index.js");
 
 if (isMainModule && !process.env.VITEST) {
   startGameServer(PORT).catch((err) => {

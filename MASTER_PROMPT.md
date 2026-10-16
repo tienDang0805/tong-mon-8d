@@ -1,6 +1,10 @@
 # MASTER PROMPT V5 — TÔNG MÔN 8D: TU TIÊN CHI LỘ
 
-> NEW PROJECT ONLY. Complete game-production specification for Antigravity/Argon. This version supersedes all previous prompts; do not merge old prototypes. Vietnamese user-facing content, English code identifiers. Work in small verified, playable milestones, never pretend all content has been implemented.
+> **HISTORICAL BOOTSTRAP NOTICE (DO NOT EXECUTE TO RESTART THIS REPOSITORY):**
+> This document is the original foundational specification used to bootstrap the repository. All `"NEW PROJECT ONLY"`, `"Start a brand-new repository"`, and initial Phase 0–10 bootstrap execution directives in Sections 0, 14, and 16 are **ARCHIVED HISTORICAL INSTRUCTIONS** and must **NOT** be executed to recreate or overwrite the existing project.
+> **Canonical Reference Role:** Sections 2–12 (Player Experience, World & Level Design, Pixel Art Direction, 17 Cultivation Realms, 10 Legendary NPCs, True Disciple Rules, Culinary/Alchemy Professions, Combat, Cultivation/Balance, Multiplayer Authority, UI/UX, and Audio/VFX) remain the foundational canonical lore and design baseline, governed by the active Context Hierarchy in `AGENTS.md` and the Phase 1 design specifications.
+
+> [Archived Original Header]: NEW PROJECT ONLY. Complete game-production specification for Antigravity/Argon. This version supersedes all previous prompts; do not merge old prototypes. Vietnamese user-facing content, English code identifiers. Work in small verified, playable milestones, never pretend all content has been implemented.
 
 ## 0. ROLE, NON-NEGOTIABLE SUCCESS CRITERIA
 
@@ -320,7 +324,9 @@ Client scenes and services: Boot/Preload, WorldScene (zone data/camera/tiles/phy
 
 Documents: `AGENTS.md` short project guardrails; `docs/GDD.md`, `CANON.md`, `WORLD_MAPS.md`, `ART_BIBLE.md`, `CHARACTERS.md`, `QUESTS.md`, `COMBAT.md`, `CULINARY.md`, `BALANCE.md`, `NETWORKING.md`, `ASSET_LICENSES.md`, `ROADMAP.md`, `PLAYTEST_LOG.md`, `IMPLEMENTATION_STATUS.md`. Source-of-truth IDs in data files, docs link to them instead of duplicating constants.
 
-## 14. MILESTONE PLAN WITH HARD QUALITY GATES
+## 14. MILESTONE PLAN WITH HARD QUALITY GATES (ARCHIVED INITIAL BOOTSTRAP ROADMAP — SUPERSEDED BY AGENTS.MD & PHASE 1 ROADMAP)
+
+> **Historical Note:** The Phase 0–10 sequence below reflects the original bootstrap vertical-slice plan. For the active project phase and roadmap priority (Phase 1 — Unified Game Vision, Lore, Narrative, World Design, Art Bible, UX Design & AI Asset Production Policy), consult `AGENTS.md`, `docs/CONTEXT_AUDIT.md`, `docs/PROJECT_STATUS.md`, and `docs/NEXT_ACTIONS.md`.
 
 **PHASE 0 — Preflight & approved art seed (STOP for review)**
 - Verify Phaser 4 / Colyseus current compatible APIs using official references.
@@ -384,9 +390,11 @@ Screenshots: baseline at 1280×720 desktop and 390×844 mobile browser viewport.
 
 **Hard anti-patterns:** one-file Canvas implementation masquerading as MMO; no portal transitions; CSS rectangles for terrain; different players fighting independent local monsters; UI covering world; fake animations (only CSS glows); same portrait recolored 10 times; generated text without functional quest, unverified copied game assets, inaccessible paid API assumed available; 17 full-feature menus with zero playability; localStorage as authoritative multiplayer database; new world fabricated but not loaded by Tiled scene.
 
-## 16. REPORT AND WORK MANAGEMENT
+## 16. REPORT AND WORK MANAGEMENT (ARCHIVED INITIAL BOOTSTRAP DIRECTIVE — DO NOT EXECUTE TO RESTART THE REPO)
 
-Start a brand-new repository and follow this process:
+> **Historical Note:** The `"Start a brand-new repository"` and `"IMMEDIATE FIRST REQUEST: In this NEW empty workspace"` instructions below were used only during the initial bootstrap and must NOT be executed again.
+
+[Archived]: Start a brand-new repository and follow this process:
 
 1. `PLAN`: research official docs and installed verified skills, write short GDD/architecture + art bible + milestone acceptance matrices. State which generator/asset assets are actually available, what needs owner approval, and demonstrate first art direction.
 2. `BUILD`: implement ONE vertical slice at a time with actual files and tests, keep `npm run dev` and `npm run server` (or equivalent documented commands) working.
@@ -395,6 +403,6 @@ Start a brand-new repository and follow this process:
 
 Work autonomously through locally authorized, low-risk steps. Ask explicit approval before paid generator use, deploying/provisioning cloud, publishing, deleting other directories, or making irreversible account/production changes. Keep docs, status and art gaps truthful.
 
-**IMMEDIATE FIRST REQUEST:** In this NEW empty workspace, do PHASE 0 and PHASE 1 only, not every system at once. Deliver a runnable, beautiful 2-map pixel RPG (Tân Thủ Thôn ↔ Thanh Trúc Lâm), one animated hero and one interactive NPC, collision, camera follow and a functioning portal. Produce screenshots proving it. If the scene is still a blank dark background or cannot transition maps, DO NOT MOVE ON. Propose improvements and fix the problem. After that, implement real shared-world networking and the Phì Đế culinary quest as future milestones.
+[Archived]: **IMMEDIATE FIRST REQUEST:** In this NEW empty workspace, do PHASE 0 and PHASE 1 only, not every system at once. Deliver a runnable, beautiful 2-map pixel RPG (Tân Thủ Thôn ↔ Thanh Trúc Lâm), one animated hero and one interactive NPC, collision, camera follow and a functioning portal. Produce screenshots proving it. If the scene is still a blank dark background or cannot transition maps, DO NOT MOVE ON. Propose improvements and fix the problem. After that, implement real shared-world networking and the Phì Đế culinary quest as future milestones.
 
 Final directive: **Show me a playable world with meaningful movement and beautiful cohesive art. Earn the right to call it an MMORPG by making two real players interact in the same simulated world. All the deep Tu Tiên lore is a long-term content foundation, not an excuse to skip gameplay.**

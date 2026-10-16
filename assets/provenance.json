@@ -61,7 +61,8 @@
       "validationResults": {
         "qualityAudit": {
           "status": "pass",
-          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/hero_kiem_tu.png",
+          "file": "assets/sprites/hero_kiem_tu.png",
+          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/hero_kiem_tu.png",
           "antialiasing": {
             "semi_transparent_pixels": 0,
             "total_pixels": 921600,
@@ -144,7 +145,8 @@
       "validationResults": {
         "qualityAudit": {
           "status": "pass",
-          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/phi_de.png",
+          "file": "assets/sprites/phi_de.png",
+          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/phi_de.png",
           "antialiasing": {
             "semi_transparent_pixels": 0,
             "total_pixels": 921600,
@@ -227,7 +229,8 @@
       "validationResults": {
         "qualityAudit": {
           "status": "pass",
-          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/dam_lon_tien_tu.png",
+          "file": "assets/sprites/dam_lon_tien_tu.png",
+          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/dam_lon_tien_tu.png",
           "antialiasing": {
             "semi_transparent_pixels": 0,
             "total_pixels": 921600,
@@ -272,7 +275,8 @@
       "validationResults": {
         "qualityAudit": {
           "status": "pass",
-          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/vfx/combat_vfx.png",
+          "file": "assets/vfx/combat_vfx.png",
+          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/vfx/combat_vfx.png",
           "antialiasing": {
             "semi_transparent_pixels": 0,
             "total_pixels": 65536,

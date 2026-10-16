@@ -1,6 +1,10 @@
 node_modules/
 dist/
 apps/server/data/
+apps/server/apps/
+.pgdata/
+**/.pgdata/
+**/pgdata/
 .DS_Store
 *.log
 *.tsbuildinfo
