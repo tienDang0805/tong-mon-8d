@@ -1,0 +1,300 @@
+{
+  "version": "2.0.0",
+  "pipeline": "Antigravity Native AI Image Generation + Agent Sprite Forge + Pixel Art Skill QA",
+  "characters": [
+    {
+      "characterId": "hero_kiem_tu",
+      "artClassification": {
+        "sourceSheets": "AI-GENERATED SOURCE ART",
+        "runtimeSpritesheetAndAtlas": "POST-PROCESSED ART",
+        "proceduralPlaceholderUsed": false
+      },
+      "generationProvider": "Antigravity native image-generator subagent",
+      "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
+      "sourceReferenceImage": "assets/portraits/portrait_hero_kiem_tu.png",
+      "sourceAiFiles": [
+        {
+          "path": "assets/source_ai/hero_kiem_tu_locomotion_4x4.png",
+          "sha256": "cfb729a74cbc8da9d4f9bae943de6995839aa666a1ae8cecf929006035a8502a",
+          "role": "locomotion_4x4_grid"
+        },
+        {
+          "path": "assets/source_ai/hero_kiem_tu_combat_4x4.png",
+          "sha256": "de619cd8e0008bcd98584c4dd1fe8cb410e76b5401a8f047b094a89760f8cd35",
+          "role": "combat_action_4x4_grid"
+        }
+      ],
+      "generatedDirectionalViews": [
+        "down (front)",
+        "left (profile)",
+        "right (profile)",
+        "up (back/rear)"
+      ],
+      "animationStates": [
+        "idle (4f)",
+        "walk (6f)",
+        "attack (4f)",
+        "cast (4f)",
+        "hurt (4f)"
+      ],
+      "animationGenerationMethod": "AI 4x4 multi-pose keyframe generation + Agent Sprite Forge connected-component ownership slicing + foot-anchor registration",
+      "postProcessingSteps": [
+        "Agent Sprite Forge assemble_frames.py (--key chroma --key-quality soft --slice ownership)",
+        "Chroma spill suppression and binary alpha thresholding (alpha >= 96 -> 255)",
+        "Standing body-height lock registration onto 80x96 logical canvas with foot anchor (40, 88)",
+        "64-color fast octree palette quantization and isolated alpha-orphan pruning",
+        "Pixel-Art skill atlas_pack.py and gif_export.py packaging"
+      ],
+      "exportedSpritesheet": "assets/sprites/hero_kiem_tu.png",
+      "exportedAtlas": "assets/atlases/hero_kiem_tu_atlas.png",
+      "exportedAtlasMetadata": "assets/atlases/hero_kiem_tu_atlas.json",
+      "exportedFramesDir": "assets/atlases/hero_kiem_tu/frames",
+      "previewGifs": {
+        "all_states": "assets/previews/hero_kiem_tu_all_states.gif",
+        "idle": "assets/previews/hero_kiem_tu_idle.gif",
+        "walk": "assets/previews/hero_kiem_tu_walk.gif",
+        "attack": "assets/previews/hero_kiem_tu_attack.gif",
+        "cast": "assets/previews/hero_kiem_tu_cast.gif",
+        "hurt": "assets/previews/hero_kiem_tu_hurt.gif"
+      },
+      "beforeAfterSheet": "assets/previews/hero_kiem_tu_before_after.png",
+      "validationResults": {
+        "qualityAudit": {
+          "status": "pass",
+          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/hero_kiem_tu.png",
+          "antialiasing": {
+            "semi_transparent_pixels": 0,
+            "total_pixels": 921600,
+            "clean": true
+          },
+          "orphan_pixels": {
+            "orphan_pixels": 0,
+            "clean": true
+          },
+          "palette": {
+            "unique_colors": 64,
+            "max_allowed": 256,
+            "clean": true
+          },
+          "grid_alignment": {
+            "width": 480,
+            "height": 1920,
+            "grid_size": 8,
+            "aligned": true
+          }
+        }
+      }
+    },
+    {
+      "characterId": "phi_de",
+      "artClassification": {
+        "sourceSheets": "AI-GENERATED SOURCE ART",
+        "runtimeSpritesheetAndAtlas": "POST-PROCESSED ART",
+        "proceduralPlaceholderUsed": false
+      },
+      "generationProvider": "Antigravity native image-generator subagent",
+      "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
+      "sourceReferenceImage": "assets/portraits/portrait_phi_de.png",
+      "sourceAiFiles": [
+        {
+          "path": "assets/source_ai/phi_de_locomotion_4x4.png",
+          "sha256": "ba5aba339188d94fedcf76b7ea05db537f8babe2a65742d2a0ba0f46896b033c",
+          "role": "locomotion_4x4_grid"
+        },
+        {
+          "path": "assets/source_ai/phi_de_combat_4x4.png",
+          "sha256": "43729065b2e0d046bc8b83cbedbe0940d9fe63acb16ad0b902bf7b49c78275c9",
+          "role": "combat_action_4x4_grid"
+        }
+      ],
+      "generatedDirectionalViews": [
+        "down (front)",
+        "left (profile)",
+        "right (profile)",
+        "up (back/rear)"
+      ],
+      "animationStates": [
+        "idle (4f)",
+        "walk (6f)",
+        "attack (4f)",
+        "cast (4f)",
+        "hurt (4f)"
+      ],
+      "animationGenerationMethod": "AI 4x4 multi-pose keyframe generation + Agent Sprite Forge connected-component ownership slicing + foot-anchor registration",
+      "postProcessingSteps": [
+        "Agent Sprite Forge assemble_frames.py (--key chroma --key-quality soft --slice ownership)",
+        "Chroma spill suppression and binary alpha thresholding (alpha >= 96 -> 255)",
+        "Standing body-height lock registration onto 80x96 logical canvas with foot anchor (40, 88)",
+        "64-color fast octree palette quantization and isolated alpha-orphan pruning",
+        "Pixel-Art skill atlas_pack.py and gif_export.py packaging"
+      ],
+      "exportedSpritesheet": "assets/sprites/phi_de.png",
+      "exportedAtlas": "assets/atlases/phi_de_atlas.png",
+      "exportedAtlasMetadata": "assets/atlases/phi_de_atlas.json",
+      "exportedFramesDir": "assets/atlases/phi_de/frames",
+      "previewGifs": {
+        "all_states": "assets/previews/phi_de_all_states.gif",
+        "idle": "assets/previews/phi_de_idle.gif",
+        "walk": "assets/previews/phi_de_walk.gif",
+        "attack": "assets/previews/phi_de_attack.gif",
+        "cast": "assets/previews/phi_de_cast.gif",
+        "hurt": "assets/previews/phi_de_hurt.gif"
+      },
+      "beforeAfterSheet": "assets/previews/phi_de_before_after.png",
+      "validationResults": {
+        "qualityAudit": {
+          "status": "pass",
+          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/phi_de.png",
+          "antialiasing": {
+            "semi_transparent_pixels": 0,
+            "total_pixels": 921600,
+            "clean": true
+          },
+          "orphan_pixels": {
+            "orphan_pixels": 0,
+            "clean": true
+          },
+          "palette": {
+            "unique_colors": 64,
+            "max_allowed": 256,
+            "clean": true
+          },
+          "grid_alignment": {
+            "width": 480,
+            "height": 1920,
+            "grid_size": 8,
+            "aligned": true
+          }
+        }
+      }
+    },
+    {
+      "characterId": "dam_lon_tien_tu",
+      "artClassification": {
+        "sourceSheets": "AI-GENERATED SOURCE ART",
+        "runtimeSpritesheetAndAtlas": "POST-PROCESSED ART",
+        "proceduralPlaceholderUsed": false
+      },
+      "generationProvider": "Antigravity native image-generator subagent",
+      "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
+      "sourceReferenceImage": "assets/portraits/portrait_dam_lon_tien_tu.png",
+      "sourceAiFiles": [
+        {
+          "path": "assets/source_ai/dam_lon_tien_tu_locomotion_4x4.png",
+          "sha256": "f8b048b6bd85027d147787f4877684bf1b77409e924fbe18133d4bd470a078fa",
+          "role": "locomotion_4x4_grid"
+        },
+        {
+          "path": "assets/source_ai/dam_lon_tien_tu_combat_4x4.png",
+          "sha256": "f39b31ff9b7333137aacdb4afca16a2a3413a3efc6a74b1ca88246d83d087b40",
+          "role": "combat_action_4x4_grid"
+        }
+      ],
+      "generatedDirectionalViews": [
+        "down (front)",
+        "left (profile)",
+        "right (profile)",
+        "up (back/rear)"
+      ],
+      "animationStates": [
+        "idle (4f)",
+        "walk (6f)",
+        "attack (4f)",
+        "cast (4f)",
+        "hurt (4f)"
+      ],
+      "animationGenerationMethod": "AI 4x4 multi-pose keyframe generation + Agent Sprite Forge connected-component ownership slicing + foot-anchor registration",
+      "postProcessingSteps": [
+        "Agent Sprite Forge assemble_frames.py (--key chroma --key-quality soft --slice ownership)",
+        "Chroma spill suppression and binary alpha thresholding (alpha >= 96 -> 255)",
+        "Standing body-height lock registration onto 80x96 logical canvas with foot anchor (40, 88)",
+        "64-color fast octree palette quantization and isolated alpha-orphan pruning",
+        "Pixel-Art skill atlas_pack.py and gif_export.py packaging"
+      ],
+      "exportedSpritesheet": "assets/sprites/dam_lon_tien_tu.png",
+      "exportedAtlas": "assets/atlases/dam_lon_tien_tu_atlas.png",
+      "exportedAtlasMetadata": "assets/atlases/dam_lon_tien_tu_atlas.json",
+      "exportedFramesDir": "assets/atlases/dam_lon_tien_tu/frames",
+      "previewGifs": {
+        "all_states": "assets/previews/dam_lon_tien_tu_all_states.gif",
+        "idle": "assets/previews/dam_lon_tien_tu_idle.gif",
+        "walk": "assets/previews/dam_lon_tien_tu_walk.gif",
+        "attack": "assets/previews/dam_lon_tien_tu_attack.gif",
+        "cast": "assets/previews/dam_lon_tien_tu_cast.gif",
+        "hurt": "assets/previews/dam_lon_tien_tu_hurt.gif"
+      },
+      "beforeAfterSheet": "assets/previews/dam_lon_tien_tu_before_after.png",
+      "validationResults": {
+        "qualityAudit": {
+          "status": "pass",
+          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/dam_lon_tien_tu.png",
+          "antialiasing": {
+            "semi_transparent_pixels": 0,
+            "total_pixels": 921600,
+            "clean": true
+          },
+          "orphan_pixels": {
+            "orphan_pixels": 0,
+            "clean": true
+          },
+          "palette": {
+            "unique_colors": 64,
+            "max_allowed": 256,
+            "clean": true
+          },
+          "grid_alignment": {
+            "width": 480,
+            "height": 1920,
+            "grid_size": 8,
+            "aligned": true
+          }
+        }
+      }
+    }
+  ],
+  "vfx": [
+    {
+      "assetId": "vfx_combat_sheet",
+      "artClassification": {
+        "sourceSheets": "AI-GENERATED SOURCE ART",
+        "runtimeSpritesheetAndAtlas": "POST-PROCESSED ART",
+        "proceduralPlaceholderUsed": false
+      },
+      "generationProvider": "Antigravity native image-generator subagent",
+      "sourceAiFiles": [
+        {
+          "path": "assets/source_ai/vfx_combat_4x4.png",
+          "sha256": "d2e9f01f3d82a0f0ce38e04bff254fb143e1c876b51a49e18aeb07533ad8c2a7",
+          "role": "combat_vfx_4x4_grid"
+        }
+      ],
+      "exportedSpritesheet": "assets/vfx/combat_vfx.png",
+      "validationResults": {
+        "qualityAudit": {
+          "status": "pass",
+          "file": "/Users/qmacstore/Desktop/tong-mon-8d/assets/vfx/combat_vfx.png",
+          "antialiasing": {
+            "semi_transparent_pixels": 0,
+            "total_pixels": 65536,
+            "clean": true
+          },
+          "orphan_pixels": {
+            "orphan_pixels": 0,
+            "clean": true
+          },
+          "palette": {
+            "unique_colors": 63,
+            "max_allowed": 256,
+            "clean": true
+          },
+          "grid_alignment": {
+            "width": 256,
+            "height": 256,
+            "grid_size": 8,
+            "aligned": true
+          }
+        }
+      }
+    }
+  ]
+}

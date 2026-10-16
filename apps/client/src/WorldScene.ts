@@ -53,6 +53,12 @@ const SPRITE_KEYS = [
   "ngoc_tam"
 ] as const;
 
+const MULTI_POSE_SPRITES = new Set<string>([
+  "hero_kiem_tu",
+  "phi_de",
+  "dam_lon_tien_tu"
+]);
+
 const PROP_KEYS = [
   "prop_noodle_stall",
   "prop_than_dinh",
@@ -70,7 +76,7 @@ export class WorldScene extends Phaser.Scene {
   private onInteractNpc!: (npc: LegendaryNpcDefinition) => void;
 
   private currentZoneId: ZoneId = "tan_thu_thon";
-  private mapLayers: Phaser.Tilemaps.TilemapLayer[] = [];
+  private mapLayers: Array<Phaser.Tilemaps.TilemapLayer | Phaser.Tilemaps.TilemapGPULayer> = [];
   private collisionGrid: { width: number; height: number; data: number[] } = {
     width: 40,
     height: 30,
@@ -82,6 +88,7 @@ export class WorldScene extends Phaser.Scene {
   private localDir: Direction = "down";
   private localAnim: AnimState = "idle";
   private attackAnimUntil = 0;
+  private hurtAnimUntil = 0;
   private lastMoveSentAt = 0;
   private pointerTarget: { x: number; y: number } | null = null;
   private touchVector = { vx: 0, vy: 0 };
@@ -89,6 +96,7 @@ export class WorldScene extends Phaser.Scene {
   private localVisual: EntityVisualBundle | null = null;
   private remoteVisuals = new Map<string, EntityVisualBundle>();
   private npcVisuals = new Map<string, EntityVisualBundle>();
+  private npcOverrideAnims = new Map<string, { state: AnimState; dir: Direction; until: number }>();
   private monsterVisuals = new Map<string, EntityVisualBundle>();
   private dropVisuals = new Map<
     string,
@@ -134,9 +142,10 @@ export class WorldScene extends Phaser.Scene {
     this.load.tilemapTiledJSON("thanh_truc_lam", "/maps/thanh_truc_lam.tmj");
 
     for (const sk of SPRITE_KEYS) {
+      const isMulti = MULTI_POSE_SPRITES.has(sk);
       this.load.spritesheet(sk, `/assets/sprites/${sk}.png`, {
-        frameWidth: 48,
-        frameHeight: 64
+        frameWidth: isMulti ? 80 : 48,
+        frameHeight: isMulti ? 96 : 64
       });
     }
 
@@ -149,6 +158,10 @@ export class WorldScene extends Phaser.Scene {
       frameHeight: 64
     });
     this.load.spritesheet("phi_de_blessing", "/assets/vfx/phi_de_blessing.png", {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+    this.load.spritesheet("combat_vfx", "/assets/vfx/combat_vfx.png", {
       frameWidth: 64,
       frameHeight: 64
     });
@@ -182,16 +195,19 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private registerAnimations(): void {
-    const states: Array<{ name: AnimState; baseRow: number; count: number; rate: number; repeat: number }> = [
+    const baseStates: Array<{ name: AnimState; baseRow: number; count: number; rate: number; repeat: number }> = [
       { name: "idle", baseRow: 0, count: 4, rate: 5, repeat: -1 },
-      { name: "walk", baseRow: 4, count: 6, rate: 10, repeat: -1 },
-      { name: "attack", baseRow: 8, count: 4, rate: 12, repeat: 0 },
-      { name: "cast", baseRow: 12, count: 4, rate: 10, repeat: 0 }
+      { name: "walk", baseRow: 4, count: 6, rate: 9, repeat: -1 },
+      { name: "attack", baseRow: 8, count: 4, rate: 11, repeat: 0 },
+      { name: "cast", baseRow: 12, count: 4, rate: 9, repeat: 0 },
+      { name: "hurt", baseRow: 16, count: 4, rate: 9, repeat: 0 }
     ];
     const dirs: Direction[] = ["down", "left", "right", "up"];
 
     for (const sk of SPRITE_KEYS) {
-      for (const st of states) {
+      const isMulti = MULTI_POSE_SPRITES.has(sk);
+      for (const st of baseStates) {
+        if (st.name === "hurt" && !isMulti) continue;
         for (const dir of dirs) {
           const row = st.baseRow + DIR_INDEX[dir];
           const animKey = `${sk}_${st.name}_${dir}`;
@@ -218,6 +234,26 @@ export class WorldScene extends Phaser.Scene {
         frameRate: 6,
         repeat: -1
       });
+    }
+
+    const vfxDefs: Array<{ key: string; row: number; rate: number; repeat: number }> = [
+      { key: "vfx_slash_arc", row: 0, rate: 14, repeat: 0 },
+      { key: "vfx_kiem_khi_ung", row: 1, rate: 12, repeat: 0 },
+      { key: "vfx_ho_the_kim_quang", row: 2, rate: 10, repeat: 0 },
+      { key: "vfx_lotus_cast", row: 3, rate: 10, repeat: 0 }
+    ];
+    for (const vd of vfxDefs) {
+      if (!this.anims.exists(vd.key)) {
+        this.anims.create({
+          key: vd.key,
+          frames: this.anims.generateFrameNumbers("combat_vfx", {
+            start: vd.row * 4,
+            end: vd.row * 4 + 3
+          }),
+          frameRate: vd.rate,
+          repeat: vd.repeat
+        });
+      }
     }
   }
 
@@ -554,9 +590,11 @@ export class WorldScene extends Phaser.Scene {
       .setDepth(y - 3)
       .setVisible(false);
 
+    const isMulti = MULTI_POSE_SPRITES.has(spriteKey);
     const sprite = this.add
       .sprite(x, y, spriteKey, 0)
-      .setOrigin(0.5, 0.9)
+      .setOrigin(0.5, isMulti ? 0.9167 : 0.9)
+      .setScale(isMulti ? 0.82 : 1.0)
       .setDepth(y);
 
     const subLabel = this.add
@@ -674,7 +712,7 @@ export class WorldScene extends Phaser.Scene {
         rp.hasPhiDeBlessing,
         false
       );
-      const animKey = `hero_kiem_tu_${rp.anim === "hurt" ? "idle" : rp.anim}_${rp.direction}`;
+      const animKey = `hero_kiem_tu_${rp.anim}_${rp.direction}`;
       if (this.anims.exists(animKey)) {
         vis.sprite.play(animKey, true);
       }
@@ -777,6 +815,16 @@ export class WorldScene extends Phaser.Scene {
 
   public playCombatEventVisual(ev: CombatEventPayload): void {
     if (!this.scene.isActive()) return;
+    if (ev.targetId === this.net.selfState?.characterId) {
+      this.hurtAnimUntil = this.time.now + 380;
+    }
+    const hitSpark = this.add
+      .sprite(ev.x, ev.y - 22, "combat_vfx", 4)
+      .setScale(0.85)
+      .setDepth(ev.y + 110);
+    hitSpark.play("vfx_kiem_khi_ung");
+    hitSpark.once("animationcomplete", () => hitSpark.destroy());
+
     const isKill = ev.killed;
     const dmgText = this.add
       .text(ev.x, ev.y - 36, isKill ? `-${ev.damage} TRẢM!` : `-${ev.damage}`, {
@@ -804,12 +852,13 @@ export class WorldScene extends Phaser.Scene {
     if (!this.scene.isActive()) return;
     this.soundCtrl.playCeremony();
     const ring = this.add
-      .sprite(this.localX, this.localY - 16, "phi_de_blessing", 0)
-      .setScale(1.6)
+      .sprite(this.localX, this.localY - 16, "combat_vfx", 12)
+      .setScale(1.4)
       .setDepth(this.localY + 150);
+    ring.play("vfx_lotus_cast");
     this.tweens.add({
       targets: ring,
-      scale: 2.6,
+      scale: 2.2,
       alpha: 0,
       duration: 1100,
       onComplete: () => ring.destroy()
@@ -817,26 +866,38 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private spawnSlashEffect(x: number, y: number, dir: Direction, skillId: string): void {
-    const offsetMap: Record<Direction, { dx: number; dy: number }> = {
-      down: { dx: 0, dy: 28 },
-      up: { dx: 0, dy: -28 },
-      left: { dx: -28, dy: 0 },
-      right: { dx: 28, dy: 0 }
+    const offsetMap: Record<Direction, { dx: number; dy: number; rot: number }> = {
+      down: { dx: 0, dy: 28, rot: Math.PI / 2 },
+      up: { dx: 0, dy: -28, rot: -Math.PI / 2 },
+      left: { dx: -28, dy: 0, rot: Math.PI },
+      right: { dx: 28, dy: 0, rot: 0 }
     };
     const off = offsetMap[dir];
-    const color = skillId === "basic_slash" ? 0x74c0fc : 0xffd452;
-    const radius = skillId === "basic_slash" ? 22 : 38;
-    const arc = this.add
-      .circle(x + off.dx, y - 16 + off.dy, radius, color, 0.38)
-      .setStrokeStyle(2, 0xffffff, 0.9)
-      .setDepth(y + 90);
-    this.tweens.add({
-      targets: arc,
-      scale: 1.45,
-      alpha: 0,
-      duration: 210,
-      onComplete: () => arc.destroy()
-    });
+    if (skillId === "ho_the_kim_quang") {
+      const shield = this.add
+        .sprite(x, y - 20, "combat_vfx", 8)
+        .setScale(1.25)
+        .setDepth(y + 95);
+      shield.play("vfx_ho_the_kim_quang");
+      this.tweens.add({
+        targets: shield,
+        scale: 1.5,
+        alpha: 0,
+        duration: 460,
+        onComplete: () => shield.destroy()
+      });
+      return;
+    }
+
+    const animKey = skillId === "basic_slash" ? "vfx_slash_arc" : "vfx_kiem_khi_ung";
+    const startFrame = skillId === "basic_slash" ? 0 : 4;
+    const fx = this.add
+      .sprite(x + off.dx, y - 20 + off.dy, "combat_vfx", startFrame)
+      .setRotation(skillId === "basic_slash" ? off.rot : 0)
+      .setScale(skillId === "basic_slash" ? 1.05 : 1.3)
+      .setDepth(y + 95);
+    fx.play(animKey);
+    fx.once("animationcomplete", () => fx.destroy());
   }
 
   private isWalkableLocal(worldX: number, worldY: number): boolean {
@@ -910,6 +971,8 @@ export class WorldScene extends Phaser.Scene {
 
     if (this.time.now < this.attackAnimUntil) {
       this.localAnim = this.localAnim === "cast" ? "cast" : "attack";
+    } else if (this.time.now < this.hurtAnimUntil) {
+      this.localAnim = "hurt";
     } else {
       this.localAnim = moved ? "walk" : "idle";
     }
@@ -930,6 +993,35 @@ export class WorldScene extends Phaser.Scene {
     const animKey = `hero_kiem_tu_${this.localAnim}_${this.localDir}`;
     if (this.anims.exists(animKey)) {
       this.localVisual.sprite.play(animKey, true);
+    }
+
+    const npcsInZone = LEGENDARY_NPCS.filter((n) => n.zoneId === this.currentZoneId);
+    for (const npc of npcsInZone) {
+      const b = this.npcVisuals.get(npc.id);
+      if (!b) continue;
+      const ov = this.npcOverrideAnims.get(npc.id);
+      if (ov && this.time.now < ov.until) {
+        const k = `${npc.spriteKey}_${ov.state}_${ov.dir}`;
+        if (this.anims.exists(k)) {
+          b.sprite.play(k, true);
+        }
+        continue;
+      }
+      const dist = Math.hypot(this.localX - npc.spawnX, this.localY - npc.spawnY);
+      let nDir: Direction = "down";
+      if (dist <= 165) {
+        const dx = this.localX - npc.spawnX;
+        const dy = this.localY - npc.spawnY;
+        if (Math.abs(dx) > Math.abs(dy)) {
+          nDir = dx < 0 ? "left" : "right";
+        } else {
+          nDir = dy < 0 ? "up" : "down";
+        }
+      }
+      const k = `${npc.spriteKey}_idle_${nDir}`;
+      if (this.anims.exists(k)) {
+        b.sprite.play(k, true);
+      }
     }
 
     if (this.time.now - this.lastMoveSentAt >= 65) {
@@ -981,6 +1073,8 @@ export class WorldScene extends Phaser.Scene {
           y: Math.round(this.localY),
           direction: this.localDir,
           anim: this.localAnim,
+          spriteAnimKey: this.localVisual?.sprite.anims.currentAnim?.key ?? "",
+          spriteFrameIndex: this.localVisual?.sprite.anims.currentFrame?.index ?? 0,
           realmId: self?.realmId ?? "pham_nhan",
           realmStage: self?.realmStage ?? 1,
           tuVi: self?.tuVi ?? 0,
@@ -1009,7 +1103,10 @@ export class WorldScene extends Phaser.Scene {
     };
 
     win.__TONG_MON_DEBUG__ = {
-      teleportLocal: (x: number, y: number) => {
+      teleportLocal: (x: number, y: number, dir?: Direction) => {
+        if (dir) {
+          this.localDir = dir;
+        }
         const steps = Math.max(1, Math.ceil(Math.hypot(x - this.localX, y - this.localY) / 48));
         const sx = this.localX;
         const sy = this.localY;
@@ -1021,8 +1118,33 @@ export class WorldScene extends Phaser.Scene {
           this.net.sendMove(ix, iy, 0, 0, this.localDir);
         }
       },
+      setLocalDir: (dir: Direction) => {
+        this.localDir = dir;
+        this.net.sendMove(this.localX, this.localY, 0, 0, this.localDir);
+      },
+      triggerHurt: () => {
+        this.hurtAnimUntil = this.time.now + 550;
+      },
+      setNpcAnim: (npcId: string, state: AnimState, dir: Direction, durationMs = 2000) => {
+        this.npcOverrideAnims.set(npcId, {
+          state,
+          dir,
+          until: this.time.now + durationMs
+        });
+        const npc = LEGENDARY_NPCS.find((n) => n.id === npcId);
+        if (npc && state === "cast") {
+          const fx = this.add
+            .sprite(npc.spawnX, npc.spawnY - 18, "combat_vfx", 12)
+            .setScale(1.25)
+            .setDepth(npc.spawnY + 95);
+          fx.play("vfx_lotus_cast");
+          fx.once("animationcomplete", () => fx.destroy());
+        } else if (npc && state === "attack") {
+          this.spawnSlashEffect(npc.spawnX, npc.spawnY, dir, "kiem_khi_ung");
+        }
+      },
       interact: () => this.triggerContextualInteract(),
-      attack: (skillId: "basic_slash" | "kiem_khi_ung" = "basic_slash") =>
+      attack: (skillId: "basic_slash" | "kiem_khi_ung" | "ho_the_kim_quang" = "basic_slash") =>
         this.triggerSkill(skillId),
       pickup: () => this.triggerPickupNearestDrop()
     };

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { chromium, type Page } from "playwright";
@@ -7,6 +8,7 @@ import { startGameServer } from "../../apps/server/src/index.js";
 
 const ROOT_DIR = process.cwd();
 const ARTIFACT_DIR = path.join(ROOT_DIR, "artifacts/playtest");
+const POC_FRAMES_DIR = path.join(ARTIFACT_DIR, "poc_frames");
 
 interface DebugGameState {
   zoneId: string;
@@ -16,6 +18,10 @@ interface DebugGameState {
     nickname: string;
     x: number;
     y: number;
+    direction: string;
+    anim: string;
+    spriteAnimKey: string;
+    spriteFrameIndex: number;
     realmId: string;
     realmStage: number;
     tuVi: number;
@@ -63,6 +69,8 @@ async function waitForCondition(
 
 async function main(): Promise<void> {
   fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
+  fs.rmSync(POC_FRAMES_DIR, { recursive: true, force: true });
+  fs.mkdirSync(POC_FRAMES_DIR, { recursive: true });
   process.env.PGDATA_DIR = "memory://";
 
   const gameSrv = await startGameServer(2567);
@@ -99,6 +107,116 @@ async function main(): Promise<void> {
     await page1.screenshot({
       path: path.join(ARTIFACT_DIR, "01_tan_thu_thon_desktop_1280x720.png")
     });
+
+    await page1.evaluate(() => {
+      const dbg = (window as unknown as {
+        __TONG_MON_DEBUG__: {
+          teleportLocal: (x: number, y: number, dir?: string) => void;
+          setNpcAnim: (npcId: string, state: string, dir: string, durationMs?: number) => void;
+          triggerHurt: () => void;
+        };
+      }).__TONG_MON_DEBUG__;
+      dbg.teleportLocal(574, 412, "down");
+      dbg.setNpcAnim("phi_de", "idle", "down", 2500);
+      dbg.setNpcAnim("dam_lon_tien_tu", "idle", "down", 2500);
+    });
+    await page1.waitForTimeout(180);
+
+    let frameCounter = 0;
+    const snapCrop = async () => {
+      const idx = String(frameCounter++).padStart(2, "0");
+      await page1.screenshot({
+        path: path.join(POC_FRAMES_DIR, `frame_${idx}.png`),
+        clip: { x: 360, y: 160, width: 560, height: 360 }
+      });
+    };
+
+    await snapCrop();
+
+    for (const [key, expectedAnim] of [
+      ["d", "hero_kiem_tu_walk_right"],
+      ["a", "hero_kiem_tu_walk_left"],
+      ["w", "hero_kiem_tu_walk_up"],
+      ["s", "hero_kiem_tu_walk_down"]
+    ] as const) {
+      await page1.keyboard.down(key);
+      await page1.waitForTimeout(140);
+      const stWalk = await readGameState(page1);
+      assert.equal(stWalk.localPlayer.spriteAnimKey, expectedAnim);
+      await snapCrop();
+      await page1.waitForTimeout(140);
+      await snapCrop();
+      await page1.keyboard.up(key);
+    }
+
+    await page1.evaluate(() => {
+      const dbg = (window as unknown as {
+        __TONG_MON_DEBUG__: {
+          teleportLocal: (x: number, y: number, dir?: string) => void;
+          setNpcAnim: (npcId: string, state: string, dir: string, durationMs?: number) => void;
+        };
+      }).__TONG_MON_DEBUG__;
+      dbg.teleportLocal(574, 412, "down");
+      dbg.setNpcAnim("phi_de", "attack", "down", 1800);
+      dbg.setNpcAnim("dam_lon_tien_tu", "cast", "down", 1800);
+    });
+    await page1.keyboard.press("j");
+    await page1.waitForTimeout(90);
+    const stAtk = await readGameState(page1);
+    assert.equal(stAtk.localPlayer.spriteAnimKey, "hero_kiem_tu_attack_down");
+    await snapCrop();
+    await page1.waitForTimeout(110);
+    await snapCrop();
+
+    await page1.evaluate(() => {
+      const dbg = (window as unknown as {
+        __TONG_MON_DEBUG__: {
+          setNpcAnim: (npcId: string, state: string, dir: string, durationMs?: number) => void;
+        };
+      }).__TONG_MON_DEBUG__;
+      dbg.setNpcAnim("phi_de", "cast", "down", 1800);
+      dbg.setNpcAnim("dam_lon_tien_tu", "attack", "right", 1800);
+    });
+    await page1.keyboard.press("k");
+    await page1.waitForTimeout(90);
+    const stCast = await readGameState(page1);
+    assert.equal(stCast.localPlayer.spriteAnimKey, "hero_kiem_tu_cast_down");
+    await snapCrop();
+    await page1.screenshot({
+      path: path.join(ARTIFACT_DIR, "08_poc_sprites_showcase.png")
+    });
+    await page1.waitForTimeout(110);
+    await snapCrop();
+
+    await page1.keyboard.press("l");
+    await page1.waitForTimeout(100);
+    await snapCrop();
+
+    await page1.evaluate(() => {
+      const dbg = (window as unknown as {
+        __TONG_MON_DEBUG__: { triggerHurt: () => void };
+      }).__TONG_MON_DEBUG__;
+      dbg.triggerHurt();
+    });
+    await page1.waitForTimeout(90);
+    const stHurt = await readGameState(page1);
+    assert.equal(stHurt.localPlayer.spriteAnimKey, "hero_kiem_tu_hurt_down");
+    await snapCrop();
+
+    execFileSync(
+      "python3",
+      [
+        path.join(ROOT_DIR, ".agents/skills/pixel-art/scripts/gif_export.py"),
+        "--frames-dir",
+        POC_FRAMES_DIR,
+        "--fps",
+        "6",
+        "--output",
+        path.join(ROOT_DIR, "assets/previews/phaser_gameplay_poc_capture.gif"),
+        "--json"
+      ],
+      { stdio: "inherit" }
+    );
 
     await page1.evaluate(() => {
       const dbg = (window as unknown as {

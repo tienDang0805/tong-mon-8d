@@ -1,8 +1,12 @@
 {
-  "version": "1.1.0",
-  "styleDirection": "Candidate A \u2014 Classic Crisp 16/32-bit Xianxia Top-Down RPG",
+  "version": "2.0.0",
+  "styleDirection": "Candidate A \u2014 Classic Crisp 16/32-bit Xianxia Top-Down RPG (AI Multi-Pose Pipeline)",
   "logicalTileGrid": 32,
   "characterFrameSize": {
+    "width": 80,
+    "height": 96
+  },
+  "legacyFrameSize": {
     "width": 48,
     "height": 64
   },
@@ -136,16 +140,17 @@
       "file": "assets/sprites/hero_kiem_tu.png",
       "category": "character_spritesheet",
       "characterId": "hero_kiem_tu",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
-      "license": "Original AI-Assisted Project Asset",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/hero_kiem_tu_locomotion_4x4.png + assets/source_ai/hero_kiem_tu_combat_4x4.png via Agent Sprite Forge assemble_frames.py + build_assets.py",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 1920,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
-        "y": 0.9
+        "y": 0.9167
       },
       "animations": {
         "idle": {
@@ -181,6 +186,15 @@
             13,
             14,
             15
+          ],
+          "framesPerRow": 4
+        },
+        "hurt": {
+          "rows": [
+            16,
+            17,
+            18,
+            19
           ],
           "framesPerRow": 4
         }
@@ -191,16 +205,17 @@
       "file": "assets/sprites/phi_de.png",
       "category": "character_spritesheet",
       "characterId": "phi_de",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
-      "license": "Original AI-Assisted Project Asset",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/phi_de_locomotion_4x4.png + assets/source_ai/phi_de_combat_4x4.png via Agent Sprite Forge assemble_frames.py + build_assets.py",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 1920,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
-        "y": 0.9
+        "y": 0.9167
       },
       "animations": {
         "idle": {
@@ -238,6 +253,15 @@
             15
           ],
           "framesPerRow": 4
+        },
+        "hurt": {
+          "rows": [
+            16,
+            17,
+            18,
+            19
+          ],
+          "framesPerRow": 4
         }
       }
     },
@@ -246,6 +270,7 @@
       "file": "assets/sprites/chatdvt.png",
       "category": "creature_spritesheet",
       "characterId": "chatdvt",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -301,6 +326,7 @@
       "file": "assets/sprites/merchant_truong.png",
       "category": "character_spritesheet",
       "characterId": "merchant_truong",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -356,6 +382,7 @@
       "file": "assets/sprites/hoa_tran.png",
       "category": "character_spritesheet",
       "characterId": "hoa_tran",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -411,16 +438,17 @@
       "file": "assets/sprites/dam_lon_tien_tu.png",
       "category": "character_spritesheet",
       "characterId": "dam_lon_tien_tu",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
-      "license": "Original AI-Assisted Project Asset",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/dam_lon_tien_tu_locomotion_4x4.png + assets/source_ai/dam_lon_tien_tu_combat_4x4.png via Agent Sprite Forge assemble_frames.py + build_assets.py",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 1920,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
-        "y": 0.9
+        "y": 0.9167
       },
       "animations": {
         "idle": {
@@ -458,6 +486,15 @@
             15
           ],
           "framesPerRow": 4
+        },
+        "hurt": {
+          "rows": [
+            16,
+            17,
+            18,
+            19
+          ],
+          "framesPerRow": 4
         }
       }
     },
@@ -466,6 +503,7 @@
       "file": "assets/sprites/truc_lang.png",
       "category": "creature_spritesheet",
       "characterId": "truc_lang",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -521,6 +559,7 @@
       "file": "assets/sprites/thanh_lan_xa.png",
       "category": "creature_spritesheet",
       "characterId": "thanh_lan_xa",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -576,6 +615,7 @@
       "file": "assets/sprites/rmt_de.png",
       "category": "character_spritesheet",
       "characterId": "rmt_de",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -631,6 +671,7 @@
       "file": "assets/sprites/vaal_de.png",
       "category": "character_spritesheet",
       "characterId": "vaal_de",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -686,6 +727,7 @@
       "file": "assets/sprites/anh_7.png",
       "category": "character_spritesheet",
       "characterId": "anh_7",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -741,6 +783,7 @@
       "file": "assets/sprites/ngoc_tam.png",
       "category": "character_spritesheet",
       "characterId": "ngoc_tam",
+      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
       "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
@@ -896,6 +939,7 @@
       "assetId": "vfx_portal_ring",
       "file": "assets/vfx/portal_ring.png",
       "category": "vfx_spritesheet",
+      "artClassification": "PROGRAMMATICALLY DRAWN ART",
       "source": "packages/art-tools/build_assets.py",
       "license": "Original Project Asset (MIT/Proprietary)",
       "status": "approved",
@@ -908,11 +952,25 @@
       "assetId": "vfx_phi_de_blessing",
       "file": "assets/vfx/phi_de_blessing.png",
       "category": "vfx_spritesheet",
+      "artClassification": "PROGRAMMATICALLY DRAWN ART",
       "source": "packages/art-tools/build_assets.py",
       "license": "Original Project Asset (MIT/Proprietary)",
       "status": "approved",
       "width": 256,
       "height": 64,
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "assetId": "vfx_combat_sheet",
+      "file": "assets/vfx/combat_vfx.png",
+      "category": "vfx_spritesheet",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/vfx_combat_4x4.png + packages/art-tools/build_assets.py",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "width": 256,
+      "height": 256,
       "frameWidth": 64,
       "frameHeight": 64
     },

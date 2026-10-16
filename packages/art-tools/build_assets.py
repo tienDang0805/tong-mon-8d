@@ -1,10 +1,452 @@
+import hashlib
 import json
+import subprocess
 from pathlib import Path
 from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS_DIR = ROOT / "assets"
 MAPS_DIR = ROOT / "maps"
+SOURCE_AI_DIR = ASSETS_DIR / "source_ai"
+SLICED_AI_DIR = SOURCE_AI_DIR / "sliced"
+ATLAS_DIR = ASSETS_DIR / "atlases"
+PREVIEW_DIR = ASSETS_DIR / "previews"
+LEGACY_DIR = ASSETS_DIR / "sprites" / "legacy_v1"
+
+
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        while chunk := f.read(65536):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def prune_alpha_orphans(im: Image.Image) -> Image.Image:
+    px = im.load()
+    w, h = im.size
+    for y in range(h):
+        for x in range(w):
+            if px[x, y][3] == 0:
+                continue
+            has_neighbor = False
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    if dx == 0 and dy == 0:
+                        continue
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < w and 0 <= ny < h and px[nx, ny][3] > 0:
+                        has_neighbor = True
+                        break
+                if has_neighbor:
+                    break
+            if not has_neighbor:
+                px[x, y] = (0, 0, 0, 0)
+    return im
+
+
+def ensure_ownership_sliced(sheet_stem: str) -> Path:
+    out_dir = SLICED_AI_DIR / sheet_stem
+    frame_last = out_dir / "frames" / "frame-15.png"
+    if frame_last.exists():
+        return out_dir
+    src_png = SOURCE_AI_DIR / f"{sheet_stem}.png"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    subprocess.run(
+        [
+            "python3",
+            str(ROOT / ".agents/skills/generate2dsprite/scripts/assemble_frames.py"),
+            str(src_png),
+            "--out",
+            str(out_dir),
+            "--cols",
+            "4",
+            "--rows",
+            "4",
+            "--key",
+            "chroma",
+            "--key-quality",
+            "soft",
+            "--slice",
+            "ownership",
+            "--Order",
+            "row-major"
+        ],
+        check=True
+    )
+    return out_dir
+
+
+def load_multipose_cell(
+    sheet_dir: Path,
+    idx: int,
+    key_mode: str,
+    ref_h: float | None = None,
+    crouch: bool = False,
+    flip: bool = False,
+    dy_offset: int = 0
+) -> tuple[Image.Image, int]:
+    fp = sheet_dir / "frames" / f"frame-{idx:02d}.png"
+    im = Image.open(fp).convert("RGBA")
+    px = im.load()
+    w, h = im.size
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 96:
+                px[x, y] = (0, 0, 0, 0)
+            else:
+                if key_mode == "green":
+                    if g > r + 18 and g > b + 18:
+                        px[x, y] = (0, 0, 0, 0)
+                        continue
+                    if g > max(r, b):
+                        g = max(r, b)
+                else:
+                    if r > g + 22 and b > g + 22:
+                        px[x, y] = (0, 0, 0, 0)
+                        continue
+                    if r > g + 12 and b > g + 12:
+                        r = min(r, g + 10)
+                        b = min(b, g + 10)
+                px[x, y] = (r, g, b, 255)
+    bbox = im.getchannel("A").getbbox()
+    crop = im.crop(bbox) if bbox else im
+    raw_h = crop.height
+    if flip:
+        crop = crop.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    if ref_h is None:
+        scale = min(68.0 / max(1, crop.width), 72.0 / max(1, crop.height))
+    else:
+        target_h = 62.0 if crouch else 72.0
+        scale = min(target_h / max(1.0, ref_h), 76.0 / max(1, crop.width))
+    nw = max(1, int(round(crop.width * scale)))
+    nh = max(1, int(round(crop.height * scale)))
+    small = crop.resize((nw, nh), Image.Resampling.NEAREST)
+    canvas = Image.new("RGBA", (80, 96), (0, 0, 0, 0))
+    ox = (80 - nw) // 2
+    oy = 88 - nh + dy_offset
+    canvas.alpha_composite(small, (max(0, min(80 - nw, ox)), max(0, min(96 - nh, oy))))
+    return prune_alpha_orphans(canvas), raw_h
+
+
+AI_MULTIPOSE_SPECS: dict[str, dict] = {
+    "phi_de": {
+        "key_mode": "green",
+        "reference_portrait": "assets/portraits/portrait_phi_de.png",
+        "locomotion_source": "assets/source_ai/phi_de_locomotion_4x4.png",
+        "combat_source": "assets/source_ai/phi_de_combat_4x4.png",
+        "rows": {
+            ("idle", "down"): [("L", 0, False, False, 0), ("L", 2, False, False, 0), ("L", 0, True, False, -1), ("L", 2, True, False, 0)],
+            ("idle", "left"): [("L", 4, False, False, 0), ("L", 6, False, False, 0), ("L", 8, True, False, -1), ("L", 10, True, False, 0)],
+            ("idle", "right"): [("L", 8, False, False, 0), ("L", 10, False, False, 0), ("L", 4, True, False, -1), ("L", 6, True, False, 0)],
+            ("idle", "up"): [("L", 12, False, False, 0), ("L", 14, False, False, 0), ("L", 12, True, False, -1), ("L", 14, True, False, 0)],
+            ("walk", "down"): [("L", 0, False, False, 0), ("L", 1, False, False, -1), ("L", 3, True, False, 0), ("L", 2, False, False, 0), ("L", 3, False, False, -1), ("L", 1, True, False, 0)],
+            ("walk", "left"): [("L", 4, False, False, 0), ("L", 5, False, False, -1), ("L", 6, False, False, 0), ("L", 7, False, False, -1), ("L", 9, True, False, 0), ("L", 11, True, False, 0)],
+            ("walk", "right"): [("L", 8, False, False, 0), ("L", 9, False, False, -1), ("L", 10, False, False, 0), ("L", 11, False, False, -1), ("L", 5, True, False, 0), ("L", 7, True, False, 0)],
+            ("walk", "up"): [("L", 12, False, False, 0), ("L", 13, False, False, -1), ("L", 15, True, False, 0), ("L", 14, False, False, 0), ("L", 15, False, False, -1), ("L", 13, True, False, 0)],
+            ("attack", "down"): [("C", 0, False, False, 0), ("C", 1, False, False, 0), ("C", 2, False, False, 0), ("C", 3, False, False, 0)],
+            ("attack", "left"): [("C", 4, True, False, 0), ("C", 5, True, True, 0), ("C", 6, True, False, 0), ("C", 7, True, False, 0)],
+            ("attack", "right"): [("C", 4, False, False, 0), ("C", 5, False, True, 0), ("C", 6, False, False, 0), ("C", 7, False, False, 0)],
+            ("attack", "up"): [("L", 12, False, False, 0), ("C", 14, False, False, -1), ("C", 14, True, False, 0), ("L", 14, False, False, 0)],
+            ("cast", "down"): [("C", 8, False, False, 0), ("C", 9, False, True, 0), ("C", 10, False, False, -2), ("C", 11, False, False, 0)],
+            ("cast", "left"): [("L", 4, False, False, 0), ("C", 8, True, False, 0), ("C", 9, True, True, 0), ("C", 10, True, False, -2)],
+            ("cast", "right"): [("L", 8, False, False, 0), ("C", 8, False, False, 0), ("C", 9, False, True, 0), ("C", 10, False, False, -2)],
+            ("cast", "up"): [("L", 12, False, False, 0), ("C", 15, False, False, -1), ("C", 15, True, False, -2), ("L", 14, False, False, 0)],
+            ("hurt", "down"): [("C", 0, False, False, 0), ("C", 12, False, False, 0), ("C", 13, False, True, 1), ("L", 2, False, False, 0)],
+            ("hurt", "left"): [("L", 4, False, False, 0), ("C", 12, True, False, 0), ("C", 13, True, True, 1), ("L", 6, False, False, 0)],
+            ("hurt", "right"): [("L", 8, False, False, 0), ("C", 12, False, False, 0), ("C", 13, False, True, 1), ("L", 10, False, False, 0)],
+            ("hurt", "up"): [("L", 12, False, False, 0), ("L", 13, True, False, 1), ("L", 15, False, False, 2), ("L", 14, False, False, 0)]
+        }
+    },
+    "dam_lon_tien_tu": {
+        "key_mode": "green",
+        "reference_portrait": "assets/portraits/portrait_dam_lon_tien_tu.png",
+        "locomotion_source": "assets/source_ai/dam_lon_tien_tu_locomotion_4x4.png",
+        "combat_source": "assets/source_ai/dam_lon_tien_tu_combat_4x4.png",
+        "rows": {
+            ("idle", "down"): [("L", 0, False, False, 0), ("L", 2, False, False, 0), ("L", 0, True, False, -1), ("L", 2, True, False, 0)],
+            ("idle", "left"): [("L", 4, False, False, 0), ("L", 6, True, False, 0), ("L", 8, True, False, -1), ("L", 10, False, False, 0)],
+            ("idle", "right"): [("L", 8, False, False, 0), ("L", 6, False, False, 0), ("L", 4, True, False, -1), ("L", 10, True, False, 0)],
+            ("idle", "up"): [("L", 12, False, False, 0), ("L", 14, False, False, 0), ("L", 12, True, False, -1), ("L", 14, True, False, 0)],
+            ("walk", "down"): [("L", 0, False, False, 0), ("L", 1, False, False, -1), ("L", 3, True, False, 0), ("L", 2, False, False, 0), ("L", 3, False, False, -1), ("L", 1, True, False, 0)],
+            ("walk", "left"): [("L", 4, False, False, 0), ("L", 5, False, False, -1), ("L", 6, True, False, 0), ("L", 7, True, False, -1), ("L", 9, True, False, 0), ("L", 11, True, False, 0)],
+            ("walk", "right"): [("L", 8, False, False, 0), ("L", 9, False, False, -1), ("L", 6, False, False, 0), ("L", 7, False, False, -1), ("L", 11, False, False, 0), ("L", 5, True, False, 0)],
+            ("walk", "up"): [("L", 12, False, False, 0), ("L", 13, False, False, -1), ("L", 15, True, False, 0), ("L", 14, False, False, 0), ("L", 15, False, False, -1), ("L", 13, True, False, 0)],
+            ("attack", "down"): [("C", 0, False, False, 0), ("C", 1, False, False, 0), ("C", 2, False, False, 0), ("C", 3, False, False, 0)],
+            ("attack", "left"): [("C", 4, True, False, 0), ("C", 5, True, False, 0), ("C", 6, True, False, 0), ("C", 7, True, False, 0)],
+            ("attack", "right"): [("C", 4, False, False, 0), ("C", 5, False, False, 0), ("C", 6, False, False, 0), ("C", 7, False, False, 0)],
+            ("attack", "up"): [("L", 12, False, False, 0), ("C", 14, False, False, -1), ("C", 14, True, False, 0), ("L", 14, False, False, 0)],
+            ("cast", "down"): [("C", 8, False, False, 0), ("C", 9, False, False, -2), ("C", 10, False, False, -3), ("C", 11, False, False, 0)],
+            ("cast", "left"): [("L", 4, False, False, 0), ("C", 8, True, False, 0), ("C", 9, True, False, -2), ("C", 10, True, False, -3)],
+            ("cast", "right"): [("L", 8, False, False, 0), ("C", 8, False, False, 0), ("C", 9, False, False, -2), ("C", 10, False, False, -3)],
+            ("cast", "up"): [("L", 12, False, False, 0), ("C", 15, False, False, -2), ("C", 15, True, False, -3), ("L", 14, False, False, 0)],
+            ("hurt", "down"): [("C", 0, False, False, 0), ("C", 12, False, False, 0), ("C", 13, False, True, 1), ("L", 2, False, False, 0)],
+            ("hurt", "left"): [("L", 4, False, False, 0), ("C", 12, True, False, 0), ("C", 13, True, True, 1), ("L", 10, False, False, 0)],
+            ("hurt", "right"): [("L", 8, False, False, 0), ("C", 12, False, False, 0), ("C", 13, False, True, 1), ("L", 6, False, False, 0)],
+            ("hurt", "up"): [("L", 12, False, False, 0), ("L", 13, True, False, 1), ("L", 15, False, False, 2), ("L", 14, False, False, 0)]
+        }
+    },
+    "hero_kiem_tu": {
+        "key_mode": "magenta",
+        "reference_portrait": "assets/portraits/portrait_hero_kiem_tu.png",
+        "locomotion_source": "assets/source_ai/hero_kiem_tu_locomotion_4x4.png",
+        "combat_source": "assets/source_ai/hero_kiem_tu_combat_4x4.png",
+        "rows": {
+            ("idle", "down"): [("L", 0, False, False, 0), ("L", 2, False, False, 0), ("L", 0, True, False, -1), ("L", 2, True, False, 0)],
+            ("idle", "left"): [("L", 8, False, False, 0), ("L", 10, False, False, 0), ("L", 4, True, False, -1), ("L", 6, True, False, 0)],
+            ("idle", "right"): [("L", 4, False, False, 0), ("L", 6, False, False, 0), ("L", 8, True, False, -1), ("L", 10, True, False, 0)],
+            ("idle", "up"): [("L", 12, False, False, 0), ("L", 14, False, False, 0), ("L", 12, True, False, -1), ("L", 14, True, False, 0)],
+            ("walk", "down"): [("L", 0, False, False, 0), ("L", 1, False, False, -1), ("L", 3, True, False, 0), ("L", 2, False, False, 0), ("L", 3, False, False, -1), ("L", 1, True, False, 0)],
+            ("walk", "left"): [("L", 4, True, False, 0), ("L", 5, True, False, -1), ("L", 6, True, False, 0), ("L", 7, True, False, -1), ("L", 9, True, False, 0), ("L", 11, True, False, 0)],
+            ("walk", "right"): [("L", 4, False, False, 0), ("L", 5, False, False, -1), ("L", 6, False, False, 0), ("L", 7, False, False, -1), ("L", 9, False, False, 0), ("L", 11, False, False, 0)],
+            ("walk", "up"): [("L", 12, False, False, 0), ("L", 13, False, False, -1), ("L", 15, True, False, 0), ("L", 14, False, False, 0), ("L", 15, False, False, -1), ("L", 13, True, False, 0)],
+            ("attack", "down"): [("C", 0, False, False, 0), ("C", 1, False, False, 0), ("C", 2, False, False, 0), ("C", 3, False, False, 0)],
+            ("attack", "left"): [("C", 4, True, False, 0), ("C", 5, True, True, 0), ("C", 6, True, True, 0), ("C", 7, True, False, 0)],
+            ("attack", "right"): [("C", 4, False, False, 0), ("C", 5, False, True, 0), ("C", 6, False, True, 0), ("C", 7, False, False, 0)],
+            ("attack", "up"): [("L", 12, False, False, 0), ("C", 14, False, False, -1), ("C", 14, True, False, 0), ("L", 14, False, False, 0)],
+            ("cast", "down"): [("C", 8, False, False, 0), ("C", 9, False, True, 0), ("C", 10, False, False, -2), ("C", 11, False, False, 0)],
+            ("cast", "left"): [("L", 8, False, False, 0), ("C", 8, True, False, 0), ("C", 9, True, True, 0), ("C", 10, True, False, -2)],
+            ("cast", "right"): [("L", 4, False, False, 0), ("C", 8, False, False, 0), ("C", 9, False, True, 0), ("C", 10, False, False, -2)],
+            ("cast", "up"): [("L", 12, False, False, 0), ("C", 15, False, False, -1), ("C", 15, True, False, -2), ("L", 14, False, False, 0)],
+            ("hurt", "down"): [("C", 0, False, False, 0), ("C", 12, False, False, 0), ("C", 13, False, True, 1), ("L", 2, False, False, 0)],
+            ("hurt", "left"): [("L", 8, False, False, 0), ("C", 12, True, False, 0), ("C", 13, True, True, 1), ("L", 10, False, False, 0)],
+            ("hurt", "right"): [("L", 4, False, False, 0), ("C", 12, False, False, 0), ("C", 13, False, True, 1), ("L", 6, False, False, 0)],
+            ("hurt", "up"): [("L", 12, False, False, 0), ("L", 13, True, False, 1), ("L", 15, False, False, 2), ("L", 14, False, False, 0)]
+        }
+    }
+}
+
+
+def run_quality_audit(img_path: Path) -> dict:
+    proc = subprocess.run(
+        [
+            "python3",
+            str(ROOT / ".agents/skills/pixel-art/scripts/quality_audit.py"),
+            "--image",
+            str(img_path),
+            "--json"
+        ],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    return json.loads(proc.stdout)
+
+
+def build_multipose_character(cid: str, spec: dict) -> tuple[dict, dict]:
+    loco_stem = Path(spec["locomotion_source"]).stem
+    comb_stem = Path(spec["combat_source"]).stem
+    loco_dir = ensure_ownership_sliced(loco_stem)
+    comb_dir = ensure_ownership_sliced(comb_stem)
+    key_mode = spec["key_mode"]
+
+    _, ref_l = load_multipose_cell(loco_dir, 0, key_mode)
+    _, ref_c = load_multipose_cell(comb_dir, 0, key_mode)
+
+    sheet = Image.new("RGBA", (80 * 6, 96 * 20), (0, 0, 0, 0))
+    frames_out = ATLAS_DIR / cid / "frames"
+    frames_out.mkdir(parents=True, exist_ok=True)
+    PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
+
+    states = [("idle", 4, 5), ("walk", 6, 9), ("attack", 4, 10), ("cast", 4, 8), ("hurt", 4, 8)]
+    dirs = ["down", "left", "right", "up"]
+
+    for s_idx, (st_name, f_count, _fps) in enumerate(states):
+        for d_idx, d_name in enumerate(dirs):
+            row = s_idx * 4 + d_idx
+            seq = spec["rows"][(st_name, d_name)]
+            for col in range(6):
+                src_type, cell_idx, do_flip, is_crouch, dy_off = seq[col % len(seq)]
+                s_dir = loco_dir if src_type == "L" else comb_dir
+                r_h = ref_c if src_type == "C" else ref_l
+                pose, _ = load_multipose_cell(
+                    s_dir,
+                    cell_idx,
+                    key_mode,
+                    ref_h=r_h if src_type == "C" else None,
+                    crouch=is_crouch,
+                    flip=do_flip,
+                    dy_offset=dy_off
+                )
+                sheet.alpha_composite(pose, (col * 80, row * 96))
+                if col < f_count:
+                    pose.save(frames_out / f"{st_name}_{d_name}_{col:02d}.png")
+
+    rgb = sheet.convert("RGB").quantize(colors=64, method=Image.Quantize.FASTOCTREE).convert("RGB")
+    sheet_q = prune_alpha_orphans(Image.merge("RGBA", (*rgb.split(), sheet.getchannel("A"))))
+    out_sprite = ASSETS_DIR / "sprites" / f"{cid}.png"
+    sheet_q.save(out_sprite)
+
+    atlas_png = ATLAS_DIR / f"{cid}_atlas.png"
+    atlas_json = ATLAS_DIR / f"{cid}_atlas.json"
+    subprocess.run(
+        [
+            "python3",
+            str(ROOT / ".agents/skills/pixel-art/scripts/atlas_pack.py"),
+            "--frames-dir",
+            str(frames_out),
+            "--output",
+            str(atlas_png),
+            "--cols",
+            "8",
+            "--json"
+        ],
+        capture_output=True,
+        check=True
+    )
+
+    atlas_meta = json.loads(atlas_json.read_text(encoding="utf-8"))
+    atlas_meta["characterId"] = cid
+    atlas_meta["logicalFrameSize"] = {"width": 80, "height": 96}
+    atlas_meta["anchor"] = {"x": 0.5, "y": 0.9167}
+    atlas_meta["animations"] = {
+        "idle": {"rows": [0, 1, 2, 3], "framesPerRow": 4, "fps": 5, "loop": True},
+        "walk": {"rows": [4, 5, 6, 7], "framesPerRow": 6, "fps": 9, "loop": True},
+        "attack": {"rows": [8, 9, 10, 11], "framesPerRow": 4, "fps": 11, "loop": False},
+        "cast": {"rows": [12, 13, 14, 15], "framesPerRow": 4, "fps": 9, "loop": False},
+        "hurt": {"rows": [16, 17, 18, 19], "framesPerRow": 4, "fps": 9, "loop": False}
+    }
+    atlas_json.write_text(json.dumps(atlas_meta, indent=2), encoding="utf-8")
+
+    preview_gifs: dict[str, str] = {}
+    all_gif = PREVIEW_DIR / f"{cid}_all_states.gif"
+    subprocess.run(
+        [
+            "python3",
+            str(ROOT / ".agents/skills/pixel-art/scripts/gif_export.py"),
+            "--frames-dir",
+            str(frames_out),
+            "--fps",
+            "8",
+            "--output",
+            str(all_gif),
+            "--json"
+        ],
+        capture_output=True,
+        check=True
+    )
+    preview_gifs["all_states"] = f"assets/previews/{cid}_all_states.gif"
+
+    for s_idx, (st_name, f_count, fps) in enumerate(states):
+        row = s_idx * 4
+        strip = sheet_q.crop((0, row * 96, f_count * 80, (row + 1) * 96))
+        tmp_strip = Path(f"/tmp/{cid}_{st_name}_strip.png")
+        strip.save(tmp_strip)
+        gif_path = PREVIEW_DIR / f"{cid}_{st_name}.gif"
+        subprocess.run(
+            [
+                "python3",
+                str(ROOT / ".agents/skills/pixel-art/scripts/gif_export.py"),
+                "--sheet",
+                str(tmp_strip),
+                "--frame-width",
+                "80",
+                "--frame-height",
+                "96",
+                "--cols",
+                str(f_count),
+                "--fps",
+                str(fps),
+                "--output",
+                str(gif_path),
+                "--json"
+            ],
+            capture_output=True,
+            check=True
+        )
+        preview_gifs[st_name] = f"assets/previews/{cid}_{st_name}.gif"
+
+    old_path = LEGACY_DIR / f"{cid}.png"
+    comp_path = PREVIEW_DIR / f"{cid}_before_after.png"
+    if old_path.exists():
+        old_sheet = Image.open(old_path).convert("RGBA")
+        comp = Image.new("RGBA", (960, 560), (22, 26, 36, 255))
+        d = ImageDraw.Draw(comp)
+        d.rectangle((6, 6, 953, 553), outline=(245, 194, 66, 255), width=2)
+        d.line((320, 12, 320, 548), fill=(90, 102, 128, 255), width=2)
+        for r_idx, old_row in enumerate([0, 4, 5, 7, 8, 12]):
+            strip_old = old_sheet.crop((0, old_row * 64, 48 * 6, (old_row + 1) * 64))
+            comp.alpha_composite(strip_old, (16, 24 + r_idx * 84))
+        for r_idx, new_row in enumerate([0, 4, 5, 6, 7, 8, 12, 16]):
+            strip_new = sheet_q.crop((0, new_row * 96, 80 * 6, (new_row + 1) * 96))
+            scaled_new = strip_new.resize(
+                (int(strip_new.width * 0.68), int(strip_new.height * 0.68)),
+                Image.Resampling.NEAREST
+            )
+            comp.alpha_composite(scaled_new, (340, 16 + r_idx * 66))
+        comp.save(comp_path)
+
+    audit_report = run_quality_audit(out_sprite)
+
+    manifest_entry = {
+        "assetId": f"sprite_{cid}",
+        "file": f"assets/sprites/{cid}.png",
+        "category": "character_spritesheet",
+        "characterId": cid,
+        "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+        "source": f"{spec['locomotion_source']} + {spec['combat_source']} via Agent Sprite Forge assemble_frames.py + build_assets.py",
+        "license": "Original AI-Generated & Post-Processed Project Asset",
+        "status": "approved",
+        "width": 480,
+        "height": 1920,
+        "frameWidth": 80,
+        "frameHeight": 96,
+        "anchor": {"x": 0.5, "y": 0.9167},
+        "animations": {
+            "idle": {"rows": [0, 1, 2, 3], "framesPerRow": 4},
+            "walk": {"rows": [4, 5, 6, 7], "framesPerRow": 6},
+            "attack": {"rows": [8, 9, 10, 11], "framesPerRow": 4},
+            "cast": {"rows": [12, 13, 14, 15], "framesPerRow": 4},
+            "hurt": {"rows": [16, 17, 18, 19], "framesPerRow": 4}
+        }
+    }
+
+    loco_file = ROOT / spec["locomotion_source"]
+    comb_file = ROOT / spec["combat_source"]
+    provenance_entry = {
+        "characterId": cid,
+        "artClassification": {
+            "sourceSheets": "AI-GENERATED SOURCE ART",
+            "runtimeSpritesheetAndAtlas": "POST-PROCESSED ART",
+            "proceduralPlaceholderUsed": False
+        },
+        "generationProvider": "Antigravity native image-generator subagent",
+        "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
+        "sourceReferenceImage": spec["reference_portrait"],
+        "sourceAiFiles": [
+            {
+                "path": spec["locomotion_source"],
+                "sha256": sha256_file(loco_file),
+                "role": "locomotion_4x4_grid"
+            },
+            {
+                "path": spec["combat_source"],
+                "sha256": sha256_file(comb_file),
+                "role": "combat_action_4x4_grid"
+            }
+        ],
+        "generatedDirectionalViews": ["down (front)", "left (profile)", "right (profile)", "up (back/rear)"],
+        "animationStates": ["idle (4f)", "walk (6f)", "attack (4f)", "cast (4f)", "hurt (4f)"],
+        "animationGenerationMethod": "AI 4x4 multi-pose keyframe generation + Agent Sprite Forge connected-component ownership slicing + foot-anchor registration",
+        "postProcessingSteps": [
+            "Agent Sprite Forge assemble_frames.py (--key chroma --key-quality soft --slice ownership)",
+            "Chroma spill suppression and binary alpha thresholding (alpha >= 96 -> 255)",
+            "Standing body-height lock registration onto 80x96 logical canvas with foot anchor (40, 88)",
+            "64-color fast octree palette quantization and isolated alpha-orphan pruning",
+            "Pixel-Art skill atlas_pack.py and gif_export.py packaging"
+        ],
+        "exportedSpritesheet": f"assets/sprites/{cid}.png",
+        "exportedAtlas": f"assets/atlases/{cid}_atlas.png",
+        "exportedAtlasMetadata": f"assets/atlases/{cid}_atlas.json",
+        "exportedFramesDir": f"assets/atlases/{cid}/frames",
+        "previewGifs": preview_gifs,
+        "beforeAfterSheet": f"assets/previews/{cid}_before_after.png",
+        "validationResults": {
+            "qualityAudit": audit_report
+        }
+    }
+    return manifest_entry, provenance_entry
 
 
 def chroma_key_extract(src_path: Path, crop_box: tuple[int, int, int, int] | None = None) -> Image.Image:
@@ -149,23 +591,11 @@ def animate_sprite_frame(
         spark_y = 14 + (frame_idx % 3) * 2
         spark_x = 38 if frame_idx % 2 == 0 else 10
         draw.point((spark_x, spark_y), fill=accent_col)
-    elif state == "attack" and frame_idx in (1, 2):
-        if direction == 0:
-            draw.arc((5, 34, 43, 62), start=15, end=165, fill=accent_col, width=3)
-        elif direction == 3:
-            draw.arc((5, 4, 43, 32), start=195, end=345, fill=accent_col, width=3)
-        elif direction == 1:
-            draw.arc((2, 16, 28, 54), start=105, end=255, fill=accent_col, width=3)
-        elif direction == 2:
-            draw.arc((20, 16, 46, 54), start=285, end=75, fill=accent_col, width=3)
-    elif state == "cast" and frame_idx in (1, 2, 3):
-        rad = 13 + frame_idx * 2
-        draw.ellipse((24 - rad, 44 - rad // 2, 24 + rad, 59), outline=accent_col, width=2)
 
     return frame
 
 
-def build_portraits_and_sprites() -> tuple[list[dict], list[dict], list[dict]]:
+def build_portraits_and_sprites() -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     c_dir = ASSETS_DIR / "concepts"
     p_dir = ASSETS_DIR / "portraits"
     s_dir = ASSETS_DIR / "sprites"
@@ -240,33 +670,45 @@ def build_portraits_and_sprites() -> tuple[list[dict], list[dict], list[dict]]:
 
     states = [("idle", 4), ("walk", 6), ("attack", 4), ("cast", 4)]
     sprite_entries: list[dict] = []
+    provenance_entries: list[dict] = []
 
     for cid, (_src_file, _qbox, accent_col, back_col, hair_col, category) in cast_sources.items():
-        max_w = 42 if cid in ("truc_lang", "thanh_lan_xa", "chatdvt") else 38
-        max_h = 46 if cid in ("truc_lang", "thanh_lan_xa", "chatdvt") else 50
-        base = normalize_to_sprite_base(extracted_map[cid], max_w=max_w, max_h=max_h)
-        sheet = Image.new("RGBA", (48 * 6, 64 * 16), (0, 0, 0, 0))
-        for s_idx, (state_name, f_count) in enumerate(states):
-            for dir_idx in range(4):
-                row = s_idx * 4 + dir_idx
-                for f_idx in range(6):
-                    cell = animate_sprite_frame(
-                        base,
-                        dir_idx,
-                        state_name,
-                        f_idx % f_count,
-                        accent_col,
-                        back_col,
-                        hair_col
-                    )
-                    sheet.alpha_composite(cell, (f_idx * 48, row * 64))
+        if cid in AI_MULTIPOSE_SPECS:
+            m_entry, p_entry = build_multipose_character(cid, AI_MULTIPOSE_SPECS[cid])
+            sprite_entries.append(m_entry)
+            provenance_entries.append(p_entry)
+            continue
+
         out_file = s_dir / f"{cid}.png"
-        sheet.save(out_file)
+        legacy_backup = LEGACY_DIR / f"{cid}.png"
+        if legacy_backup.exists():
+            out_file.write_bytes(legacy_backup.read_bytes())
+        else:
+            max_w = 42 if cid in ("truc_lang", "thanh_lan_xa", "chatdvt") else 38
+            max_h = 46 if cid in ("truc_lang", "thanh_lan_xa", "chatdvt") else 50
+            base = normalize_to_sprite_base(extracted_map[cid], max_w=max_w, max_h=max_h)
+            sheet = Image.new("RGBA", (48 * 6, 64 * 16), (0, 0, 0, 0))
+            for s_idx, (state_name, f_count) in enumerate(states):
+                for dir_idx in range(4):
+                    row = s_idx * 4 + dir_idx
+                    for f_idx in range(6):
+                        cell = animate_sprite_frame(
+                            base,
+                            dir_idx,
+                            state_name,
+                            f_idx % f_count,
+                            accent_col,
+                            back_col,
+                            hair_col
+                        )
+                        sheet.alpha_composite(cell, (f_idx * 48, row * 64))
+            sheet.save(out_file)
         sprite_entries.append({
             "assetId": f"sprite_{cid}",
             "file": f"assets/sprites/{cid}.png",
             "category": category,
             "characterId": cid,
+            "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
             "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
             "license": "Original AI-Assisted Project Asset",
             "status": "approved",
@@ -322,7 +764,7 @@ def build_portraits_and_sprites() -> tuple[list[dict], list[dict], list[dict]]:
             "requiresTransparency": True
         })
 
-    return portrait_entries, sprite_entries, prop_entries
+    return portrait_entries, sprite_entries, prop_entries, provenance_entries
 
 
 def make_tile(base_rgba: tuple[int, int, int, int]) -> tuple[Image.Image, ImageDraw.ImageDraw]:
@@ -491,7 +933,7 @@ def build_tileset() -> dict:
     }
 
 
-def build_vfx_and_contact_sheet() -> list[dict]:
+def build_vfx_and_contact_sheet() -> tuple[list[dict], dict]:
     vfx_dir = ASSETS_DIR / "vfx"
     vfx_dir.mkdir(parents=True, exist_ok=True)
 
@@ -515,6 +957,39 @@ def build_vfx_and_contact_sheet() -> list[dict]:
         d.ellipse((32 - 8, 32 - 8 - i * 3, 32 + 8, 32 + 8 - i * 3), fill=(255, 238, 132, 220))
         blessing_vfx.alpha_composite(cell, (i * 64, 0))
     blessing_vfx.save(vfx_dir / "phi_de_blessing.png")
+
+    vfx_sliced = ensure_ownership_sliced("vfx_combat_4x4")
+    vfx_sheet = Image.new("RGBA", (64 * 4, 64 * 4), (0, 0, 0, 0))
+    for idx in range(16):
+        fp = vfx_sliced / "frames" / f"frame-{idx:02d}.png"
+        im = Image.open(fp).convert("RGBA")
+        px = im.load()
+        w, h = im.size
+        for y in range(h):
+            for x in range(w):
+                r, g, b, a = px[x, y]
+                if a < 80 or (r > g + 22 and b > g + 22):
+                    px[x, y] = (0, 0, 0, 0)
+                else:
+                    if r > g + 10 and b > g + 10:
+                        r = min(r, g + 8)
+                        b = min(b, g + 8)
+                    px[x, y] = (r, g, b, 255)
+        bbox = im.getchannel("A").getbbox()
+        crop = im.crop(bbox) if bbox else im
+        scale = min(58.0 / max(1, crop.width), 58.0 / max(1, crop.height))
+        nw = max(1, int(round(crop.width * scale)))
+        nh = max(1, int(round(crop.height * scale)))
+        small = crop.resize((nw, nh), Image.Resampling.NEAREST)
+        cell = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+        cell.alpha_composite(small, ((64 - nw) // 2, (64 - nh) // 2))
+        vfx_sheet.alpha_composite(cell, ((idx % 4) * 64, (idx // 4) * 64))
+
+    rgb = vfx_sheet.convert("RGB").quantize(colors=64, method=Image.Quantize.FASTOCTREE).convert("RGB")
+    vfx_q = prune_alpha_orphans(Image.merge("RGBA", (*rgb.split(), vfx_sheet.getchannel("A"))))
+    combat_vfx_path = vfx_dir / "combat_vfx.png"
+    vfx_q.save(combat_vfx_path)
+    vfx_audit = run_quality_audit(combat_vfx_path)
 
     cs = Image.new("RGBA", (960, 560), (24, 28, 38, 255))
     csd = ImageDraw.Draw(cs)
@@ -545,7 +1020,10 @@ def build_vfx_and_contact_sheet() -> list[dict]:
         sp = ASSETS_DIR / "sprites" / sf
         if sp.exists():
             sim = Image.open(sp).convert("RGBA")
-            strip = sim.crop((0, 4 * 64, 48 * 6, 5 * 64))
+            if sim.width == 480:
+                strip = sim.crop((0, 4 * 96, 80 * 6, 5 * 96)).resize((288, 64), Image.Resampling.NEAREST)
+            else:
+                strip = sim.crop((0, 4 * 64, 48 * 6, 5 * 64))
             cs.alpha_composite(strip, (20 + (idx % 3) * 305, 195 + (idx // 3) * 90))
 
     prop_preview = [
@@ -565,11 +1043,33 @@ def build_vfx_and_contact_sheet() -> list[dict]:
 
     cs.save(ASSETS_DIR / "contact_sheet_preview.png")
 
+    vfx_provenance = {
+        "assetId": "vfx_combat_sheet",
+        "artClassification": {
+            "sourceSheets": "AI-GENERATED SOURCE ART",
+            "runtimeSpritesheetAndAtlas": "POST-PROCESSED ART",
+            "proceduralPlaceholderUsed": False
+        },
+        "generationProvider": "Antigravity native image-generator subagent",
+        "sourceAiFiles": [
+            {
+                "path": "assets/source_ai/vfx_combat_4x4.png",
+                "sha256": sha256_file(SOURCE_AI_DIR / "vfx_combat_4x4.png"),
+                "role": "combat_vfx_4x4_grid"
+            }
+        ],
+        "exportedSpritesheet": "assets/vfx/combat_vfx.png",
+        "validationResults": {
+            "qualityAudit": vfx_audit
+        }
+    }
+
     return [
         {
             "assetId": "vfx_portal_ring",
             "file": "assets/vfx/portal_ring.png",
             "category": "vfx_spritesheet",
+            "artClassification": "PROGRAMMATICALLY DRAWN ART",
             "source": "packages/art-tools/build_assets.py",
             "license": "Original Project Asset (MIT/Proprietary)",
             "status": "approved",
@@ -582,11 +1082,25 @@ def build_vfx_and_contact_sheet() -> list[dict]:
             "assetId": "vfx_phi_de_blessing",
             "file": "assets/vfx/phi_de_blessing.png",
             "category": "vfx_spritesheet",
+            "artClassification": "PROGRAMMATICALLY DRAWN ART",
             "source": "packages/art-tools/build_assets.py",
             "license": "Original Project Asset (MIT/Proprietary)",
             "status": "approved",
             "width": 256,
             "height": 64,
+            "frameWidth": 64,
+            "frameHeight": 64
+        },
+        {
+            "assetId": "vfx_combat_sheet",
+            "file": "assets/vfx/combat_vfx.png",
+            "category": "vfx_spritesheet",
+            "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+            "source": "assets/source_ai/vfx_combat_4x4.png + packages/art-tools/build_assets.py",
+            "license": "Original AI-Generated & Post-Processed Project Asset",
+            "status": "approved",
+            "width": 256,
+            "height": 256,
             "frameWidth": 64,
             "frameHeight": 64
         },
@@ -600,7 +1114,7 @@ def build_vfx_and_contact_sheet() -> list[dict]:
             "width": 960,
             "height": 560
         }
-    ]
+    ], vfx_provenance
 
 
 def build_tiled_maps() -> None:
@@ -801,16 +1315,17 @@ def build_tiled_maps() -> None:
 
 
 def main() -> None:
-    portrait_entries, sprite_entries, prop_entries = build_portraits_and_sprites()
+    portrait_entries, sprite_entries, prop_entries, provenance_entries = build_portraits_and_sprites()
     tileset_entry = build_tileset()
-    vfx_entries = build_vfx_and_contact_sheet()
+    vfx_entries, vfx_provenance = build_vfx_and_contact_sheet()
     build_tiled_maps()
 
     manifest = {
-        "version": "1.1.0",
-        "styleDirection": "Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG",
+        "version": "2.0.0",
+        "styleDirection": "Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG (AI Multi-Pose Pipeline)",
         "logicalTileGrid": 32,
-        "characterFrameSize": {"width": 48, "height": 64},
+        "characterFrameSize": {"width": 80, "height": 96},
+        "legacyFrameSize": {"width": 48, "height": 64},
         "portraitSize": {"width": 160, "height": 160},
         "assets": [
             *portrait_entries,
@@ -825,6 +1340,14 @@ def main() -> None:
         ]
     }
     (ASSETS_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+    provenance_doc = {
+        "version": "2.0.0",
+        "pipeline": "Antigravity Native AI Image Generation + Agent Sprite Forge + Pixel Art Skill QA",
+        "characters": provenance_entries,
+        "vfx": [vfx_provenance]
+    }
+    (ASSETS_DIR / "provenance.json").write_text(json.dumps(provenance_doc, indent=2), encoding="utf-8")
 
 
 if __name__ == "__main__":
