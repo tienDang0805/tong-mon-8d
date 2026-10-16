@@ -160,3 +160,16 @@ Phase 1 will author and align 8 core specifications before any Phase 2 asset gen
 3. **Step 1C (Narrative & Spatial World Design)**: Author `docs/NARRATIVE_DESIGN.md` (all 10 masters' 6-chapter blueprints + apprenticeship rules) and `docs/WORLD_DESIGN.md` (`Tân Thủ Thôn`, `Thanh Trúc Lâm`, and future zone architecture).
 4. **Step 1D (Visual Direction & UX Specification)**: Expand `docs/ART_BIBLE.md` (with `docs/CHARACTER_VISUAL_BIBLE.md`) and author `docs/UX_DESIGN.md`.
 5. **Step 1E (Human Owner Gate)**: Present the completed Phase 1 documentation suite for explicit human review and record approved decisions in the **Human Creative Decisions Ledger** (`AGENTS.md` / `docs/ART_BIBLE.md`) before starting Phase 2 generative art production.
+
+---
+
+## 11. Phase 1B.0 Errata & Baseline v0.2 Integration Update (2026-10-16)
+
+> **Historical Audit Preservation Notice:** Sections 1–10 above are preserved as the historical Phase 1A audit record (`7914c2a` / `e0eab60`). The following updates apply as of **Phase 1B.0**:
+
+1. **Erratum on Section 8.4 (Windows `apps/server/src/index.ts` Entry Check Fix)**:
+   - Commit `7914c2a` (and author-amended `e0eab60`) **already applied** the 3-line Windows backslash normalization in `apps/server/src/index.ts` (lines 88–91: `const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");`). `docs/PROJECT_STATUS.md` and `docs/DEVELOPMENT_SETUP.md` have been updated accordingly.
+   - Note that `.env.example` still contains relative `PGDATA_DIR=./apps/server/data/pgdata`, which remains tracked as a separate configuration detail for a future code/config phase (`docs/ROADMAP.md`).
+2. **Erratum on Sections 6, 9, and 10 (Phase 1B.0 Game Design Baseline v0.2 Integrated)**:
+   - The 10 Phase 1B.0 specification documents (`docs/DECISIONS.md`, `docs/CONTEXT_INDEX.md`, `docs/GAME_VISION.md`, `docs/GAME_LORE.md`, `docs/GAME_DESIGN.md`, `docs/NARRATIVE_DESIGN.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/CONTENT_PIPELINE.md`, and `docs/ROADMAP.md`) have now been integrated into `docs/`.
+   - Where Sections 9–10 above summarized legacy v0.1 mechanics (such as 3 fixed combat classes `Kiếm Tu`/`Pháp Tu`/`Thể Tu` or open apprenticeship), they are superseded by `docs/DECISIONS.md` (online-only Auto Farm `GD-002`, manual quest execution + auto-navigation only `GD-003`–`GD-004`, Character Level `1–350+` `GD-020`, 6 independent 10-stage Dao mastery paths `Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu` `GD-024`, 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies `GD-010`–`GD-013`, universal Main Quest `GD-006`/`GD-040`, and at-most-1-of-10 exclusive Legendary Signature destiny ownership across both `Tiên Thiên` and `Hậu Thiên` `GD-014`–`GD-015` for optional 6-chapter True Disciple routes).

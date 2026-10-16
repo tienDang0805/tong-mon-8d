@@ -1,11 +1,12 @@
-# TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A RECONCILED)
+# TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A & 1B.0 RECONCILED)
 
 ## 1. Current Verified Checkpoint
 
 - **Phase 0 Art Pipeline Commit:** `934f728` (`feat(art-pipeline): upgrade AI multi-pose sprite pipeline for 3 PoC characters and combat VFX`)
-- **Phase 0 Migration Handoff Commit (Current Base HEAD):** `21ae81e` (`chore(migration): finalize Phase 0 workspace migration, asset pipeline protection, and handoff docs`)
+- **Phase 0 Migration Handoff Commit:** `21ae81e` (`chore(migration): finalize Phase 0 workspace migration, asset pipeline protection, and handoff docs`)
+- **Phase 1A Context Audit Commit (Current Base HEAD):** `e0eab60` (author-amended `7914c2a`, `update Phase 1 audit`)
 - **Branch:** `master` (`origin/master` → `https://github.com/tienDang0805/tong-mon-8d`)
-- **Current Active Phase:** **Phase 1A Completed → Ready for Phase 1** (Unified Game Vision, Lore, Game Design, Narrative Design, World Design, Art Bible, UX Design & AI Asset Production Policy)
+- **Current Active Phase:** **Phase 1B.0 Integrated (Game Design Baseline v0.2 in `docs/`) → Awaiting Human Owner Review before Gated Technical Design (`TD-01`–`TD-05` in `docs/ROADMAP.md`)**
 - **Manifest Version:** `2.0.0` (`assets/manifest.json`, 35 verified assets + 2 Tiled maps)
 - **Provenance Version:** `2.0.0` (`assets/provenance.json`, portable relative paths verified)
 - **Reference Style Direction:** Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG (`PROPOSED` / `TECHNICALLY_VERIFIED`, pending `HUMAN_APPROVED` owner sign-off)
@@ -15,14 +16,16 @@
 
 ---
 
-## 2. Implemented Gameplay & Engine Systems (Verified on Disk)
+## 2. Implemented Gameplay & Engine Systems (Verified on Disk — Legacy v0.1 Technical Prototype)
+
+> **Design Intent vs. Implementation Status Notice:** The runtime code in `apps/` and `packages/` currently implements the **v0.1 technical prototype** (3-discipline `Kiếm Tu`/`Pháp Tu`/`Thể Tu` manual combat and open Phì Đế Chapter 1 quest). In **Phase 1B.0**, the project owner approved **Game Design Baseline v0.2** (`docs/DECISIONS.md`), which establishes an **Online AFK Cultivation RPG** with online-only Auto Farm (`GD-002`), manual quest execution + auto-navigation only (`GD-003`, `GD-004`), Character Level `1–350+` (`Phàm Nhân` `1–10` + 17 realms × 20 levels, `GD-020`), 6 independent 10-stage Dao mastery paths (`Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu`, `GD-024`), 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies (`GD-010`–`GD-013`), a universal Main Quest for all players (`GD-006`, `GD-040`), and at-most-1-of-10 exclusive Legendary Signature destiny ownership (across both `Tiên Thiên` and `Hậu Thiên`, `GD-014`, `GD-015`) as the first prerequisite for optional 6-chapter True Disciple routes. Runtime migration will occur only after gated Technical Design (`TD-01`–`TD-05` in `docs/ROADMAP.md`) is approved.
 
 1. **Shared Protocol & Canonical Game Data (`packages/shared`, `packages/game-data`)**:
    - Canonical 17 cultivation realms (`Phàm Nhân` + 17 realms from `Luyện Khí` through `Thánh Cảnh`) in `packages/game-data/src/index.ts` with exact Tu Vi requirements, HP, MP, attack, defense, and offline meditation curves.
    - Canonical 10 legendary figures (`phi_de`, `rmt_de`, `vaal_de`, `chatdvt`, `dam_lon_tien_tu`, `ngoc_tam`, `thai_tai`, `anh_7`, `gia_bao`, `hoa_tran`) plus village culinary merchant `merchant_truong`.
    - `dam_lon_tien_tu` realm strictly preserved as `"UNKNOWN"` (`Bất Minh (Không Rõ Cảnh Giới)`).
    - `chatdvt` strictly depicted and animated as a jade-cyan quadruped spirit beast (`Thánh Cảnh (Thánh Thú)`).
-   - Phì Đế's **Ẩm Thực Đại Đạo** supporting both shop purchase (`Lão Trù Trương`) and self-cooking (`Thần Đỉnh`) of spiritual dishes (`mi_linh_mach`, ` pho_linh_khi`, `thit_linh_thu_nuong`, `tuu_linh_bao`).
+   - Phì Đế's **Ẩm Thực Đại Đạo** supporting both shop purchase (`Lão Trù Trương`) and self-cooking (`Thần Đỉnh`) of spiritual dishes (`mi_linh_mach`, `pho_linh_khi`, `thit_linh_thu_nuong`, `tuu_linh_bao`).
    - Quantitative progression simulator (`packages/game-data/src/runSimulation.ts`).
 2. **Authoritative Multiplayer Server (`apps/server`)**:
    - Node.js + Colyseus `0.18.x` authoritative `ZoneRoom` (`apps/server/src/zoneRoom.ts`) and `AuthoritativeWorldEngine` (`apps/server/src/worldEngine.ts`) with server-side movement validation, tile collision checking, zone portal transitions (`tan_thu_thon` ↔ `thanh_truc_lam`), shared mob AI & respawns (`truc_lang`, `thanh_lan_xa`), real-time melee/skill combat, loot drops, quests, 2–4 player party Tu Vi bonus, and offline cultivation claim (`<= 8h` cap).
@@ -81,12 +84,14 @@ All three upgraded characters have preserved v1 backups in `assets/sprites/legac
    - Because `image-generator` produces static `4x4` sheets rather than temporal video clips, subtle per-cell proportion and garment-detail variations occur between frames even after bottom-center foot-anchor locking `(40, 88)` and bounding-box normalization.
 3. **Mixed Scale Coexistence During Transition:**
    - The 3 upgraded `80x96` (`scale = 0.82`) characters coexist on screen with the 9 legacy `48x64` (`scale = 1.0`) sprites and 2 aliased NPCs until the remaining cast is upgraded under the Phase 1 Art Bible.
-4. **Windows `npm run dev:server` Path Separator Detail:**
-   - In `apps/server/src/index.ts` (lines 88–91), `process.argv[1].endsWith("src/index.ts")` checks forward slashes, whereas Node/tsx on Windows populates `process.argv[1]` with backslashes (`src\index.ts`), causing `npm run dev:server` to exit immediately with code `0` unless invoked with a forward-slash entry or normalized path check (documented in `docs/CONTEXT_AUDIT.md` and `docs/DEVELOPMENT_SETUP.md`).
+4. **Windows `npm run dev:server` Entry Check & Relative `PGDATA_DIR` Status:**
+   - **Patched in Code (`7914c2a` / `e0eab60`):** `apps/server/src/index.ts` (lines 88–91) already normalizes Windows backslashes via `const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");` before checking `endsWith("src/index.ts")` or `endsWith("dist/index.js")`.
+   - **Remaining `.env.example` Relative Path Detail:** When `PGDATA_DIR=./apps/server/data/pgdata` is set in `.env` and `npm run dev:server` runs with working directory `apps/server/`, relative path resolution creates `apps/server/apps/server/data/pgdata` (protected by `.gitignore`; see `docs/DEVELOPMENT_SETUP.md` and `docs/ROADMAP.md`).
 
 ---
 
-## 6. Current Active Priority (Phase 1)
+## 6. Current Active Priority (Phase 1B.0 Integrated → Gated Technical Design)
 
-**Phase 1 — Unified Game Vision, Game Lore, Game Design, Narrative Design, World Design, Art Bible, UX Design & AI Asset Production Policy**:
-- Author and obtain human project-owner approval on the 8 core Phase 1 specification documents (`docs/GAME_VISION.md`, `docs/GAME_LORE.md`, `docs/GAME_DESIGN.md`, `docs/NARRATIVE_DESIGN.md`, `docs/WORLD_DESIGN.md`, `docs/ART_BIBLE.md`, `docs/UX_DESIGN.md`, and asset provenance/approval rules) before generating new production artwork or expanding gameplay zones.
+**Phase 1B.0 — Game Design Baseline v0.2 Integration (Completed in `docs/`, Awaiting Human Owner Review)**:
+- The 10 Baseline v0.2 documents (`docs/DECISIONS.md`, `docs/CONTEXT_INDEX.md`, `docs/GAME_VISION.md`, `docs/GAME_LORE.md`, `docs/GAME_DESIGN.md`, `docs/NARRATIVE_DESIGN.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/CONTENT_PIPELINE.md`, `docs/ROADMAP.md`) are now integrated alongside `docs/ART_BIBLE.md` and `docs/CHARACTER_VISUAL_BIBLE.md`.
+- **Next Gate**: Wait for explicit project-owner review and commit/push of Phase 1B.0 before starting **Phase 1B.1 (`TD-01`: Character, Destiny, Level, Realm Technical Design)** per `docs/ROADMAP.md`.

@@ -122,7 +122,7 @@ npm run dev:client
 ```
 
 - **Windows Platform Compatibility Note (`apps/server/src/index.ts`):**
-  Lines 88–91 of `apps/server/src/index.ts` guard server startup with `process.argv[1].endsWith("src/index.ts") || process.argv[1].endsWith("dist/index.js")`. On Windows, `node --import tsx src/index.ts` populates `process.argv[1]` with backslashes (`...\apps\server\src\index.ts`), which causes `isMainModule` to evaluate to `false` and `npm run dev:server` to exit immediately with code `0`. When authorized to touch `apps/server/src/index.ts`, normalizing `process.argv[1].replace(/\\/g, "/")` resolves this cross-platform path separator discrepancy.
+  Lines 88–91 of `apps/server/src/index.ts` already normalize Windows backslashes (`const normalizedEntry = (process.argv[1] ?? "").replace(/\\/g, "/");`) before checking `normalizedEntry.endsWith("src/index.ts") || normalizedEntry.endsWith("dist/index.js")` (patched in commit `7914c2a` / `e0eab60`). Note that `.env.example` still defines a relative `PGDATA_DIR=./apps/server/data/pgdata`, which resolves relative to `apps/server/` when `npm run dev:server` executes (creating `apps/server/apps/server/data/pgdata`, which is ignored by `.gitignore`; see Section 3 above).
 
 ---
 
