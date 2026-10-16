@@ -1,0 +1,21 @@
+{
+  "name": "@tong-mon-8d/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --import tsx src/index.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@colyseus/core": "0.18.18",
+    "@colyseus/ws-transport": "0.18.4",
+    "@electric-sql/pglite": "0.5.10",
+    "@tong-mon-8d/game-data": "*",
+    "@tong-mon-8d/shared": "*",
+    "colyseus": "0.18.9",
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "pg": "8.23.1"
+  }
+}

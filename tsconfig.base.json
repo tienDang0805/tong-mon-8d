@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tong-mon-8d/shared": ["./packages/shared/src/index.ts"],
+      "@tong-mon-8d/game-data": ["./packages/game-data/src/index.ts"],
+      "@tong-mon/shared": ["./packages/shared/src/index.ts"],
+      "@tong-mon/game-data": ["./packages/game-data/src/index.ts"]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+# Character Visual Bible — Tông Môn 8D: Tu Tiên Chi Lộ
+
+## 1. Starter Hero Archetypes
+- **`hero_kiem_tu` (Kiếm Tu — Thanh Vân Kiếm Khách)**:
+  - **Silhouette & Proportions**: `48x64` overworld frame, agile upright posture, flowing azure/white sect robes, silver hairpiece (`Kim Quan`), spirit sword carried at hip/back.
+  - **Palette**: Azure (`#3b8eea`, `#245ea8`, `#153969`), Cloud White (`#f0f6fc`, `#c8d7e6`), Gold trim (`#f5c542`).
+  - **Animations**: 4 directions (`down`, `left`, `right`, `up`) × `idle` (4f), `walk` (6f), `attack` (4f sword arc), `cast` (4f Kiếm Khí surge), `hurt` (2f).
+
+## 2. Ten Canonical Legendary Figures (`Tông Môn 8D`)
+Every legendary figure has a distinct silhouette, prop, palette, and facial structure—never a recolored template.
+
+| ID | Name & Title | Canonical Realm | Silhouette & Iconic Motifs | Primary Palette |
+|---|---|---|---|---|
+| `phi_de` | **Phì Đế — Đặng Văn Tiến** | `Thánh Cảnh` | Broad, regal imperial silhouette; black-and-gold dragon robe, jade imperial crown, floating miniature **Cửu Long Thần Đỉnh** (divine bronze cauldron) with golden dragon flame. Never a mundane cook in an apron. | Obsidian (`#1c1c24`), Imperial Gold (`#f5c242`, `#b88214`), Jade (`#3cd070`) |
+| `rmt_de` | **RMT Đế — Phạm Phan Trọng Khải** | `Thánh Cảnh` | Extravagant sovereign silhouette; obsidian-and-gold brocade mantle, floating **Thiên Kim Linh Tiền** (immortal gold coins) and jade merchant abacus/seal. | Gold Bullion (`#ffe066`, `#d49b1a`), Obsidian (`#221f2b`), Crimson (`#c92a2a`) |
+| `vaal_de` | **Vaal Đế — Trần Vũ Hoàng Tâm** | `Thánh Cảnh` | Sharp, asymmetrical fate-breaker silhouette; torn crimson-and-violet robes, orbiting **Nghịch Mệnh Huyết Phù** (fate-cracking talisman) and chaotic red lightning. | Vaal Crimson (`#e03131`), Void Violet (`#5f3dc4`), Bone (`#e9ecef`) |
+| `chatdvt` | **ChatDVT** (Linh Thú của Phì Đế) | `Thánh Cảnh` | **Quadruped/compact mythical jade-cyan spirit beast** (celestial qilin-fox); glowing emerald horns, swirling cyan cloud tail, golden collar bell, cheeky expression. Never human. | Jade Cyan (`#63e6be`, `#20c997`), Spirit Mint (`#e6fcf5`), Bell Gold (`#fcc419`) |
+| `dam_lon_tien_tu` | **Dẩm Lồn Tiên Tử** | `UNKNOWN` (`Bất Minh`) | Graceful yet commanding independent cultivator; layered lotus-pink, pearl-white, and gold-trimmed robes, floating **Hồng Trần Liên Hoa** (nine-petal heart lotus). | Lotus Pink (`#f783ac`, `#d6336c`), Pearl (`#fff0f6`), Warm Gold (`#fab005`) |
+| `ngoc_tam` | **Xui Xẻo Chân Quân — Ngọc Tâm** | `Bán Thánh` | Slender analytical scholar silhouette; dark violet-and-silver robes, hovering **Nhân Quả Hắc Tuyến** (karmic threads) and cracked omen talismans. | Karmic Violet (`#7048e8`), Ash Silver (`#adb5bd`), Dark Slate (`#212529`) |
+| `thai_tai` | **Thái Tài** | `Bán Thánh` | Distinguished antiquarian silhouette; bronze-and-emerald robes, holding **Thiên Nhãn Cổ Kính** (ancient relic-appraisal mirror) and archaic scroll. | Antique Bronze (`#c98a3b`), Emerald (`#2f9e44`), Parchment (`#f3d9fa`) |
+| `anh_7` | **Anh 7 — Đoàn Quang Huy** | `Bán Thánh` | Disciplined sword-saint silhouette; steel-blue and crimson battle tunic, **Thất Tinh Kiếm Trận** (seven miniature swords arrayed behind shoulders). | Steel Blue (`#4dabf7`, `#1864ab`), Crimson (`#e03131`), Silver (`#dee2e6`) |
+| `gia_bao` | **Gia Bảo** | `Đại La Kim Tiên` | Luminous celestial silhouette; spotless white-and-pale-gold robes, floating **Trảm Đạo Thiên Ấn** halo behind head. | Celestial White (`#f8f9fa`), Pale Gold (`#ffe066`), Sky Azure (`#74c0fc`) |
+| `hoa_tran` | **Hòa Trần** | `Thái Ất Kim Tiên` | Unassuming wandering sage silhouette; sage-green and weathered grey hemp robes, bamboo staff with hanging wine gourd, gentle wind-leaf aura. | Sage Green (`#51cf66`, `#2b8a3e`), Hemp Grey (`#868e96`), Bamboo (`#94d82d`) |
+
+## 3. Village & Forest Cast (Vertical Slice Active Entities)
+- **`merchant_truong` (Lão Trù Trương — Linh Trù Thương Nhân)**: Warm brown/crimson culinary vendor in Tân Thủ Thôn beside the steaming noodle stall.
+- **`truc_lang` (Trúc Lang — Bamboo Spirit Wolf)**: Sleek emerald-and-ash forest wolf (`48x64` frame) with glowing amber eyes, prowl walk cycle, red telegraph lunge, and bite animation.
+- **`thanh_lan_xa` (Thanh Lân Xà — Jade Scale Spirit Serpent)**: Coiled cyan-and-emerald spirit snake (`48x64` frame) in Thanh Trúc Lâm with slither, hood-flare telegraph, and venom-fang strike animation.

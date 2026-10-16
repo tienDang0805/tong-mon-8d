@@ -1,0 +1,944 @@
+{
+  "version": "1.1.0",
+  "styleDirection": "Candidate A \u2014 Classic Crisp 16/32-bit Xianxia Top-Down RPG",
+  "logicalTileGrid": 32,
+  "characterFrameSize": {
+    "width": 48,
+    "height": 64
+  },
+  "portraitSize": {
+    "width": 160,
+    "height": 160
+  },
+  "assets": [
+    {
+      "assetId": "portrait_phi_de",
+      "file": "assets/portraits/portrait_phi_de.png",
+      "category": "portrait",
+      "characterId": "phi_de",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_hero_kiem_tu",
+      "file": "assets/portraits/portrait_hero_kiem_tu.png",
+      "category": "portrait",
+      "characterId": "hero_kiem_tu",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_chatdvt",
+      "file": "assets/portraits/portrait_chatdvt.png",
+      "category": "portrait",
+      "characterId": "chatdvt",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_merchant_truong",
+      "file": "assets/portraits/portrait_merchant_truong.png",
+      "category": "portrait",
+      "characterId": "merchant_truong",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_hoa_tran",
+      "file": "assets/portraits/portrait_hoa_tran.png",
+      "category": "portrait",
+      "characterId": "hoa_tran",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_dam_lon_tien_tu",
+      "file": "assets/portraits/portrait_dam_lon_tien_tu.png",
+      "category": "portrait",
+      "characterId": "dam_lon_tien_tu",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_rmt_de",
+      "file": "assets/portraits/portrait_rmt_de.png",
+      "category": "portrait",
+      "characterId": "rmt_de",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_vaal_de",
+      "file": "assets/portraits/portrait_vaal_de.png",
+      "category": "portrait",
+      "characterId": "vaal_de",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_anh_7",
+      "file": "assets/portraits/portrait_anh_7.png",
+      "category": "portrait",
+      "characterId": "anh_7",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "portrait_ngoc_tam",
+      "file": "assets/portraits/portrait_ngoc_tam.png",
+      "category": "portrait",
+      "characterId": "ngoc_tam",
+      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "sprite_hero_kiem_tu",
+      "file": "assets/sprites/hero_kiem_tu.png",
+      "category": "character_spritesheet",
+      "characterId": "hero_kiem_tu",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_phi_de",
+      "file": "assets/sprites/phi_de.png",
+      "category": "character_spritesheet",
+      "characterId": "phi_de",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_chatdvt",
+      "file": "assets/sprites/chatdvt.png",
+      "category": "creature_spritesheet",
+      "characterId": "chatdvt",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_merchant_truong",
+      "file": "assets/sprites/merchant_truong.png",
+      "category": "character_spritesheet",
+      "characterId": "merchant_truong",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_hoa_tran",
+      "file": "assets/sprites/hoa_tran.png",
+      "category": "character_spritesheet",
+      "characterId": "hoa_tran",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_dam_lon_tien_tu",
+      "file": "assets/sprites/dam_lon_tien_tu.png",
+      "category": "character_spritesheet",
+      "characterId": "dam_lon_tien_tu",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_truc_lang",
+      "file": "assets/sprites/truc_lang.png",
+      "category": "creature_spritesheet",
+      "characterId": "truc_lang",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_thanh_lan_xa",
+      "file": "assets/sprites/thanh_lan_xa.png",
+      "category": "creature_spritesheet",
+      "characterId": "thanh_lan_xa",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_rmt_de",
+      "file": "assets/sprites/rmt_de.png",
+      "category": "character_spritesheet",
+      "characterId": "rmt_de",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_vaal_de",
+      "file": "assets/sprites/vaal_de.png",
+      "category": "character_spritesheet",
+      "characterId": "vaal_de",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_anh_7",
+      "file": "assets/sprites/anh_7.png",
+      "category": "character_spritesheet",
+      "characterId": "anh_7",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "sprite_ngoc_tam",
+      "file": "assets/sprites/ngoc_tam.png",
+      "category": "character_spritesheet",
+      "characterId": "ngoc_tam",
+      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 288,
+      "height": 1024,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "framesPerRow": 4
+        },
+        "walk": {
+          "rows": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "framesPerRow": 6
+        },
+        "attack": {
+          "rows": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "framesPerRow": 4
+        },
+        "cast": {
+          "rows": [
+            12,
+            13,
+            14,
+            15
+          ],
+          "framesPerRow": 4
+        }
+      }
+    },
+    {
+      "assetId": "prop_noodle_stall",
+      "file": "assets/props/prop_noodle_stall.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 128,
+      "height": 128,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_than_dinh",
+      "file": "assets/props/prop_than_dinh.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 96,
+      "height": 96,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_portal_arch",
+      "file": "assets/props/prop_portal_arch.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 96,
+      "height": 96,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_bamboo_cluster",
+      "file": "assets/props/prop_bamboo_cluster.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 96,
+      "height": 96,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_temple_pavilion",
+      "file": "assets/props/prop_temple_pavilion.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 128,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_peach_tree",
+      "file": "assets/props/prop_peach_tree.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 96,
+      "height": 96,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_stone_lantern",
+      "file": "assets/props/prop_stone_lantern.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 64,
+      "height": 64,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "prop_spirit_herb",
+      "file": "assets/props/prop_spirit_herb.png",
+      "category": "environment_prop",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 64,
+      "height": 64,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "tileset_bat_hoang",
+      "file": "assets/tilesets/bat_hoang_tileset.png",
+      "category": "tileset",
+      "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 512,
+      "height": 256,
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "tileCount": 128
+    },
+    {
+      "assetId": "vfx_portal_ring",
+      "file": "assets/vfx/portal_ring.png",
+      "category": "vfx_spritesheet",
+      "source": "packages/art-tools/build_assets.py",
+      "license": "Original Project Asset (MIT/Proprietary)",
+      "status": "approved",
+      "width": 256,
+      "height": 64,
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "assetId": "vfx_phi_de_blessing",
+      "file": "assets/vfx/phi_de_blessing.png",
+      "category": "vfx_spritesheet",
+      "source": "packages/art-tools/build_assets.py",
+      "license": "Original Project Asset (MIT/Proprietary)",
+      "status": "approved",
+      "width": 256,
+      "height": 64,
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "assetId": "contact_sheet_preview",
+      "file": "assets/contact_sheet_preview.png",
+      "category": "preview_sheet",
+      "source": "packages/art-tools/build_assets.py",
+      "license": "Original Project Asset (MIT/Proprietary)",
+      "status": "approved",
+      "width": 960,
+      "height": 560
+    }
+  ],
+  "maps": [
+    {
+      "zoneId": "tan_thu_thon",
+      "file": "maps/tan_thu_thon.tmj",
+      "widthTiles": 40,
+      "heightTiles": 30
+    },
+    {
+      "zoneId": "thanh_truc_lam",
+      "file": "maps/thanh_truc_lam.tmj",
+      "widthTiles": 44,
+      "heightTiles": 32
+    }
+  ]
+}
