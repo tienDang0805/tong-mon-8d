@@ -94,7 +94,9 @@ export class WorldScene extends Phaser.Scene {
   private touchVector = { vx: 0, vy: 0 };
 
   private localVisual: EntityVisualBundle | null = null;
+  private localAppearanceKey = "hero_kiem_tu";
   private remoteVisuals = new Map<string, EntityVisualBundle>();
+  private remoteAppearanceKeys = new Map<string, string>();
   private npcVisuals = new Map<string, EntityVisualBundle>();
   private npcOverrideAnims = new Map<string, { state: AnimState; dir: Direction; until: number }>();
   private monsterVisuals = new Map<string, EntityVisualBundle>();
@@ -299,6 +301,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
       if (this.isTypingInInput()) return;
+      if (this.net.isV02Mode() && !this.net.selfState) return;
       const worldPt = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
       this.pointerTarget = { x: worldPt.x, y: worldPt.y };
     });
@@ -309,11 +312,31 @@ export class WorldScene extends Phaser.Scene {
     return active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement;
   }
 
+  private resolvePlayerSpriteKey(appearanceId?: string): string {
+    if (appearanceId && (SPRITE_KEYS as readonly string[]).includes(appearanceId)) {
+      return appearanceId;
+    }
+    return "hero_kiem_tu";
+  }
+
+  private setVisualBundleVisible(b: EntityVisualBundle, visible: boolean): void {
+    b.sprite.setVisible(visible);
+    b.nameLabel.setVisible(visible);
+    b.subLabel.setVisible(visible);
+    b.hpBg?.setVisible(visible);
+    b.hpFill?.setVisible(visible);
+    if (!visible) {
+      b.auraRing?.setVisible(false);
+      b.telegraphRing?.setVisible(false);
+    }
+  }
+
   public setTouchVector(vx: number, vy: number): void {
     this.touchVector = { vx, vy };
   }
 
   public triggerSkill(skillId: "basic_slash" | "kiem_khi_ung" | "ho_the_kim_quang"): void {
+    if (this.net.isV02Mode() && !this.net.selfState) return;
     this.localAnim = skillId === "basic_slash" ? "attack" : "cast";
     this.attackAnimUntil = this.time.now + 380;
     if (skillId === "basic_slash") {
@@ -326,6 +349,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   public triggerContextualInteract(): void {
+    if (this.net.isV02Mode() && !this.net.selfState) return;
     const zoneDef = ZONES_REGISTRY[this.currentZoneId];
     for (const portal of zoneDef.portals) {
       if (Math.hypot(this.localX - portal.x, this.localY - portal.y) <= portal.radiusPx) {
@@ -349,6 +373,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   public triggerPickupNearestDrop(): void {
+    if (this.net.isV02Mode() && !this.net.selfState) return;
     let best: { id: string; dist: number } | null = null;
     for (const [dropId, vis] of this.dropVisuals.entries()) {
       const d = Math.hypot(this.localX - vis.data.x, this.localY - vis.data.y);
@@ -394,6 +419,7 @@ export class WorldScene extends Phaser.Scene {
       this.destroyVisualBundle(b);
     }
     this.remoteVisuals.clear();
+    this.remoteAppearanceKeys.clear();
 
     for (const b of this.monsterVisuals.values()) {
       this.destroyVisualBundle(b);
@@ -496,10 +522,17 @@ export class WorldScene extends Phaser.Scene {
       this.npcVisuals.set(npc.id, bundle);
     }
 
-    if (!this.localVisual) {
-      const self = this.net.selfState;
+    const self = this.net.selfState;
+    const desiredSpriteKey = this.resolvePlayerSpriteKey(
+      self?.appearanceId ?? this.net.selfStateV02?.identity.appearanceId
+    );
+    if (!this.localVisual || this.localAppearanceKey !== desiredSpriteKey) {
+      if (this.localVisual) {
+        this.destroyVisualBundle(this.localVisual);
+      }
+      this.localAppearanceKey = desiredSpriteKey;
       this.localVisual = this.createVisualBundle(
-        "hero_kiem_tu",
+        desiredSpriteKey,
         this.localX,
         this.localY,
         self?.nickname ?? "Đạo Hữu",
@@ -508,6 +541,8 @@ export class WorldScene extends Phaser.Scene {
         true
       );
     }
+    const shouldShowAvatar = !this.net.isV02Mode() || Boolean(this.net.selfState);
+    this.setVisualBundleVisible(this.localVisual, shouldShowAvatar);
 
     const worldW = zoneDef.widthTiles * zoneDef.tileSize;
     const worldH = zoneDef.heightTiles * zoneDef.tileSize;
@@ -670,7 +705,23 @@ export class WorldScene extends Phaser.Scene {
       this.localX = state.x;
       this.localY = state.y;
     }
+    const desiredSpriteKey = this.resolvePlayerSpriteKey(state.appearanceId);
+    if (this.localVisual && this.localAppearanceKey !== desiredSpriteKey && this.scene.isActive()) {
+      this.destroyVisualBundle(this.localVisual);
+      this.localAppearanceKey = desiredSpriteKey;
+      this.localVisual = this.createVisualBundle(
+        desiredSpriteKey,
+        this.localX,
+        this.localY,
+        state.nickname,
+        `【${formatRealmDisplay(state.realmId, state.realmStage)}】`,
+        "#63e6be",
+        true
+      );
+      this.cameras.main.startFollow(this.localVisual.sprite, true, 0.14, 0.14);
+    }
     if (this.localVisual) {
+      this.setVisualBundleVisible(this.localVisual, true);
       this.localVisual.nameLabel.setText(state.nickname);
       this.localVisual.subLabel.setText(
         `【${formatRealmDisplay(state.realmId, state.realmStage)}】`
@@ -689,10 +740,16 @@ export class WorldScene extends Phaser.Scene {
     for (const [charId, rp] of Object.entries(snapshot.players)) {
       if (charId === myCharId) continue;
       seenRemoteIds.add(charId);
+      const remoteSpriteKey = this.resolvePlayerSpriteKey(rp.appearanceId);
       let vis = this.remoteVisuals.get(charId);
+      if (vis && this.remoteAppearanceKeys.get(charId) !== remoteSpriteKey) {
+        this.destroyVisualBundle(vis);
+        this.remoteVisuals.delete(charId);
+        vis = undefined;
+      }
       if (!vis) {
         vis = this.createVisualBundle(
-          "hero_kiem_tu",
+          remoteSpriteKey,
           rp.x,
           rp.y,
           rp.nickname,
@@ -701,6 +758,7 @@ export class WorldScene extends Phaser.Scene {
           true
         );
         this.remoteVisuals.set(charId, vis);
+        this.remoteAppearanceKeys.set(charId, remoteSpriteKey);
       }
       vis.nameLabel.setText(rp.nickname);
       vis.subLabel.setText(`【${formatRealmDisplay(rp.realmId, rp.realmStage)}】`);
@@ -712,7 +770,7 @@ export class WorldScene extends Phaser.Scene {
         rp.hasPhiDeBlessing,
         false
       );
-      const animKey = `hero_kiem_tu_${rp.anim}_${rp.direction}`;
+      const animKey = `${remoteSpriteKey}_${rp.anim}_${rp.direction}`;
       if (this.anims.exists(animKey)) {
         vis.sprite.play(animKey, true);
       }
@@ -722,6 +780,7 @@ export class WorldScene extends Phaser.Scene {
       if (!seenRemoteIds.has(charId)) {
         this.destroyVisualBundle(vis);
         this.remoteVisuals.delete(charId);
+        this.remoteAppearanceKeys.delete(charId);
       }
     }
 
@@ -917,6 +976,12 @@ export class WorldScene extends Phaser.Scene {
 
   update(_time: number, delta: number): void {
     if (!this.localVisual) return;
+    if (this.net.isV02Mode() && !this.net.selfState) {
+      this.setVisualBundleVisible(this.localVisual, false);
+      this.interactPromptText.setVisible(false);
+      return;
+    }
+    this.setVisualBundleVisible(this.localVisual, true);
 
     let vx = this.touchVector.vx;
     let vy = this.touchVector.vy;
@@ -990,7 +1055,7 @@ export class WorldScene extends Phaser.Scene {
       hasBlessing,
       false
     );
-    const animKey = `hero_kiem_tu_${this.localAnim}_${this.localDir}`;
+    const animKey = `${this.localAppearanceKey}_${this.localAnim}_${this.localDir}`;
     if (this.anims.exists(animKey)) {
       this.localVisual.sprite.play(animKey, true);
     }
@@ -1066,9 +1131,16 @@ export class WorldScene extends Phaser.Scene {
       return JSON.stringify({
         zoneId: this.currentZoneId,
         zoneNameVi: ZONES_REGISTRY[this.currentZoneId].nameVi,
+        v02Mode: this.net.isV02Mode(),
+        v02Character: this.net.selfStateV02,
+        v02ActiveRollDraft: this.net.activeRollDraft,
+        localAvatarVisible: Boolean(this.localVisual?.sprite.visible),
+        localAppearanceKey: this.localAppearanceKey,
         localPlayer: {
           accountId: this.net.getAccountId(),
           nickname: self?.nickname ?? "",
+          appearanceId: self?.appearanceId ?? this.localAppearanceKey,
+          level: self?.level ?? this.net.selfStateV02?.levelProgress.level ?? 1,
           x: Math.round(this.localX),
           y: Math.round(this.localY),
           direction: this.localDir,

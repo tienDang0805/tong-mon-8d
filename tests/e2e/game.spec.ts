@@ -253,4 +253,36 @@ test.describe("Tông Môn 8D: Tu Tiên Chi Lộ — Full Autonomous Launch Playt
     });
     await mobileCtx.close();
   });
+
+  test("S1-E: Character v0.2 Creation, Tiên Thiên Destiny Roll/Confirm, [C] Panel, Reload Persistence, and Invalid Credential Recovery", async ({
+    browser
+  }) => {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+    const page = await ctx.newPage();
+    await page.goto(`/?guestSlot=spec_s1e_${Date.now()}`);
+
+    await expect(page.locator("#character-creation-overlay")).toBeVisible({ timeout: 12000 });
+    await page.locator("#cc-input-name").fill("Lâm Động 8D");
+    await page.locator('.cc-appearance-card[data-appearance-id="hoa_tran"]').click();
+    await page.locator("#btn-cc-create-draft").click();
+
+    await expect(page.locator("#cc-rolled-section")).toBeVisible({ timeout: 8000 });
+    await expect(page.locator(".cc-destiny-card")).toHaveCount(3);
+    await page.locator("#btn-cc-reroll").click();
+    await expect(page.locator(".cc-destiny-card")).toHaveCount(3);
+    await page.locator("#btn-cc-confirm").click();
+
+    await expect(page.locator("#character-creation-overlay")).toBeHidden({ timeout: 8000 });
+    await expect(page.locator("#hud-player-name")).toContainText("Lâm Động 8D");
+
+    await page.keyboard.press("c");
+    await expect(page.locator("#cultivation-modal")).toBeVisible();
+    await expect(page.locator("#cultivation-modal")).toContainText("Tiên Thiên Nghịch Thiên Cải Mệnh");
+    await page.locator("#btn-close-modal").click();
+
+    await page.reload();
+    await expect(page.locator("#hud-player-name")).toContainText("Lâm Động 8D", { timeout: 10000 });
+    await expect(page.locator("#character-creation-overlay")).toBeHidden();
+    await ctx.close();
+  });
 });

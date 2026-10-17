@@ -3,16 +3,29 @@ import { SoundController } from "./audio.js";
 import { GameNetworkClient } from "./network.js";
 import { WorldScene } from "./WorldScene.js";
 import { HudOverlayController } from "./hud.js";
+import { CharacterCreationOverlayController } from "./characterCreation.js";
 
 async function bootstrapGame(): Promise<void> {
   const soundCtrl = new SoundController();
   const worldScene = new WorldScene();
   let hud: HudOverlayController | null = null;
+  let charCreate: CharacterCreationOverlayController | null = null;
 
   const net = new GameNetworkClient({
     onSelfState: (state) => {
       worldScene.syncSelfState(state);
       hud?.refreshPanels(state);
+    },
+    onSelfStateV02: (state) => {
+      charCreate?.onSelfStateV02(state);
+      hud?.refreshPanels();
+    },
+    onGuestAuthResult: (result) => {
+      charCreate?.onGuestAuthResult(result);
+    },
+    onCharacterV02ActionResult: (result) => {
+      charCreate?.onCharacterV02ActionResult(result);
+      hud?.onCharacterV02ActionResult(result);
     },
     onWorldSnapshot: (snapshot) => {
       worldScene.syncWorldSnapshot(snapshot);
@@ -40,6 +53,7 @@ async function bootstrapGame(): Promise<void> {
   const hudRoot = document.getElementById("hud-overlay");
   if (hudRoot) {
     hud = new HudOverlayController(hudRoot, net, soundCtrl, () => worldScene);
+    charCreate = new CharacterCreationOverlayController(hudRoot, net, soundCtrl);
   }
 
   await net.connect();

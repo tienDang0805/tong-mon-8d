@@ -1,10 +1,13 @@
 import type {
   BaseAttributes,
   CanonicalRealmId,
-  CharacterLevelProgress
+  CharacterLevelProgress,
+  DestinyCollection,
+  DestinyDefinitionMetadata
 } from "@tong-mon-8d/shared";
 import {
   BASE_ATTRIBUTE_KEYS,
+  computeActiveDestinyPreRealmAttributeBonuses,
   createZeroBaseAttributes,
   formatExpDecimalString,
   getRealmLevelBand,
@@ -502,6 +505,7 @@ export interface CandidateBaselineStatSnapshot {
   level: number;
   realmFactor: number;
   originAttributes: BaseAttributes;
+  destinyAttributeBonuses: BaseAttributes;
   preRealmAttributes: BaseAttributes;
   effectiveAttributes: BaseAttributes;
   derivedStats: CandidateDerivedStats;
@@ -558,12 +562,17 @@ export function computeCandidateBaselineStatSnapshot(
   }
 
   const originAttributes = createCandidateOriginBaseAttributes();
+  const destinyAttributeBonuses = computeActiveDestinyPreRealmAttributeBonuses(
+    (raw.destiny as DestinyCollection | null | undefined) ?? null,
+    raw.destinyCatalog as Readonly<Record<string, DestinyDefinitionMetadata>> | undefined
+  );
   const preRealmAttributes = createZeroBaseAttributes();
   for (const key of BASE_ATTRIBUTE_KEYS) {
     const sumVal =
       originAttributes[key] +
       validProgress.allocated[key] +
-      validProgress.earnedPermanent[key];
+      validProgress.earnedPermanent[key] +
+      destinyAttributeBonuses[key];
     if (!Number.isSafeInteger(sumVal) || sumVal < 0) {
       return { ok: false, code: "INVALID_PROGRESS_STATE" };
     }
@@ -596,6 +605,7 @@ export function computeCandidateBaselineStatSnapshot(
       level: validProgress.level,
       realmFactor: effectiveRes.realmFactor,
       originAttributes,
+      destinyAttributeBonuses,
       preRealmAttributes,
       effectiveAttributes: effectiveRes.effectiveAttributes,
       derivedStats: derivedRes.derivedStats

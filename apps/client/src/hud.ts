@@ -1,16 +1,28 @@
 import type {
   ActionResultPayload,
+  BaseAttributeKey,
   CharacterSaveState,
+  CharacterV02ActionResultPayload,
+  CharacterV02SnapshotPayload,
   ChatMessagePayload,
   RoomWorldSnapshot
 } from "@tong-mon-8d/shared";
 import {
-  formatRealmDisplay,
-  getRealmRequiredTuVi,
+  APPROVED_CHARACTER_V02_APPEARANCES,
+  BASE_ATTRIBUTE_KEYS,
+  BASE_ATTRIBUTE_LABELS_VI,
+  DESTINY_RARITY_LABELS_VI,
   ITEMS_REGISTRY,
+  LEGENDARY_NPCS,
   QUESTS_REGISTRY,
   RECIPES_REGISTRY,
+  S1E_STARTER_DESTINY_CATALOG,
   ZONES_REGISTRY,
+  formatDestinyTraitBonusSummaryVi,
+  formatRealmDisplay,
+  getCandidateExpToNextLevelDecimal,
+  getRealmRequiredTuVi,
+  isAtNonSaintMajorRealmLevelCap,
   type LegendaryNpcDefinition
 } from "@tong-mon-8d/game-data";
 import type { GameNetworkClient } from "./network.js";
@@ -28,12 +40,15 @@ export class HudOverlayController {
   private chatLines: Array<{ kind: "normal" | "system" | "combat"; text: string }> = [
     {
       kind: "system",
-      text: "Chào mừng tới Bát Hoang! Nhấn WASD để di chuyển, [E] đàm đạo / qua Truyền Tống Trận, [J]/[K] xuất chiêu."
+      text: "Chào mừng tới Bát Hoang! Nhấn WASD để di chuyển, [C] Nhân Vật & Khí Vận, [E] đàm đạo / qua Truyền Tống Trận, [J]/[K] xuất chiêu."
     }
   ];
 
   private elTopLeft!: HTMLElement;
   private elTopRight!: HTMLElement;
+  private elBottomLeft!: HTMLElement;
+  private elBottomCenter!: HTMLElement;
+  private elMobileDpad!: HTMLElement;
   private elChatLog!: HTMLElement;
   private elModalHost!: HTMLElement;
   private elBannerHost!: HTMLElement;
@@ -56,14 +71,14 @@ export class HudOverlayController {
     this.root.innerHTML = `
       <div class="hud-panel hud-top-left" id="hud-top-left"></div>
       <div class="hud-panel hud-top-right" id="hud-top-right"></div>
-      <div class="hud-panel hud-bottom-left">
+      <div class="hud-panel hud-bottom-left" id="hud-bottom-left">
         <div class="chat-log" id="hud-chat-log"></div>
         <div class="chat-input-row">
           <input class="chat-input" id="hud-chat-input" type="text" maxlength="120" placeholder="Truyền âm tông môn..." />
           <button class="hud-btn" id="hud-chat-send">Gửi</button>
         </div>
       </div>
-      <div class="hud-panel hud-bottom-center">
+      <div class="hud-panel hud-bottom-center" id="hud-bottom-center">
         <div class="skill-slot" data-action="skill_j">
           <span class="skill-key">[J] Công Kích</span>
           <span class="skill-name">Thanh Vân Trảm</span>
@@ -103,6 +118,9 @@ export class HudOverlayController {
 
     this.elTopLeft = this.root.querySelector("#hud-top-left") as HTMLElement;
     this.elTopRight = this.root.querySelector("#hud-top-right") as HTMLElement;
+    this.elBottomLeft = this.root.querySelector("#hud-bottom-left") as HTMLElement;
+    this.elBottomCenter = this.root.querySelector("#hud-bottom-center") as HTMLElement;
+    this.elMobileDpad = this.root.querySelector("#hud-mobile-dpad") as HTMLElement;
     this.elChatLog = this.root.querySelector("#hud-chat-log") as HTMLElement;
     this.elModalHost = this.root.querySelector("#hud-modal-host") as HTMLElement;
     this.elBannerHost = this.root.querySelector("#hud-banner-host") as HTMLElement;
@@ -165,6 +183,12 @@ export class HudOverlayController {
       if (active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement) {
         return;
       }
+      if (
+        this.net.isV02Mode() &&
+        this.net.selfStateV02?.identity.creationState !== "confirmed"
+      ) {
+        return;
+      }
       if (e.key === "Escape" && this.activeModal !== "none") {
         this.closeModal();
       } else if (e.key === "i" || e.key === "I") {
@@ -217,6 +241,14 @@ export class HudOverlayController {
     }
   }
 
+  public onCharacterV02ActionResult(res: CharacterV02ActionResultPayload): void {
+    this.appendLog(res.ok ? "system" : "combat", res.messageVi);
+    this.refreshPanels();
+    if (this.activeModal !== "none") {
+      this.renderModal();
+    }
+  }
+
   public onChatMessage(msg: ChatMessagePayload): void {
     this.appendLog("normal", `[${msg.senderName}]: ${msg.text}`);
   }
@@ -246,50 +278,103 @@ export class HudOverlayController {
     this.elChatLog.scrollTop = this.elChatLog.scrollHeight;
   }
 
-  public refreshPanels(_self?: CharacterSaveState, _snap?: RoomWorldSnapshot): void {
-    const p = this.net.selfState;
-    const snap = this.net.worldSnapshot;
-    const reqTuVi = p ? getRealmRequiredTuVi(p.realmId, p.realmStage) : 120;
-    const hpPct = p ? Math.min(100, Math.round((p.hp / Math.max(1, p.maxHp)) * 100)) : 100;
-    const mpPct = p ? Math.min(100, Math.round((p.mp / Math.max(1, p.maxMp)) * 100)) : 100;
-    const tuViPct = p ? Math.min(100, Math.round((p.tuVi / Math.max(1, reqTuVi)) * 100)) : 0;
+  public refreshPanels(
+    _self?: CharacterSaveState,
+    _snap?: RoomWorldSnapshot,
+    _selfV02?: CharacterV02SnapshotPayload
+  ): void {
+    const inCreation =
+      this.net.isV02Mode() &&
+      this.net.selfStateV02?.identity.creationState !== "confirmed";
+    const hudDisplay = inCreation ? "none" : "";
+    this.elTopLeft.style.display = hudDisplay;
+    this.elTopRight.style.display = hudDisplay;
+    this.elBottomLeft.style.display = hudDisplay;
+    this.elBottomCenter.style.display = hudDisplay;
+    if (inCreation) {
+      this.elMobileDpad.style.display = "none";
+      this.closeModal();
+      return;
+    } else {
+      this.elMobileDpad.style.display = "";
+    }
 
-    const realmBadge = p ? formatRealmDisplay(p.realmId, p.realmStage) : "Phàm Nhân • Phàm Thể";
+    const p = this.net.selfState;
+    const v02 = this.net.selfStateV02;
+    const snap = this.net.worldSnapshot;
+    const realmId = v02?.cultivation.realmId ?? p?.realmId ?? "pham_nhan";
+    const realmStage = v02?.cultivation.realmStage ?? p?.realmStage ?? 1;
+    const reqTuVi = getRealmRequiredTuVi(realmId, realmStage);
+    const curHp = p?.hp ?? v02?.resources.currentHp ?? 0;
+    const maxHp = p?.maxHp ?? v02?.derivedStats.maxHp ?? 1;
+    const curMp = p?.mp ?? v02?.resources.currentMp ?? 0;
+    const maxMp = p?.maxMp ?? v02?.derivedStats.maxMp ?? 1;
+    const curTuVi = p?.tuVi ?? Number(v02?.cultivation.tuVi ?? 0);
+
+    const hpPct = Math.min(100, Math.round((curHp / Math.max(1, maxHp)) * 100));
+    const mpPct = Math.min(100, Math.round((curMp / Math.max(1, maxMp)) * 100));
+    const tuViPct = Math.min(100, Math.round((curTuVi / Math.max(1, reqTuVi)) * 100));
+
+    const level = v02?.levelProgress.level ?? p?.level ?? 1;
+    const expNowStr = v02?.levelProgress.expTowardNext ?? "0";
+    const expNextStr = getCandidateExpToNextLevelDecimal(level) ?? "100";
+    const atLevelCap = isAtNonSaintMajorRealmLevelCap(realmId, level);
+    const expPct = atLevelCap
+      ? 100
+      : Math.min(
+          100,
+          Math.round((Number(expNowStr) / Math.max(1, Number(expNextStr))) * 100)
+        );
+    const freePts = v02?.levelProgress.freeAttributePoints ?? 0;
+
+    const playerName = v02?.identity.name ?? p?.nickname ?? "Đang kết nối...";
+    const realmBadge = formatRealmDisplay(realmId, realmStage);
     const buffsHtml = (p?.buffs ?? [])
       .map((b) => `<span class="buff-pill">${this.escapeHtml(b.name)}</span>`)
       .join("");
+    const freePtsHtml =
+      freePts > 0
+        ? `<span class="buff-pill" id="hud-free-points-pill">+${freePts} Điểm Thuộc Tính [C]</span>`
+        : "";
 
     this.elTopLeft.innerHTML = `
       <div class="hud-player-header">
-        <span class="hud-player-name" id="hud-player-name">${this.escapeHtml(p?.nickname ?? "Đang kết nối...")}</span>
-        <span class="hud-realm-badge" id="hud-realm-badge">${this.escapeHtml(realmBadge)}</span>
+        <span class="hud-player-name" id="hud-player-name">${this.escapeHtml(playerName)}</span>
+        <span class="hud-realm-badge" id="hud-realm-badge">Cấp ${level} • ${this.escapeHtml(realmBadge)}</span>
       </div>
       <div class="hud-title-row">
-        <span>${this.escapeHtml(p?.equippedTitle ?? "Tân Nhập Môn Đệ Tử")}</span>
-        <span class="hud-currency" id="hud-linh-thach">💎 ${p?.linhThach ?? 0} Linh Thạch</span>
+        <span>${this.escapeHtml(p?.equippedTitle ?? v02?.world.equippedTitle ?? "Tân Nhập Môn Đệ Tử")}</span>
+        <span class="hud-currency" id="hud-linh-thach">💎 ${p?.linhThach ?? v02?.world.linhThach ?? 0} Linh Thạch</span>
       </div>
       <div class="bar-row">
         <span class="bar-label">Khí Huyết</span>
         <div class="bar-track">
           <div class="bar-fill hp" style="width:${hpPct}%"></div>
-          <div class="bar-text">${p?.hp ?? 0} / ${p?.maxHp ?? 0}</div>
+          <div class="bar-text" id="hud-hp-text">${curHp} / ${maxHp}</div>
         </div>
       </div>
       <div class="bar-row">
         <span class="bar-label">Linh Lực</span>
         <div class="bar-track">
           <div class="bar-fill mp" style="width:${mpPct}%"></div>
-          <div class="bar-text">${p?.mp ?? 0} / ${p?.maxMp ?? 0}</div>
+          <div class="bar-text" id="hud-mp-text">${curMp} / ${maxMp}</div>
         </div>
       </div>
       <div class="bar-row">
         <span class="bar-label">Tu Vi</span>
         <div class="bar-track">
           <div class="bar-fill tuvi" style="width:${tuViPct}%"></div>
-          <div class="bar-text" id="hud-tuvi-text">${p?.tuVi ?? 0} / ${reqTuVi}</div>
+          <div class="bar-text" id="hud-tuvi-text">${curTuVi} / ${reqTuVi}</div>
         </div>
       </div>
-      ${buffsHtml ? `<div class="hud-buffs-row" id="hud-buffs-row">${buffsHtml}</div>` : ""}
+      <div class="bar-row">
+        <span class="bar-label">Kinh Nghiệm</span>
+        <div class="bar-track">
+          <div class="bar-fill exp" style="width:${expPct}%"></div>
+          <div class="bar-text" id="hud-exp-text">${atLevelCap ? "Đỉnh Phong Cảnh Giới" : `${expNowStr} / ${expNextStr}`}</div>
+        </div>
+      </div>
+      ${buffsHtml || freePtsHtml ? `<div class="hud-buffs-row" id="hud-buffs-row">${freePtsHtml}${buffsHtml}</div>` : ""}
     `;
 
     const zoneId = p?.zoneId ?? this.net.getCurrentZoneId();
@@ -298,10 +383,10 @@ export class HudOverlayController {
 
     this.elTopRight.innerHTML = `
       <div class="zone-title" id="hud-zone-title">${this.escapeHtml(zoneDef.nameVi)}</div>
-      <div class="zone-meta" id="hud-zone-meta">Đạo hữu tại khu vực: ${onlineCount} • (${Math.round(p?.x ?? 0)}, ${Math.round(p?.y ?? 0)})</div>
+      <div class="zone-meta" id="hud-zone-meta">Đạo hữu tại khu vực: ${onlineCount} • (${Math.round(p?.x ?? v02?.world.x ?? 0)}, ${Math.round(p?.y ?? v02?.world.y ?? 0)})</div>
       <div class="hud-btn-group">
         <button class="hud-btn" id="btn-open-inventory">Hành Trang & Ẩm Thực [I]</button>
-        <button class="hud-btn gold" id="btn-open-cultivation">Tu Luyện & Tổ Đội [C]</button>
+        <button class="hud-btn gold" id="btn-open-cultivation">Nhân Vật & Khí Vận [C]</button>
         <button class="hud-btn" id="btn-toggle-mute">${this.soundCtrl.isMuted() ? "🔇 Tắt Tiếng" : "🔊 Âm Thanh"}</button>
       </div>
     `;
@@ -555,27 +640,214 @@ export class HudOverlayController {
 
   private renderCultivationModal(): void {
     const p = this.net.selfState;
-    const reqTuVi = p ? getRealmRequiredTuVi(p.realmId, p.realmStage) : 120;
-    const realmLabel = p ? formatRealmDisplay(p.realmId, p.realmStage) : "Phàm Nhân";
+    const v02 = this.net.selfStateV02;
+    const realmId = v02?.cultivation.realmId ?? p?.realmId ?? "pham_nhan";
+    const realmStage = v02?.cultivation.realmStage ?? p?.realmStage ?? 1;
+    const reqTuVi = getRealmRequiredTuVi(realmId, realmStage);
+    const realmLabel = formatRealmDisplay(realmId, realmStage);
+    const level = v02?.levelProgress.level ?? p?.level ?? 1;
+    const expNow = v02?.levelProgress.expTowardNext ?? "0";
+    const expNext = getCandidateExpToNextLevelDecimal(level) ?? "100";
+    const atCap = isAtNonSaintMajorRealmLevelCap(realmId, level);
+    const freePts = v02?.levelProgress.freeAttributePoints ?? 0;
+
+    const appDef =
+      APPROVED_CHARACTER_V02_APPEARANCES.find(
+        (a) => a.id === (v02?.identity.appearanceId ?? p?.appearanceId)
+      ) ?? APPROVED_CHARACTER_V02_APPEARANCES[0];
+
+    const originAttrs = v02?.attributes?.origin ?? {
+      the_phach: 10,
+      luc_dao: 10,
+      linh_tinh: 10,
+      than_phap: 10,
+      than_thuc: 10,
+      ngo_tinh: 10
+    };
+    const destinyBonuses = v02?.attributes?.destinyBonuses ?? {
+      the_phach: 0,
+      luc_dao: 0,
+      linh_tinh: 0,
+      than_phap: 0,
+      than_thuc: 0,
+      ngo_tinh: 0
+    };
+    const preRealmAttrs = v02?.attributes?.preRealm ?? originAttrs;
+    const effectiveAttrs = v02?.attributes?.effective ?? originAttrs;
+
+    const attrCardsHtml = BASE_ATTRIBUTE_KEYS.map((key) => {
+      const labelVi = BASE_ATTRIBUTE_LABELS_VI[key];
+      const origVal = originAttrs[key];
+      const destVal = destinyBonuses[key];
+      const preVal = preRealmAttrs[key];
+      const effVal = effectiveAttrs[key];
+      return `
+        <div class="item-card char-attr-card" data-attr-card="${key}">
+          <div>
+            <div class="item-card-title">${this.escapeHtml(labelVi)}: <span class="char-attr-effective">${effVal}</span></div>
+            <div class="item-card-desc">
+              Gốc: ${origVal} • Khí Vận: +${destVal} • Trước Cảnh Giới: ${preVal}
+            </div>
+          </div>
+          <button
+            type="button"
+            class="hud-btn ${freePts > 0 ? "gold" : ""} btn-allocate-attr"
+            data-attr="${key}"
+            ${freePts > 0 ? "" : "disabled"}
+          >
+            +1 ${this.escapeHtml(labelVi)}
+          </button>
+        </div>
+      `;
+    }).join("");
+
+    const innateIds = v02?.destiny?.innate ?? [];
+    const innateCardsHtml =
+      innateIds.length === 3
+        ? innateIds
+            .map((traitId, idx) => {
+              const def = S1E_STARTER_DESTINY_CATALOG[traitId];
+              const rarity = def?.rarity ?? "pham";
+              const rarityLabel = DESTINY_RARITY_LABELS_VI[rarity];
+              const bonusText = def
+                ? formatDestinyTraitBonusSummaryVi(def)
+                : "";
+              const npc = def?.legendaryNpcId
+                ? LEGENDARY_NPCS.find((n) => n.id === def.legendaryNpcId)
+                : null;
+              return `
+                <div class="item-card char-destiny-slot rarity-${this.escapeHtml(rarity)}" data-innate-slot="${idx}" data-trait-id="${this.escapeHtml(traitId)}">
+                  <div class="item-card-title">
+                    [${this.escapeHtml(rarityLabel)}] ${this.escapeHtml(def?.displayNameVi ?? traitId)}
+                  </div>
+                  ${
+                    npc
+                      ? `<div class="cc-signature-badge">✦ Mệnh Cách Chân Truyền • ${this.escapeHtml(npc.nameVi)}</div>`
+                      : ""
+                  }
+                  <div class="item-card-desc">${this.escapeHtml(def?.descriptionVi ?? "")}</div>
+                  <div class="cc-destiny-bonus">✦ ${this.escapeHtml(bonusText)}</div>
+                </div>
+              `;
+            })
+            .join("")
+        : `<div class="item-card"><div class="item-card-desc">Chưa xác nhận Tiên Thiên Khí Vận.</div></div>`;
+
+    const activeHtSlots = v02?.destiny?.activeAcquiredSlots ?? [null, null, null];
+    const ownedHtIds = v02?.destiny?.acquiredTraitIds ?? [];
+    const activeHtHtml = activeHtSlots
+      .map((slotTraitId, slotIdx) => {
+        if (!slotTraitId) {
+          return `
+            <div class="item-card" data-ht-slot="${slotIdx}">
+              <div class="item-card-title">Hậu Thiên Ô ${slotIdx + 1}: Trống</div>
+              <div class="item-card-desc">Có thể trang bị Hậu Thiên Khí Vận đã lĩnh ngộ.</div>
+            </div>
+          `;
+        }
+        const def = S1E_STARTER_DESTINY_CATALOG[slotTraitId];
+        const rarityLabel = def ? DESTINY_RARITY_LABELS_VI[def.rarity] : "Hậu Thiên";
+        const bonusText = def ? formatDestinyTraitBonusSummaryVi(def) : "";
+        return `
+          <div class="item-card" data-ht-slot="${slotIdx}" data-trait-id="${this.escapeHtml(slotTraitId)}">
+            <div>
+              <div class="item-card-title">Ô ${slotIdx + 1}: [${this.escapeHtml(rarityLabel)}] ${this.escapeHtml(def?.displayNameVi ?? slotTraitId)}</div>
+              <div class="item-card-desc">✦ ${this.escapeHtml(bonusText)}</div>
+            </div>
+            <button type="button" class="hud-btn btn-unequip-ht" data-slot="${slotIdx}">Gỡ Bỏ</button>
+          </div>
+        `;
+      })
+      .join("");
+
+    const ownedHtHtml =
+      ownedHtIds.length === 0
+        ? `<div class="item-card"><div class="item-card-desc">Chưa lĩnh ngộ thêm Hậu Thiên Khí Vận trong hành trình.</div></div>`
+        : ownedHtIds
+            .map((traitId) => {
+              const def = S1E_STARTER_DESTINY_CATALOG[traitId];
+              const alreadyEquipped = activeHtSlots.includes(traitId);
+              const firstEmptySlot = activeHtSlots.findIndex((s) => s === null);
+              const targetSlot = firstEmptySlot >= 0 ? firstEmptySlot : 0;
+              return `
+                <div class="item-card" data-owned-ht="${this.escapeHtml(traitId)}">
+                  <div>
+                    <div class="item-card-title">${this.escapeHtml(def?.displayNameVi ?? traitId)}</div>
+                    <div class="item-card-desc">${this.escapeHtml(def ? formatDestinyTraitBonusSummaryVi(def) : "")}</div>
+                  </div>
+                  <button
+                    type="button"
+                    class="hud-btn primary btn-equip-ht"
+                    data-trait="${this.escapeHtml(traitId)}"
+                    data-slot="${targetSlot}"
+                    ${alreadyEquipped ? "disabled" : ""}
+                  >
+                    ${alreadyEquipped ? "Đang Trang Bị" : `Trang Bị (Ô ${targetSlot + 1})`}
+                  </button>
+                </div>
+              `;
+            })
+            .join("");
+
+    const dStats = v02?.derivedStats;
+    const curHp = p?.hp ?? v02?.resources.currentHp ?? 0;
+    const maxHp = dStats?.maxHp ?? p?.maxHp ?? 0;
+    const curMp = p?.mp ?? v02?.resources.currentMp ?? 0;
+    const maxMp = dStats?.maxMp ?? p?.maxMp ?? 0;
+    const physAtk = dStats?.physicalAttack ?? p?.attack ?? 0;
+    const spirAtk = dStats?.spiritualAttack ?? p?.attack ?? 0;
+    const physDef = dStats?.physicalDefense ?? p?.defense ?? 0;
+    const spirDef = dStats?.spiritualDefense ?? p?.defense ?? 0;
+    const moveSpd = dStats?.moveSpeedRating ?? 100;
+    const cultRate = dStats?.cultivationRateRating ?? 100;
 
     this.elModalHost.innerHTML = `
       <div class="hud-modal-backdrop" id="modal-backdrop">
-        <div class="hud-modal" id="cultivation-modal">
+        <div class="hud-modal hud-modal-wide" id="cultivation-modal">
           <div class="modal-header">
-            <span class="modal-title">Động Phủ Tu Luyện • Đột Phá Cảnh Giới • Tổ Đội Hộ Pháp</span>
+            <span class="modal-title">Nhân Vật • Căn Cốt Thuộc Tính • Tiên Thiên & Hậu Thiên Khí Vận [C]</span>
             <button class="hud-btn" id="btn-close-modal">Đóng [ESC]</button>
           </div>
-          <div class="item-card">
-            <div class="item-card-title">Cảnh Giới Hiện Tại: 【${this.escapeHtml(realmLabel)}】</div>
-            <div class="item-card-desc">
-              Tu Vi tích lũy: ${p?.tuVi ?? 0} / ${reqTuVi} • Công kích: ${p?.attack ?? 0} • Phòng ngự: ${p?.defense ?? 0}<br/>
-              Bế quan tĩnh tọa tự động tích lũy Tu Vi theo thời gian thực của máy chủ (giới hạn tối đa 8 giờ mỗi lần thu hoạch).
+          <div class="npc-dialogue-layout" id="char-v02-summary">
+            <div class="npc-portrait-box">
+              <img src="${this.escapeHtml(appDef.portraitUrl)}" alt="${this.escapeHtml(appDef.displayNameVi)}" />
             </div>
-            <div class="hud-btn-group" style="justify-content:flex-start; margin-top:6px;">
-              <button class="hud-btn primary" id="btn-modal-meditate">Thu Hoạch Bế Quan [M]</button>
-              <button class="hud-btn gold" id="btn-modal-breakthrough">Đột Phá Cảnh Giới [B]</button>
+            <div class="npc-dialogue-body">
+              <div class="item-card-title" id="char-modal-name">
+                ${this.escapeHtml(v02?.identity.name ?? p?.nickname ?? "Đạo Hữu")} • Cấp ${level} • 【${this.escapeHtml(realmLabel)}】
+              </div>
+              <div class="item-card-desc" id="char-modal-progression">
+                Hình tướng: ${this.escapeHtml(appDef.displayNameVi)} • Kinh nghiệm (EXP): ${atCap ? `Đạt đỉnh phong cảnh giới (${expNow})` : `${expNow} / ${expNext}`} • Tu Vi: ${p?.tuVi ?? v02?.cultivation.tuVi ?? 0} / ${reqTuVi}<br/>
+                Điểm thuộc tính tự do: <strong id="char-free-attr-points">${freePts}</strong> • Khí Huyết: ${curHp}/${maxHp} • Linh Lực: ${curMp}/${maxMp}<br/>
+                Vật Công: ${physAtk} • Pháp Công: ${spirAtk} • Vật Phòng: ${physDef} • Pháp Phòng: ${spirDef} • Thân Pháp: ${moveSpd} • Tu Luyện: ${cultRate}
+              </div>
+              <div class="hud-btn-group" style="justify-content:flex-start; margin-top:4px;">
+                <button class="hud-btn primary" id="btn-modal-meditate">Thu Hoạch Bế Quan [M]</button>
+                <button class="hud-btn gold" id="btn-modal-breakthrough">Đột Phá Cảnh Giới [B]</button>
+              </div>
             </div>
           </div>
+
+          <div class="modal-title" style="font-size:13px;">Lục Đại Thuộc Tính Gốc (Điểm Tự Do Khả Dụng: ${freePts})</div>
+          <div class="grid-cards" id="char-attributes-grid">
+            ${attrCardsHtml}
+          </div>
+
+          <div class="modal-title" style="font-size:13px;">Tiên Thiên Nghịch Thiên Cải Mệnh (3 Ô Cố Định)</div>
+          <div class="grid-cards" id="char-innate-destiny-grid">
+            ${innateCardsHtml}
+          </div>
+
+          <div class="modal-title" style="font-size:13px;">Hậu Thiên Khí Vận Đang Kích Hoạt (Tối Đa 3 Ô)</div>
+          <div class="grid-cards" id="ht-active-slots">
+            ${activeHtHtml}
+          </div>
+
+          <div class="modal-title" style="font-size:13px;">Kho Tàng Hậu Thiên Khí Vận Đã Lĩnh Ngộ (${ownedHtIds.length})</div>
+          <div class="grid-cards" id="ht-owned-collection">
+            ${ownedHtHtml}
+          </div>
+
           <div class="item-card">
             <div class="item-card-title">Tổ Đội Đồng Đạo (${p?.partyId ? `Đang trong đội ${this.escapeHtml(p.partyId)}` : "Chưa lập đội"})</div>
             <div class="item-card-desc">Kết bạn cùng đạo hữu trong khu vực để săn Trúc Lang và Thanh Lân Xà tại Thanh Trúc Lâm.</div>
@@ -590,6 +862,31 @@ export class HudOverlayController {
     `;
 
     this.bindModalClose();
+    this.elModalHost.querySelectorAll(".btn-allocate-attr").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const attrKey = (btn as HTMLElement).dataset.attr as BaseAttributeKey | undefined;
+        if (attrKey) {
+          this.net.sendAllocateAttributePointV02(attrKey);
+        }
+      });
+    });
+    this.elModalHost.querySelectorAll(".btn-unequip-ht").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const slotIdx = Number((btn as HTMLElement).dataset.slot);
+        if (slotIdx === 0 || slotIdx === 1 || slotIdx === 2) {
+          this.net.sendUnequipAcquiredDestinyV02(slotIdx);
+        }
+      });
+    });
+    this.elModalHost.querySelectorAll(".btn-equip-ht").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const traitId = (btn as HTMLElement).dataset.trait;
+        const slotIdx = Number((btn as HTMLElement).dataset.slot);
+        if (traitId && (slotIdx === 0 || slotIdx === 1 || slotIdx === 2)) {
+          this.net.sendEquipAcquiredDestinyV02(slotIdx, traitId);
+        }
+      });
+    });
     this.elModalHost.querySelector("#btn-modal-meditate")?.addEventListener("click", () => {
       this.net.sendClaimMeditation();
     });

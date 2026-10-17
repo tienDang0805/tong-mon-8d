@@ -187,6 +187,21 @@ export class AuthoritativeWorldEngine {
     return { x: player.x, y: player.y, direction: player.direction, moved: false };
   }
 
+  private async persistPlayerRuntimeState(player: CharacterSaveState): Promise<void> {
+    if (
+      player.identity?.creationState === "confirmed" ||
+      player.characterId.startsWith("char_v02_")
+    ) {
+      await this.db.characterV02Actions.syncRuntimeWorldState(
+        player.accountId,
+        player,
+        this.db.getCharacterV02ActionDefaults()
+      );
+      return;
+    }
+    await this.db.saveCharacterState(player);
+  }
+
   async handlePortalIntent(
     player: CharacterSaveState,
     intent: PortalIntentPayload
@@ -238,7 +253,7 @@ export class AuthoritativeWorldEngine {
     player.zoneId = portal.targetZoneId;
     player.x = portal.targetX;
     player.y = portal.targetY;
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
 
     const result: ActionResultPayload = {
       requestId: intent.requestId,
@@ -422,7 +437,7 @@ export class AuthoritativeWorldEngine {
       );
     }
 
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
 
     const result: ActionResultPayload = {
       requestId: intent.requestId,
@@ -481,7 +496,7 @@ export class AuthoritativeWorldEngine {
 
     this.drops.delete(intent.dropId);
     this.addItemToInventory(player, drop.itemId, drop.quantity);
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
 
     const itemDef = ITEMS_REGISTRY[drop.itemId];
     const result: ActionResultPayload = {
@@ -540,7 +555,7 @@ export class AuthoritativeWorldEngine {
 
     player.linhThach -= totalCost;
     this.addItemToInventory(player, item.id, qty);
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
     await this.db.logEconomyEvent(player.characterId, "shop_buy", -totalCost, item.id, qty);
 
     const result: ActionResultPayload = {
@@ -590,7 +605,7 @@ export class AuthoritativeWorldEngine {
 
     this.addItemToInventory(player, recipe.outputItemId, recipe.outputQuantity);
     player.tuVi += recipe.tuViReward;
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
 
     const outItem = ITEMS_REGISTRY[recipe.outputItemId];
     const result: ActionResultPayload = {
@@ -653,7 +668,7 @@ export class AuthoritativeWorldEngine {
       });
     }
 
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
     const result: ActionResultPayload = {
       requestId: intent.requestId,
       ok: true,
@@ -720,7 +735,7 @@ export class AuthoritativeWorldEngine {
         stepIndex: 1,
         objectiveCount: 0
       };
-      await this.db.saveCharacterState(player);
+      await this.persistPlayerRuntimeState(player);
       const res: ActionResultPayload = {
         requestId: intent.requestId,
         ok: true,
@@ -788,7 +803,7 @@ export class AuthoritativeWorldEngine {
       });
     }
 
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
     await this.db.logEconomyEvent(
       player.characterId,
       `quest_complete_${quest.id}`,
@@ -838,7 +853,7 @@ export class AuthoritativeWorldEngine {
     player.lastMeditationClaimAt = now;
     player.meditationStartedAt = now;
     player.tuVi += tuViGained;
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
 
     const minutes = Math.max(1, Math.round(cappedSeconds / 60));
     const cappedNote = elapsedSec > 8 * 3600 ? " (đã giới hạn tối đa 8 giờ)" : "";
@@ -915,7 +930,7 @@ export class AuthoritativeWorldEngine {
     player.hp = player.maxHp;
     player.mp = player.maxMp;
 
-    await this.db.saveCharacterState(player);
+    await this.persistPlayerRuntimeState(player);
 
     const display = formatRealmDisplay(player.realmId, player.realmStage);
     const res: ActionResultPayload = {

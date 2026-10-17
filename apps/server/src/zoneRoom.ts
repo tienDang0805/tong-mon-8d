@@ -110,6 +110,7 @@ export class ZoneRoom extends Room {
       if (!player) return;
       const { result, combatEvent } = await this.engine.handleAttackIntent(player, intent);
       this.playerAnims.set(player.accountId, intent.skillId === "basic_slash" ? "attack" : "cast");
+      await this.refreshV02SnapshotForPlayer(client, player);
       client.send("self_state", player);
       client.send("action_result", result);
       if (combatEvent) {
@@ -139,6 +140,7 @@ export class ZoneRoom extends Room {
       const player = this.getPlayerBySession(client.sessionId);
       if (!player) return;
       const result = await this.engine.handleCookRecipe(player, intent);
+      await this.refreshV02SnapshotForPlayer(client, player);
       client.send("self_state", player);
       client.send("action_result", result);
     });
@@ -147,6 +149,7 @@ export class ZoneRoom extends Room {
       const player = this.getPlayerBySession(client.sessionId);
       if (!player) return;
       const result = await this.engine.handleUseItem(player, intent);
+      await this.refreshV02SnapshotForPlayer(client, player);
       client.send("self_state", player);
       client.send("action_result", result);
       this.broadcast("world_snapshot", this.buildWorldSnapshot());
@@ -156,6 +159,7 @@ export class ZoneRoom extends Room {
       const player = this.getPlayerBySession(client.sessionId);
       if (!player) return;
       const result = await this.engine.handleQuestAction(player, intent);
+      await this.refreshV02SnapshotForPlayer(client, player);
       client.send("self_state", player);
       client.send("action_result", result);
       this.broadcast("world_snapshot", this.buildWorldSnapshot());
@@ -167,6 +171,7 @@ export class ZoneRoom extends Room {
         const player = this.getPlayerBySession(client.sessionId);
         if (!player) return;
         const result = await this.engine.handleClaimMeditation(player, intent);
+        await this.refreshV02SnapshotForPlayer(client, player);
         client.send("self_state", player);
         client.send("action_result", result);
         this.broadcast("world_snapshot", this.buildWorldSnapshot());
@@ -177,6 +182,7 @@ export class ZoneRoom extends Room {
       const player = this.getPlayerBySession(client.sessionId);
       if (!player) return;
       const result = await this.engine.handleBreakthrough(player, intent);
+      await this.refreshV02SnapshotForPlayer(client, player);
       client.send("self_state", player);
       client.send("action_result", result);
       this.broadcast("world_snapshot", this.buildWorldSnapshot());
@@ -222,24 +228,38 @@ export class ZoneRoom extends Room {
             client.send("v02_auth_result", failMsg);
             return;
           }
+          const actionDefaults = this.db.getCharacterV02ActionDefaults();
           const existingChar = await this.db.getCharacterV02ByAccount(
             verified.accountId,
             {
-              destinyCatalog: this.db.getCharacterV02ActionDefaults().destinyCatalog
+              destinyCatalog: actionDefaults.destinyCatalog
             }
           );
+          let activeRollDraft = null;
+          let snap: CharacterV02SnapshotPayload | null = null;
           if (existingChar) {
-            const snap = toCharacterV02Snapshot(existingChar);
+            snap = toCharacterV02Snapshot(existingChar, actionDefaults.destinyCatalog);
             this.activeCharactersV02.set(verified.accountId, snap);
             client.send("self_state_v02", snap);
+            if (existingChar.identity.creationState === "draft") {
+              activeRollDraft =
+                await this.db.characterV02Actions.getActiveRollDraftForCharacter(
+                  verified.accountId,
+                  existingChar.identity.characterId
+                );
+            }
           }
           const okMsg: GuestAuthResultPayload = {
             ok: true,
             code: "OK",
             messageVi: "Đã xác thực và liên kết phiên v0.2 thành công.",
-            accountId: verified.accountId
+            accountId: verified.accountId,
+            activeRollDraft
           };
           client.send("v02_auth_result", okMsg);
+          if (snap && snap.identity.creationState === "confirmed") {
+            await this.spawnOrSyncConfirmedCharacterV02(client, snap);
+          }
           return;
         }
 
@@ -253,7 +273,8 @@ export class ZoneRoom extends Room {
           code: "OK",
           messageVi: "Đã cấp mới và liên kết danh tính khách v0.2 thành công.",
           accountId: issued.accountId,
-          guestToken: issued.guestToken
+          guestToken: issued.guestToken,
+          activeRollDraft: null
         };
         client.send("v02_auth_result", issuedMsg);
       }
@@ -394,7 +415,6 @@ export class ZoneRoom extends Room {
   }
 
   async onJoin(client: Client, options?: ZoneRoomJoinOptions): Promise<void> {
-    let resolvedAccountId: string;
     if (options?.guestToken !== undefined) {
       const authRes = await this.db.guestIdentity.authenticateAndBindSession(
         client.sessionId,
@@ -407,32 +427,51 @@ export class ZoneRoom extends Room {
           messageVi: "Chứng chỉ danh tính khách v0.2 không hợp lệ."
         };
         client.send("v02_auth_result", failAuth);
-        resolvedAccountId = `unverified_${client.sessionId}`.slice(0, 64);
-      } else {
-        resolvedAccountId = authRes.accountId;
-        const okAuth: GuestAuthResultPayload = {
-          ok: true,
-          code: "OK",
-          messageVi: "Đã xác thực danh tính khách v0.2 khi vào phòng.",
-          accountId: authRes.accountId
-        };
-        client.send("v02_auth_result", okAuth);
-        const existingV02 = await this.db.getCharacterV02ByAccount(
-          resolvedAccountId,
-          {
-            destinyCatalog: this.db.getCharacterV02ActionDefaults().destinyCatalog
-          }
-        );
-        if (existingV02) {
-          const snapV02 = toCharacterV02Snapshot(existingV02);
-          this.activeCharactersV02.set(resolvedAccountId, snapV02);
-          client.send("self_state_v02", snapV02);
+        client.send("world_snapshot", this.buildWorldSnapshot());
+        return;
+      }
+
+      const resolvedAccountId = authRes.accountId;
+      const actionDefaults = this.db.getCharacterV02ActionDefaults();
+      const existingV02 = await this.db.getCharacterV02ByAccount(
+        resolvedAccountId,
+        {
+          destinyCatalog: actionDefaults.destinyCatalog
+        }
+      );
+      let activeRollDraft = null;
+      let snapV02: CharacterV02SnapshotPayload | null = null;
+      if (existingV02) {
+        snapV02 = toCharacterV02Snapshot(existingV02, actionDefaults.destinyCatalog);
+        this.activeCharactersV02.set(resolvedAccountId, snapV02);
+        client.send("self_state_v02", snapV02);
+        if (existingV02.identity.creationState === "draft") {
+          activeRollDraft =
+            await this.db.characterV02Actions.getActiveRollDraftForCharacter(
+              resolvedAccountId,
+              existingV02.identity.characterId
+            );
         }
       }
-    } else {
-      resolvedAccountId = (options?.accountId ?? `guest_${client.sessionId}`).trim().slice(0, 64);
+
+      const okAuth: GuestAuthResultPayload = {
+        ok: true,
+        code: "OK",
+        messageVi: "Đã xác thực danh tính khách v0.2 khi vào phòng.",
+        accountId: authRes.accountId,
+        activeRollDraft
+      };
+      client.send("v02_auth_result", okAuth);
+
+      if (snapV02 && snapV02.identity.creationState === "confirmed") {
+        await this.spawnOrSyncConfirmedCharacterV02(client, snapV02, options?.spawnId);
+      } else {
+        client.send("world_snapshot", this.buildWorldSnapshot());
+      }
+      return;
     }
 
+    const resolvedAccountId = (options?.accountId ?? `guest_${client.sessionId}`).trim().slice(0, 64);
     const nickname = (options?.nickname ?? `Đạo Hữu ${client.sessionId.slice(0, 4)}`).trim().slice(0, 24);
     const discipline: CombatDisciplineId = options?.discipline ?? "kiem_tu";
 
@@ -480,7 +519,15 @@ export class ZoneRoom extends Room {
     if (accountId) {
       const player = this.activePlayers.get(accountId);
       if (player) {
-        await this.db.saveCharacterState(player);
+        if (player.characterId.startsWith("char_v02_")) {
+          await this.db.characterV02Actions.syncRuntimeWorldState(
+            player.accountId,
+            player,
+            this.db.getCharacterV02ActionDefaults()
+          );
+        } else {
+          await this.db.saveCharacterState(player);
+        }
       }
       this.activePlayers.delete(accountId);
       this.playerAnims.delete(accountId);
@@ -546,12 +593,168 @@ export class ZoneRoom extends Room {
       return;
     }
 
+    const activePlayer = this.activePlayers.get(sessionCheck.accountId);
+    const cachedV02 = this.activeCharactersV02.get(sessionCheck.accountId);
+    if (
+      activePlayer &&
+      activePlayer.characterId.startsWith("char_v02_") &&
+      cachedV02 &&
+      (activePlayer.hp !== cachedV02.resources.currentHp ||
+        activePlayer.mp !== cachedV02.resources.currentMp ||
+        activePlayer.zoneId !== cachedV02.world.zoneId ||
+        activePlayer.x !== cachedV02.world.x ||
+        activePlayer.y !== cachedV02.world.y)
+    ) {
+      await this.db.characterV02Actions.syncRuntimeWorldState(
+        sessionCheck.accountId,
+        activePlayer,
+        this.db.getCharacterV02ActionDefaults()
+      );
+    }
+
     const result = await actionFn(sessionCheck.accountId);
     if (result.ok && result.character) {
       this.activeCharactersV02.set(sessionCheck.accountId, result.character);
       client.send("self_state_v02", result.character);
+      if (result.character.identity.creationState === "confirmed") {
+        await this.spawnOrSyncConfirmedCharacterV02(client, result.character);
+      }
     }
     client.send("v02_action_result", result);
+  }
+
+  private async spawnOrSyncConfirmedCharacterV02(
+    client: Client,
+    snapV02: CharacterV02SnapshotPayload,
+    spawnId?: string
+  ): Promise<void> {
+    const accountId = snapV02.identity.accountId;
+    for (const [oldSid, oldAcc] of this.sessionToAccount.entries()) {
+      if (oldAcc === accountId && oldSid !== client.sessionId) {
+        this.sessionToAccount.delete(oldSid);
+      }
+    }
+
+    const existingRuntime = this.activePlayers.get(accountId);
+    const zoneDef = ZONES_REGISTRY[this.zoneId];
+    let x = snapV02.world.x;
+    let y = snapV02.world.y;
+
+    if (spawnId && zoneDef.spawns[spawnId]) {
+      x = zoneDef.spawns[spawnId].x;
+      y = zoneDef.spawns[spawnId].y;
+    } else if (
+      existingRuntime &&
+      existingRuntime.zoneId === this.zoneId &&
+      this.engine.isWalkable(this.zoneId, existingRuntime.x, existingRuntime.y)
+    ) {
+      x = existingRuntime.x;
+      y = existingRuntime.y;
+    } else if (
+      snapV02.world.zoneId !== this.zoneId ||
+      !this.engine.isWalkable(this.zoneId, x, y)
+    ) {
+      x = zoneDef.defaultSpawn.x;
+      y = zoneDef.defaultSpawn.y;
+    }
+
+    const player: CharacterSaveState = {
+      accountId,
+      characterId: snapV02.identity.characterId,
+      nickname: snapV02.identity.name,
+      appearanceId: snapV02.identity.appearanceId,
+      discipline: existingRuntime?.discipline ?? "kiem_tu",
+      zoneId: this.zoneId,
+      x,
+      y,
+      direction: existingRuntime?.direction ?? snapV02.world.direction,
+      realmId: snapV02.cultivation.realmId,
+      realmStage: snapV02.cultivation.realmStage,
+      tuVi: Math.max(0, Math.floor(Number(snapV02.cultivation.tuVi) || 0)),
+      level: snapV02.levelProgress.level,
+      hp: snapV02.resources.currentHp,
+      maxHp: snapV02.derivedStats.maxHp,
+      mp: snapV02.resources.currentMp,
+      maxMp: snapV02.derivedStats.maxMp,
+      attack: snapV02.derivedStats.physicalAttack,
+      defense: snapV02.derivedStats.physicalDefense,
+      linhThach: existingRuntime?.linhThach ?? snapV02.world.linhThach,
+      equippedTitle: existingRuntime?.equippedTitle ?? snapV02.world.equippedTitle,
+      equippedInheritance:
+        existingRuntime?.equippedInheritance ?? snapV02.world.equippedInheritance,
+      inventory: existingRuntime?.inventory ?? snapV02.world.inventory,
+      quests: existingRuntime?.quests ?? snapV02.world.quests,
+      reputation: existingRuntime?.reputation ?? snapV02.world.reputation,
+      buffs: existingRuntime?.buffs ?? snapV02.world.buffs,
+      meditationStartedAt:
+        existingRuntime?.meditationStartedAt ?? snapV02.world.meditationStartedAtMs,
+      lastMeditationClaimAt:
+        existingRuntime?.lastMeditationClaimAt ?? snapV02.world.lastMeditationClaimAtMs,
+      partyId: existingRuntime?.partyId ?? null,
+      creationState: snapV02.identity.creationState,
+      identity: snapV02.identity,
+      levelProgress: snapV02.levelProgress,
+      attributes: snapV02.attributes?.origin,
+      destiny: snapV02.destiny
+    };
+
+    if (
+      snapV02.world.zoneId !== this.zoneId ||
+      snapV02.world.x !== x ||
+      snapV02.world.y !== y
+    ) {
+      const synced = await this.db.characterV02Actions.syncRuntimeWorldState(
+        accountId,
+        player,
+        this.db.getCharacterV02ActionDefaults()
+      );
+      if (synced) {
+        this.activeCharactersV02.set(accountId, synced);
+        client.send("self_state_v02", synced);
+      }
+    }
+
+    this.sessionToAccount.set(client.sessionId, player.accountId);
+    this.activePlayers.set(player.accountId, player);
+    if (!this.playerAnims.has(player.accountId)) {
+      this.playerAnims.set(player.accountId, "idle");
+    }
+
+    client.send("self_state", player);
+    const worldSnap = this.buildWorldSnapshot();
+    client.send("world_snapshot", worldSnap);
+    if (this.clients && this.clients.length > 0) {
+      this.broadcast("world_snapshot", worldSnap);
+    }
+  }
+
+  private async refreshV02SnapshotForPlayer(
+    client: Client,
+    player: CharacterSaveState
+  ): Promise<void> {
+    if (!player.characterId.startsWith("char_v02_")) {
+      return;
+    }
+    const actionDefaults = this.db.getCharacterV02ActionDefaults();
+    const updatedV02 = await this.db.getCharacterV02ByAccount(player.accountId, {
+      destinyCatalog: actionDefaults.destinyCatalog
+    });
+    if (!updatedV02) {
+      return;
+    }
+    const snapV02 = toCharacterV02Snapshot(updatedV02, actionDefaults.destinyCatalog);
+    player.maxHp = snapV02.derivedStats.maxHp;
+    player.maxMp = snapV02.derivedStats.maxMp;
+    player.hp = snapV02.resources.currentHp;
+    player.mp = snapV02.resources.currentMp;
+    player.attack = snapV02.derivedStats.physicalAttack;
+    player.defense = snapV02.derivedStats.physicalDefense;
+    player.level = snapV02.levelProgress.level;
+    player.levelProgress = snapV02.levelProgress;
+    player.attributes = snapV02.attributes?.origin;
+    player.destiny = snapV02.destiny;
+    this.activeCharactersV02.set(player.accountId, snapV02);
+    client.send("self_state_v02", snapV02);
   }
 
   private getPlayerBySession(sessionId: string): CharacterSaveState | undefined {
@@ -569,6 +772,7 @@ export class ZoneRoom extends Room {
         sessionId: sid,
         characterId: p.characterId,
         nickname: p.nickname,
+        appearanceId: p.appearanceId,
         discipline: p.discipline,
         zoneId: this.zoneId,
         x: p.x,
@@ -579,6 +783,7 @@ export class ZoneRoom extends Room {
         maxHp: p.maxHp,
         realmId: p.realmId,
         realmStage: p.realmStage,
+        level: p.level ?? p.levelProgress?.level,
         equippedTitle: p.equippedTitle,
         hasPhiDeBlessing: eff.hasPhiDeBlessing,
         partyId: p.partyId

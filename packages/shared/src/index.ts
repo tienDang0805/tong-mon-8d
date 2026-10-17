@@ -114,6 +114,21 @@ export interface DestinyDefinitionMetadata {
   ownerApprovalState: "APPROVED" | "PROPOSED";
 }
 
+export interface DestinyStarterDefinition extends DestinyDefinitionMetadata {
+  descriptionVi: string;
+  flatPreRealmAttributeBonuses: Partial<BaseAttributes>;
+  bonusApprovalState: "DESIGN_BASELINE";
+  narrativeState: "APPROVED" | "DESIGN_BASELINE" | "NOT_DESIGNED";
+}
+
+export interface CharacterAppearanceOption {
+  id: string;
+  displayNameVi: string;
+  subtitleVi: string;
+  spriteKey: string;
+  portraitUrl: string;
+}
+
 export interface DestinyCollection {
   innate: [string, string, string];
   innateConfirmedAtMs: number;
@@ -134,6 +149,7 @@ export interface CharacterSaveState {
   characterId: string;
   nickname: string;
   discipline: CombatDisciplineId;
+  appearanceId?: string;
   zoneId: ZoneId;
   x: number;
   y: number;
@@ -157,6 +173,9 @@ export interface CharacterSaveState {
   meditationStartedAt: number;
   lastMeditationClaimAt: number;
   partyId: string | null;
+  level?: number;
+  creationState?: CharacterCreationState;
+  attributes?: BaseAttributes;
   identity?: CharacterIdentity;
   levelProgress?: CharacterLevelProgress;
   destiny?: DestinyCollection | null;
@@ -168,6 +187,8 @@ export interface RemotePlayerSnapshot {
   characterId: string;
   nickname: string;
   discipline: CombatDisciplineId;
+  appearanceId?: string;
+  level?: number;
   zoneId: ZoneId;
   x: number;
   y: number;
@@ -339,6 +360,7 @@ export interface GuestAuthResultPayload {
   messageVi: string;
   accountId?: string;
   guestToken?: string;
+  activeRollDraft?: DestinyRollDraft | null;
 }
 
 export interface CreateCharacterV02DraftIntentPayload {
@@ -383,6 +405,13 @@ export interface CharacterV02SnapshotPayload {
     tuVi: string;
   };
   destiny: DestinyCollection | null;
+  attributes?: {
+    origin: BaseAttributes;
+    destinyBonuses: BaseAttributes;
+    preRealm: BaseAttributes;
+    effective: BaseAttributes;
+    realmFactor: number;
+  };
   resources: {
     currentHp: number;
     currentMp: number;

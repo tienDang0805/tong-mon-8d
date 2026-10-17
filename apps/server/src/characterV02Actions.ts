@@ -1,18 +1,25 @@
 import crypto from "node:crypto";
 import type {
+  CharacterSaveState,
   CharacterV02ActionResultPayload,
   CharacterV02SnapshotPayload,
   DestinyCollection,
   DestinyDefinitionMetadata,
-  DestinyRarity
+  DestinyRarity,
+  DestinyRollDraft
 } from "@tong-mon-8d/shared";
 import {
   allocateSingleAttributePoint,
   applyCandidateCharacterExpGrant,
   computeCandidateBaselineStatSnapshot,
+  isApprovedCharacterV02AppearanceId,
+  isLevelAllowedForRealm,
+  isValidRealmStage,
+  S1E_STARTER_DESTINY_CATALOG,
   TD01_CANDIDATE_RULESET_VERSION,
   validateDestinyCollection,
-  validateDestinyDefinitionMetadata
+  validateDestinyDefinitionMetadata,
+  validateDestinyTripleIds
 } from "@tong-mon-8d/game-data";
 import {
   CharacterV02PersistenceError,
@@ -38,18 +45,11 @@ export const CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL = `
 
 export const DEFAULT_ROLL_DRAFT_TTL_MS = 15 * 60 * 1000;
 
+export const DEFAULT_MAX_INNATE_ROLL_ATTEMPTS = 128;
+
 export const APPROVED_PRODUCTION_DESTINY_CATALOG: Readonly<
   Record<string, DestinyDefinitionMetadata>
-> = Object.freeze({
-  van_vi_dao_thai: Object.freeze({
-    id: "van_vi_dao_thai",
-    displayNameVi: "Vạn Vị Đạo Thai",
-    rarity: "than",
-    kind: "legendary_signature",
-    legendaryNpcId: "phi_de",
-    ownerApprovalState: "APPROVED"
-  })
-});
+> = S1E_STARTER_DESTINY_CATALOG;
 
 export const CANDIDATE_INNATE_TIER_WEIGHTS: Readonly<Record<DestinyRarity, number>> =
   Object.freeze({
@@ -59,23 +59,28 @@ export const CANDIDATE_INNATE_TIER_WEIGHTS: Readonly<Record<DestinyRarity, numbe
     than: 5
   });
 
-export const CANDIDATE_THAN_ORDINARY_WEIGHT = 60;
-export const CANDIDATE_THAN_SIGNATURE_WEIGHT = 40;
+export const CANDIDATE_THAN_SIGNATURE_WEIGHT = 60;
+export const CANDIDATE_THAN_ORDINARY_WEIGHT = 40;
 
 export type InnateDestinyRollResult =
   | {
       ok: true;
       candidateTraitIds: [string, string, string];
+      attemptsUsed: number;
+      rejectedCandidates: Array<[string, string, string]>;
     }
   | {
       ok: false;
       code: "CATALOG_NOT_READY";
       detail: string;
+      attemptsUsed?: number;
+      rejectedCandidates?: Array<[string, string, string]>;
     };
 
 export interface RollInnateDestinyOptions {
   allowNonApprovedInCatalog?: boolean;
   randomIntFn?: (maxExclusive: number) => number;
+  maxAttempts?: number;
 }
 
 export interface CharacterV02ActionOptions {
@@ -84,6 +89,7 @@ export interface CharacterV02ActionOptions {
   nowMs?: number;
   rollDraftTtlMs?: number;
   randomIntFn?: (maxExclusive: number) => number;
+  maxRollAttempts?: number;
 }
 
 export interface ServerOnlyGrantAcquiredDestinyParams {
@@ -201,12 +207,17 @@ function validateAllowedClientIntentKeys(
 }
 
 export function toCharacterV02Snapshot(
-  state: CharacterV02PersistedState
+  state: CharacterV02PersistedState,
+  destinyCatalog: Readonly<Record<string, DestinyDefinitionMetadata>> = APPROVED_PRODUCTION_DESTINY_CATALOG
 ): CharacterV02SnapshotPayload {
+  const activeDestiny =
+    state.identity.creationState === "confirmed" ? state.destiny : null;
   const statResult = computeCandidateBaselineStatSnapshot({
     realmId: state.cultivation.realmId,
     realmStage: state.cultivation.realmStage,
-    levelProgress: state.levelProgress
+    levelProgress: state.levelProgress,
+    destiny: activeDestiny,
+    destinyCatalog
   });
   const derivedStats = statResult.ok
     ? statResult.snapshot.derivedStats
@@ -220,6 +231,9 @@ export function toCharacterV02Snapshot(
         moveSpeedRating: 100,
         cultivationRateRating: 100
       };
+
+  const clampedHp = Math.max(0, Math.min(state.resources.currentHp, derivedStats.maxHp));
+  const clampedMp = Math.max(0, Math.min(state.resources.currentMp, derivedStats.maxMp));
 
   return {
     schemaVersion: state.schemaVersion,
@@ -247,7 +261,19 @@ export function toCharacterV02Snapshot(
             collectionRevision: state.destiny.collectionRevision
           }
         : null,
-    resources: { ...state.resources },
+    attributes: statResult.ok
+      ? {
+          origin: { ...statResult.snapshot.originAttributes },
+          destinyBonuses: { ...statResult.snapshot.destinyAttributeBonuses },
+          preRealm: { ...statResult.snapshot.preRealmAttributes },
+          effective: { ...statResult.snapshot.effectiveAttributes },
+          realmFactor: statResult.snapshot.realmFactor
+        }
+      : undefined,
+    resources: {
+      currentHp: clampedHp,
+      currentMp: clampedMp
+    },
     derivedStats,
     world: {
       zoneId: state.world.zoneId,
@@ -282,6 +308,12 @@ export function rollInnateDestinyTripleFromCatalog(
 
   const allowNonApproved = options?.allowNonApprovedInCatalog === true;
   const randomInt = options?.randomIntFn ?? defaultCsprngInt;
+  const maxAttempts =
+    options?.maxAttempts !== undefined &&
+    Number.isSafeInteger(options.maxAttempts) &&
+    options.maxAttempts > 0
+      ? options.maxAttempts
+      : DEFAULT_MAX_INNATE_ROLL_ATTEMPTS;
 
   const eligiblePool: DestinyDefinitionMetadata[] = [];
   for (const [key, def] of Object.entries(catalog)) {
@@ -309,36 +341,27 @@ export function rollInnateDestinyTripleFromCatalog(
     };
   }
 
-  const sampleSingleSlot = (
-    alreadyPickedIds: Set<string>,
-    hasSignatureAlready: boolean
-  ): DestinyDefinitionMetadata | null => {
-    const remaining = eligiblePool.filter(
-      (d) =>
-        !alreadyPickedIds.has(d.id) &&
-        (!hasSignatureAlready || d.kind === "ordinary")
-    );
-    if (remaining.length === 0) {
-      return null;
-    }
+  const byTier: Record<DestinyRarity, DestinyDefinitionMetadata[]> = {
+    pham: [],
+    hoang: [],
+    tien: [],
+    than: []
+  };
+  for (const def of eligiblePool) {
+    byTier[def.rarity].push(def);
+  }
 
-    const byTier: Record<DestinyRarity, DestinyDefinitionMetadata[]> = {
-      pham: [],
-      hoang: [],
-      tien: [],
-      than: []
-    };
-    for (const def of remaining) {
-      byTier[def.rarity].push(def);
-    }
+  const availableTiers = (["pham", "hoang", "tien", "than"] as const).filter(
+    (t) => byTier[t].length > 0
+  );
+  const totalWeight = availableTiers.reduce(
+    (acc, t) => acc + CANDIDATE_INNATE_TIER_WEIGHTS[t],
+    0
+  );
+  const signatureThan = byTier.than.filter((d) => d.kind === "legendary_signature");
+  const ordinaryThan = byTier.than.filter((d) => d.kind === "ordinary");
 
-    const availableTiers = (["pham", "hoang", "tien", "than"] as const).filter(
-      (t) => byTier[t].length > 0
-    );
-    const totalWeight = availableTiers.reduce(
-      (acc, t) => acc + CANDIDATE_INNATE_TIER_WEIGHTS[t],
-      0
-    );
+  const sampleIndependentSlotFromFullCatalog = (): DestinyDefinitionMetadata => {
     let roll = randomInt(totalWeight);
     let chosenTier: DestinyRarity = availableTiers[0];
     for (const tier of availableTiers) {
@@ -352,14 +375,12 @@ export function rollInnateDestinyTripleFromCatalog(
 
     let tierPool = byTier[chosenTier];
     if (chosenTier === "than") {
-      const ordinaryThan = tierPool.filter((d) => d.kind === "ordinary");
-      const signatureThan = tierPool.filter((d) => d.kind === "legendary_signature");
-      if (ordinaryThan.length > 0 && signatureThan.length > 0) {
+      if (signatureThan.length > 0 && ordinaryThan.length > 0) {
         const subRoll = randomInt(
-          CANDIDATE_THAN_ORDINARY_WEIGHT + CANDIDATE_THAN_SIGNATURE_WEIGHT
+          CANDIDATE_THAN_SIGNATURE_WEIGHT + CANDIDATE_THAN_ORDINARY_WEIGHT
         );
         tierPool =
-          subRoll < CANDIDATE_THAN_ORDINARY_WEIGHT ? ordinaryThan : signatureThan;
+          subRoll < CANDIDATE_THAN_SIGNATURE_WEIGHT ? signatureThan : ordinaryThan;
       }
     }
 
@@ -367,52 +388,54 @@ export function rollInnateDestinyTripleFromCatalog(
     return tierPool[idx];
   };
 
-  for (let attempt = 0; attempt < 32; attempt += 1) {
-    const pickedIds = new Set<string>();
-    const pickedDefs: DestinyDefinitionMetadata[] = [];
-    let hasSig = false;
+  const rejectedCandidates: Array<[string, string, string]> = [];
 
-    for (let slot = 0; slot < 3; slot += 1) {
-      const chosen = sampleSingleSlot(pickedIds, hasSig);
-      if (!chosen) {
-        break;
-      }
-      pickedIds.add(chosen.id);
-      pickedDefs.push(chosen);
-      if (chosen.kind === "legendary_signature") {
-        hasSig = true;
-      }
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const slot0 = sampleIndependentSlotFromFullCatalog();
+    const slot1 = sampleIndependentSlotFromFullCatalog();
+    const slot2 = sampleIndependentSlotFromFullCatalog();
+    const candidateTuple: [string, string, string] = [
+      slot0.id,
+      slot1.id,
+      slot2.id
+    ];
+
+    const tripleCheck = validateDestinyTripleIds(candidateTuple, catalog);
+    if (!tripleCheck.ok) {
+      rejectedCandidates.push(candidateTuple);
+      continue;
     }
 
-    if (pickedDefs.length === 3) {
-      const tuple: [string, string, string] = [
-        pickedDefs[0].id,
-        pickedDefs[1].id,
-        pickedDefs[2].id
-      ];
-      const check = validateDestinyCollection(
-        {
-          innate: tuple,
-          innateConfirmedAtMs: 1,
-          acquiredTraitIds: [],
-          activeAcquiredSlots: [null, null, null],
-          collectionRevision: 1
-        },
-        catalog
-      );
-      if (check.ok) {
-        return {
-          ok: true,
-          candidateTraitIds: tuple
-        };
-      }
+    const collectionCheck = validateDestinyCollection(
+      {
+        innate: candidateTuple,
+        innateConfirmedAtMs: 1,
+        acquiredTraitIds: [],
+        activeAcquiredSlots: [null, null, null],
+        collectionRevision: 1
+      },
+      catalog
+    );
+    if (!collectionCheck.ok) {
+      rejectedCandidates.push(candidateTuple);
+      continue;
     }
+
+    return {
+      ok: true,
+      candidateTraitIds: candidateTuple,
+      attemptsUsed: attempt,
+      rejectedCandidates
+    };
   }
 
   return {
     ok: false,
     code: "CATALOG_NOT_READY",
-    detail: "Unable to sample a valid 3-trait Tiên Thiên Destiny triple from catalog."
+    detail:
+      "Unable to sample a valid 3-trait Tiên Thiên Destiny triple within bounded retry limit.",
+    attemptsUsed: maxAttempts,
+    rejectedCandidates
   };
 }
 
@@ -598,12 +621,15 @@ export class CharacterV02ActionService {
 
     let appearanceId = "hero_kiem_tu";
     if (payload.appearanceId !== undefined) {
-      if (!isNonEmptyTrimmedString(payload.appearanceId, 64)) {
+      if (
+        !isNonEmptyTrimmedString(payload.appearanceId, 64) ||
+        !isApprovedCharacterV02AppearanceId(payload.appearanceId)
+      ) {
         return {
           requestId,
           ok: false,
           code: "INVALID_APPEARANCE_ID",
-          messageVi: "Ngoại hình khởi tạo (appearanceId) không hợp lệ."
+          messageVi: "Ngoại hình khởi tạo (appearanceId) không thuộc danh mục phê duyệt."
         };
       }
       appearanceId = payload.appearanceId;
@@ -660,7 +686,7 @@ export class CharacterV02ActionService {
           ok: true,
           code: "OK",
           messageVi: "Đã khởi tạo bản nháp nhân vật v0.2 thành công.",
-          character: toCharacterV02Snapshot(created)
+          character: toCharacterV02Snapshot(created, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -753,7 +779,8 @@ export class CharacterV02ActionService {
 
       const rollOutcome = rollInnateDestinyTripleFromCatalog(catalog, {
         allowNonApprovedInCatalog: options?.allowNonApprovedCatalogInTests === true,
-        randomIntFn: options?.randomIntFn
+        randomIntFn: options?.randomIntFn,
+        maxAttempts: options?.maxRollAttempts
       });
       if (!rollOutcome.ok) {
         return {
@@ -800,7 +827,7 @@ export class CharacterV02ActionService {
         ok: true,
         code: "OK",
         messageVi: "Đã gieo 3 Tiên Thiên Khí Vận thành công.",
-        character: toCharacterV02Snapshot(character),
+        character: toCharacterV02Snapshot(character, catalog),
         rollDraft: {
           characterCreationId: character.identity.characterId,
           rollNonce,
@@ -997,6 +1024,20 @@ export class CharacterV02ActionService {
           collectionRevision: 1
         };
 
+        const statSnap = computeCandidateBaselineStatSnapshot({
+          realmId: character.cultivation.realmId,
+          realmStage: character.cultivation.realmStage,
+          levelProgress: character.levelProgress,
+          destiny: confirmedDestiny,
+          destinyCatalog: catalog
+        });
+        const maxHp = statSnap.ok
+          ? statSnap.snapshot.derivedStats.maxHp
+          : character.resources.currentHp;
+        const maxMp = statSnap.ok
+          ? statSnap.snapshot.derivedStats.maxMp
+          : character.resources.currentMp;
+
         const nextState: CharacterV02PersistedState = {
           ...character,
           identity: {
@@ -1005,6 +1046,10 @@ export class CharacterV02ActionService {
             revision: character.identity.revision + 1
           },
           destiny: confirmedDestiny,
+          resources: {
+            currentHp: Math.min(character.resources.currentHp, maxHp),
+            currentMp: Math.min(character.resources.currentMp, maxMp)
+          },
           updatedAtMs: Math.max(confirmedAtMs, character.updatedAtMs)
         };
 
@@ -1022,7 +1067,7 @@ export class CharacterV02ActionService {
           ok: true,
           code: "OK",
           messageVi: "Đã xác nhận bộ 3 Tiên Thiên Khí Vận bất biến.",
-          character: toCharacterV02Snapshot(updated)
+          character: toCharacterV02Snapshot(updated, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -1135,7 +1180,9 @@ export class CharacterV02ActionService {
         const nextStatSnap = computeCandidateBaselineStatSnapshot({
           realmId: character.cultivation.realmId,
           realmStage: character.cultivation.realmStage,
-          levelProgress: allocOutcome.next
+          levelProgress: allocOutcome.next,
+          destiny: character.destiny,
+          destinyCatalog: catalog
         });
         const maxHp = nextStatSnap.ok
           ? nextStatSnap.snapshot.derivedStats.maxHp
@@ -1172,7 +1219,7 @@ export class CharacterV02ActionService {
           ok: true,
           code: "OK",
           messageVi: "Đã phân bổ +1 điểm thuộc tính thành công.",
-          character: toCharacterV02Snapshot(updated)
+          character: toCharacterV02Snapshot(updated, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -1329,7 +1376,9 @@ export class CharacterV02ActionService {
         const statSnap = computeCandidateBaselineStatSnapshot({
           realmId: character.cultivation.realmId,
           realmStage: character.cultivation.realmStage,
-          levelProgress: character.levelProgress
+          levelProgress: character.levelProgress,
+          destiny: nextDestiny,
+          destinyCatalog: catalog
         });
         const maxHp = statSnap.ok
           ? statSnap.snapshot.derivedStats.maxHp
@@ -1366,7 +1415,7 @@ export class CharacterV02ActionService {
           ok: true,
           code: "OK",
           messageVi: "Đã gắn Hậu Thiên Khí Vận vào ô kích hoạt.",
-          character: toCharacterV02Snapshot(updated)
+          character: toCharacterV02Snapshot(updated, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -1492,7 +1541,9 @@ export class CharacterV02ActionService {
         const statSnap = computeCandidateBaselineStatSnapshot({
           realmId: character.cultivation.realmId,
           realmStage: character.cultivation.realmStage,
-          levelProgress: character.levelProgress
+          levelProgress: character.levelProgress,
+          destiny: nextDestiny,
+          destinyCatalog: catalog
         });
         const maxHp = statSnap.ok
           ? statSnap.snapshot.derivedStats.maxHp
@@ -1529,7 +1580,7 @@ export class CharacterV02ActionService {
           ok: true,
           code: "OK",
           messageVi: "Đã tháo Hậu Thiên Khí Vận khỏi ô kích hoạt (vẫn giữ sở hữu).",
-          character: toCharacterV02Snapshot(updated)
+          character: toCharacterV02Snapshot(updated, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -1669,7 +1720,7 @@ export class CharacterV02ActionService {
           ok: true,
           code: "OK",
           messageVi: "Máy chủ đã cấp Hậu Thiên Khí Vận vào bộ sưu tập.",
-          character: toCharacterV02Snapshot(updated)
+          character: toCharacterV02Snapshot(updated, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -1773,7 +1824,9 @@ export class CharacterV02ActionService {
         const statSnap = computeCandidateBaselineStatSnapshot({
           realmId: character.cultivation.realmId,
           realmStage: character.cultivation.realmStage,
-          levelProgress: expRes.nextProgress
+          levelProgress: expRes.nextProgress,
+          destiny: character.destiny,
+          destinyCatalog: catalog
         });
         const maxHp = statSnap.ok
           ? statSnap.snapshot.derivedStats.maxHp
@@ -1813,7 +1866,7 @@ export class CharacterV02ActionService {
             expRes.levelsGained > 0
               ? `Nhận EXP thành công, thăng lên Cấp ${updated.levelProgress.level}.`
               : "Nhận EXP thành công.",
-          character: toCharacterV02Snapshot(updated)
+          character: toCharacterV02Snapshot(updated, catalog)
         };
 
         await this.recordScopedIdempotency(
@@ -1837,5 +1890,148 @@ export class CharacterV02ActionService {
       }
       throw err;
     }
+  }
+
+  async getActiveRollDraftForCharacter(
+    accountId: string,
+    characterId: string,
+    nowMs = Date.now(),
+    tx?: SqlTransaction
+  ): Promise<DestinyRollDraft | null> {
+    const cleanAccount = typeof accountId === "string" ? accountId.trim() : "";
+    const cleanChar = typeof characterId === "string" ? characterId.trim() : "";
+    if (!cleanAccount || !cleanChar) {
+      return null;
+    }
+    const runner = this.host.resolveQueryRunner(tx);
+    const res = await runner.query<{
+      roll_nonce: string;
+      character_id: string;
+      candidate_traits_json: [string, string, string];
+      expires_at_ms: string | number;
+    }>(
+      `SELECT roll_nonce, character_id, candidate_traits_json, expires_at_ms
+       FROM character_v02_roll_drafts
+       WHERE account_id = $1
+         AND character_id = $2
+         AND status = 'active'
+         AND expires_at_ms > $3
+       ORDER BY issued_at_ms DESC
+       LIMIT 1`,
+      [cleanAccount, cleanChar, nowMs]
+    );
+    if (res.rows.length === 0) {
+      return null;
+    }
+    const row = res.rows[0];
+    return {
+      characterCreationId: String(row.character_id),
+      rollNonce: String(row.roll_nonce),
+      candidateTraitIds: [
+        row.candidate_traits_json[0],
+        row.candidate_traits_json[1],
+        row.candidate_traits_json[2]
+      ],
+      expiresAtMs: Number(row.expires_at_ms)
+    };
+  }
+
+  async syncRuntimeWorldState(
+    accountId: string,
+    runtimeState: CharacterSaveState,
+    options?: CharacterV02ActionOptions,
+    tx?: SqlTransaction
+  ): Promise<CharacterV02SnapshotPayload | null> {
+    const cleanAccount = typeof accountId === "string" ? accountId.trim() : "";
+    if (!isNonEmptyTrimmedString(cleanAccount, 128)) {
+      return null;
+    }
+    const nowMs = this.resolveNowMs(options);
+    const catalog = this.resolveCatalog(options);
+
+    return this.runAtomic(tx, async (runner, activeTx) => {
+      const character = await this.lockCharacterByAccount(
+        runner,
+        cleanAccount,
+        catalog
+      );
+      if (!character || character.identity.creationState !== "confirmed") {
+        return null;
+      }
+
+      const canAdoptRealm =
+        isValidRealmStage(runtimeState.realmId, runtimeState.realmStage) &&
+        isLevelAllowedForRealm(runtimeState.realmId, character.levelProgress.level);
+      const nextRealmId = canAdoptRealm
+        ? runtimeState.realmId
+        : character.cultivation.realmId;
+      const nextRealmStage = canAdoptRealm
+        ? runtimeState.realmStage
+        : character.cultivation.realmStage;
+      const nextTuVi = String(Math.max(0, Math.floor(runtimeState.tuVi)));
+
+      const statSnap = computeCandidateBaselineStatSnapshot({
+        realmId: nextRealmId,
+        realmStage: nextRealmStage,
+        levelProgress: character.levelProgress,
+        destiny: character.destiny,
+        destinyCatalog: catalog
+      });
+      const maxHp = statSnap.ok
+        ? statSnap.snapshot.derivedStats.maxHp
+        : character.resources.currentHp;
+      const maxMp = statSnap.ok
+        ? statSnap.snapshot.derivedStats.maxMp
+        : character.resources.currentMp;
+
+      const nextState: CharacterV02PersistedState = {
+        ...character,
+        identity: {
+          ...character.identity,
+          revision: character.identity.revision + 1
+        },
+        cultivation: {
+          realmId: nextRealmId,
+          realmStage: nextRealmStage,
+          tuVi: nextTuVi
+        },
+        resources: {
+          currentHp: Math.max(0, Math.min(Math.round(runtimeState.hp), maxHp)),
+          currentMp: Math.max(0, Math.min(Math.round(runtimeState.mp), maxMp))
+        },
+        world: {
+          zoneId: runtimeState.zoneId,
+          x: Math.round(runtimeState.x),
+          y: Math.round(runtimeState.y),
+          direction: runtimeState.direction,
+          linhThach: Math.max(0, Math.round(runtimeState.linhThach)),
+          equippedTitle: runtimeState.equippedTitle || character.world.equippedTitle,
+          equippedInheritance: runtimeState.equippedInheritance ?? null,
+          inventory: runtimeState.inventory.map((it) => ({ ...it })),
+          quests: { ...runtimeState.quests },
+          reputation: { ...runtimeState.reputation },
+          buffs: runtimeState.buffs.map((b) => ({ ...b })),
+          meditationStartedAtMs: Math.max(
+            0,
+            Math.round(runtimeState.meditationStartedAt)
+          ),
+          lastMeditationClaimAtMs: Math.max(
+            0,
+            Math.round(runtimeState.lastMeditationClaimAt)
+          )
+        },
+        updatedAtMs: Math.max(nowMs, character.updatedAtMs)
+      };
+
+      const updated = await this.repository.updateCharacter(
+        {
+          expectedRevision: character.identity.revision,
+          nextState
+        },
+        { destinyCatalog: catalog },
+        activeTx
+      );
+      return toCharacterV02Snapshot(updated, catalog);
+    });
   }
 }

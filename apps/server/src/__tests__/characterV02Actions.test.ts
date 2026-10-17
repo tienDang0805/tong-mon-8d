@@ -7,7 +7,15 @@ import type {
   GuestAuthResultPayload
 } from "@tong-mon-8d/shared";
 import {
+  LEGENDARY_NPCS,
+  S1E_STARTER_DESTINY_CATALOG,
+  S1E_STARTER_DESTINY_CATALOG_VERSION,
+  computeCandidateBaselineStatSnapshot
+} from "@tong-mon-8d/game-data";
+import {
   APPROVED_PRODUCTION_DESTINY_CATALOG,
+  CANDIDATE_THAN_ORDINARY_WEIGHT,
+  CANDIDATE_THAN_SIGNATURE_WEIGHT,
   GameDatabase,
   rollInnateDestinyTripleFromCatalog
 } from "../db.js";
@@ -138,7 +146,7 @@ describe("S1-D Character v0.2 Authoritative Server Actions & Guest Identity", ()
     return db;
   }
 
-  it("fails closed with CATALOG_NOT_READY when rolling against default runtime catalog (only Vạn Vị Đạo Thai approved)", async () => {
+  it("rolls against the 16-trait S1E_STARTER_DESTINY_CATALOG by default and fails closed with CATALOG_NOT_READY when fewer than 3 eligible traits exist", async () => {
     const db = await createIsolatedDb();
     const issued = await db.guestIdentity.issueGuestCredential({ nowMs: 1_700_000_000_000 });
 
@@ -151,22 +159,37 @@ describe("S1-D Character v0.2 Authoritative Server Actions & Guest Identity", ()
       { nowMs: 1_700_000_000_100 }
     );
     expect(draftRes.ok).toBe(true);
-    expect(Object.keys(APPROVED_PRODUCTION_DESTINY_CATALOG)).toEqual(["van_vi_dao_thai"]);
+    expect(Object.keys(APPROVED_PRODUCTION_DESTINY_CATALOG)).toHaveLength(16);
 
-    const rollRes = await db.characterV02Actions.rollInnateDestiny(
+    const incompleteRollRes = await db.characterV02Actions.rollInnateDestiny(
+      issued.accountId,
+      {
+        requestId: "req_roll_incomplete_cat"
+      },
+      {
+        nowMs: 1_700_000_000_150,
+        destinyCatalog: {
+          van_vi_dao_thai: APPROVED_PRODUCTION_DESTINY_CATALOG.van_vi_dao_thai
+        }
+      }
+    );
+    expect(incompleteRollRes.ok).toBe(false);
+    expect(incompleteRollRes.code).toBe("CATALOG_NOT_READY");
+
+    const persistedAfterFail = await db.getCharacterV02ByAccount(issued.accountId);
+    expect(persistedAfterFail?.identity.creationState).toBe("draft");
+    expect(persistedAfterFail?.destiny).toBeNull();
+    expect(persistedAfterFail?.identity.revision).toBe(1);
+
+    const defaultRollRes = await db.characterV02Actions.rollInnateDestiny(
       issued.accountId,
       {
         requestId: "req_roll_default_cat"
       },
       { nowMs: 1_700_000_000_200 }
     );
-    expect(rollRes.ok).toBe(false);
-    expect(rollRes.code).toBe("CATALOG_NOT_READY");
-
-    const persisted = await db.getCharacterV02ByAccount(issued.accountId);
-    expect(persisted?.identity.creationState).toBe("draft");
-    expect(persisted?.destiny).toBeNull();
-    expect(persisted?.identity.revision).toBe(1);
+    expect(defaultRollRes.ok).toBe(true);
+    expect(defaultRollRes.rollDraft?.candidateTraitIds).toHaveLength(3);
   });
 
   it("verifies guest credentials in constant time and enforces single active session ownership per account", async () => {
@@ -810,5 +833,399 @@ describe("S1-D Character v0.2 Authoritative Server Actions & Guest Identity", ()
     );
     expect(badSlotUnequipRes.ok).toBe(false);
     expect(badSlotUnequipRes.code).toBe("INVALID_DESTINY_SLOT_INDEX");
+  });
+
+  it("validates S1-E starter destiny catalog integrity, 60/40 Thần inner split, and preserves dam_lon_tien_tu.realmId = UNKNOWN", () => {
+    const entries = Object.values(S1E_STARTER_DESTINY_CATALOG);
+    expect(entries).toHaveLength(16);
+    expect(S1E_STARTER_DESTINY_CATALOG_VERSION).toBe("s1e-starter-v1.0");
+    expect(APPROVED_PRODUCTION_DESTINY_CATALOG).toBe(S1E_STARTER_DESTINY_CATALOG);
+
+    const ordinaryEntries = entries.filter((e) => e.kind === "ordinary");
+    const signatureEntries = entries.filter((e) => e.kind === "legendary_signature");
+    expect(ordinaryEntries).toHaveLength(14);
+    expect(signatureEntries).toHaveLength(2);
+
+    expect(ordinaryEntries.filter((e) => e.rarity === "pham")).toHaveLength(6);
+    expect(ordinaryEntries.filter((e) => e.rarity === "hoang")).toHaveLength(4);
+    expect(ordinaryEntries.filter((e) => e.rarity === "tien")).toHaveLength(3);
+    expect(ordinaryEntries.filter((e) => e.rarity === "than").map((e) => e.id)).toEqual([
+      "luc_hop_linh_cot"
+    ]);
+
+    expect(S1E_STARTER_DESTINY_CATALOG.van_vi_dao_thai.legendaryNpcId).toBe("phi_de");
+    expect(
+      S1E_STARTER_DESTINY_CATALOG.van_vi_dao_thai.flatPreRealmAttributeBonuses
+    ).toEqual({
+      linh_tinh: 4,
+      ngo_tinh: 4
+    });
+
+    expect(S1E_STARTER_DESTINY_CATALOG.huyen_anh_dao_thai.legendaryNpcId).toBe(
+      "dam_lon_tien_tu"
+    );
+    expect(S1E_STARTER_DESTINY_CATALOG.huyen_anh_dao_thai.narrativeState).toBe(
+      "NOT_DESIGNED"
+    );
+    expect(
+      S1E_STARTER_DESTINY_CATALOG.huyen_anh_dao_thai.flatPreRealmAttributeBonuses
+    ).toEqual({
+      than_phap: 4,
+      than_thuc: 4
+    });
+    const damLon = LEGENDARY_NPCS.find((n) => n.id === "dam_lon_tien_tu");
+    expect(damLon?.realmId).toBe("UNKNOWN");
+
+    expect(CANDIDATE_THAN_SIGNATURE_WEIGHT).toBe(60);
+    expect(CANDIDATE_THAN_ORDINARY_WEIGHT).toBe(40);
+  });
+
+  it("discards all three initial candidates when a forced triple contains 2 Legendary signatures or duplicate IDs and returns a new independent triple", () => {
+    const scriptedRollsTwoSignatures: number[] = [
+      99, 0, 0,
+      99, 0, 1,
+      0, 0,
+      70, 0,
+      90, 0,
+      0, 4,
+      0, 0,
+      0, 1
+    ];
+    let idx = 0;
+    const forcedTwoSigRes = rollInnateDestinyTripleFromCatalog(
+      S1E_STARTER_DESTINY_CATALOG,
+      {
+        randomIntFn: (maxExclusive: number) => {
+          const val = scriptedRollsTwoSignatures[idx] ?? 0;
+          idx += 1;
+          return val % maxExclusive;
+        }
+      }
+    );
+
+    expect(forcedTwoSigRes.ok).toBe(true);
+    if (forcedTwoSigRes.ok) {
+      expect(forcedTwoSigRes.attemptsUsed).toBe(2);
+      expect(forcedTwoSigRes.rejectedCandidates).toEqual([
+        ["van_vi_dao_thai", "huyen_anh_dao_thai", "thach_cot_so_sinh"]
+      ]);
+      expect(forcedTwoSigRes.candidateTraitIds).toEqual([
+        "kim_cang_can_cot",
+        "thai_hu_than_niem",
+        "tinh_tam_ngung_than"
+      ]);
+    }
+
+    const scriptedRollsDuplicate: number[] = [
+      0, 0,
+      0, 0,
+      0, 1,
+      99, 60, 0,
+      99, 0, 1,
+      0, 2
+    ];
+    let dupIdx = 0;
+    const forcedDupRes = rollInnateDestinyTripleFromCatalog(
+      S1E_STARTER_DESTINY_CATALOG,
+      {
+        randomIntFn: (maxExclusive: number) => {
+          const val = scriptedRollsDuplicate[dupIdx] ?? 0;
+          dupIdx += 1;
+          return val % maxExclusive;
+        }
+      }
+    );
+
+    expect(forcedDupRes.ok).toBe(true);
+    if (forcedDupRes.ok) {
+      expect(forcedDupRes.attemptsUsed).toBe(2);
+      expect(forcedDupRes.rejectedCandidates).toEqual([
+        ["thach_cot_so_sinh", "thach_cot_so_sinh", "man_luc_so_khai"]
+      ]);
+      expect(forcedDupRes.candidateTraitIds).toEqual([
+        "luc_hop_linh_cot",
+        "huyen_anh_dao_thai",
+        "linh_tuc_so_sinh"
+      ]);
+    }
+  });
+
+  it("applies confirmed innate and active Hậu Thiên pre-realm attribute bonuses, ignores unconfirmed drafts and unequipped traits, and clamps HP/MP without free healing", async () => {
+    const db = await createIsolatedDb();
+    const issued = await db.guestIdentity.issueGuestCredential({ nowMs: 1_700_000_050_000 });
+
+    const draftRes = await db.characterV02Actions.createCharacterDraft(
+      issued.accountId,
+      {
+        requestId: "req_s1e_stat_draft",
+        name: "Lý Thất Dạ",
+        appearanceId: "hoa_tran"
+      },
+      { nowMs: 1_700_000_050_100 }
+    );
+    expect(draftRes.ok).toBe(true);
+    expect(draftRes.character?.derivedStats.maxHp).toBe(220);
+    expect(draftRes.character?.derivedStats.maxMp).toBe(140);
+    expect(draftRes.character?.attributes?.destinyBonuses).toEqual({
+      the_phach: 0,
+      luc_dao: 0,
+      linh_tinh: 0,
+      than_phap: 0,
+      than_thuc: 0,
+      ngo_tinh: 0
+    });
+
+    const scriptedRollForConfirm = [
+      99, 0, 0,
+      99, 60, 0,
+      0, 0
+    ];
+    let rIdx = 0;
+    const rollRes = await db.characterV02Actions.rollInnateDestiny(
+      issued.accountId,
+      { requestId: "req_s1e_stat_roll" },
+      {
+        nowMs: 1_700_000_050_200,
+        randomIntFn: (maxExclusive: number) => {
+          const v = scriptedRollForConfirm[rIdx] ?? 0;
+          rIdx += 1;
+          return v % maxExclusive;
+        }
+      }
+    );
+    expect(rollRes.ok).toBe(true);
+    expect(rollRes.rollDraft?.candidateTraitIds).toEqual([
+      "van_vi_dao_thai",
+      "luc_hop_linh_cot",
+      "thach_cot_so_sinh"
+    ]);
+    expect(rollRes.character?.derivedStats.maxHp).toBe(220);
+
+    const confirmRes = await db.characterV02Actions.confirmInnateDestiny(
+      issued.accountId,
+      {
+        requestId: "req_s1e_stat_confirm",
+        rollNonce: rollRes.rollDraft!.rollNonce
+      },
+      { nowMs: 1_700_000_050_300 }
+    );
+    expect(confirmRes.ok).toBe(true);
+    expect(confirmRes.character?.attributes?.destinyBonuses).toEqual({
+      the_phach: 2,
+      luc_dao: 1,
+      linh_tinh: 5,
+      than_phap: 1,
+      than_thuc: 1,
+      ngo_tinh: 5
+    });
+    expect(confirmRes.character?.derivedStats.maxHp).toBe(244);
+    expect(confirmRes.character?.derivedStats.maxMp).toBe(190);
+    expect(confirmRes.character?.resources.currentHp).toBe(220);
+    expect(confirmRes.character?.resources.currentMp).toBe(140);
+
+    const baseSaveState = {
+      accountId: issued.accountId,
+      characterId: confirmRes.character!.identity.characterId,
+      nickname: "Lý Thất Dạ",
+      discipline: "kiem_tu" as const,
+      zoneId: "tan_thu_thon" as const,
+      x: 150,
+      y: 160,
+      direction: "down" as const,
+      realmId: "pham_nhan" as const,
+      realmStage: 1,
+      tuVi: 40,
+      hp: 240,
+      maxHp: 244,
+      mp: 175,
+      maxMp: 180,
+      attack: confirmRes.character!.derivedStats.physicalAttack,
+      defense: confirmRes.character!.derivedStats.physicalDefense,
+      linhThach: 65,
+      equippedTitle: "Tân Nhập Môn Đệ Tử",
+      equippedInheritance: null,
+      inventory: [],
+      quests: {},
+      reputation: {},
+      buffs: [],
+      meditationStartedAt: 1_700_000_000_000,
+      lastMeditationClaimAt: 1_700_000_000_000,
+      partyId: null
+    };
+
+    await db.characterV02Actions.syncRuntimeWorldState(issued.accountId, baseSaveState);
+
+    const grantHt = await db.characterV02Actions.grantAcquiredDestinyTraitServerOnly(
+      {
+        accountId: issued.accountId,
+        requestId: "srv_s1e_grant_ht_kim_cang",
+        traitId: "kim_cang_can_cot"
+      },
+      { nowMs: 1_700_000_050_400 }
+    );
+    expect(grantHt.ok).toBe(true);
+    expect(grantHt.character?.derivedStats.maxHp).toBe(244);
+    expect(grantHt.character?.resources.currentHp).toBe(240);
+
+    const secondSigConflict =
+      await db.characterV02Actions.grantAcquiredDestinyTraitServerOnly(
+        {
+          accountId: issued.accountId,
+          requestId: "srv_s1e_grant_conflict_huyen_anh",
+          traitId: "huyen_anh_dao_thai"
+        },
+        { nowMs: 1_700_000_050_450 }
+      );
+    expect(secondSigConflict.ok).toBe(false);
+    expect(secondSigConflict.code).toBe("SIGNATURE_CONFLICT");
+
+    const equipHt = await db.characterV02Actions.equipAcquiredDestinyTrait(
+      issued.accountId,
+      {
+        requestId: "req_s1e_equip_kim_cang",
+        slotIndex: 0,
+        traitId: "kim_cang_can_cot"
+      },
+      { nowMs: 1_700_000_050_500 }
+    );
+    expect(equipHt.ok).toBe(true);
+    expect(equipHt.character?.derivedStats.maxHp).toBe(268);
+    expect(equipHt.character?.resources.currentHp).toBe(240);
+
+    await db.characterV02Actions.syncRuntimeWorldState(issued.accountId, {
+      ...baseSaveState,
+      hp: 266,
+      maxHp: 268
+    });
+
+    const unequipHt = await db.characterV02Actions.unequipAcquiredDestinyTrait(
+      issued.accountId,
+      {
+        requestId: "req_s1e_unequip_kim_cang",
+        slotIndex: 0
+      },
+      { nowMs: 1_700_000_050_600 }
+    );
+    expect(unequipHt.ok).toBe(true);
+    expect(unequipHt.character?.derivedStats.maxHp).toBe(244);
+    expect(unequipHt.character?.resources.currentHp).toBe(244);
+
+    const directCalc = computeCandidateBaselineStatSnapshot({
+      realmId: "pham_nhan",
+      realmStage: 1,
+      levelProgress: confirmRes.character!.levelProgress,
+      destiny: {
+        innate: ["van_vi_dao_thai", "luc_hop_linh_cot", "thach_cot_so_sinh"],
+        innateConfirmedAtMs: 1_700_000_050_300,
+        acquiredTraitIds: ["kim_cang_can_cot"],
+        activeAcquiredSlots: [null, null, null],
+        collectionRevision: 2
+      }
+    });
+    expect(directCalc.ok).toBe(true);
+    if (directCalc.ok) {
+      expect(directCalc.snapshot.derivedStats.maxHp).toBe(244);
+    }
+  });
+
+  it("prevents unconfirmed v0.2 sessions from creating legacy rows or world avatars and spawns confirmed v0.2 characters cleanly with two-guest isolation", async () => {
+    const db = await createIsolatedDb();
+    const engine = new AuthoritativeWorldEngine(db);
+    configureServerSingletons(db, engine);
+
+    const room = new ZoneRoom();
+    room.onCreate({ zoneId: "tan_thu_thon" });
+
+    const createMockClient = (sessionId: string) => {
+      const sent: Array<{ type: string; message: unknown }> = [];
+      return {
+        sessionId,
+        sent,
+        send(type: string | number | symbol, message?: unknown) {
+          sent.push({ type: String(type), message });
+        },
+        lastMessage<T>(type: string): T | undefined {
+          for (let i = sent.length - 1; i >= 0; i -= 1) {
+            if (sent[i].type === type) {
+              return sent[i].message as T;
+            }
+          }
+          return undefined;
+        }
+      };
+    };
+
+    const guestA = await db.guestIdentity.issueGuestCredential({ nowMs: 1_700_000_060_000 });
+    const guestB = await db.guestIdentity.issueGuestCredential({ nowMs: 1_700_000_060_050 });
+
+    const clientA = createMockClient("sess_s1e_guest_a");
+    await room.onJoin(clientA as unknown as Client, {
+      guestToken: guestA.guestToken
+    });
+
+    expect(room.getOnlinePlayerCount()).toBe(0);
+    expect(Object.keys(room.buildWorldSnapshot().players)).toHaveLength(0);
+    expect(await db.getCharacterByAccount(guestA.accountId)).toBeNull();
+    expect(clientA.lastMessage("self_state")).toBeUndefined();
+
+    await room.handleClientMessage(clientA, "v02_create_character_draft", {
+      requestId: "req_a_draft_isolation",
+      name: "Tiêu Viêm",
+      appearanceId: "ngoc_tam"
+    });
+    expect(room.getOnlinePlayerCount()).toBe(0);
+    expect(await db.getCharacterByAccount(guestA.accountId)).toBeNull();
+
+    await room.handleClientMessage(clientA, "v02_roll_innate_destiny", {
+      requestId: "req_a_roll_isolation"
+    });
+    const rollARes =
+      clientA.lastMessage<CharacterV02ActionResultPayload>("v02_action_result");
+    expect(rollARes?.ok).toBe(true);
+    expect(room.getOnlinePlayerCount()).toBe(0);
+
+    const clientB = createMockClient("sess_s1e_guest_b");
+    await room.onJoin(clientB as unknown as Client, {
+      guestToken: guestB.guestToken
+    });
+    expect(room.getOnlinePlayerCount()).toBe(0);
+    expect(await db.getCharacterByAccount(guestB.accountId)).toBeNull();
+
+    await room.handleClientMessage(clientA, "v02_confirm_innate_destiny", {
+      requestId: "req_a_confirm_isolation",
+      rollNonce: rollARes!.rollDraft!.rollNonce
+    });
+    const confirmARes =
+      clientA.lastMessage<CharacterV02ActionResultPayload>("v02_action_result");
+    expect(confirmARes?.ok).toBe(true);
+    expect(room.getOnlinePlayerCount()).toBe(1);
+    expect(await db.getCharacterByAccount(guestA.accountId)).toBeNull();
+
+    const snapAfterAConfirm = room.buildWorldSnapshot();
+    const charAId = confirmARes!.character!.identity.characterId;
+    expect(snapAfterAConfirm.players[charAId]).toBeDefined();
+    expect(snapAfterAConfirm.players[charAId].nickname).toBe("Tiêu Viêm");
+    expect(snapAfterAConfirm.players[charAId].appearanceId).toBe("ngoc_tam");
+    expect(snapAfterAConfirm.players[charAId].level).toBe(1);
+
+    await room.handleClientMessage(clientB, "v02_create_character_draft", {
+      requestId: "req_b_draft_isolation",
+      name: "Lâm Động",
+      appearanceId: "anh_7"
+    });
+    await room.handleClientMessage(clientB, "v02_roll_innate_destiny", {
+      requestId: "req_b_roll_isolation"
+    });
+    const rollBRes =
+      clientB.lastMessage<CharacterV02ActionResultPayload>("v02_action_result");
+    await room.handleClientMessage(clientB, "v02_confirm_innate_destiny", {
+      requestId: "req_b_confirm_isolation",
+      rollNonce: rollBRes!.rollDraft!.rollNonce
+    });
+    expect(room.getOnlinePlayerCount()).toBe(2);
+    expect(await db.getCharacterByAccount(guestB.accountId)).toBeNull();
+
+    await room.onLeave(clientA as unknown as Client);
+    await room.onLeave(clientB as unknown as Client);
   });
 });

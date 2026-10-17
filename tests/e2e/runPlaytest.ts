@@ -34,9 +34,41 @@ async function assertPortFree(port: number, host = "127.0.0.1"): Promise<void> {
 interface DebugGameState {
   zoneId: string;
   zoneNameVi: string;
+  v02Mode?: boolean;
+  v02Character?: {
+    identity: {
+      characterId: string;
+      accountId: string;
+      name: string;
+      appearanceId: string;
+      creationState: "draft" | "confirmed";
+    };
+    levelProgress: {
+      level: number;
+      freeAttributePoints: number;
+    };
+    cultivation: {
+      realmId: string;
+      realmStage: number;
+    };
+    destiny: {
+      innate: [string, string, string];
+      activeAcquiredSlots: [string | null, string | null, string | null];
+    } | null;
+  } | null;
+  v02ActiveRollDraft?: {
+    characterCreationId: string;
+    rollNonce: string;
+    candidateTraitIds: [string, string, string];
+    expiresAtMs: number;
+  } | null;
+  localAvatarVisible?: boolean;
+  localAppearanceKey?: string;
   localPlayer: {
     accountId: string;
     nickname: string;
+    appearanceId?: string;
+    level?: number;
     x: number;
     y: number;
     direction: string;
@@ -53,7 +85,7 @@ interface DebugGameState {
     quests: Record<string, { status: string }>;
     buffs: Array<{ buffId: string; name: string }>;
   };
-  remotePlayers: Array<{ characterId: string; nickname: string; x: number; y: number }>;
+  remotePlayers: Array<{ characterId: string; nickname: string; appearanceId?: string; x: number; y: number }>;
   monsters: Array<{
     instanceId: string;
     monsterId: string;
@@ -107,10 +139,15 @@ async function main(): Promise<void> {
   delete process.env.DATABASE_URL;
   process.env.PGDATA_DIR = "memory://";
 
-  await assertPortFree(2567);
-  await assertPortFree(5173);
+  const serverPort = Number(process.env.PLAYTEST_SERVER_PORT || 2567);
+  const clientPort = Number(process.env.PLAYTEST_CLIENT_PORT || 5173);
+  const serverHttpUrl = `http://127.0.0.1:${serverPort}`;
+  process.env.VITE_SERVER_URL = serverHttpUrl;
 
-  const gameSrv = await startGameServer(2567, {
+  await assertPortFree(serverPort);
+  await assertPortFree(clientPort);
+
+  const gameSrv = await startGameServer(serverPort, {
     dataDir: "memory://",
     connectionString: ""
   });
@@ -118,9 +155,13 @@ async function main(): Promise<void> {
 
   const viteSrv = await createViteServer({
     configFile: path.join(ROOT_DIR, "apps/client/vite.config.ts"),
-    server: { port: 5173, host: "127.0.0.1", strictPort: true }
+    define: {
+      "import.meta.env.VITE_SERVER_URL": JSON.stringify(serverHttpUrl)
+    },
+    server: { port: clientPort, host: "127.0.0.1", strictPort: true }
   });
   await viteSrv.listen();
+  const clientBaseUrl = `http://127.0.0.1:${clientPort}`;
 
   let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
 
@@ -139,7 +180,7 @@ async function main(): Promise<void> {
     });
 
     const uniqueAcc = `hero_${Date.now()}`;
-    await page1.goto(`http://127.0.0.1:5173/?account=${uniqueAcc}&name=HanLap8D`);
+    await page1.goto(`${clientBaseUrl}/?account=${uniqueAcc}&name=HanLap8D`);
     await waitForCondition(
       async () => ((await page1.locator("#hud-player-name").textContent()) ?? "").includes("HanLap8D"),
       12000,
@@ -396,8 +437,8 @@ async function main(): Promise<void> {
     const pageB = await ctxB.newPage();
 
     const ts = Date.now();
-    await pageA.goto(`http://127.0.0.1:5173/?account=mp_a_${ts}&name=KiemKhachA&zone=thanh_truc_lam`);
-    await pageB.goto(`http://127.0.0.1:5173/?account=mp_b_${ts}&name=KiemKhachB&zone=thanh_truc_lam`);
+    await pageA.goto(`${clientBaseUrl}/?account=mp_a_${ts}&name=KiemKhachA&zone=thanh_truc_lam`);
+    await pageB.goto(`${clientBaseUrl}/?account=mp_b_${ts}&name=KiemKhachB&zone=thanh_truc_lam`);
 
     await waitForCondition(async () => {
       const sA = await readGameState(pageA);
@@ -468,7 +509,7 @@ async function main(): Promise<void> {
       hasTouch: true
     });
     const mobilePage = await mobileCtx.newPage();
-    await mobilePage.goto(`http://127.0.0.1:5173/?account=mob_${Date.now()}&name=TieuViem`);
+    await mobilePage.goto(`${clientBaseUrl}/?account=mob_${Date.now()}&name=TieuViem`);
     await waitForCondition(
       async () =>
         ((await mobilePage.locator("#hud-player-name").textContent()) ?? "").includes("TieuViem"),
@@ -480,6 +521,229 @@ async function main(): Promise<void> {
       path: path.join(ARTIFACT_DIR, "07_mobile_viewport_390x844.png")
     });
     await mobileCtx.close();
+
+    const ctxS1E = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+    const pageS1E = await ctxS1E.newPage();
+    const s1eErrors: string[] = [];
+    pageS1E.on("pageerror", (err) => s1eErrors.push(err.message));
+
+    await pageS1E.goto(`${clientBaseUrl}/?guestSlot=s1e_desktop_${Date.now()}`);
+    await waitForCondition(
+      async () => await pageS1E.locator("#character-creation-overlay").isVisible(),
+      10000,
+      "S1-E Character Creation overlay visible"
+    );
+    await pageS1E.waitForTimeout(400);
+
+    const preConfirmState = await readGameState(pageS1E);
+    assert.equal(preConfirmState.v02Mode, true);
+    assert.equal(preConfirmState.localAvatarVisible, false);
+
+    await pageS1E.locator("#cc-input-name").fill("Lâm Động 8D");
+    await pageS1E.locator('.cc-appearance-card[data-appearance-id="hoa_tran"]').click();
+    await pageS1E.locator("#btn-cc-create-draft").click();
+
+    await waitForCondition(
+      async () => await pageS1E.locator("#cc-rolled-section").isVisible(),
+      8000,
+      "S1-E Rolled section visible"
+    );
+    await waitForCondition(
+      async () => (await pageS1E.locator(".cc-destiny-card").count()) === 3,
+      5000,
+      "S1-E 3 Tiên Thiên cards rendered"
+    );
+
+    const rolledState1 = await readGameState(pageS1E);
+    assert.ok(rolledState1.v02ActiveRollDraft);
+    assert.equal(new Set(rolledState1.v02ActiveRollDraft.candidateTraitIds).size, 3);
+    assert.equal(rolledState1.localAvatarVisible, false);
+    const firstNonce = rolledState1.v02ActiveRollDraft.rollNonce;
+
+    await pageS1E.screenshot({
+      path: path.join(ARTIFACT_DIR, "09_s1e_character_creation_desktop_1280x720.png")
+    });
+
+    await pageS1E.locator("#btn-cc-reroll").click();
+    await waitForCondition(
+      async () => {
+        const st = await readGameState(pageS1E);
+        return Boolean(st.v02ActiveRollDraft && st.v02ActiveRollDraft.rollNonce !== firstNonce);
+      },
+      5000,
+      "S1-E full-trio reroll nonce updated"
+    );
+    const rolledState2 = await readGameState(pageS1E);
+    assert.ok(rolledState2.v02ActiveRollDraft);
+    assert.equal(new Set(rolledState2.v02ActiveRollDraft.candidateTraitIds).size, 3);
+
+    await pageS1E.locator("#btn-cc-confirm").click();
+    await waitForCondition(
+      async () => !(await pageS1E.locator("#character-creation-overlay").isVisible()),
+      8000,
+      "S1-E Creation overlay hidden after confirm"
+    );
+    await waitForCondition(
+      async () => ((await pageS1E.locator("#hud-player-name").textContent()) ?? "").includes("Lâm Động 8D"),
+      8000,
+      "S1-E HUD shows Lâm Động 8D"
+    );
+    await pageS1E.waitForTimeout(500);
+
+    const confirmedState = await readGameState(pageS1E);
+    assert.equal(confirmedState.localAvatarVisible, true);
+    assert.equal(confirmedState.localAppearanceKey, "hoa_tran");
+    assert.equal(confirmedState.v02Character?.identity.creationState, "confirmed");
+    assert.equal(confirmedState.v02Character?.levelProgress.level, 1);
+    assert.equal(confirmedState.v02Character?.cultivation.realmId, "pham_nhan");
+    assert.deepEqual(
+      confirmedState.v02Character?.destiny?.innate,
+      rolledState2.v02ActiveRollDraft?.candidateTraitIds
+    );
+
+    await pageS1E.screenshot({
+      path: path.join(ARTIFACT_DIR, "10_s1e_spawned_tan_thu_thon_1280x720.png")
+    });
+
+    await pageS1E.keyboard.press("c");
+    await waitForCondition(
+      async () => await pageS1E.locator("#cultivation-modal").isVisible(),
+      5000,
+      "S1-E [C] character panel visible"
+    );
+    const cPanelText = (await pageS1E.locator("#cultivation-modal").textContent()) ?? "";
+    assert.ok(cPanelText.includes("Lâm Động 8D"));
+    assert.ok(cPanelText.includes("Thể Phách"));
+    assert.ok(cPanelText.includes("Ngộ Tính"));
+    assert.ok(cPanelText.includes("Tiên Thiên Nghịch Thiên Cải Mệnh"));
+    await pageS1E.screenshot({
+      path: path.join(ARTIFACT_DIR, "11_s1e_character_c_panel_1280x720.png")
+    });
+    await pageS1E.locator("#btn-close-modal").click();
+
+    const confirmedCharacterId = confirmedState.v02Character?.identity.characterId;
+    await pageS1E.reload();
+    await waitForCondition(
+      async () => ((await pageS1E.locator("#hud-player-name").textContent()) ?? "").includes("Lâm Động 8D"),
+      8000,
+      "S1-E reload reconnects confirmed character"
+    );
+    assert.equal(await pageS1E.locator("#character-creation-overlay").isVisible(), false);
+    const reloadedState = await readGameState(pageS1E);
+    assert.equal(reloadedState.v02Character?.identity.characterId, confirmedCharacterId);
+    assert.deepEqual(
+      reloadedState.v02Character?.destiny?.innate,
+      confirmedState.v02Character?.destiny?.innate
+    );
+    assert.deepEqual(s1eErrors, []);
+    await ctxS1E.close();
+
+    const ctxCorrupt = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+    const pageCorrupt = await ctxCorrupt.newPage();
+    const corruptSlot = `s1e_corrupt_${Date.now()}`;
+    await pageCorrupt.addInitScript((slot: string) => {
+      if (!window.sessionStorage.getItem("seeded_corrupt_token")) {
+        window.sessionStorage.setItem("seeded_corrupt_token", "1");
+        window.localStorage.setItem(
+          `tm8d_v02_guest_token_${slot}`,
+          "invalid_secret_token_xyz"
+        );
+      }
+    }, corruptSlot);
+    await pageCorrupt.goto(`${clientBaseUrl}/?guestSlot=${corruptSlot}`);
+    await waitForCondition(
+      async () => await pageCorrupt.locator("#cc-recovery-section").isVisible(),
+      8000,
+      "S1-E invalid guestToken explicit recovery screen visible"
+    );
+    await pageCorrupt.locator("#btn-cc-reset-guest").click();
+    await waitForCondition(
+      async () => await pageCorrupt.locator("#cc-draft-section").isVisible(),
+      8000,
+      "S1-E recovery reset returns to draft creation"
+    );
+    await ctxCorrupt.close();
+
+    const ctxIsoA = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+    const ctxIsoB = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+    const pageIsoA = await ctxIsoA.newPage();
+    const pageIsoB = await ctxIsoB.newPage();
+    const isoTs = Date.now();
+    await pageIsoA.goto(`${clientBaseUrl}/?guestSlot=iso_a_${isoTs}`);
+    await pageIsoB.goto(`${clientBaseUrl}/?guestSlot=iso_b_${isoTs}`);
+    await waitForCondition(
+      async () =>
+        (await pageIsoA.locator("#btn-cc-create-draft").isVisible()) &&
+        (await pageIsoB.locator("#btn-cc-create-draft").isVisible()),
+      8000,
+      "Two-guest draft screens ready"
+    );
+    await pageIsoA.locator("#cc-input-name").fill("ĐạoHữuGiáp");
+    await pageIsoA.locator("#btn-cc-create-draft").click();
+    await pageIsoB.locator("#cc-input-name").fill("ĐạoHữuẤt");
+    await pageIsoB.locator('.cc-appearance-card[data-appearance-id="ngoc_tam"]').click();
+    await pageIsoB.locator("#btn-cc-create-draft").click();
+    await waitForCondition(
+      async () =>
+        (await pageIsoA.locator("#btn-cc-confirm").isVisible()) &&
+        (await pageIsoB.locator("#btn-cc-confirm").isVisible()),
+      8000,
+      "Two-guest roll screens ready"
+    );
+    await pageIsoA.locator("#btn-cc-confirm").click();
+    await pageIsoB.locator("#btn-cc-confirm").click();
+    await waitForCondition(async () => {
+      const stA = await readGameState(pageIsoA);
+      const stB = await readGameState(pageIsoB);
+      return (
+        stA.v02Character?.identity.creationState === "confirmed" &&
+        stB.v02Character?.identity.creationState === "confirmed" &&
+        stA.remotePlayers.some((p) => p.nickname === "ĐạoHữuẤt" && p.appearanceId === "ngoc_tam") &&
+        stB.remotePlayers.some((p) => p.nickname === "ĐạoHữuGiáp")
+      );
+    }, 10000, "Two-guest confirmed isolation and mutual world visibility");
+    const stIsoA = await readGameState(pageIsoA);
+    const stIsoB = await readGameState(pageIsoB);
+    assert.notEqual(stIsoA.v02Character?.identity.accountId, stIsoB.v02Character?.identity.accountId);
+    assert.notEqual(stIsoA.v02Character?.identity.characterId, stIsoB.v02Character?.identity.characterId);
+    await ctxIsoA.close();
+    await ctxIsoB.close();
+
+    const mobileS1ECtx = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true
+    });
+    const mobileS1EPage = await mobileS1ECtx.newPage();
+    await mobileS1EPage.goto(`${clientBaseUrl}/?guestSlot=s1e_mob_${Date.now()}`);
+    await waitForCondition(
+      async () => await mobileS1EPage.locator("#btn-cc-create-draft").isVisible(),
+      8000,
+      "Mobile S1-E creation ready"
+    );
+    await mobileS1EPage.locator("#cc-input-name").fill("TiểuViêmV02");
+    await mobileS1EPage.locator('.cc-appearance-card[data-appearance-id="anh_7"]').click();
+    await mobileS1EPage.locator("#btn-cc-create-draft").click();
+    await waitForCondition(
+      async () => (await mobileS1EPage.locator(".cc-destiny-card").count()) === 3,
+      8000,
+      "Mobile S1-E 3 destiny cards visible"
+    );
+    await mobileS1EPage.screenshot({
+      path: path.join(ARTIFACT_DIR, "12_s1e_mobile_creation_390x844.png")
+    });
+    await mobileS1EPage.locator("#btn-cc-confirm").click();
+    await waitForCondition(
+      async () =>
+        ((await mobileS1EPage.locator("#hud-player-name").textContent()) ?? "").includes("TiểuViêmV02"),
+      8000,
+      "Mobile S1-E HUD spawned"
+    );
+    await mobileS1EPage.waitForTimeout(400);
+    await mobileS1EPage.screenshot({
+      path: path.join(ARTIFACT_DIR, "13_s1e_mobile_spawned_390x844.png")
+    });
+    await mobileS1ECtx.close();
 
     const relArtifactDir = path.relative(ROOT_DIR, ARTIFACT_DIR).replace(/\\/g, "/");
     process.stdout.write(
@@ -497,7 +761,12 @@ async function main(): Promise<void> {
             `${relArtifactDir}/05_thanh_truc_lam_forest.png`,
             `${relArtifactDir}/06_multiplayer_shared_combat.png`,
             `${relArtifactDir}/07_mobile_viewport_390x844.png`,
-            `${relArtifactDir}/08_poc_sprites_showcase.png`
+            `${relArtifactDir}/08_poc_sprites_showcase.png`,
+            `${relArtifactDir}/09_s1e_character_creation_desktop_1280x720.png`,
+            `${relArtifactDir}/10_s1e_spawned_tan_thu_thon_1280x720.png`,
+            `${relArtifactDir}/11_s1e_character_c_panel_1280x720.png`,
+            `${relArtifactDir}/12_s1e_mobile_creation_390x844.png`,
+            `${relArtifactDir}/13_s1e_mobile_spawned_390x844.png`
           ]
         },
         null,
