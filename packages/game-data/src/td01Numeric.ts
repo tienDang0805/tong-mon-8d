@@ -5,9 +5,9 @@ import type {
   DestinyCollection,
   DestinyDefinitionMetadata
 } from "@tong-mon-8d/shared";
+import { computeActiveDestinyPreRealmAttributeBonuses } from "./catalogs/destinies.js";
 import {
   BASE_ATTRIBUTE_KEYS,
-  computeActiveDestinyPreRealmAttributeBonuses,
   createZeroBaseAttributes,
   formatExpDecimalString,
   getRealmLevelBand,
@@ -17,7 +17,7 @@ import {
   parseExpDecimalString,
   validateBaseAttributes,
   validateCharacterLevelProgress
-} from "./index.js";
+} from "./rules/characterContracts.js";
 
 export const TD01_CANDIDATE_RULESET_VERSION = "td01-candidate-v0.3" as const;
 

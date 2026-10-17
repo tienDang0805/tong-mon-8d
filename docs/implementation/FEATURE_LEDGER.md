@@ -1,6 +1,6 @@
 # Tông Môn 8D — Implementation & Verification Feature Ledger
 
-> Active engineering ledger | Last verified remote: `897197a268f3c906ac624cac89fa65782a38b034` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Active engineering ledger | Last verified remote: `a3de0549350e003019d17cef47833a8aa2943b38` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Ledger Governance Rules
 
@@ -9,7 +9,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 1. **Evidence-Grounded Entries Only**: Every entry must cite real repository paths, actual verification commands/outputs, and verified Git commit SHAs on `origin/master`.
 2. **Design vs. Implementation Separation**: Never record a gameplay system as implemented when only specifications, read-only plans, or pure TypeScript contract/validator subsets exist.
 3. **Commit SHA Closeout Rule (`docs/technical/AGENT_EXECUTION_CONTRACT.md`)**:
-   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`, `cb360e8`, `bf2d24f`, `897197a`).
+   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`, `cb360e8`, `bf2d24f`, `897197a`, `a3de054`).
    - Because a commit cannot contain its own future SHA, the active task being committed records `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` and `Status: VERIFIED_READY_FOR_COMMIT`, which is then backfilled with the exact SHA during the next authorized `DOC SYNC`.
 
 ---
@@ -20,7 +20,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 |---|---|---|---|
 | `S0` | Foundation, PGlite split-brain safety, `.env` loader, isolated E2E runs | `COMMITTED` | `6e38c246cabcd020efe137863838d6a61e7b1a72` (`6e38c24`) |
 | `G0` | Agent workflow governance, 30-skill router & Argon native asset profile | `COMMITTED` | `39d71c06a830f5f2d9ae2d64b09cb18aa3efebc4` (`39d71c0`) |
-| `S1` (Overall) | Character schema v0.2 & persistence (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`; `S1-B1b` at `cb360e8`; `S1-C` at `bf2d24f`; `S1-D` at `897197a`; `S1-E` at `SELF_COMMIT`) |
+| `S1` (Overall) | Character schema v0.2 & persistence (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`; `S1-B1b` at `cb360e8`; `S1-C` at `bf2d24f`; `S1-D` at `897197a`; `S1-E` at `a3de054`; `PRE-S1F` at `SELF_COMMIT`) |
 | `S1-A` | Character v0.2 migration plan & strict Design Evidence Matrix | `READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED` | `NONE` (Read-only plan at base `39d71c0`) |
 | `S1-B1a` | Pure Character, Destiny metadata & 18-entry realm level-band contracts | `COMMITTED` | `b04ebdc72ffede9edb678008ed30d002c73b5cc6` (`b04ebdc`) |
 | `CTX-1` | Documentation reconciliation, `DOC SYNC` gate, Feature Ledger & Master Project Plan | `COMMITTED` | `0e9cc8d58618021a4c723efbc5fbc1860386b67c` (`0e9cc8d`) |
@@ -31,7 +31,8 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 | `GOV-FLOW-V2` | Streamlined 3-phase planner/executor workflow, impact-based verification matrix & status de-duplication | `COMMITTED` | `fdd8e8bbd315638c16f68180fb01868550aecc30` (`fdd8e8b`) |
 | `S1-C` | Fresh Character v0.2 persistence foundation (`characters_v02` DDL & `CharacterV02Repository`; owner-approved fresh-start policy) | `COMMITTED` | `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa` (`bf2d24f`) |
 | `S1-D` | Authoritative Character v0.2 server actions, server-generated guest credential bootstrap, Project Atlas V2 & explicit skill routing | `COMMITTED` | `897197a268f3c906ac624cac89fa65782a38b034` (`897197a`) |
-| `S1-E` | Playable Character Creation, 16-trait Starter Destiny Catalog, 4 appearances, [C] 6-attribute HUD & world spawn isolation (`TD-01` + `TD-05`) | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `897197a268f3c906ac624cac89fa65782a38b034`) |
+| `S1-E` | Playable Character Creation, 16-trait Starter Destiny Catalog (`luc_hop_linh_cot` / `Lục Hợp Linh Cốt`), 4 appearances, [C] 6-attribute HUD & world spawn isolation (`TD-01` + `TD-05`) | `COMMITTED` | `a3de0549350e003019d17cef47833a8aa2943b38` (`a3de054`) |
+| `PRE-S1F` | Modular-monolith source architecture (`SOURCE_ARCHITECTURE.md`), scope-based allowlists, selective Character/Destiny refactor & `verify:doc-sync` hardening | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `a3de0549350e003019d17cef47833a8aa2943b38`) |
 | `S1-F` | Two-browser E2E acceptance & persistence/restart verification for `S1` | `E2E ACCEPTANCE, NOT IMPLEMENTED` | `NONE` |
 | `S2`–`S8` | Remaining vertical slice implementation slices (`docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) | `NOT STARTED` | `NONE` |
 
@@ -108,7 +109,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
   - **Pure Contracts & Validators Only — Runtime `Character v0.2` Is NOT Implemented**:
     - Candidate numeric baselines (`origin = 10`, EXP polynomial curve, `Tu Vi` stage curves, Destiny `50/30/15/5` tier weights) are **not** locked or exported (`S1-B1b`).
     - Complete `DestinyDefinition` modifier/effect schemas, production Destiny trait catalog, and server CSPRNG rolling are **not** implemented. Accepting `"PROPOSED"` in `validateDestinyDefinitionMetadata` validates structural metadata shape for unit tests only and does **not** authorize `"PROPOSED"` traits for production roll or persistence.
-    - Database transaction infrastructure (`S1-B2`), PostgreSQL `v0.1 -> v0.2` schema/backup/migration (`S1-C`), authoritative Colyseus server handlers (`S1-D`), client/HUD wiring (`S1-E`), and E2E acceptance (`S1-F`) remain **`NOT IMPLEMENTED`**.
+    - At the `S1-B1a` checkpoint (`b04ebdc`), database transactions (`S1-B2`, later committed at `0543b71`), numeric helpers (`S1-B1b`, `cb360e8`), persistence (`S1-C`, `bf2d24f`), server actions (`S1-D`, `897197a`), and client/HUD (`S1-E`, `a3de054`) were deferred to subsequent sub-slices; `S1-F` (`E2E ACCEPTANCE`) remains **`NOT IMPLEMENTED`**.
 - **Current Status & Next Dependency**: `COMMITTED` (`b04ebdc`) → `CTX-1` → owner decision on `S1-B1b` / `S1-B2`.
 
 ---
@@ -154,7 +155,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 - **Known Limitations & Deferred Scope**:
   - **Transaction Infrastructure Only — Runtime `Character v0.2` & Schema Migration Are NOT Implemented**:
     - Existing `accounts`, `characters`, `idempotency_ledger`, and `economy_audit_log` DDL and columns in `apps/server/src/db.ts` are unchanged.
-    - `Character v0.2` runtime gameplay, `S1-B1b` (`PROPOSED NEXT PURE NUMERIC TASK, NOT IMPLEMENTED`), `S1-C` (`SCHEMA / BACKUP / MIGRATION, NOT IMPLEMENTED`), `S1-D` (`AUTHORITATIVE SERVER ACTIONS, NOT IMPLEMENTED`), `S1-E` (`CLIENT/HUD, NOT IMPLEMENTED`), `S1-F` (`E2E ACCEPTANCE, NOT IMPLEMENTED`), and Slices `S2`–`S8` (`NOT STARTED`) remain **`NOT IMPLEMENTED`**.
+    - At the `S1-B2` checkpoint (`0543b71`), `S1-B1b` (later committed at `cb360e8`), `S1-C` (`bf2d24f`), `S1-D` (`897197a`), and `S1-E` (`a3de054`) were deferred to subsequent sub-slices; `S1-F` (`E2E ACCEPTANCE, NOT IMPLEMENTED`) and Slices `S2`–`S8` (`NOT STARTED`) remain **`NOT IMPLEMENTED`**.
 - **Current Status & Next Dependency**: `COMMITTED` (`0543b71`) → `GOV-REPORT` / `S1-B1b` or `S1-C`.
 
 ---
@@ -261,7 +262,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 - **Known Limitations & Deferred Scope**:
   - **Persistence Foundation Only — Runtime `Character v0.2` Gameplay Is NOT Yet Wired**:
     - `worldEngine.ts`, `zoneRoom.ts`, and `hud.ts` still use the legacy `v0.1` `characters` table until `S1-D` (`AUTHORITATIVE SERVER ACTIONS`) and `S1-E` (`CLIENT/HUD`).
-    - Authoritative Destiny CSPRNG rolling, production Destiny trait catalog, `S1-D` Colyseus handlers, `S1-E` client/HUD, and `S1-F` E2E acceptance remain **`NOT IMPLEMENTED`**.
+    - At the `S1-C` checkpoint (`bf2d24f`), `S1-D` Colyseus handlers (later committed at `897197a`) and `S1-E` client/HUD + 16-trait starter catalog (`a3de054`) were deferred to subsequent sub-slices; `S1-F` E2E acceptance remains **`NOT IMPLEMENTED`**.
 - **Current Status & Next Dependency**: `COMMITTED` (`bf2d24f`) → `S1-D`.
 
 ---
@@ -300,7 +301,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 - **Design & Technical References**: `AGENTS.md`, `RULES.md` (Rules 1–6), `docs/DECISIONS.md` (`GD-001`, `GD-010`–`GD-018`, `GD-020`–`GD-023`, `GD-028`, `GD-044`), `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/UX_DESIGN.md`, `docs/implementation/S1E_STARTER_DESTINY_CATALOG.md`, `.agents/skills/game-ui-frontend/SKILL.md`, `.agents/skills/mmorpg-server-integrity/SKILL.md`, `.agents/skills/game-playtest/SKILL.md`
 - **Actual Implementation Scope**:
   - **16-Trait Starter Destiny Catalog & Flat Pre-Realm Attribute Bonuses (`packages/shared/src/index.ts`, `packages/game-data/src/index.ts`, `packages/game-data/src/td01Numeric.ts`)**:
-    - Added `DestinyStarterDefinition`, `S1E_STARTER_DESTINY_CATALOG` (`16` traits: `6` `Phàm` ordinary, `4` `Hoàng` ordinary, `3` `Tiên` ordinary, `1` `Thần` ordinary `cung_than_nhap_hoa`, plus `van_vi_dao_thai` for `phi_de` and development-trial `huyen_anh_dao_thai` for `dam_lon_tien_tu` while preserving `dam_lon_tien_tu.realmId = "UNKNOWN"`), `APPROVED_CHARACTER_V02_APPEARANCES` (`hero_kiem_tu`, `hoa_tran`, `ngoc_tam`, `anh_7`), and `computeActiveDestinyPreRealmAttributeBonuses`.
+    - Added `DestinyStarterDefinition`, `S1E_STARTER_DESTINY_CATALOG` (`16` traits: `6` `Phàm` ordinary, `4` `Hoàng` ordinary, `3` `Tiên` ordinary, `1` `Thần` ordinary `luc_hop_linh_cot` / `Lục Hợp Linh Cốt`, plus `van_vi_dao_thai` for `phi_de` and development-trial `huyen_anh_dao_thai` for `dam_lon_tien_tu` while preserving `dam_lon_tien_tu.realmId = "UNKNOWN"`), `APPROVED_CHARACTER_V02_APPEARANCES` (`hero_kiem_tu`, `hoa_tran`, `ngoc_tam`, `anh_7`), and `computeActiveDestinyPreRealmAttributeBonuses`.
     - Folded flat pre-realm Destiny attribute bonuses (`innateTraitIds` when confirmed + active `Hậu Thiên` slots) into `computeCandidateBaselineStatSnapshot` (`preRealm = origin + allocated + earnedPermanent + destinyAttributeBonuses`, then multiplied once by `realmFactor`), and exposed `attributes` breakdown (`origin`, `destinyBonuses`, `preRealm`, `effective`, `realmFactor`) on `CharacterV02SnapshotPayload`.
   - **Authoritative Roll Math Fixes (`FIX A` & `FIX B`) & World Spawn Isolation (`apps/server/src/characterV02Actions.ts`, `apps/server/src/zoneRoom.ts`, `apps/server/src/worldEngine.ts`)**:
     - Fixed `CANDIDATE_THAN_SIGNATURE_WEIGHT = 60` / `CANDIDATE_THAN_ORDINARY_WEIGHT = 40` (`FIX A`, matching `docs/DECISIONS.md` `GD-017` and `docs/systems/DESTINY.md`) and implemented full-triple independent rejection sampling (`FIX B`, redrawing the entire 3-slot candidate triple whenever duplicate trait IDs or `> 1` Legendary Signature occurs).
@@ -312,7 +313,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
     - Updated `hud.ts` with top-left Level + EXP bar (`Lv.X · expTowardNext/expToNext`) + unallocated attribute points badge while keeping `>= 75%` of the Phaser playfield unobstructed (`RULES.md` Rule 4), and updated `[C]` modal with all 6 base attributes (`Thể Phách`, `Lực Đạo`, `Linh Tính`, `Thân Pháp`, `Thần Thức`, `Ngộ Tính`), single-point `+1` buttons (`v02_allocate_attribute_point`), derived stats, 3 confirmed `Tiên Thiên` badges, and 3 active `Hậu Thiên` slots (`equip`/`unequip`).
 - **Changed Files & Verified Commit SHA**:
   - Base Commit: `897197a268f3c906ac624cac89fa65782a38b034` (`897197a`)
-  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Commit: `a3de0549350e003019d17cef47833a8aa2943b38` (`a3de054`, `feat(s1-e): add playable character creation, starter destiny catalog, and attribute/destiny hud`)
   - Files (`15` Code Allowlist paths + `7` Documentation Allowlist paths): `packages/shared/src/index.ts`, `packages/game-data/src/index.ts`, `packages/game-data/src/td01Numeric.ts`, `apps/server/src/characterV02Actions.ts`, `apps/server/src/zoneRoom.ts`, `apps/server/src/worldEngine.ts`, `apps/server/src/__tests__/characterV02Actions.test.ts`, `apps/client/src/network.ts`, `apps/client/src/hud.ts`, `apps/client/src/characterCreation.ts`, `apps/client/src/WorldScene.ts`, `apps/client/src/main.ts`, `apps/client/src/style.css`, `tests/e2e/game.spec.ts`, `tests/e2e/runPlaytest.ts`, `docs/implementation/S1E_STARTER_DESTINY_CATALOG.md`, `docs/DECISIONS.md`, `docs/CONTEXT_INDEX.md`, `docs/tong-mon-8d-project-atlas.html`, `docs/implementation/FEATURE_LEDGER.md`, `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`
 - **Tests & Verification Evidence**:
   - `CLIENT / HUD / PHASER / E2E` + `SERVER / COLYSEUS / MULTIPLAYER` verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): `npm test` (`6` test suites, `53/53` server tests passing: `11` in `characterV02Actions.test.ts`, `8` in `characterV02Persistence.test.ts`, `9` in `dbTransactions.test.ts`, `8` in `server.test.ts`, `11` in `td01Numeric.test.ts`, `6` in `td01Contracts.test.ts`, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (including `npm run verify:assets`, exit `0`), real browser E2E playtest on isolated ports `2591`/`5191` (`PLAYTEST_RUN_ID=s1e_verification`, `playtestStatus: "ALL_GATES_PASSED"`, `0` console/page errors, verifying Desktop `1280x720` `DRAFT -> ROLLED -> REROLL -> CONFIRMED -> Tân Thủ Thôn spawn -> [C] panel -> reload persistence`, invalid `guestToken` recovery screen, two-guest isolation, and Mobile `390x844` layout + playfield visibility `>= 75%`), `git diff --check` (exit `0`), 40 frozen TD files verified (`0` modified).
@@ -321,4 +322,31 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
     - The 14 ordinary innate traits and their flat pre-realm attribute bonuses are `DESIGN_BASELINE` starter values; `huyen_anh_dao_thai` (`dam_lon_tien_tu`) is authorized strictly for development-trial verification (`Narrative: NOT DESIGNED`, `dam_lon_tien_tu.realmId = "UNKNOWN"` preserved).
     - Visual presentation remains `TECHNICALLY_VERIFIED` (not `HUMAN_APPROVED`).
     - Slice `S1` closeout acceptance gate (`S1-F`) and Slices `S2`–`S8` remain next.
-- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `897197a268f3c906ac624cac89fa65782a38b034`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then proceed to `S1-F` (`E2E ACCEPTANCE`).
+- **Current Status & Next Dependency**: `COMMITTED` (`a3de054`) → `PRE-S1F` / `S1-F` (`E2E ACCEPTANCE`).
+
+---
+
+### 3.14 `PRE-S1F` — Source Architecture, Character/Destiny Modular Refactor & Documentation Pipeline Hardening
+- **Associated Slice**: `S1` (Pre-`S1-F` Architecture, Selective Modularization & Documentation Pipeline Hardening)
+- **Design & Technical References**: `AGENTS.md`, `RULES.md` (Rules 1–6), `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/CONTEXT_INDEX.md`, `docs/CONTENT_PIPELINE.md`, `docs/MASTER_PROJECT_PLAN.md`, `docs/ROADMAP.md`, `.agents/skills/mmorpg-server-integrity/SKILL.md`, `.agents/skills/game-ui-frontend/SKILL.md`, `.agents/skills/game-playtest/SKILL.md`
+- **Actual Implementation Scope**:
+  - **Part A — Source Architecture & Governance (`docs/technical/SOURCE_ARCHITECTURE.md`, `AGENTS.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/CONTEXT_INDEX.md`, `docs/CONTENT_PIPELINE.md`)**:
+    - Integrated `docs/technical/SOURCE_ARCHITECTURE.md` defining the modular-monolith source architecture (`packages/shared`, `packages/game-data`, `packages/art-tools`, `apps/server/src/features/<domain>/*`, `apps/client/src/features/<domain>/*`), data-driven content pack layout (`src/catalogs/*`, `src/rules/*`), scope-based allowlists (`EDIT_EXISTING`, `CREATE_WITHIN`, `DOC_SYNC`), and incremental extraction guardrails without speculative placeholder directories.
+    - Updated `AGENTS.md` §2, `docs/technical/AGENT_EXECUTION_CONTRACT.md` (§2.2, §3.3, §4, §4.6), `docs/CONTEXT_INDEX.md` (§3, §4, §5), and `docs/CONTENT_PIPELINE.md` (§2.1) with scope-based allowlist rules, modular-monolith package paths, and the sustainable documentation synchronization policy (`SELF_COMMIT` + previous-task commit SHA backfill + `npm run verify:doc-sync`).
+  - **Part B — Selective Character/Destiny Refactor (`packages/game-data`, `apps/server`, `apps/client`)**:
+    - Extracted `packages/game-data/src/catalogs/realms.ts` (`RealmDefinition`, `REALM_PROGRESSION`), `packages/game-data/src/rules/characterContracts.ts` (6-attribute, EXP decimal string, level-point, and realm level-band validators/helpers), and `packages/game-data/src/catalogs/destinies.ts` (`S1E_STARTER_DESTINY_CATALOG`, `APPROVED_CHARACTER_V02_APPEARANCES`, Destiny rarity/label constants, pre-realm bonus calculators, and Destiny collection/roll-draft validators).
+    - Updated `packages/game-data/src/td01Numeric.ts` to import directly from `./catalogs/destinies.js` and `./rules/characterContracts.js` instead of `./index.js`, eliminating the `td01Numeric.ts ↔ index.ts` circular dependency while preserving all barrel re-exports in `packages/game-data/src/index.ts`.
+    - Extracted `apps/server/src/features/destiny/DestinyRoller.ts` (`rollInnateDestinyTripleFromCatalog` + tier/signature weights) and `apps/server/src/features/character/CharacterSnapshot.ts` (`toCharacterV02Snapshot`), re-exporting them from `apps/server/src/characterV02Actions.ts` (`CharacterV02ActionService` reduced to ~627 lines).
+    - Extracted `apps/client/src/features/character/CharacterPanel.ts` (`renderCharacterPanelModal` for the `[C]` `Character v0.2` 6-attribute and Destiny modal) and delegated `HudController.renderCultivationModal()` in `apps/client/src/hud.ts` (`hud.ts` reduced to ~1,004 lines).
+  - **Part C — Documentation Pipeline Hardening (`docs/MASTER_PROJECT_PLAN.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/tong-mon-8d-project-atlas.html`, `docs/DEVELOPMENT_SETUP.md`, `scripts/verify-doc-sync.mjs`, `package.json`)**:
+    - Reconciled stale milestone statuses (`S1-B1b`, `S1-C`, `S1-D`, `S1-E`) across `MASTER_PROJECT_PLAN.md` and `ROADMAP.md`, backfilled `S1-E` commit `a3de054` (`a3de0549350e003019d17cef47833a8aa2943b38`), corrected `luc_hop_linh_cot` in `FEATURE_LEDGER.md` §3.13, and added `scripts/verify-doc-sync.mjs` (`npm run verify:doc-sync`) to verify the 40 frozen TD files against `39c41a6ddb77b93284c56da7ec053f4309ee4943`, detect stale milestone strings across active docs and the Project Atlas, guard `S1-F` from premature acceptance claims, and check inline JavaScript syntax in `docs/tong-mon-8d-project-atlas.html`.
+- **Changed Files & Verified Commit SHA**:
+  - Base Commit: `a3de0549350e003019d17cef47833a8aa2943b38` (`a3de054`)
+  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Files (`12` Code/Script paths + `12` Documentation paths): `packages/game-data/src/catalogs/realms.ts`, `packages/game-data/src/catalogs/destinies.ts`, `packages/game-data/src/rules/characterContracts.ts`, `packages/game-data/src/td01Numeric.ts`, `packages/game-data/src/index.ts`, `apps/server/src/features/destiny/DestinyRoller.ts`, `apps/server/src/features/character/CharacterSnapshot.ts`, `apps/server/src/characterV02Actions.ts`, `apps/client/src/features/character/CharacterPanel.ts`, `apps/client/src/hud.ts`, `scripts/verify-doc-sync.mjs`, `package.json`, `docs/technical/SOURCE_ARCHITECTURE.md`, `AGENTS.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/CONTEXT_INDEX.md`, `docs/CONTENT_PIPELINE.md`, `docs/MASTER_PROJECT_PLAN.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/tong-mon-8d-project-atlas.html`, `docs/DEVELOPMENT_SETUP.md`
+- **Tests & Verification Evidence**:
+  - `CLIENT / HUD / PHASER / E2E` + `SERVER / COLYSEUS / MULTIPLAYER` + `DOC SYNC` verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): `npm test` (`6` test suites, `53/53` server tests passing, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (including `npm run verify:assets`, exit `0`), `npm run verify:doc-sync` (exit `0`), real browser E2E playtest (`PLAYTEST_RUN_ID=pre_s1f_verification`, `dbDataDir: "memory://"`, `playtestStatus: "ALL_GATES_PASSED"`, `0` console/page errors across Desktop `1280x720` and Mobile `390x844`), `git diff --check` (exit `0`), 40 frozen TD files verified (`0` modified).
+- **Known Limitations & Deferred Scope**:
+  - **Bounded Refactor Only — Zero Gameplay Behavior Change**:
+    - `PRE-S1F` preserves `S1-E` runtime gameplay behavior identically and does not execute the `S1-F` acceptance gate or implement `S2`–`S8` gameplay systems.
+- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `a3de0549350e003019d17cef47833a8aa2943b38`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then proceed to `S1-F` (`E2E ACCEPTANCE, NOT YET ACCEPTED`).

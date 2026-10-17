@@ -15,11 +15,11 @@ The owner wants to request “add one NPC/domain/skill/region/quest” in future
 5. **Asset manifest**: List portraits, sprites, animation states, item icons, VFX, tiles, props and audio necessary; reuse approved assets only where visually/thematically correct.
 6. **Genuine image generation**: Native Antigravity image generator or specifically authorized provider; keep raw AI source and its checksum. **No automatic code-drawn production fallback** and no unapproved paid calls.
 7. **Deterministic post-processing**: Chroma cleanup, alignment, slicing, atlas/tileset/VFX packaging and reproducible provenance. Scripts may assemble, **not originate** finished art.
-8. **Implementation**: Add content registry entries, game rules, triggers, server validation, persistence, Phaser render, animation integration and Tiled metadata. Scope code only to the approved task.
+8. **Implementation**: Add content registry entries (`packages/game-data/src/catalogs/*`), pure rules/validators (`packages/game-data/src/rules/*`), domain server services (`apps/server/src/features/<domain>/*`), persistence, Phaser render, client panels (`apps/client/src/features/<domain>/*`), animation integration and Tiled metadata in accordance with `docs/technical/SOURCE_ARCHITECTURE.md`. Scope code only to the approved task.
 9. **Automated gates**: Select checks by actual content/code/asset impact using AGENT_EXECUTION_CONTRACT Section 3. New player-visible content requires relevant schema/ID, asset and in-game checks; changed reward/condition logic requires its transaction/invariant tests. Use full applicable TD acceptance at slice release. A later docs-only or test-harness-only correction does not rerun the entire content pipeline. Build already includes asset verification; a required unavailable E2E is reported BLOCKED/NOT_RUN rather than silently waived.
 10. **In-game review**: screenshots, animation/GIF at actual gameplay zoom, real in-world usability and multiplayer verification.
 11. **Human creative approval**: Only owner marks artwork `HUMAN_APPROVED`; code pass/manifest pass ≠ approval. Present gaps honestly.
-12. **Release/handoff**: Update referenced specs, content index, changelog/status and evidence, then await owner commit/push policy.
+12. **Release/handoff**: Update referenced specs, content index, changelog/status and evidence (`npm run verify:doc-sync`), then await owner commit/push policy.
 
 ## How different content types flow
 
@@ -35,7 +35,7 @@ The owner wants to request “add one NPC/domain/skill/region/quest” in future
 
 ## Reusable mechanics — preferable to scripts per NPC
 
-A type-safe catalog defines NPC, item, technique, Dao path, quest, zone, achievements and AI asset refs. Conditions (`hasDestiny`, `affinityAtLeast`, `hasItem`, `daoAtLeast`, `questCompleted`, etc.) and effects (`grantReward`, `unlockQuest`, `setFlag`) should be data-driven with a small vetted evaluator. Shared IDs are generated/validated centrally. Migrations preserve old save data with versioned schemas. Do not build ten services or a complex ECS before the first slice proves need.
+Follow **`docs/technical/SOURCE_ARCHITECTURE.md`**: leaf catalogs under `packages/game-data/src/catalogs/*` (`realms.ts`, `destinies.ts`, and future domain catalogs) and pure rules under `packages/game-data/src/rules/*` (`characterContracts.ts`, etc.) define NPC, item, technique, Dao path, quest, zone, achievements and AI asset refs without circular dependencies, re-exported through `packages/game-data/src/index.ts`. Conditions (`hasDestiny`, `affinityAtLeast`, `hasItem`, `daoAtLeast`, `questCompleted`, etc.) and effects (`grantReward`, `unlockQuest`, `setFlag`) should be data-driven with a small vetted evaluator. Shared IDs are generated/validated centrally. Server domain logic lives under `apps/server/src/features/<domain>/*` (`destiny/DestinyRoller.ts`, `character/CharacterSnapshot.ts`) and client feature panels live under `apps/client/src/features/<domain>/*` (`character/CharacterPanel.ts`). Do not build ten services or a complex ECS before the slice proves need.
 
 ## AI-art skill integration
 

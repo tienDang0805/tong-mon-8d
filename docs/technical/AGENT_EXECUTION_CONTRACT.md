@@ -45,6 +45,12 @@ The owner and planner choose the player/system outcome, current base, boundaries
 - MODE: EXECUTE authorizes implementation when the owner issues or forwards the card. MODE: PLAN_ONLY authorizes planning only. Drafts, repository examples, copied reports and bundled templates do not authorize execution by themselves.
 - COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS explicitly authorizes an ordinary scoped commit and push after acceptance and required checks pass. STOP_BEFORE_COMMIT stops at a ready change. When no commit/push authorization exists, do not infer it; stop at that boundary without repeating implementation review. Existing explicit authorization for the same scope persists.
 - A file allowlist is a ceiling, not a requirement to edit every listed path. Include needed status-doc paths in the initial task. A slice candidate list is not an edit allowlist. No next feature is authorized by the roadmap alone.
+- **Scope-Based Allowlist Categories (`SOURCE_ARCHITECTURE.md` §12)**:
+  - `EDIT_EXISTING`: Specific existing files that may be modified.
+  - `CREATE_WITHIN`: Specific feature/catalog/rule directories where new files may be created (`packages/game-data/src/catalogs/**`, `packages/game-data/src/rules/**`, `apps/server/src/features/<domain>/**`, `apps/client/src/features/<domain>/**`, etc.).
+  - `PROTECTED`: Paths that must never be touched (`40` frozen TD specs, `assets/manifest.json` and `assets/provenance.json` unless art-scoped, `packages/art-tools/build_assets.py`, live player DBs).
+  - `DOC_SYNC`: Synchronized status/plan/ledger documents authorized for the task.
+  - `CREATE_WITHIN` does not authorize editing unrelated existing files outside `EDIT_EXISTING`, creating top-level workspace packages, or mutating `PROTECTED` paths.
 - Verify local HEAD, live remote at task entry and working-tree ownership. Preserve unrelated work and use isolation when necessary. Read only relevant rules/specs/skills and reuse unchanged context. Do not start dev services or application tests merely because a session opened.
 - **Mandatory Skill Selection & Safe Automatic Fallback (`AGENT_SKILL_ROUTER.md`)**:
   1. Every task should include an explicit `Skill Manifest` (`NONE`, or `1–3` primary skills plus optional skills).
@@ -68,7 +74,7 @@ Use the smallest sufficient verification profile:
 | Changed behavior | Required evidence | Not automatic |
 |---|---|---|
 | Read-only planning/review | Source/Git state and concrete task boundaries | Application tests, build, dev server, DB |
-| Docs/governance/status only | Diff/whitespace, new or changed path/command references, policy/status consistency and protected paths | Game tests/typecheck/build/assets/E2E; new tests that mirror Markdown wording |
+| Docs/governance/status only | Diff/whitespace, new or changed path/command references, policy/status consistency (`npm run verify:doc-sync`) and protected paths | Game tests/typecheck/build/assets/E2E; new tests that mirror Markdown wording |
 | Test/harness only | Changed tests and relevant type checks; meaningful negative cases for changed harness behavior | Unrelated application build or full E2E |
 | Independent tooling/scripts | Syntax and focused disposable fixtures for changed behavior, including relevant path/error/destructive-operation boundaries | Unrelated game suite/build/assets |
 | Pure contracts/numeric logic | Affected unit/contract tests, typecheck, consumer/build check when exports change; seeded simulation only when it exercises the new model | Browser E2E before runtime integration; treating the legacy simulator as evidence for formulas it never calls |
@@ -77,7 +83,7 @@ Use the smallest sufficient verification profile:
 | Art/map/UI/content | Relevant schema/ID/provenance/assets and in-game proof at actual zoom; runtime checks when bindings or rewards change | Regenerating unchanged art or unrelated DB tests |
 | Slice/release acceptance | Applicable frozen TD gates, full required checks and relevant two-browser/restart/reconnect/visual evidence | Claiming prototype/unit-test evidence proves the new vertical slice |
 
-Mixed tasks use the union of affected profiles. Explicit task criteria and applicable frozen TD requirements still apply. Run focused checks during edits, then one required pass when relevant inputs stabilize. npm run build already includes verify:assets; do not duplicate it on unchanged inputs. Existing focused Vitest invocation: npm test -- <test-file>. Other commands remain available when applicable: npm run typecheck, npm run build, npm run test:sim, npm run test:e2e, and powershell -NoProfile -File scripts/tests/export-review-packet.test.ps1.
+Mixed tasks use the union of affected profiles. Explicit task criteria and applicable frozen TD requirements still apply. Run focused checks during edits, then one required pass when relevant inputs stabilize. npm run build already includes verify:assets; do not duplicate it on unchanged inputs. Existing focused Vitest invocation: npm test -- <test-file>. Other commands remain available when applicable: npm run typecheck, npm run build, npm run verify:doc-sync, npm run test:sim, npm run test:e2e, and powershell -NoProfile -File scripts/tests/export-review-packet.test.ps1.
 
 Reuse a passing result when relevant source/test inputs, dependencies/lockfile, config, generated inputs and meaningful environment are unchanged. Retain the original run identity and label it reused, never freshly executed. Docs/report-only edits invalidate docs/report checks, not unrelated runtime evidence. No new caching/verification framework is required to follow this rule. Record executed/reused checks and actual results; NOT_APPLICABLE is different from relevant-but-NOT_RUN or FAILED. A required environment-blocked check remains open; passing unrelated checks cannot replace it.
 
@@ -89,10 +95,17 @@ Player-visible work carries the applicable TD-05 in-world binding/feedback and v
 
 Keep DOC SYNC inside the task:
 
-- FEATURE_LEDGER owns task evidence, checks, limitations and immutable prior commit IDs. PROJECT_STATUS owns the current snapshot; NEXT_ACTIONS owns priorities and blockers. Update only affected authorized documents.
-- MASTER_PROJECT_PLAN/ROADMAP change for milestones. AGENTS/CONTEXT_INDEX/router own rules and routes, not duplicate per-task state lists.
-- SELF_COMMIT is legitimate before the new commit exists. Resolve it from Git at closeout and backfill during a later already-authorized doc change; do not create a commit solely to write its own SHA.
-- If an essential doc update is outside scope, report the exact affected path/decision at the existing task boundary. Do not invent consistency or silently expand scope. Unchanged docs need no edits or separate CTX task.
+- **Every implementation task** must synchronize:
+  - `docs/implementation/FEATURE_LEDGER.md` (task evidence, checks, limitations, and immutable prior commit IDs)
+  - `docs/PROJECT_STATUS.md` (current implementation snapshot)
+  - `docs/NEXT_ACTIONS.md` (next priority and blockers)
+  - `docs/tong-mon-8d-project-atlas.html` (interactive project dashboard)
+- **When a milestone (`S1-B1a`, `S1-B1b`, `S1-B2`, `S1-C`, `S1-D`, `S1-E`, `S1-F`, `S2`..`S8`) changes status**, the task MUST also synchronize:
+  - `docs/MASTER_PROJECT_PLAN.md`
+  - `docs/ROADMAP.md`
+- **Fail-Closed `DOC_SYNC_BLOCKED` Rule**: If a task changes milestone status (`PROPOSED NEXT` / `NOT IMPLEMENTED` → `IMPLEMENTED` / `COMMITTED` / `ACCEPTED`) and the task card's `DOC_SYNC` allowlist omits `docs/MASTER_PROJECT_PLAN.md` or `docs/ROADMAP.md`, Argon must report `DOC_SYNC_BLOCKED` rather than leaving contradictory status documents or silently editing outside the allowlist.
+- Run `npm run verify:doc-sync` before closeout whenever status, ledger, plan, roadmap, or Atlas files are updated.
+- `SELF_COMMIT` is legitimate for the active task before the new commit exists. Resolve the immediately preceding task's `SELF_COMMIT` from Git during the next authorized doc sync; do not create a commit solely to write its own SHA.
 
 At final scope check, account for all changed/new paths, preserve unrelated work and confirm the forty frozen files are unchanged. Check affected references, not every historical/proposed/example path in the repository. Missing optional bundled-skill references are not global blockers. Never open saved data merely to demonstrate that docs did not change it.
 
@@ -122,7 +135,7 @@ An agent MUST immediately stop and report `BLOCKED` (without inventing fallbacks
 
 ## 5. Future Technical Enforcement Roadmap & Pre-Deployment Security Gates
 
-Because documentation governance alone is not a runtime security barrier and CI-enforced `DOC SYNC` automation does not yet exist, future technical enforcement tasks (outside `G0` / `CTX-1` docs-only scope) must implement:
+Because documentation governance alone is not a runtime security barrier, technical enforcement tasks track the following controls:
 1. **Command-Level Audit/Refactor of `packages/art-tools/build_assets.py` & Tool Allowlists**:
    - Never execute `python packages/art-tools/build_assets.py` as a whole production asset generation/post-processing command, including with `--force` (`npm run generate:art` / `npm run generate:art:force`), because its `main()` invokes `build_portraits_and_sprites()`, `build_tileset()`, `build_vfx_and_contact_sheet()`, `build_tiled_maps()`, rewrites manifest/provenance, and contains procedural `ImageDraw` tileset/VFX generation.
    - Treat existing `packages/art-tools/build_assets.py` as legacy tooling requiring command-level audit/refactor before production execution. Only explicitly audited, non-generative post-processing commands (`.agents/skills/generate2dsprite/scripts/assemble_frames.py`, `.agents/skills/pixel-art/scripts/quality_audit.py`, etc.) may be invoked for approved production art, while denying execution of `.agents/skills/generate2dmedia/scripts/route_media.py`, `generate_media.py`, `cli_media.py`, `.agents/skills/video2dsprite/scripts/*`, and `.agents/skills/codeart2d/scripts/*`.
@@ -136,5 +149,5 @@ Because documentation governance alone is not a runtime security barrier and CI-
 3. **Pre-Deployment Server Security Gate (`/api/test/advance-clock`)**:
    - In `apps/server/src/index.ts`, `POST /api/test/advance-clock` is currently mounted unconditionally without authentication or an environment guard, allowing callers to advance `getSharedEngine().advanceSimulatedClockMs(deltaMs)`.
    - Before any public or staging deployment, this endpoint MUST be gated behind an explicit test-only flag (`NODE_ENV === "test"` or `ENABLE_TEST_CLOCK_API === "true"`) and covered by automated security regression tests.
-4. **Automated `DOC SYNC` & Context Consistency Verification Tooling**:
-   - Currently, `DOC SYNC` and `CONTEXT CONSISTENCY CHECK` (40-file TD Freeze diff check, Markdown repo-path validator, zero-comment code-block scanner, and stale-status check) are executed as agent verification commands rather than an automated CI script. Future tooling work (when authorized by the owner) may package these checks into a read-only `npm run verify:docs` script.
+4. **Automated `DOC SYNC` Consistency Verification (`npm run verify:doc-sync`)**:
+   - `scripts/verify-doc-sync.mjs` (`npm run verify:doc-sync`) enforces that the 40 frozen TD files match freeze commit `39c41a6ddb77b93284c56da7ec053f4309ee4943`, that `MASTER_PROJECT_PLAN.md`, `ROADMAP.md`, `PROJECT_STATUS.md`, `NEXT_ACTIONS.md`, `FEATURE_LEDGER.md`, and `docs/tong-mon-8d-project-atlas.html` do not contradict completed milestones (`S1-B1a`..`S1-E`) or leave `S1-F` prematurely marked accepted, and that `docs/tong-mon-8d-project-atlas.html` inline script parses cleanly.

@@ -5,7 +5,6 @@ import type {
   CharacterV02SnapshotPayload,
   DestinyCollection,
   DestinyDefinitionMetadata,
-  DestinyRarity,
   DestinyRollDraft
 } from "@tong-mon-8d/shared";
 import {
@@ -15,11 +14,8 @@ import {
   isApprovedCharacterV02AppearanceId,
   isLevelAllowedForRealm,
   isValidRealmStage,
-  S1E_STARTER_DESTINY_CATALOG,
   TD01_CANDIDATE_RULESET_VERSION,
-  validateDestinyCollection,
-  validateDestinyDefinitionMetadata,
-  validateDestinyTripleIds
+  validateDestinyCollection
 } from "@tong-mon-8d/game-data";
 import {
   CharacterV02PersistenceError,
@@ -30,6 +26,29 @@ import {
   type CharacterV02RepositoryHost
 } from "./characterV02Repository.js";
 import type { SqlQueryRunner, SqlTransaction } from "./db.js";
+import { toCharacterV02Snapshot } from "./features/character/CharacterSnapshot.js";
+import {
+  APPROVED_PRODUCTION_DESTINY_CATALOG,
+  CANDIDATE_INNATE_TIER_WEIGHTS,
+  CANDIDATE_THAN_ORDINARY_WEIGHT,
+  CANDIDATE_THAN_SIGNATURE_WEIGHT,
+  DEFAULT_MAX_INNATE_ROLL_ATTEMPTS,
+  rollInnateDestinyTripleFromCatalog,
+  type InnateDestinyRollResult,
+  type RollInnateDestinyOptions
+} from "./features/destiny/DestinyRoller.js";
+
+export {
+  APPROVED_PRODUCTION_DESTINY_CATALOG,
+  CANDIDATE_INNATE_TIER_WEIGHTS,
+  CANDIDATE_THAN_ORDINARY_WEIGHT,
+  CANDIDATE_THAN_SIGNATURE_WEIGHT,
+  DEFAULT_MAX_INNATE_ROLL_ATTEMPTS,
+  rollInnateDestinyTripleFromCatalog,
+  toCharacterV02Snapshot,
+  type InnateDestinyRollResult,
+  type RollInnateDestinyOptions
+};
 
 export const CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL = `
   CREATE TABLE IF NOT EXISTS character_v02_roll_drafts (
@@ -44,44 +63,6 @@ export const CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL = `
 `;
 
 export const DEFAULT_ROLL_DRAFT_TTL_MS = 15 * 60 * 1000;
-
-export const DEFAULT_MAX_INNATE_ROLL_ATTEMPTS = 128;
-
-export const APPROVED_PRODUCTION_DESTINY_CATALOG: Readonly<
-  Record<string, DestinyDefinitionMetadata>
-> = S1E_STARTER_DESTINY_CATALOG;
-
-export const CANDIDATE_INNATE_TIER_WEIGHTS: Readonly<Record<DestinyRarity, number>> =
-  Object.freeze({
-    pham: 50,
-    hoang: 30,
-    tien: 15,
-    than: 5
-  });
-
-export const CANDIDATE_THAN_SIGNATURE_WEIGHT = 60;
-export const CANDIDATE_THAN_ORDINARY_WEIGHT = 40;
-
-export type InnateDestinyRollResult =
-  | {
-      ok: true;
-      candidateTraitIds: [string, string, string];
-      attemptsUsed: number;
-      rejectedCandidates: Array<[string, string, string]>;
-    }
-  | {
-      ok: false;
-      code: "CATALOG_NOT_READY";
-      detail: string;
-      attemptsUsed?: number;
-      rejectedCandidates?: Array<[string, string, string]>;
-    };
-
-export interface RollInnateDestinyOptions {
-  allowNonApprovedInCatalog?: boolean;
-  randomIntFn?: (maxExclusive: number) => number;
-  maxAttempts?: number;
-}
 
 export interface CharacterV02ActionOptions {
   destinyCatalog?: Readonly<Record<string, DestinyDefinitionMetadata>>;
@@ -102,13 +83,6 @@ export interface ServerOnlyAwardCharacterExpParams {
   accountId: string;
   requestId: string;
   expDelta: bigint | number | string;
-}
-
-function defaultCsprngInt(maxExclusive: number): number {
-  if (!Number.isSafeInteger(maxExclusive) || maxExclusive <= 0) {
-    throw new Error("maxExclusive must be a positive safe integer.");
-  }
-  return crypto.randomInt(0, maxExclusive);
 }
 
 function isPlainRecord(value: unknown): value is Record<string, unknown> {
@@ -203,239 +177,6 @@ function validateAllowedClientIntentKeys(
     ok: true,
     payload: rawIntent,
     requestId: rawIntent.requestId
-  };
-}
-
-export function toCharacterV02Snapshot(
-  state: CharacterV02PersistedState,
-  destinyCatalog: Readonly<Record<string, DestinyDefinitionMetadata>> = APPROVED_PRODUCTION_DESTINY_CATALOG
-): CharacterV02SnapshotPayload {
-  const activeDestiny =
-    state.identity.creationState === "confirmed" ? state.destiny : null;
-  const statResult = computeCandidateBaselineStatSnapshot({
-    realmId: state.cultivation.realmId,
-    realmStage: state.cultivation.realmStage,
-    levelProgress: state.levelProgress,
-    destiny: activeDestiny,
-    destinyCatalog
-  });
-  const derivedStats = statResult.ok
-    ? statResult.snapshot.derivedStats
-    : {
-        maxHp: state.resources.currentHp,
-        maxMp: state.resources.currentMp,
-        physicalAttack: 0,
-        spiritualAttack: 0,
-        physicalDefense: 0,
-        spiritualDefense: 0,
-        moveSpeedRating: 100,
-        cultivationRateRating: 100
-      };
-
-  const clampedHp = Math.max(0, Math.min(state.resources.currentHp, derivedStats.maxHp));
-  const clampedMp = Math.max(0, Math.min(state.resources.currentMp, derivedStats.maxMp));
-
-  return {
-    schemaVersion: state.schemaVersion,
-    rulesetVersion: state.rulesetVersion,
-    identity: { ...state.identity },
-    levelProgress: {
-      level: state.levelProgress.level,
-      expTowardNext: state.levelProgress.expTowardNext,
-      freeAttributePoints: state.levelProgress.freeAttributePoints,
-      allocated: { ...state.levelProgress.allocated },
-      earnedPermanent: { ...state.levelProgress.earnedPermanent }
-    },
-    cultivation: { ...state.cultivation },
-    destiny:
-      state.destiny !== null
-        ? {
-            innate: [...state.destiny.innate] as [string, string, string],
-            innateConfirmedAtMs: state.destiny.innateConfirmedAtMs,
-            acquiredTraitIds: [...state.destiny.acquiredTraitIds],
-            activeAcquiredSlots: [...state.destiny.activeAcquiredSlots] as [
-              string | null,
-              string | null,
-              string | null
-            ],
-            collectionRevision: state.destiny.collectionRevision
-          }
-        : null,
-    attributes: statResult.ok
-      ? {
-          origin: { ...statResult.snapshot.originAttributes },
-          destinyBonuses: { ...statResult.snapshot.destinyAttributeBonuses },
-          preRealm: { ...statResult.snapshot.preRealmAttributes },
-          effective: { ...statResult.snapshot.effectiveAttributes },
-          realmFactor: statResult.snapshot.realmFactor
-        }
-      : undefined,
-    resources: {
-      currentHp: clampedHp,
-      currentMp: clampedMp
-    },
-    derivedStats,
-    world: {
-      zoneId: state.world.zoneId,
-      x: state.world.x,
-      y: state.world.y,
-      direction: state.world.direction,
-      linhThach: state.world.linhThach,
-      equippedTitle: state.world.equippedTitle,
-      equippedInheritance: state.world.equippedInheritance,
-      inventory: state.world.inventory.map((it) => ({ ...it })),
-      quests: { ...state.world.quests },
-      reputation: { ...state.world.reputation },
-      buffs: state.world.buffs.map((b) => ({ ...b })),
-      meditationStartedAtMs: state.world.meditationStartedAtMs,
-      lastMeditationClaimAtMs: state.world.lastMeditationClaimAtMs
-    },
-    updatedAtMs: state.updatedAtMs
-  };
-}
-
-export function rollInnateDestinyTripleFromCatalog(
-  catalog: Readonly<Record<string, DestinyDefinitionMetadata>>,
-  options?: RollInnateDestinyOptions
-): InnateDestinyRollResult {
-  if (!isPlainRecord(catalog)) {
-    return {
-      ok: false,
-      code: "CATALOG_NOT_READY",
-      detail: "Destiny catalog is missing or invalid."
-    };
-  }
-
-  const allowNonApproved = options?.allowNonApprovedInCatalog === true;
-  const randomInt = options?.randomIntFn ?? defaultCsprngInt;
-  const maxAttempts =
-    options?.maxAttempts !== undefined &&
-    Number.isSafeInteger(options.maxAttempts) &&
-    options.maxAttempts > 0
-      ? options.maxAttempts
-      : DEFAULT_MAX_INNATE_ROLL_ATTEMPTS;
-
-  const eligiblePool: DestinyDefinitionMetadata[] = [];
-  for (const [key, def] of Object.entries(catalog)) {
-    if (!def || typeof def !== "object" || def.id !== key) {
-      continue;
-    }
-    const metaCheck = validateDestinyDefinitionMetadata(def);
-    if (!metaCheck.ok) {
-      continue;
-    }
-    if (!allowNonApproved && def.ownerApprovalState !== "APPROVED") {
-      continue;
-    }
-    eligiblePool.push(def);
-  }
-
-  const ordinaryEligible = eligiblePool.filter((d) => d.kind === "ordinary");
-
-  if (eligiblePool.length < 3 || ordinaryEligible.length < 2) {
-    return {
-      ok: false,
-      code: "CATALOG_NOT_READY",
-      detail:
-        "Eligible Tiên Thiên Destiny catalog requires at least 3 traits and at least 2 ordinary non-signature traits."
-    };
-  }
-
-  const byTier: Record<DestinyRarity, DestinyDefinitionMetadata[]> = {
-    pham: [],
-    hoang: [],
-    tien: [],
-    than: []
-  };
-  for (const def of eligiblePool) {
-    byTier[def.rarity].push(def);
-  }
-
-  const availableTiers = (["pham", "hoang", "tien", "than"] as const).filter(
-    (t) => byTier[t].length > 0
-  );
-  const totalWeight = availableTiers.reduce(
-    (acc, t) => acc + CANDIDATE_INNATE_TIER_WEIGHTS[t],
-    0
-  );
-  const signatureThan = byTier.than.filter((d) => d.kind === "legendary_signature");
-  const ordinaryThan = byTier.than.filter((d) => d.kind === "ordinary");
-
-  const sampleIndependentSlotFromFullCatalog = (): DestinyDefinitionMetadata => {
-    let roll = randomInt(totalWeight);
-    let chosenTier: DestinyRarity = availableTiers[0];
-    for (const tier of availableTiers) {
-      const w = CANDIDATE_INNATE_TIER_WEIGHTS[tier];
-      if (roll < w) {
-        chosenTier = tier;
-        break;
-      }
-      roll -= w;
-    }
-
-    let tierPool = byTier[chosenTier];
-    if (chosenTier === "than") {
-      if (signatureThan.length > 0 && ordinaryThan.length > 0) {
-        const subRoll = randomInt(
-          CANDIDATE_THAN_SIGNATURE_WEIGHT + CANDIDATE_THAN_ORDINARY_WEIGHT
-        );
-        tierPool =
-          subRoll < CANDIDATE_THAN_SIGNATURE_WEIGHT ? signatureThan : ordinaryThan;
-      }
-    }
-
-    const idx = randomInt(tierPool.length);
-    return tierPool[idx];
-  };
-
-  const rejectedCandidates: Array<[string, string, string]> = [];
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    const slot0 = sampleIndependentSlotFromFullCatalog();
-    const slot1 = sampleIndependentSlotFromFullCatalog();
-    const slot2 = sampleIndependentSlotFromFullCatalog();
-    const candidateTuple: [string, string, string] = [
-      slot0.id,
-      slot1.id,
-      slot2.id
-    ];
-
-    const tripleCheck = validateDestinyTripleIds(candidateTuple, catalog);
-    if (!tripleCheck.ok) {
-      rejectedCandidates.push(candidateTuple);
-      continue;
-    }
-
-    const collectionCheck = validateDestinyCollection(
-      {
-        innate: candidateTuple,
-        innateConfirmedAtMs: 1,
-        acquiredTraitIds: [],
-        activeAcquiredSlots: [null, null, null],
-        collectionRevision: 1
-      },
-      catalog
-    );
-    if (!collectionCheck.ok) {
-      rejectedCandidates.push(candidateTuple);
-      continue;
-    }
-
-    return {
-      ok: true,
-      candidateTraitIds: candidateTuple,
-      attemptsUsed: attempt,
-      rejectedCandidates
-    };
-  }
-
-  return {
-    ok: false,
-    code: "CATALOG_NOT_READY",
-    detail:
-      "Unable to sample a valid 3-trait Tiên Thiên Destiny triple within bounded retry limit.",
-    attemptsUsed: maxAttempts,
-    rejectedCandidates
   };
 }
 

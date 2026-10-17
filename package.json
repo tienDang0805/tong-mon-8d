@@ -11,6 +11,7 @@
     "generate:art": "python3 packages/art-tools/build_assets.py",
     "generate:art:force": "python3 packages/art-tools/build_assets.py --force",
     "verify:assets": "node --import tsx packages/art-tools/verify_manifest.ts",
+    "verify:doc-sync": "node scripts/verify-doc-sync.mjs",
     "build:shared": "npm run build --workspace=@tong-mon-8d/shared",
     "build:data": "npm run build --workspace=@tong-mon-8d/game-data",
     "build:server": "npm run build --workspace=@tong-mon-8d/server",
