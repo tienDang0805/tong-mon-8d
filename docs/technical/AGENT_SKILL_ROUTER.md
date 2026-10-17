@@ -1,6 +1,6 @@
 # Agent Skill Router & 30-Skill Audit Registry — Tông Môn 8D
 
-> Status: `COMMITTED` (`G0`: `39d71c0`; Updated in `CTX-1` at Base Commit `b04ebdc72ffede9edb678008ed30d002c73b5cc6`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: `COMMITTED` (`G0`: `39d71c0`; `CTX-1`: `0e9cc8d`; Updated in `S1-B2` at Base Commit `0e9cc8d58618021a4c723efbc5fbc1860386b67c`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Routing Principles & Fail-Closed Path Policy
 
@@ -61,7 +61,7 @@ All 30 installed workspace skills are classified into five operational tiers:
 > [!IMPORTANT]
 > For every task in `S1`–`S8`, the agent's `PLAN` must produce a task-specific **Context Manifest**, **Skill Manifest**, **Code Allowlist**, **Documentation Allowlist**, and **Documentation Impact Assessment**, and stop for owner approval before `BUILD`. **A slice-wide source list below does NOT authorize editing all listed files.**
 
-### 3.1 Slice `S1` — Character Schema v0.2 & Migration (`TD-01` + `TD-05` HUD/Visual Contract; `IN PROGRESS`: `S1-B1a` `COMMITTED` at `b04ebdc`, `S1-B1b`..`S1-F` `NOT IMPLEMENTED`)
+### 3.1 Slice `S1` — Character Schema v0.2 & Migration (`TD-01` + `TD-05` HUD/Visual Contract; `IN PROGRESS, NOT COMPLETE`: `S1-B1a` `COMMITTED` at `b04ebdc`, `S1-B2` local/uncommitted `VERIFIED_READY_FOR_COMMIT` [`SELF_COMMIT`], `Character v0.2` runtime, `S1-B1b`, and `S1-C`..`S1-F` `NOT IMPLEMENTED`)
 
 - **System Ownership (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
   - **TD-01** owns Character Level (`1–350+`), `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries (with `Đại Thánh` and `Cổ Thần` as lore only per `GD-044`), 6 origin stats (`Thể Phách, Lực Đạo, Linh Tính, Thân Pháp, Thần Thức, Ngộ Tính`), `+1` free stat point per level, separate Character EXP vs `Tu Vi`, no excessive EXP overflow banking at capped non-Saint realms, 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies (`Phàm, Hoàng, Tiên, Thần`), and at-most-1-of-10 Legendary `Thần Phẩm` signature exclusivity across all innate and acquired traits.
@@ -79,10 +79,11 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `packages/shared/src/index.ts` *(touched in `S1-B1a` `b04ebdc`)*
   - `packages/game-data/src/index.ts` *(touched in `S1-B1a` `b04ebdc`)*
   - `packages/game-data/src/runSimulation.ts`
-  - `apps/server/src/db.ts`
+  - `apps/server/src/db.ts` *(touched in local/uncommitted `S1-B2` `SELF_COMMIT`)*
   - `apps/server/src/worldEngine.ts`
   - `apps/server/src/zoneRoom.ts`
   - `apps/server/src/__tests__/td01Contracts.test.ts` *(created in `S1-B1a` `b04ebdc`)*
+  - `apps/server/src/__tests__/dbTransactions.test.ts` *(created in local/uncommitted `S1-B2` `SELF_COMMIT`)*
   - `apps/server/src/__tests__/server.test.ts`
   - `apps/client/src/hud.ts`
   - `apps/client/src/network.ts`
@@ -193,7 +194,7 @@ All 30 installed workspace skills are classified into five operational tiers:
 | Slice | Primary Domain Owner(s) | Required Canonical Specs (`docs/`) | Active Skills Routed |
 |---|---|---|---|
 | `S0` (Committed `6e38c24`) | Foundation / DB / Ops | `docs/DEVELOPMENT_SETUP.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` | `mmorpg-server-integrity`, `world-and-map-qa`, `game-playtest` |
-| `S1` (`IN PROGRESS`: `S1-B1a` `b04ebdc`; `S1-B1b`..`S1-F` `NOT IMPLEMENTED`) | **TD-01** + **TD-05** (HUD/visual bindings) | `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `cultivation-balance`, `game-ui-frontend`, `phaser4-scenes`, `game-playtest` |
+| `S1` (`IN PROGRESS, NOT COMPLETE`: `S1-B1a` `b04ebdc`; `S1-B2` local/uncommitted `VERIFIED_READY_FOR_COMMIT` [`SELF_COMMIT`]; `Character v0.2` runtime, `S1-B1b` & `S1-C`..`S1-F` `NOT IMPLEMENTED`) | **TD-01** + **TD-05** (HUD/visual bindings) | `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `cultivation-balance`, `game-ui-frontend`, `phaser4-scenes`, `game-playtest` |
 | `S2` (`NOT STARTED`) | **TD-01** + **TD-03** (Quest Engine/FSM) + **TD-05** (Mentor encounter visuals/HUD) | `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/QUEST_ENGINE.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD03_CONSISTENCY_MATRIX.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `cultivation-balance`, `world-and-map-qa`, `game-ui-frontend`, `phaser4-sprites-and-images`, `game-playtest` |
 | `S3` (`NOT STARTED`) | **TD-02** + **TD-01** + **TD-05** (Cast poses/hit VFX) | `docs/systems/COMBAT.md`, `docs/systems/TECHNIQUES.md`, `docs/systems/DAO_MASTERY.md`, `docs/technical/TD02_SIMULATION.md`, `docs/technical/TD02_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md` | `mmorpg-server-integrity`, `cultivation-balance`, `phaser4-animations`, `phaser4-sprites-and-images`, `game-ui-frontend`, `game-playtest` |
 | `S4` (`NOT STARTED`) | **TD-03** (Auto Farm, Navigation, Quest FSM) + **TD-02** + **TD-05** (Route/HUD visuals) | `docs/systems/AUTO_FARM.md`, `docs/systems/NAVIGATION.md`, `docs/systems/QUEST_ENGINE.md`, `docs/technical/TD03_CONSISTENCY_MATRIX.md`, `docs/technical/TD03_PROTOCOL_MIGRATION_TESTS.md`, `docs/technical/TD03_REFERENCE_SIMULATION.md`, `docs/systems/COMBAT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `world-and-map-qa`, `phaser4-tilemaps`, `game-ui-frontend`, `game-playtest` |

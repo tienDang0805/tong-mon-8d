@@ -1,5 +1,6 @@
 import path from "node:path";
 import fs from "node:fs";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { PGlite } from "@electric-sql/pglite";
 import pg from "pg";
 import type {
@@ -9,19 +10,334 @@ import type {
 } from "@tong-mon-8d/shared";
 import { INITIAL_DISCIPLINE_STATS, ZONES_REGISTRY } from "@tong-mon-8d/game-data";
 
-export interface SqlExecutor {
+export type TransactionErrorCode =
+  | "NESTED_TRANSACTION_FORBIDDEN"
+  | "MISSING_TRANSACTION_RUNNER"
+  | "FOREIGN_TRANSACTION_RUNNER"
+  | "MISMATCHED_TRANSACTION_RUNNER"
+  | "TRANSACTION_CLOSED"
+  | "TRANSACTION_ABORTED_BY_QUERY_ERROR"
+  | "UNWAITED_TRANSACTION_QUERY"
+  | "ADAPTER_POISONED"
+  | "DATABASE_CLOSING"
+  | "DATABASE_CLOSED"
+  | "FORBIDDEN_TRANSACTION_CONTROL_SQL";
+
+export class TransactionUsageError extends Error {
+  readonly code: TransactionErrorCode;
+
+  constructor(
+    code: TransactionErrorCode,
+    message: string,
+    options?: { cause?: unknown }
+  ) {
+    super(message, options);
+    this.name = "TransactionUsageError";
+    this.code = code;
+  }
+}
+
+export interface SqlQueryRunner {
   query<T = Record<string, unknown>>(
     sql: string,
     params?: unknown[]
   ): Promise<{ rows: T[] }>;
+}
+
+export interface SqlTransaction extends SqlQueryRunner {
+  readonly closed: boolean;
+}
+
+export interface SqlExecutor extends SqlQueryRunner {
+  withTransaction<T>(fn: (tx: SqlTransaction) => Promise<T>): Promise<T>;
   close(): Promise<void>;
 }
 
-class PGliteAdapter implements SqlExecutor {
-  private db: PGlite;
+export interface PGliteTransactionDriverLike {
+  query<T = Record<string, unknown>>(
+    sql: string,
+    params?: unknown[]
+  ): Promise<{ rows: T[] }>;
+}
 
-  constructor(dataDir?: string) {
-    if (dataDir && dataDir !== "memory://") {
+export interface PGliteDriverLike {
+  readonly waitReady?: Promise<void>;
+  query<T = Record<string, unknown>>(
+    sql: string,
+    params?: unknown[]
+  ): Promise<{ rows: T[] }>;
+  transaction<T>(
+    callback: (tx: PGliteTransactionDriverLike) => Promise<T>
+  ): Promise<T>;
+  close(): Promise<void>;
+  readonly closed?: boolean;
+}
+
+export interface PgPoolClientLike {
+  query(
+    sql: string,
+    params?: unknown[]
+  ): Promise<{ rows: unknown[] }>;
+  release(err?: Error | boolean): void;
+}
+
+export interface PgPoolLike {
+  connect(): Promise<PgPoolClientLike>;
+  query(
+    sql: string,
+    params?: unknown[]
+  ): Promise<{ rows: unknown[] }>;
+  end(): Promise<void>;
+}
+
+const FORBIDDEN_TX_CONTROL_SQL_PREFIX =
+  /^\s*\(*\s*(BEGIN|START\s+TRANSACTION|COMMIT|END|ROLLBACK|ABORT|SAVEPOINT|RELEASE(\s+SAVEPOINT)?|PREPARE\s+TRANSACTION|COMMIT\s+PREPARED|ROLLBACK\s+PREPARED|SET\s+(LOCAL\s+|SESSION\s+CHARACTERISTICS\s+AS\s+)?TRANSACTION)\b/i;
+
+function isForbiddenTransactionControlSql(sql: string): boolean {
+  if (
+    sql.includes("--") ||
+    sql.includes("\x2f\x2a") ||
+    sql.includes("\x2a\x2f")
+  ) {
+    return true;
+  }
+  const trimmed = sql.trim();
+  const body = trimmed.endsWith(";")
+    ? trimmed.slice(0, -1).trim()
+    : trimmed;
+  if (body.includes(";")) {
+    return true;
+  }
+  return FORBIDDEN_TX_CONTROL_SQL_PREFIX.test(body);
+}
+
+function toError(err: unknown): Error {
+  if (err instanceof Error) {
+    return err;
+  }
+  return new Error(String(err));
+}
+
+class TransactionContextGuard {
+  private readonly txContext = new AsyncLocalStorage<{
+    runner: ManagedTransactionRunner;
+  }>();
+  private readonly ownedRunners = new WeakSet<SqlTransaction>();
+
+  getActiveRunner(): ManagedTransactionRunner | undefined {
+    return this.txContext.getStore()?.runner;
+  }
+
+  registerRunner(runner: ManagedTransactionRunner): void {
+    this.ownedRunners.add(runner);
+  }
+
+  isOwnedRunner(tx: SqlTransaction): boolean {
+    return this.ownedRunners.has(tx);
+  }
+
+  runWithRunner<T>(
+    runner: ManagedTransactionRunner,
+    fn: () => Promise<T>
+  ): Promise<T> {
+    return this.txContext.run({ runner }, fn);
+  }
+
+  assertRootOperationAllowed(
+    kind: "query" | "withTransaction" | "close" | "init"
+  ): void {
+    const active = this.getActiveRunner();
+    if (active !== undefined) {
+      if (kind === "withTransaction") {
+        throw new TransactionUsageError(
+          "NESTED_TRANSACTION_FORBIDDEN",
+          "Nested withTransaction calls are forbidden."
+        );
+      }
+      if (kind === "close") {
+        throw new TransactionUsageError(
+          "NESTED_TRANSACTION_FORBIDDEN",
+          "Cannot close database from inside an active transaction context."
+        );
+      }
+      throw new TransactionUsageError(
+        "MISSING_TRANSACTION_RUNNER",
+        `Root database ${kind} called without tx inside an active transaction context.`
+      );
+    }
+  }
+
+  validateExplicitRunner(tx: SqlTransaction): SqlTransaction {
+    if (!this.ownedRunners.has(tx)) {
+      throw new TransactionUsageError(
+        "FOREIGN_TRANSACTION_RUNNER",
+        "Transaction runner does not belong to this database instance."
+      );
+    }
+    if (tx.closed) {
+      throw new TransactionUsageError(
+        "TRANSACTION_CLOSED",
+        "Cannot execute query on a settled or closed transaction."
+      );
+    }
+    const active = this.getActiveRunner();
+    if (active !== tx) {
+      throw new TransactionUsageError(
+        "MISMATCHED_TRANSACTION_RUNNER",
+        "Provided transaction runner does not match the active transaction context."
+      );
+    }
+    return tx;
+  }
+}
+
+class ManagedTransactionRunner implements SqlTransaction {
+  private settling = false;
+  private isClosed = false;
+  private firstQueryError: unknown = null;
+  private readonly activeQueries = new Set<Promise<void>>();
+
+  constructor(
+    private readonly guard: TransactionContextGuard,
+    private readonly driverQuery: <T = Record<string, unknown>>(
+      sql: string,
+      params: unknown[]
+    ) => Promise<{ rows: T[] }>
+  ) {}
+
+  get closed(): boolean {
+    return this.settling || this.isClosed;
+  }
+
+  query<T = Record<string, unknown>>(
+    sql: string,
+    params: unknown[] = []
+  ): Promise<{ rows: T[] }> {
+    if (this.settling || this.isClosed) {
+      return Promise.reject(
+        new TransactionUsageError(
+          "TRANSACTION_CLOSED",
+          "Cannot execute query on a settled or closed transaction."
+        )
+      );
+    }
+    const active = this.guard.getActiveRunner();
+    if (active !== this) {
+      return Promise.reject(
+        new TransactionUsageError(
+          "MISMATCHED_TRANSACTION_RUNNER",
+          "Transaction runner invoked outside its active transaction context."
+        )
+      );
+    }
+    if (isForbiddenTransactionControlSql(sql)) {
+      const misuseError = new TransactionUsageError(
+        "FORBIDDEN_TRANSACTION_CONTROL_SQL",
+        "Manual transaction control SQL is forbidden inside withTransaction."
+      );
+      if (this.firstQueryError === null) {
+        this.firstQueryError = misuseError;
+      }
+      return Promise.reject(misuseError);
+    }
+
+    let callerPromise: Promise<{ rows: T[] }>;
+    try {
+      callerPromise = Promise.resolve(this.driverQuery<T>(sql, params));
+    } catch (syncErr) {
+      callerPromise = Promise.reject(syncErr);
+    }
+
+    const settlementTracker: Promise<void> = callerPromise.then(
+      () => {
+        this.activeQueries.delete(settlementTracker);
+      },
+      (err: unknown) => {
+        if (this.firstQueryError === null) {
+          this.firstQueryError = err;
+        }
+        this.activeQueries.delete(settlementTracker);
+      }
+    );
+
+    this.activeQueries.add(settlementTracker);
+    return callerPromise;
+  }
+
+  async executeCallback<T>(
+    fn: (tx: SqlTransaction) => Promise<T>
+  ): Promise<T> {
+    let callbackResult!: T;
+    let callbackFailed = false;
+    let callbackError: unknown = null;
+
+    try {
+      callbackResult = await this.guard.runWithRunner(this, async () => {
+        try {
+          return await fn(this);
+        } finally {
+          this.settling = true;
+        }
+      });
+    } catch (err) {
+      callbackFailed = true;
+      callbackError = err;
+    }
+
+    this.settling = true;
+    const hadPendingAtExit = this.activeQueries.size > 0;
+    if (hadPendingAtExit) {
+      await Promise.all([...this.activeQueries]);
+    }
+    this.isClosed = true;
+
+    if (callbackFailed) {
+      throw callbackError;
+    }
+    if (hadPendingAtExit) {
+      throw new TransactionUsageError(
+        "UNWAITED_TRANSACTION_QUERY",
+        "Transaction callback settled while one or more tx.query() calls were still pending.",
+        this.firstQueryError !== null
+          ? { cause: this.firstQueryError }
+          : undefined
+      );
+    }
+    if (this.firstQueryError !== null) {
+      throw new TransactionUsageError(
+        "TRANSACTION_ABORTED_BY_QUERY_ERROR",
+        "Transaction cannot commit because a query failed inside the transaction.",
+        { cause: this.firstQueryError }
+      );
+    }
+
+    return callbackResult;
+  }
+
+  markClosed(): void {
+    this.settling = true;
+    this.isClosed = true;
+  }
+}
+
+interface InternalSqlExecutor extends SqlExecutor {
+  readonly guard: TransactionContextGuard;
+  assertHealthyForRootSelection(): void;
+}
+
+export class PGliteAdapter implements InternalSqlExecutor {
+  private readonly db: PGliteDriverLike;
+  readonly guard = new TransactionContextGuard();
+  private rootOpTail: Promise<void> = Promise.resolve();
+  private poisonedError: Error | null = null;
+  private closing = false;
+  private closed = false;
+  private closePromise: Promise<void> | null = null;
+
+  constructor(dataDir?: string, driver?: PGliteDriverLike) {
+    if (driver) {
+      this.db = driver;
+    } else if (dataDir && dataDir !== "memory://") {
       fs.mkdirSync(dataDir, { recursive: true });
       this.db = new PGlite(dataDir);
     } else {
@@ -29,36 +345,329 @@ class PGliteAdapter implements SqlExecutor {
     }
   }
 
-  async query<T = Record<string, unknown>>(
+  assertHealthyForRootSelection(): void {
+    if (this.poisonedError !== null) {
+      throw new TransactionUsageError(
+        "ADAPTER_POISONED",
+        "PGliteAdapter is closed to further operations after an unrecoverable transaction protocol failure.",
+        { cause: this.poisonedError }
+      );
+    }
+    if (this.closed) {
+      throw new TransactionUsageError("DATABASE_CLOSED", "Database is closed.");
+    }
+    if (this.closing) {
+      throw new TransactionUsageError(
+        "DATABASE_CLOSING",
+        "Database is closing and cannot accept new operations."
+      );
+    }
+  }
+
+  private assertHealthyAtDequeue(): void {
+    if (this.poisonedError !== null) {
+      throw new TransactionUsageError(
+        "ADAPTER_POISONED",
+        "PGliteAdapter is closed to further operations after an unrecoverable transaction protocol failure.",
+        { cause: this.poisonedError }
+      );
+    }
+    if (this.closed) {
+      throw new TransactionUsageError("DATABASE_CLOSED", "Database is closed.");
+    }
+  }
+
+  private enqueueRootOp<T>(task: () => Promise<T>): Promise<T> {
+    const run = this.rootOpTail.then(task, task);
+    this.rootOpTail = run.then(
+      () => undefined,
+      () => undefined
+     );
+    return run;
+  }
+
+  query<T = Record<string, unknown>>(
     sql: string,
     params: unknown[] = []
   ): Promise<{ rows: T[] }> {
-    const res = await this.db.query<T>(sql, params);
-    return { rows: res.rows };
+    try {
+      this.guard.assertRootOperationAllowed("query");
+      this.assertHealthyForRootSelection();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
+    return this.enqueueRootOp(async () => {
+      this.assertHealthyAtDequeue();
+      const res = await this.db.query<T>(sql, params);
+      return { rows: res.rows };
+    });
   }
 
-  async close(): Promise<void> {
-    await this.db.close();
+  withTransaction<T>(fn: (tx: SqlTransaction) => Promise<T>): Promise<T> {
+    try {
+      this.guard.assertRootOperationAllowed("withTransaction");
+      this.assertHealthyForRootSelection();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
+    return this.enqueueRootOp(async () => {
+      this.assertHealthyAtDequeue();
+
+      let innerCallbackEntered = false;
+      let innerCallbackSucceeded = false;
+      let callbackFailure: unknown = null;
+      const rollbackSentinel = { token: Symbol("pgliteRollbackSentinel") };
+      let activeRunner = null as ManagedTransactionRunner | null;
+
+      try {
+        return await this.db.transaction(async (pgliteTx) => {
+          innerCallbackEntered = true;
+          const createdRunner = new ManagedTransactionRunner(
+            this.guard,
+            async <R = Record<string, unknown>>(
+              qSql: string,
+              qParams: unknown[]
+            ): Promise<{ rows: R[] }> => {
+              const res = await pgliteTx.query<R>(qSql, qParams);
+              return { rows: res.rows };
+            }
+          );
+          activeRunner = createdRunner;
+          this.guard.registerRunner(createdRunner);
+
+          try {
+            const value = await createdRunner.executeCallback(fn);
+            innerCallbackSucceeded = true;
+            return value;
+          } catch (err) {
+            callbackFailure = err;
+            throw rollbackSentinel;
+          }
+        });
+      } catch (outerErr) {
+        if (activeRunner !== null) {
+          activeRunner.markClosed();
+        }
+        if (!innerCallbackEntered) {
+          this.poisonedError = toError(outerErr);
+          throw outerErr;
+        }
+        if (innerCallbackSucceeded) {
+          this.poisonedError = toError(outerErr);
+          throw outerErr;
+        }
+        if (outerErr === rollbackSentinel) {
+          throw callbackFailure;
+        }
+        const combinedError = new AggregateError(
+          [callbackFailure, outerErr],
+          "Transaction callback failed and PGlite native ROLLBACK also failed.",
+          { cause: callbackFailure }
+        );
+        this.poisonedError = combinedError;
+        throw combinedError;
+      }
+    });
+  }
+
+  close(): Promise<void> {
+    try {
+      this.guard.assertRootOperationAllowed("close");
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
+    if (this.closePromise !== null) {
+      return this.closePromise;
+    }
+
+    this.closing = true;
+    this.closePromise = this.enqueueRootOp(async () => {
+      if (this.closed) {
+        return;
+      }
+      this.closed = true;
+      try {
+        if (!this.db.closed) {
+          if (this.db.waitReady) {
+            await this.db.waitReady;
+          }
+          await this.db.close();
+        }
+      } catch (closeErr) {
+        if (this.poisonedError !== null) {
+          this.poisonedError = new AggregateError(
+            [this.poisonedError, closeErr],
+            "PGliteAdapter was poisoned and teardown also encountered an error.",
+            { cause: this.poisonedError }
+          );
+          return;
+        }
+        throw closeErr;
+      }
+    });
+
+    return this.closePromise;
   }
 }
 
-class PgPoolAdapter implements SqlExecutor {
-  private pool: pg.Pool;
+export class PgPoolAdapter implements InternalSqlExecutor {
+  private readonly pool: PgPoolLike;
+  readonly guard = new TransactionContextGuard();
+  private readonly activeRootOps = new Set<Promise<void>>();
+  private closing = false;
+  private closed = false;
+  private closePromise: Promise<void> | null = null;
 
-  constructor(connectionString: string) {
-    this.pool = new pg.Pool({ connectionString });
+  constructor(connectionString: string, pool?: PgPoolLike) {
+    this.pool = pool ?? new pg.Pool({ connectionString });
   }
 
-  async query<T = Record<string, unknown>>(
+  assertHealthyForRootSelection(): void {
+    if (this.closed) {
+      throw new TransactionUsageError("DATABASE_CLOSED", "Database is closed.");
+    }
+    if (this.closing) {
+      throw new TransactionUsageError(
+        "DATABASE_CLOSING",
+        "Database is closing and cannot accept new operations."
+      );
+    }
+  }
+
+  private trackRootOp<T>(op: () => Promise<T>): Promise<T> {
+    const promise = op();
+    const tracker = promise.then(
+      () => {
+        this.activeRootOps.delete(tracker);
+      },
+      () => {
+        this.activeRootOps.delete(tracker);
+      }
+    );
+    this.activeRootOps.add(tracker);
+    return promise;
+  }
+
+  query<T = Record<string, unknown>>(
     sql: string,
     params: unknown[] = []
   ): Promise<{ rows: T[] }> {
-    const res = await this.pool.query(sql, params);
-    return { rows: res.rows as T[] };
+    try {
+      this.guard.assertRootOperationAllowed("query");
+      this.assertHealthyForRootSelection();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
+    return this.trackRootOp(async () => {
+      if (this.closed) {
+        throw new TransactionUsageError("DATABASE_CLOSED", "Database is closed.");
+      }
+      const res = await this.pool.query(sql, params);
+      return { rows: res.rows as T[] };
+    });
   }
 
-  async close(): Promise<void> {
-    await this.pool.end();
+  withTransaction<T>(fn: (tx: SqlTransaction) => Promise<T>): Promise<T> {
+    try {
+      this.guard.assertRootOperationAllowed("withTransaction");
+      this.assertHealthyForRootSelection();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
+    return this.trackRootOp(async () => {
+      if (this.closed) {
+        throw new TransactionUsageError("DATABASE_CLOSED", "Database is closed.");
+      }
+
+      const client = await this.pool.connect();
+      let released = false;
+      const releaseClientOnce = (releaseErr?: Error | boolean): void => {
+        if (!released) {
+          released = true;
+          client.release(releaseErr);
+        }
+      };
+
+      try {
+        await client.query("BEGIN");
+      } catch (beginErr) {
+        releaseClientOnce(toError(beginErr));
+        throw beginErr;
+      }
+
+      const runner = new ManagedTransactionRunner(
+        this.guard,
+        async <R = Record<string, unknown>>(
+          qSql: string,
+          qParams: unknown[]
+        ): Promise<{ rows: R[] }> => {
+          const res = await client.query(qSql, qParams);
+          return { rows: res.rows as R[] };
+        }
+      );
+      this.guard.registerRunner(runner);
+
+      let value!: T;
+      try {
+        value = await runner.executeCallback(fn);
+      } catch (txErr) {
+        runner.markClosed();
+        try {
+          await client.query("ROLLBACK");
+        } catch (rbErr) {
+          const rollbackError = toError(rbErr);
+          releaseClientOnce(rollbackError);
+          throw new AggregateError(
+            [txErr, rollbackError],
+            "Transaction callback failed and PostgreSQL ROLLBACK also failed.",
+            { cause: txErr }
+          );
+        }
+        releaseClientOnce();
+        throw txErr;
+      }
+
+      try {
+        await client.query("COMMIT");
+      } catch (commitErr) {
+        runner.markClosed();
+        releaseClientOnce(toError(commitErr));
+        throw commitErr;
+      }
+
+      releaseClientOnce();
+      return value;
+    });
+  }
+
+  close(): Promise<void> {
+    try {
+      this.guard.assertRootOperationAllowed("close");
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
+    if (this.closePromise !== null) {
+      return this.closePromise;
+    }
+
+    this.closing = true;
+    this.closePromise = (async () => {
+      if (this.activeRootOps.size > 0) {
+        await Promise.all([...this.activeRootOps]);
+      }
+      if (!this.closed) {
+        this.closed = true;
+        await this.pool.end();
+      }
+    })();
+
+    return this.closePromise;
   }
 }
 
@@ -181,7 +790,7 @@ export function loadRepoEnvIfNeeded(
 }
 
 export class GameDatabase {
-  private executor: SqlExecutor;
+  private executor: InternalSqlExecutor;
   private resolvedDataDir: string | null;
 
   constructor(options?: {
@@ -216,7 +825,22 @@ export class GameDatabase {
     return this.resolvedDataDir;
   }
 
+  private resolveQueryRunner(tx?: SqlTransaction): SqlQueryRunner {
+    if (tx !== undefined) {
+      return this.executor.guard.validateExplicitRunner(tx);
+    }
+    this.executor.guard.assertRootOperationAllowed("query");
+    this.executor.assertHealthyForRootSelection();
+    return this.executor;
+  }
+
+  withTransaction<T>(fn: (tx: SqlTransaction) => Promise<T>): Promise<T> {
+    return this.executor.withTransaction(fn);
+  }
+
   async init(): Promise<void> {
+    this.executor.guard.assertRootOperationAllowed("init");
+    this.executor.assertHealthyForRootSelection();
     await this.executor.query(`
       CREATE TABLE IF NOT EXISTS accounts (
         account_id TEXT PRIMARY KEY,
@@ -279,14 +903,16 @@ export class GameDatabase {
   async loadOrCreateCharacter(
     accountId: string,
     nickname: string,
-    discipline: CombatDisciplineId = "kiem_tu"
+    discipline: CombatDisciplineId = "kiem_tu",
+    tx?: SqlTransaction
   ): Promise<CharacterSaveState> {
+    const runner = this.resolveQueryRunner(tx);
     const cleanAccount = accountId.trim().slice(0, 64) || "guest_default";
     const cleanNick = nickname.trim().slice(0, 24) || "Đạo Hữu Vô Danh";
     const validDisc: CombatDisciplineId =
       discipline in INITIAL_DISCIPLINE_STATS ? discipline : "kiem_tu";
 
-    const existing = await this.executor.query<Record<string, unknown>>(
+    const existing = await runner.query<Record<string, unknown>>(
       `SELECT * FROM characters WHERE account_id = $1 LIMIT 1`,
       [cleanAccount]
     );
@@ -295,7 +921,7 @@ export class GameDatabase {
     }
 
     const now = Date.now();
-    await this.executor.query(
+    await runner.query(
       `INSERT INTO accounts (account_id, created_at) VALUES ($1, $2) ON CONFLICT (account_id) DO NOTHING`,
       [cleanAccount, now]
     );
@@ -335,12 +961,16 @@ export class GameDatabase {
       partyId: null
     };
 
-    await this.saveCharacterState(initialState);
+    await this.saveCharacterState(initialState, tx);
     return initialState;
   }
 
-  async getCharacterByAccount(accountId: string): Promise<CharacterSaveState | null> {
-    const res = await this.executor.query<Record<string, unknown>>(
+  async getCharacterByAccount(
+    accountId: string,
+    tx?: SqlTransaction
+  ): Promise<CharacterSaveState | null> {
+    const runner = this.resolveQueryRunner(tx);
+    const res = await runner.query<Record<string, unknown>>(
       `SELECT * FROM characters WHERE account_id = $1 LIMIT 1`,
       [accountId]
     );
@@ -350,9 +980,13 @@ export class GameDatabase {
     return this.rowToState(res.rows[0]);
   }
 
-  async saveCharacterState(state: CharacterSaveState): Promise<void> {
+  async saveCharacterState(
+    state: CharacterSaveState,
+    tx?: SqlTransaction
+  ): Promise<void> {
+    const runner = this.resolveQueryRunner(tx);
     const now = Date.now();
-    await this.executor.query(
+    await runner.query(
       `
       INSERT INTO characters (
         character_id, account_id, nickname, discipline, zone_id, x, y, direction,
@@ -426,11 +1060,15 @@ export class GameDatabase {
     );
   }
 
-  async checkIdempotency(requestId: string): Promise<ActionResultPayload | null> {
+  async checkIdempotency(
+    requestId: string,
+    tx?: SqlTransaction
+  ): Promise<ActionResultPayload | null> {
+    const runner = this.resolveQueryRunner(tx);
     if (!requestId) {
       return null;
     }
-    const res = await this.executor.query<{ result_json: ActionResultPayload }>(
+    const res = await runner.query<{ result_json: ActionResultPayload }>(
       `SELECT result_json FROM idempotency_ledger WHERE request_id = $1 LIMIT 1`,
       [requestId]
     );
@@ -449,12 +1087,14 @@ export class GameDatabase {
     requestId: string,
     characterId: string,
     actionType: string,
-    result: ActionResultPayload
+    result: ActionResultPayload,
+    tx?: SqlTransaction
   ): Promise<void> {
+    const runner = this.resolveQueryRunner(tx);
     if (!requestId) {
       return;
     }
-    await this.executor.query(
+    await runner.query(
       `INSERT INTO idempotency_ledger (request_id, character_id, action_type, result_json, created_at)
        VALUES ($1, $2, $3, $4::jsonb, $5)
        ON CONFLICT (request_id) DO NOTHING`,
@@ -467,9 +1107,11 @@ export class GameDatabase {
     eventType: string,
     deltaLinhThach: number,
     itemId?: string,
-    quantity?: number
+    quantity?: number,
+    tx?: SqlTransaction
   ): Promise<void> {
-    await this.executor.query(
+    const runner = this.resolveQueryRunner(tx);
+    await runner.query(
       `INSERT INTO economy_audit_log (character_id, event_type, delta_linh_thach, item_id, quantity, created_at)
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [characterId, eventType, deltaLinhThach, itemId ?? null, quantity ?? null, Date.now()]

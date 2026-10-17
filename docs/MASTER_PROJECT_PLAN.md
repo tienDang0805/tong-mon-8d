@@ -1,6 +1,6 @@
 # Tông Môn 8D: Tu Tiên Chi Lộ — Master Project Plan
 
-> Status: Master Navigation & Milestone Plan (`CTX-1` Synchronized) | Base Commit: `b04ebdc72ffede9edb678008ed30d002c73b5cc6` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: Master Navigation & Milestone Plan (`S1-B2` Synchronized) | Base Commit: `0e9cc8d58618021a4c723efbc5fbc1860386b67c` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Three-Way Truth Separation
 
@@ -8,8 +8,8 @@ This document provides the high-level project map connecting historical foundati
 
 1. **`IMPLEMENTATION STATUS` (What Actually Runs or Exists in Code on Disk)**:
    - Tracked in `docs/PROJECT_STATUS.md` and `docs/implementation/FEATURE_LEDGER.md`.
-   - Currently comprises the **Phase 0 / v0.1 technical prototype** (`apps/server`, `apps/client`, `packages/shared`, `packages/game-data`), **Slice `S0` (`6e38c24`)**, **Gate `G0` (`39d71c0`)**, and **Sub-Slice `S1-B1a` (`b04ebdc`)** pure TypeScript contracts and validators.
-   - **Runtime `Character v0.2` gameplay, database migration, Destiny rolling, Dao mastery, online Auto Farm, auto-navigation, Quest FSM, and physical `Tụ Bảo Các` NPC shops are NOT YET IMPLEMENTED.**
+   - Currently comprises the **Phase 0 / v0.1 technical prototype** (`apps/server`, `apps/client`, `packages/shared`, `packages/game-data`), **Slice `S0` (`6e38c24`)**, **Gate `G0` (`39d71c0`)**, **Checkpoint `CTX-1` (`0e9cc8d`)**, **Sub-Slice `S1-B1a` (`b04ebdc`)** pure TypeScript contracts and validators, and **Sub-Slice `S1-B2` (local/uncommitted `VERIFIED_READY_FOR_COMMIT` / `SELF_COMMIT`)** database transaction infrastructure (`apps/server/src/db.ts`, `apps/server/src/__tests__/dbTransactions.test.ts`).
+   - **Runtime `Character v0.2` gameplay, `S1-B1b`, `S1-C`..`S1-F`, Slices `S2`–`S8`, database migration, Destiny rolling, Dao mastery, online Auto Farm, auto-navigation, Quest FSM, and physical `Tụ Bảo Các` NPC shops are NOT YET IMPLEMENTED.**
 2. **`APPROVED SCOPE` (`DESIGN APPROVED / NOT IMPLEMENTED`)**:
    - Governed by `docs/DECISIONS.md` (`APPROVED` rows: `GD-001`–`GD-006`, `GD-010`–`GD-016`, `GD-020`–`GD-027`, `GD-030`–`GD-036`, `GD-040`–`GD-045`) and `docs/technical/TD_FREEZE_APPROVALS.md` (Technical Design Freeze v1.0 across `TD-01`–`TD-05`, 40 files at commit `39c41a6`).
 3. **`DESIGN_BASELINE` / `PROPOSED` / `UNRESOLVED` Scope (Not Yet Finalized or Ratified)**:
@@ -30,6 +30,7 @@ This document provides the high-level project map connecting historical foundati
 | **Phase 1B.1–1B.5** — Technical Design Freeze v1.0 (`TD-01`–`TD-05`) | `COMMITTED` (`DESIGN APPROVED / NOT IMPLEMENTED`) | `39c41a6` | `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/TD_FREEZE_APPROVALS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`, `docs/systems/*.md` (17), `docs/pipelines/*.md` (5), `docs/technical/TD01..TD05_*.md` (13) | 40 frozen technical specifications defining single-owner boundaries across `TD-01` through `TD-05` (including `docs/systems/NPC_SHOPS.md`). |
 | **Slice `S0`** — Foundation, PGlite Backup & Environment Safety | `COMMITTED` | `6e38c24` | `docs/DEVELOPMENT_SETUP.md`, `docs/implementation/FEATURE_LEDGER.md` §3.1 | Deterministic `resolvePgDataDir` split-brain protection, non-overriding `.env` loader, isolated `memory://` E2E playtest runs, and offline PGlite backup + throwaway restore proof. |
 | **Gate `G0`** — Agent Workflow Governance & Skill Optimization | `COMMITTED` | `39d71c0` | `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/implementation/FEATURE_LEDGER.md` §3.2 | 30-skill classification & slice router, fail-closed Argon native `image-generator` profile, ban on whole-command `build_assets.py` execution, and execution lifecycle contract. |
+| **Checkpoint `CTX-1`** — Documentation Reconciliation & `DOC SYNC` Gate | `COMMITTED` | `0e9cc8d` | `docs/MASTER_PROJECT_PLAN.md`, `docs/implementation/FEATURE_LEDGER.md` §3.5, `docs/technical/AGENT_EXECUTION_CONTRACT.md` | 9-stage `DOC SYNC` contract, Master Project Plan, Feature Ledger, and status/path reconciliation across governance docs. |
 
 ---
 
@@ -43,7 +44,7 @@ Governed by `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`, `docs/technical/T
   - **`S1-A` (`READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED`)**: Source-grounded `TD-01` audit and Design Evidence Matrix (`docs/implementation/FEATURE_LEDGER.md` §3.3).
   - **`S1-B1a` (`COMMITTED` at `b04ebdc`)**: Pure TypeScript contracts and validators in `packages/shared/src/index.ts`, `packages/game-data/src/index.ts`, and `apps/server/src/__tests__/td01Contracts.test.ts` (`docs/implementation/FEATURE_LEDGER.md` §3.4).
   - **`S1-B1b` (`PROPOSED NEXT PURE NUMERIC TASK, NOT IMPLEMENTED`)**: Pure numeric/formula helpers for `TD-01` candidate curves/weights once reviewed and authorized by owner.
-  - **`S1-B2` (`TRANSACTION INFRASTRUCTURE, NOT IMPLEMENTED`)**: Database transaction infrastructure (`withTransaction` / atomic unit-of-work support in `apps/server/src/db.ts`).
+  - **`S1-B2` (local/uncommitted `VERIFIED_READY_FOR_COMMIT` / `SELF_COMMIT` at Base `0e9cc8d`)**: Database transaction infrastructure (`withTransaction` / atomic unit-of-work support in `apps/server/src/db.ts` and `9` test cases in `apps/server/src/__tests__/dbTransactions.test.ts`; `docs/implementation/FEATURE_LEDGER.md` §3.6).
   - **`S1-C` (`SCHEMA / BACKUP / MIGRATION, NOT IMPLEMENTED`)**: Separately approved non-destructive offline PGlite backup/restore preflight + PostgreSQL `v0.1 -> v0.2` schema migration (`legacy_migration_pending` preservation, zero save loss).
   - **`S1-D` (`AUTHORITATIVE SERVER ACTIONS, NOT IMPLEMENTED`)**: Colyseus server handlers for character creation, CSPRNG `Tiên Thiên` trio rolling/confirmation (`rollNonce`), single-point attribute allocation (`AllocateAttributeIntent`), and `Hậu Thiên` slot equip (`EquipAcquiredDestinyIntent`).
   - **`S1-E` (`CLIENT/HUD, NOT IMPLEMENTED`)**: Playfield-first HUD (`apps/client/src/hud.ts`) and creation/Destiny modal wiring under `TD-05` (`docs/pipelines/UX_WORLD_FIRST.md`).
