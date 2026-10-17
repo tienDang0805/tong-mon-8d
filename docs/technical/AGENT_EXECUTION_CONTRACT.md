@@ -1,6 +1,6 @@
 # Agent Execution Contract — Tông Môn 8D: Tu Tiên Chi Lộ
 
-> Status: `COMMITTED` (`G0`: `39d71c0`) — Updated in `CTX-1` (`VERIFIED_READY_FOR_COMMIT` at Base Commit `b04ebdc72ffede9edb678008ed30d002c73b5cc6`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: `COMMITTED` (`G0`: `39d71c0`; `CTX-1`: `0e9cc8d`; `S1-B2`: `0543b71`) — Updated in `GOV-REPORT` (`VERIFIED_READY_FOR_COMMIT` at Base Commit `0543b7157264ce672d2582d0bfa0a071ba855a42`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Authority Position
 
@@ -109,9 +109,10 @@ Before presenting the final deliverable for owner review, verify and report:
 2. All repository-relative file paths referenced in modified or created Markdown files exist on disk (excluding explicitly labeled `PLANNED_NEW_FILE` paths, globs, or external URLs).
 3. No stale milestone statuses, invalid asset paths (such as non-existent `Candidate A` paths), or false implementation claims exist across updated documentation.
 
-### Stage 7 — `OWNER APPROVAL` (Pre-Commit Sign-Off Gate)
-1. Present the complete deliverable report (including actual `git diff`, full contents of any new untracked files, verification exit codes, and `DOC SYNC` / `DOC_SYNC_DEFERRED` status).
-2. Stop and wait for explicit project-owner approval before running `git commit`, `git push`, or starting the next task.
+### Stage 7 — `OWNER APPROVAL` (Pre-Commit Sign-Off & Review Packet Handoff Gate)
+1. In accordance with `.agents/rules/review-handoff.md`, never dump full source files, long code diffs, or raw command logs into chat. Instead, run `scripts/export-review-packet.ps1` to generate `<TASK_ID>_REVIEW_PACKET.zip` under the system temporary directory outside the Git working tree (containing `<TASK_ID>_tracked_diff.patch`, explicitly selected new/untracked files, `<TASK_ID>_verification_evidence.md` or `<TASK_ID>_plan.md`, and `<TASK_ID>_manifest.json` with verified per-file SHA-256 hashes).
+2. Present a concise deliverable report in chat stating task status, base/current `HEAD` SHA, modified/created paths, verification exit codes, `DOC SYNC` / `DOC_SYNC_DEFERRED` status, and the exact review packet filename, absolute path, SHA-256 hash, and archived file list for the owner to upload to the independent ChatGPT reviewer.
+3. Stop and wait for explicit project-owner approval before running `git commit`, `git push`, or starting the next task.
 
 ### Stage 8 — `COMMIT/PUSH` (Final Staged-Diff Gate & Normal Push)
 Only after explicit owner commit/push approval:
