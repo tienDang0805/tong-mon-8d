@@ -322,3 +322,104 @@ export interface ActionResultPayload {
   messageVi: string;
   ceremony?: "phi_de_blessing" | "breakthrough_success";
 }
+
+export interface GuestAuthIssueRequestPayload {
+  requestId?: string;
+}
+
+export interface GuestAuthVerifyRequestPayload {
+  requestId?: string;
+  guestToken: string;
+}
+
+export interface GuestAuthResultPayload {
+  requestId?: string;
+  ok: boolean;
+  code: string;
+  messageVi: string;
+  accountId?: string;
+  guestToken?: string;
+}
+
+export interface CreateCharacterV02DraftIntentPayload {
+  requestId: string;
+  name: string;
+  appearanceId?: string;
+}
+
+export interface RollInnateDestinyV02IntentPayload {
+  requestId: string;
+}
+
+export interface ConfirmInnateDestinyV02IntentPayload {
+  requestId: string;
+  rollNonce: string;
+}
+
+export interface AllocateAttributePointV02IntentPayload {
+  requestId: string;
+  attributeId: BaseAttributeKey;
+}
+
+export interface EquipAcquiredDestinyV02IntentPayload {
+  requestId: string;
+  slotIndex: 0 | 1 | 2;
+  traitId: string;
+}
+
+export interface UnequipAcquiredDestinyV02IntentPayload {
+  requestId: string;
+  slotIndex: 0 | 1 | 2;
+}
+
+export interface CharacterV02SnapshotPayload {
+  schemaVersion: 2;
+  rulesetVersion: string;
+  identity: CharacterIdentity;
+  levelProgress: CharacterLevelProgress;
+  cultivation: {
+    realmId: CanonicalRealmId;
+    realmStage: number;
+    tuVi: string;
+  };
+  destiny: DestinyCollection | null;
+  resources: {
+    currentHp: number;
+    currentMp: number;
+  };
+  derivedStats: {
+    maxHp: number;
+    maxMp: number;
+    physicalAttack: number;
+    spiritualAttack: number;
+    physicalDefense: number;
+    spiritualDefense: number;
+    moveSpeedRating: number;
+    cultivationRateRating: number;
+  };
+  world: {
+    zoneId: ZoneId;
+    x: number;
+    y: number;
+    direction: Direction;
+    linhThach: number;
+    equippedTitle: string;
+    equippedInheritance: string | null;
+    inventory: InventoryItemStack[];
+    quests: Record<string, QuestProgressState>;
+    reputation: Record<string, number>;
+    buffs: ActiveBuff[];
+    meditationStartedAtMs: number;
+    lastMeditationClaimAtMs: number;
+  };
+  updatedAtMs: number;
+}
+
+export interface CharacterV02ActionResultPayload {
+  requestId: string;
+  ok: boolean;
+  code: string;
+  messageVi: string;
+  character?: CharacterV02SnapshotPayload;
+  rollDraft?: DestinyRollDraft;
+}

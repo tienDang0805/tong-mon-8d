@@ -28,15 +28,55 @@ import {
   type CharacterV02WorldAndEconomyState,
   type CreateInitialCharacterV02Params
 } from "./characterV02Repository.js";
+import {
+  GUEST_CREDENTIALS_TABLE_DDL,
+  GuestIdentityError,
+  GuestIdentityService,
+  type AssertVerifiedSessionResult,
+  type GuestIdentityErrorCode,
+  type IssuedGuestCredential,
+  type VerifiedGuestSession,
+  type VerifyGuestTokenResult
+} from "./guestIdentity.js";
+import {
+  APPROVED_PRODUCTION_DESTINY_CATALOG,
+  CANDIDATE_INNATE_TIER_WEIGHTS,
+  CANDIDATE_THAN_ORDINARY_WEIGHT,
+  CANDIDATE_THAN_SIGNATURE_WEIGHT,
+  CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL,
+  CharacterV02ActionService,
+  DEFAULT_ROLL_DRAFT_TTL_MS,
+  rollInnateDestinyTripleFromCatalog,
+  toCharacterV02Snapshot,
+  type CharacterV02ActionOptions,
+  type InnateDestinyRollResult,
+  type RollInnateDestinyOptions,
+  type ServerOnlyAwardCharacterExpParams,
+  type ServerOnlyGrantAcquiredDestinyParams
+} from "./characterV02Actions.js";
 
 export {
+  APPROVED_PRODUCTION_DESTINY_CATALOG,
+  CANDIDATE_INNATE_TIER_WEIGHTS,
+  CANDIDATE_THAN_ORDINARY_WEIGHT,
+  CANDIDATE_THAN_SIGNATURE_WEIGHT,
+  CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL,
   CHARACTER_V02_SCHEMA_VERSION,
   CHARACTERS_V02_TABLE_DDL,
+  CharacterV02ActionService,
   CharacterV02PersistenceError,
   CharacterV02Repository,
+  DEFAULT_ROLL_DRAFT_TTL_MS,
+  GUEST_CREDENTIALS_TABLE_DDL,
+  GuestIdentityError,
+  GuestIdentityService,
   createInitialCharacterV02State,
   hydrateCharacterV02Row,
+  rollInnateDestinyTripleFromCatalog,
+  toCharacterV02Snapshot,
   validateCharacterV02PersistedState,
+  type AssertVerifiedSessionResult,
+  type CharacterV02ActionOptions,
   type CharacterV02CombatResources,
   type CharacterV02CultivationState,
   type CharacterV02ErrorCode,
@@ -46,7 +86,15 @@ export {
   type CharacterV02ValidationOptions,
   type CharacterV02ValidationResult,
   type CharacterV02WorldAndEconomyState,
-  type CreateInitialCharacterV02Params
+  type CreateInitialCharacterV02Params,
+  type GuestIdentityErrorCode,
+  type InnateDestinyRollResult,
+  type IssuedGuestCredential,
+  type RollInnateDestinyOptions,
+  type ServerOnlyAwardCharacterExpParams,
+  type ServerOnlyGrantAcquiredDestinyParams,
+  type VerifiedGuestSession,
+  type VerifyGuestTokenResult
 };
 
 export type TransactionErrorCode =
@@ -831,7 +879,10 @@ export function loadRepoEnvIfNeeded(
 export class GameDatabase {
   private executor: InternalSqlExecutor;
   private resolvedDataDir: string | null;
+  private defaultCharacterV02ActionOptions: CharacterV02ActionOptions = {};
   readonly charactersV02: CharacterV02Repository;
+  readonly guestIdentity: GuestIdentityService;
+  readonly characterV02Actions: CharacterV02ActionService;
 
   constructor(options?: {
     dataDir?: string;
@@ -859,15 +910,29 @@ export class GameDatabase {
       this.resolvedDataDir = targetDir;
       this.executor = new PGliteAdapter(targetDir);
     }
-    this.charactersV02 = new CharacterV02Repository({
+    const repositoryHost: CharacterV02RepositoryHost = {
       resolveQueryRunner: (tx?: SqlTransaction) => this.resolveQueryRunner(tx),
       withTransaction: <T>(fn: (tx: SqlTransaction) => Promise<T>) =>
         this.withTransaction(fn)
-    });
+    };
+    this.charactersV02 = new CharacterV02Repository(repositoryHost);
+    this.guestIdentity = new GuestIdentityService(repositoryHost);
+    this.characterV02Actions = new CharacterV02ActionService(
+      repositoryHost,
+      this.charactersV02
+    );
   }
 
   getDataDir(): string | null {
     return this.resolvedDataDir;
+  }
+
+  setCharacterV02ActionDefaults(options: CharacterV02ActionOptions): void {
+    this.defaultCharacterV02ActionOptions = { ...options };
+  }
+
+  getCharacterV02ActionDefaults(): CharacterV02ActionOptions {
+    return { ...this.defaultCharacterV02ActionOptions };
   }
 
   private resolveQueryRunner(tx?: SqlTransaction): SqlQueryRunner {
@@ -892,6 +957,7 @@ export class GameDatabase {
         created_at BIGINT NOT NULL
       );
     `);
+    await this.executor.query(GUEST_CREDENTIALS_TABLE_DDL);
     await this.executor.query(`
       CREATE TABLE IF NOT EXISTS characters (
         character_id TEXT PRIMARY KEY,
@@ -924,6 +990,7 @@ export class GameDatabase {
       );
     `);
     await this.executor.query(CHARACTERS_V02_TABLE_DDL);
+    await this.executor.query(CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL);
     await this.executor.query(`
       CREATE TABLE IF NOT EXISTS idempotency_ledger (
         request_id TEXT PRIMARY KEY,

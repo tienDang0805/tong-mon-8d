@@ -2,13 +2,23 @@
 
 > Task-based routing; current progress is owned by docs/implementation/FEATURE_LEDGER.md and docs/NEXT_ACTIONS.md. Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
-## Task applicability
+## Task applicability & Mandatory Skill Selection Policy
 
-Route skills by the changed behavior, not just by slice name. Docs-only and standalone tooling tasks may declare Skill Manifest: NONE. Core means authoritative when applicable, not load/run every core skill for every task. Skill checklists are acceptance references for affected work; select relevant checks through AGENT_EXECUTION_CONTRACT Section 3. Do not run a full multiplayer playtest for a docs or harness-only correction. Missing optional reference links already listed as unbundled are not blockers. Production art and slice-release requirements remain binding.
+Route skills by the changed behavior, not just by slice name. Every task card should declare an explicit `Skill Manifest` (`NONE`, or `1–3` primary skills plus optional skills), and Argon must follow these eight binding rules (`AGENT_EXECUTION_CONTRACT.md` Section 3):
+1. **Explicit `Skill Manifest` Structure**: Every task should include an explicit `Skill Manifest` (`NONE`, or `1–3` primary skills plus optional skills).
+2. **Explicit Manifest Priority**: When the task card provides an explicit `Skill Manifest`, Argon loads only those skills (and only their task-relevant sections), loading `OPTIONAL` skills only if the task actually touches that concern.
+3. **Safe Automatic Fallback When Omitted**: If a task card omits `Skill Manifest`, Argon must **never** blindly load all 30 skills; it must consult this `docs/technical/AGENT_SKILL_ROUTER.md` using the task's slice (`S0`–`S8`), domain (`TD-01`..`TD-05`), and file allowlist to auto-select the minimal `1–3` `ACTIVE (CORE)` / `ACTIVE (TASK-SCOPED)` skills.
+4. **Docs & Utility Default (`NONE`)**: Pure documentation, governance, status, and standalone PowerShell/Node utility tasks default to `Skill Manifest: NONE`.
+5. **Never Auto-Select Disabled Skills**: `DISABLED FOR PRODUCTION` skills (`generate2dmedia`, `video2dsprite`, `codeart2d`, `prototype-fast`) must never be auto-selected.
+6. **Reference-Only Gate**: `REFERENCE-ONLY` skills are loaded only when explicitly requested in the task card.
+7. **Post-Processing Script Boundary**: `ACTIVE (POST-PROCESSING SCRIPTS ONLY)` skills (`pixel-art`, `generate2dsprite`, `generate2dmap`) are used strictly for their permitted local post-processing/QA/export scripts—never for their external API/CLI generation routes, video handoffs, or procedural fallbacks.
+8. **Completion Report Disclosure**: Argon's completion report must include one concise line: `Skills loaded: <skill list or NONE> (explicit | auto-routed)`.
+
+Core means authoritative when applicable, not load/run every core skill for every task. Skill checklists are acceptance references for affected work; select relevant checks through `AGENT_EXECUTION_CONTRACT.md` Section 3. Do not run a full multiplayer playtest for a docs or harness-only correction. Missing optional reference links already listed as unbundled are not blockers. Production art and slice-release requirements remain binding.
 
 ## 1. Routing Principles & Fail-Closed Path Policy
 
-1. **Task-Scoped Context and Skills (`S1`–`S8`)**: Each S1–S8 execution task card names relevant source/skills, exact Code and Documentation Allowlists, acceptance/checks and commit policy. This can be concise; no separate long PLAN or evidence matrix is mandatory for an already actionable task (AGENT_EXECUTION_CONTRACT Section 3). Agents must load **only** the skills named for the active task—never all 30 skills at once.
+1. **Task-Scoped Context and Skills (`S1`–`S8`)**: Each S1–S8 execution task card names relevant source/skills (`Skill Manifest`), exact Code and Documentation Allowlists, acceptance/checks and commit policy. When `Skill Manifest` is omitted, apply the safe automatic fallback above (selecting `1–3` minimal `ACTIVE` skills or `NONE`). Agents must load **only** the explicit or auto-routed skills for the active task—never all 30 skills at once.
 2. **Scoped Approval & No Blanket Slice Edit Permission**: PLAN ONLY stops at the plan. BUILD requires owner authorization for its exact scope; carry forward existing authorization for that same work and do not ask again for routine repairs. A slice-wide candidate list in Section 3 is not an edit allowlist. Use AGENT_EXECUTION_CONTRACT Section 3 for the full lifecycle.
 3. **Project Governance Overrides Skill Instructions**: Per `AGENTS.md` Section 1 and `RULES.md` (Rules 1–6), project rules (`AGENTS.md`, `RULES.md`), `docs/DECISIONS.md`, and `TD-01`..`TD-05` (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`) strictly override any conflicting default in `.agents/skills/*/SKILL.md`.
 4. **Required Path Verification**: Verify task inputs and execution targets, or identify planned new files explicitly. For missing required inputs, first consult current source/routing for a documented move or alternative, then pause only the affected operation if unresolved. Historical, illustrative and optional unbundled reference paths are not global blockers. Never invent required specifications or bypass data/art boundaries.
@@ -80,14 +90,22 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `docs/systems/VISUAL_CONTENT_CONTRACT.md`
   - `docs/pipelines/UX_WORLD_FIRST.md`
 - **Slice-Wide Candidate Source Pool (Not a Blanket Edit Authorization — Each Task Requires a Per-Task Code Allowlist)**:
-  - `packages/shared/src/index.ts` *(touched in `S1-B1a` `b04ebdc`)*
-  - `packages/game-data/src/index.ts` *(touched in `S1-B1a` `b04ebdc`)*
+  - `packages/shared/src/index.ts` *(touched in `S1-B1a` `b04ebdc`, `S1-D`)*
+  - `packages/game-data/src/index.ts` *(touched in `S1-B1a` `b04ebdc`, `S1-B1b` `cb360e8`)*
+  - `packages/game-data/src/td01Numeric.ts` *(created in `S1-B1b` `cb360e8`)*
   - `packages/game-data/src/runSimulation.ts`
-  - `apps/server/src/db.ts`
+  - `apps/server/src/index.ts` *(touched in `S1-D`)*
+  - `apps/server/src/db.ts` *(touched in `S1-B2` `2773944`, `S1-C` `bf2d24f`, `S1-D`)*
+  - `apps/server/src/characterV02Repository.ts` *(created in `S1-C` `bf2d24f`)*
+  - `apps/server/src/characterV02Actions.ts` *(created in `S1-D`)*
+  - `apps/server/src/guestIdentity.ts` *(created in `S1-D`)*
   - `apps/server/src/worldEngine.ts`
-  - `apps/server/src/zoneRoom.ts`
+  - `apps/server/src/zoneRoom.ts` *(touched in `S1-D`)*
   - `apps/server/src/__tests__/td01Contracts.test.ts` *(created in `S1-B1a` `b04ebdc`)*
-  - `apps/server/src/__tests__/dbTransactions.test.ts`
+  - `apps/server/src/__tests__/td01Numeric.test.ts` *(created in `S1-B1b` `cb360e8`)*
+  - `apps/server/src/__tests__/dbTransactions.test.ts` *(created in `S1-B2` `2773944`)*
+  - `apps/server/src/__tests__/characterV02Persistence.test.ts` *(created in `S1-C` `bf2d24f`)*
+  - `apps/server/src/__tests__/characterV02Actions.test.ts` *(created in `S1-D`)*
   - `apps/server/src/__tests__/server.test.ts`
   - `apps/client/src/hud.ts`
   - `apps/client/src/network.ts`

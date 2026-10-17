@@ -45,7 +45,16 @@ The owner and planner choose the player/system outcome, current base, boundaries
 - MODE: EXECUTE authorizes implementation when the owner issues or forwards the card. MODE: PLAN_ONLY authorizes planning only. Drafts, repository examples, copied reports and bundled templates do not authorize execution by themselves.
 - COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS explicitly authorizes an ordinary scoped commit and push after acceptance and required checks pass. STOP_BEFORE_COMMIT stops at a ready change. When no commit/push authorization exists, do not infer it; stop at that boundary without repeating implementation review. Existing explicit authorization for the same scope persists.
 - A file allowlist is a ceiling, not a requirement to edit every listed path. Include needed status-doc paths in the initial task. A slice candidate list is not an edit allowlist. No next feature is authorized by the roadmap alone.
-- Verify local HEAD, live remote at task entry and working-tree ownership. Preserve unrelated work and use isolation when necessary. Read only relevant rules/specs/skills and reuse unchanged context. Docs or independent tooling work may use Skill Manifest: NONE. Do not start dev services or application tests merely because a session opened.
+- Verify local HEAD, live remote at task entry and working-tree ownership. Preserve unrelated work and use isolation when necessary. Read only relevant rules/specs/skills and reuse unchanged context. Do not start dev services or application tests merely because a session opened.
+- **Mandatory Skill Selection & Safe Automatic Fallback (`AGENT_SKILL_ROUTER.md`)**:
+  1. Every task should include an explicit `Skill Manifest` (`NONE`, or `1–3` primary skills plus optional skills).
+  2. When the task card has an explicit `Skill Manifest`, Argon loads only those skills (and relevant sections), loading `OPTIONAL` skills only if actually needed.
+  3. If the task card omits `Skill Manifest`, Argon must **never** blindly load all 30 skills; it must consult `docs/technical/AGENT_SKILL_ROUTER.md` using the task's slice (`S0`–`S8`), domain (`TD-01`..`TD-05`), and file allowlist to select the minimal `1–3` `ACTIVE` skills.
+  4. Pure docs/governance/status tasks and standalone PowerShell/Node utility tasks default to `Skill Manifest: NONE`.
+  5. `DISABLED FOR PRODUCTION` skills (`generate2dmedia`, `video2dsprite`, `codeart2d`, `prototype-fast`) must never be auto-selected.
+  6. `REFERENCE-ONLY` skills are loaded only when explicitly requested.
+  7. `POST-PROCESSING SCRIPTS ONLY` skills are used only for their permitted local scripts.
+  8. Argon's completion report must include one concise line: `Skills loaded: <skill list or NONE> (explicit | auto-routed)`.
 - PLAN_ONLY may write plan/evidence artifacts to approved locations outside the implementation repo. It does not modify implementation files, player data or infrastructure.
 
 ### 3.2 Argon completes the scoped task
@@ -91,7 +100,7 @@ At final scope check, account for all changed/new paths, preserve unrelated work
 
 When acceptance and applicable checks pass, follow the dispatched commit policy. If COMMIT_AND_PUSH_AFTER_CHECKS is authorized, verify the expected remote base, stage only task paths, run git diff --cached --check, commit, push normally and verify full local/remote SHA. Do not ask for duplicate permission. Reconcile remote changes without resetting unrelated work or force pushing. If permission/network/branch protection blocks push, retain the verified local result and report that specific blocker; do not restart development. If commit was not authorized, report READY_FOR_COMMIT once.
 
-Return one concise completion report: task/status; implemented outcome and important limits; base/current commit and remote verification if pushed; changed scope; required checks with executed/reused/NOT_RUN distinctions; updated docs; unresolved owner decision, if any. Keep raw logs/diffs in artifacts. No mandatory PLAN ZIP, per-stage ZIP, SHA-only DOC SYNC commit, routine independent ChatGPT approval, or separate closeout-review conversation.
+Return one concise completion report: task/status; `Skills loaded: <skill list or NONE> (explicit | auto-routed)`; implemented outcome and important limits; base/current commit and remote verification if pushed; changed scope; required checks with executed/reused/NOT_RUN distinctions; updated docs; unresolved owner decision, if any. Keep raw logs/diffs in artifacts. No mandatory PLAN ZIP, per-stage ZIP, SHA-only DOC SYNC commit, routine independent ChatGPT approval, or separate closeout-review conversation.
 
 The planner consumes the report, verifies live commit identity when relevant, updates progress and discusses the next task. It does not rerun the implementation suite or audit every diff by default. Targeted source review is appropriate when requested, evidence conflicts, acceptance is missing, or a concrete high-risk concern remains. Reports remain agent-reported evidence unless independently verified.
 

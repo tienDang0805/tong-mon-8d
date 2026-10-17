@@ -70,6 +70,44 @@ export async function startGameServer(
         }
         res.json({ ok: true, serverTime: getSharedEngine().now() });
       });
+
+      app.post("/api/v02/auth/guest", async (req, res) => {
+        try {
+          if (req.body?.guestToken !== undefined) {
+            const verified = await db.guestIdentity.verifyGuestToken(req.body.guestToken);
+            if (!verified.ok) {
+              res.status(401).json({
+                ok: false,
+                code: verified.code,
+                messageVi: "Chứng chỉ danh tính khách v0.2 không hợp lệ."
+              });
+              return;
+            }
+            res.json({
+              ok: true,
+              code: "OK",
+              messageVi: "Đã xác thực danh tính khách v0.2 thành công.",
+              accountId: verified.accountId
+            });
+            return;
+          }
+
+          const issued = await db.guestIdentity.issueGuestCredential();
+          res.json({
+            ok: true,
+            code: "OK",
+            messageVi: "Đã cấp mới danh tính khách v0.2 thành công.",
+            accountId: issued.accountId,
+            guestToken: issued.guestToken
+          });
+        } catch (err) {
+          res.status(500).json({
+            ok: false,
+            code: "INTERNAL_ERROR",
+            messageVi: String(err)
+          });
+        }
+      });
     }
   });
 

@@ -1,6 +1,6 @@
 # Tông Môn 8D — Implementation & Verification Feature Ledger
 
-> Active engineering ledger | Last verified remote: `cb360e80e7801950b6fa954bf17f48e9b8306716` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Active engineering ledger | Last verified remote: `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Ledger Governance Rules
 
@@ -9,7 +9,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 1. **Evidence-Grounded Entries Only**: Every entry must cite real repository paths, actual verification commands/outputs, and verified Git commit SHAs on `origin/master`.
 2. **Design vs. Implementation Separation**: Never record a gameplay system as implemented when only specifications, read-only plans, or pure TypeScript contract/validator subsets exist.
 3. **Commit SHA Closeout Rule (`docs/technical/AGENT_EXECUTION_CONTRACT.md`)**:
-   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`, `cb360e8`).
+   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`, `cb360e8`, `bf2d24f`).
    - Because a commit cannot contain its own future SHA, the active task being committed records `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` and `Status: VERIFIED_READY_FOR_COMMIT`, which is then backfilled with the exact SHA during the next authorized `DOC SYNC`.
 
 ---
@@ -20,7 +20,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 |---|---|---|---|
 | `S0` | Foundation, PGlite split-brain safety, `.env` loader, isolated E2E runs | `COMMITTED` | `6e38c246cabcd020efe137863838d6a61e7b1a72` (`6e38c24`) |
 | `G0` | Agent workflow governance, 30-skill router & Argon native asset profile | `COMMITTED` | `39d71c06a830f5f2d9ae2d64b09cb18aa3efebc4` (`39d71c0`) |
-| `S1` (Overall) | Character schema v0.2 & persistence (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`; `S1-B1b` at `cb360e8`; `S1-C` at `SELF_COMMIT`) |
+| `S1` (Overall) | Character schema v0.2 & persistence (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`; `S1-B1b` at `cb360e8`; `S1-C` at `bf2d24f`; `S1-D` at `SELF_COMMIT`) |
 | `S1-A` | Character v0.2 migration plan & strict Design Evidence Matrix | `READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED` | `NONE` (Read-only plan at base `39d71c0`) |
 | `S1-B1a` | Pure Character, Destiny metadata & 18-entry realm level-band contracts | `COMMITTED` | `b04ebdc72ffede9edb678008ed30d002c73b5cc6` (`b04ebdc`) |
 | `CTX-1` | Documentation reconciliation, `DOC SYNC` gate, Feature Ledger & Master Project Plan | `COMMITTED` | `0e9cc8d58618021a4c723efbc5fbc1860386b67c` (`0e9cc8d`) |
@@ -29,8 +29,8 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 | `GOV-REPORT` | Persistent Antigravity review-handoff rule & reusable review packet exporter | `COMMITTED` | `f06c510d43049104d8feb76d4dcf4890ea0eea6c` (`f06c510`) |
 | `GOV-REPORT-H1` | Review packet exporter hardening (untracked detection, path/reparse safety, clean `CLOSEOUT`) | `COMMITTED` | `0c00374cec4a489c523f5a8becb66bfa683210fa` (`0c00374`) |
 | `GOV-FLOW-V2` | Streamlined 3-phase planner/executor workflow, impact-based verification matrix & status de-duplication | `COMMITTED` | `fdd8e8bbd315638c16f68180fb01868550aecc30` (`fdd8e8b`) |
-| `S1-C` | Fresh Character v0.2 persistence foundation (`characters_v02` DDL & `CharacterV02Repository`; owner-approved fresh-start policy) | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `cb360e80e7801950b6fa954bf17f48e9b8306716`) |
-| `S1-D` | Authoritative Colyseus server actions (creation/reroll/confirm/allocate) | `AUTHORITATIVE SERVER ACTIONS, NOT IMPLEMENTED` | `NONE` |
+| `S1-C` | Fresh Character v0.2 persistence foundation (`characters_v02` DDL & `CharacterV02Repository`; owner-approved fresh-start policy) | `COMMITTED` | `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa` (`bf2d24f`) |
+| `S1-D` | Authoritative Character v0.2 server actions, server-generated guest credential bootstrap, Project Atlas V2 & explicit skill routing | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa`) |
 | `S1-E` | Playfield-first client/HUD Character v0.2 & Destiny UI integration (`TD-05`) | `CLIENT/HUD, NOT IMPLEMENTED` | `NONE` |
 | `S1-F` | Two-browser E2E acceptance & persistence/restart verification for `S1` | `E2E ACCEPTANCE, NOT IMPLEMENTED` | `NONE` |
 | `S2`–`S8` | Remaining vertical slice implementation slices (`docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) | `NOT STARTED` | `NONE` |
@@ -254,7 +254,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
   - Created `apps/server/src/__tests__/characterV02Persistence.test.ts` (`8` isolated unit/integration test cases covering idempotent DDL without redundant derived stat columns, draft creation and confirmation transition, file-backed PGlite close/reopen with 38-digit decimal `expTowardNext`/`tuVi`, duplicate `characterId`/`accountId` rejection, concurrency and confirmed `Tiên Thiên` immutability, validation failure paths, transactional rollback + `MISSING_TRANSACTION_RUNNER` enforcement, and coexistence with legacy `v0.1` `characters`).
 - **Changed Files & Verified Commit SHA**:
   - Base Commit: `cb360e80e7801950b6fa954bf17f48e9b8306716` (`cb360e8`)
-  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Commit: `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa` (`bf2d24f`, `feat(s1-c): add fresh character v0.2 persistence foundation`)
   - Files (`3` Code Allowlist paths + `3` Documentation Allowlist paths): `apps/server/src/db.ts`, `apps/server/src/characterV02Repository.ts`, `apps/server/src/__tests__/characterV02Persistence.test.ts`, `docs/implementation/FEATURE_LEDGER.md`, `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`
 - **Tests & Verification Evidence**:
   - `DB / TRANSACTION / PERSISTENCE` verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): `npm test` (`5` test suites, `42/42` tests passing: `8` in `characterV02Persistence.test.ts`, `9` in `dbTransactions.test.ts`, `8` in `server.test.ts`, `11` in `td01Numeric.test.ts`, `6` in `td01Contracts.test.ts`, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (including `npm run verify:assets`, exit `0`), `git diff --check` (exit `0`), 40 frozen TD files verified (`0` modified). Non-applicable checks (`test:e2e` / live external PostgreSQL): `NOT_RUN`.
@@ -262,4 +262,34 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
   - **Persistence Foundation Only — Runtime `Character v0.2` Gameplay Is NOT Yet Wired**:
     - `worldEngine.ts`, `zoneRoom.ts`, and `hud.ts` still use the legacy `v0.1` `characters` table until `S1-D` (`AUTHORITATIVE SERVER ACTIONS`) and `S1-E` (`CLIENT/HUD`).
     - Authoritative Destiny CSPRNG rolling, production Destiny trait catalog, `S1-D` Colyseus handlers, `S1-E` client/HUD, and `S1-F` E2E acceptance remain **`NOT IMPLEMENTED`**.
-- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `cb360e80e7801950b6fa954bf17f48e9b8306716`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then proceed to `S1-D`.
+- **Current Status & Next Dependency**: `COMMITTED` (`bf2d24f`) → `S1-D`.
+
+---
+
+### 3.12 `S1-D` — Character v0.2 Authoritative Server Actions, Guest Credential Bootstrap, Project Atlas V2 & Skill Routing
+- **Associated Slice**: `S1` (`TD-01` Authoritative Server Actions Sub-Slice + Project Atlas V2 + Skill Routing)
+- **Design & Technical References**: `AGENTS.md`, `RULES.md` (Rules 1, 2, 3), `docs/DECISIONS.md` (`GD-010`–`GD-018`, `GD-020`–`GD-023`, `GD-028`, `GD-044`), `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, `.agents/skills/mmorpg-server-integrity/SKILL.md`
+- **Actual Implementation Scope**:
+  - **Part A — Authoritative Character v0.2 Server Actions & Server-Generated Guest Credential Bootstrap**:
+    - Extended `packages/shared/src/index.ts` with `Character v0.2` protocol payloads and `v02_*` message contracts (`GuestAuthBootstrapResponse`, `CharacterV02SnapshotPayload`, `CharacterV02ActionCode`, `CharacterV02CreateDraftIntent`, `CharacterV02RollInnateDestinyIntent`, `CharacterV02ConfirmInnateDestinyIntent`, `CharacterV02AllocateAttributePointIntent`, `CharacterV02EquipAcquiredDestinyIntent`, `CharacterV02UnequipAcquiredDestinyIntent`, `CharacterV02ActionResultPayload`, `v02_snapshot`, `v02_action_result`) while keeping all legacy `v0.1` symbols intact.
+    - Created `apps/server/src/guestIdentity.ts` (`GUEST_CREDENTIALS_TABLE_DDL` + `GuestIdentityService`) and exposed `POST /api/v02/auth/guest` in `apps/server/src/index.ts`. The server generates a 256-bit CSPRNG `guestToken`, stores only its SHA-256 digest in `guest_credentials(account_id, token_sha256, created_at_ms, last_seen_at_ms)`, and binds `ZoneRoom` `v0.2` sessions strictly from the verified `options.guestToken` (`authenticatedV02AccountId`), never trusting client-supplied `accountId` for `Character v0.2` operations.
+    - Created `apps/server/src/characterV02Actions.ts` (`CHARACTER_V02_ROLL_DRAFTS_TABLE_DDL`, `APPROVED_PRODUCTION_DESTINY_CATALOG` containing only owner-approved `van_vi_dao_thai`, `rollInnateDestinyTripleFromCatalog`, `toCharacterV02Snapshot`, and `CharacterV02ActionService`) and wired it into `apps/server/src/db.ts` and `apps/server/src/zoneRoom.ts`.
+    - Implemented authoritative handlers for `createCharacterDraft`, `rollInnateDestiny` (using `crypto.randomInt` CSPRNG, full-trio rerolls with zero slot locking per `GD-010`/`GD-011`, candidate `50/30/15/5` tier weights + `60/40` `Thần` ordinary/signature split, and fail-closed `CATALOG_NOT_READY` on the current 1-trait production catalog until >= 3 `APPROVED` innate traits exist), `confirmInnateDestiny` (consuming single-use server-issued `rollNonce` from `character_v02_roll_drafts` and locking the 3-slot `Tiên Thiên` tuple immutably), `allocateAttributePoint` (`+1` free point per request via `allocateSingleAttributePoint`, `GD-021`), `equipAcquiredDestinyTrait` / `unequipAcquiredDestinyTrait` (3 active `Hậu Thiên` slots from owned `acquiredTraitIds`, `GD-013`), and server-only `grantAcquiredDestinyTraitServerOnly` (enforcing at-most-1-of-10 Legendary Signature ownership across innate + acquired traits per `GD-014`/`GD-018`) and `awardCharacterExpServerOnly` (using `applyCandidateCharacterExpGrant` with `Phàm Nhân` Lv10 cap and candidate no-banking overflow disposal, and **no** client socket route).
+    - Enforced strict client payload allowlists (`FORGED_INPUT_REJECTED` on any forged `accountId`, `characterId`, `level`, `expDelta`, `tuVi`, `candidateTraitIds`, `lockedSlots`, `seed`, or `allocated` fields) and account/action-scoped `idempotency_ledger` deduplication (`v02:<accountId>:<actionType>:<requestId>`).
+    - Added `apps/server/src/__tests__/characterV02Actions.test.ts` (`7` integration test cases covering full draft/reroll/confirm/allocate lifecycle + file-backed PGlite restart persistence, production `CATALOG_NOT_READY` fail-closed behavior, negative security/forged-input/duplicate-request/foreign-nonce/post-confirm-reroll guards, `Hậu Thiên` equip/unequip & `SIGNATURE_CONFLICT`, server-only EXP progression + `Phàm Nhân` Lv10 cap & overflow disposal, unauthenticated/forged `accountId` rejection + legacy `v0.1` coexistence, and Colyseus `ZoneRoom` `v02_*` message dispatch).
+  - **Part B — Project Atlas V2 Integration**:
+    - Integrated `docs/tong-mon-8d-project-atlas.html` as a tracked interactive architecture/governance visual companion (subordinate to Markdown sources of truth, with zero HTML/CSS/JS comments per `RULES.md` Rule 1) and registered it in `docs/CONTEXT_INDEX.md`.
+  - **Part C — Mandatory Skill Manifest & Automatic Fallback Routing**:
+    - Updated `docs/technical/AGENT_SKILL_ROUTER.md` (§2A) and `docs/technical/AGENT_EXECUTION_CONTRACT.md` (§2.2, §3.1, §3.3) so tasks may include a `Skill Manifest` (`PRIMARY` + optional) and automatically fall back to path-based routing (`max 3` skills per task) when omitted, with concise `Skills loaded: ... (explicit | fallback)` closeout reporting.
+- **Changed Files & Verified Commit SHA**:
+  - Base Commit: `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa` (`bf2d24f`)
+  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Files (`7` Code Allowlist paths + `7` Documentation Allowlist paths): `packages/shared/src/index.ts`, `apps/server/src/index.ts`, `apps/server/src/zoneRoom.ts`, `apps/server/src/db.ts`, `apps/server/src/characterV02Actions.ts`, `apps/server/src/guestIdentity.ts`, `apps/server/src/__tests__/characterV02Actions.test.ts`, `docs/tong-mon-8d-project-atlas.html`, `docs/CONTEXT_INDEX.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`
+- **Tests & Verification Evidence**:
+  - `SERVER / COLYSEUS /MULTIPLAYER` + `DB / TRANSACTION / PERSISTENCE` verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): `npm test` (`6` test suites, `49/49` tests passing: `7` in `characterV02Actions.test.ts`, `8` in `characterV02Persistence.test.ts`, `9` in `dbTransactions.test.ts`, `8` in `server.test.ts`, `11` in `td01Numeric.test.ts`, `6` in `td01Contracts.test.ts`, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (including `npm run verify:assets`, exit `0`), Atlas inline JavaScript syntax check (`node --check`, exit `0`), `git diff --check` (exit `0`), 40 frozen TD files verified (`0` modified). Non-applicable checks (`test:e2e` / live external PostgreSQL): `NOT_RUN`.
+- **Known Limitations & Deferred Scope**:
+  - **Authoritative Server Actions Only — Client/HUD (`S1-E`) & Production Destiny Catalog Expansion Are NOT Yet Implemented**:
+    - Production `APPROVED_PRODUCTION_DESTINY_CATALOG` contains only `van_vi_dao_thai` (`GD-016`), so production `v02_roll_innate_destiny` intentionally fails closed with `CATALOG_NOT_READY` until at least 3 `APPROVED` innate traits (including >= 2 ordinary non-signature traits) are approved by the project owner.
+    - Legacy `v0.1` `ZoneRoom` movement/combat/quest handlers and browser client (`apps/client/src/hud.ts`, `network.ts`, `WorldScene.ts`) continue to operate on legacy `v0.1` messages until `S1-E` (`CLIENT/HUD`) and `S1-F` (`E2E ACCEPTANCE`).
+    - Pre-deployment security gate for unauthenticated `POST /api/test/advance-clock` remains tracked in `docs/technical/AGENT_EXECUTION_CONTRACT.md` §5.3.
+- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `bf2d24ffdf51e64cb4fb2ff984a8c008dfd12aaa`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then proceed to `S1-E` (`CLIENT/HUD`).
