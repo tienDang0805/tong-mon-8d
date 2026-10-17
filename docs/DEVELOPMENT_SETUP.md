@@ -85,7 +85,7 @@ Verify `assets/manifest.json`, `assets/provenance.json`, spritesheet dimensions 
 npm run verify:assets
 ```
 
-Run all authoritative server, canonical progression, and `S0` PGlite resolver/env-loader tests (`8` tests in `apps/server/src/__tests__/server.test.ts`):
+Run the current Vitest suite (the executable output, not a hard-coded historical count, determines the current total):
 
 ```bash
 npm test
@@ -140,9 +140,10 @@ npm run dev:client
 
 ---
 
-## 6. Safe Artwork Pipeline Commands
+## 6. Artwork commands and verification scope
 
-- **Non-Destructive Manifest Refresh (`npm run generate:art`):**
-  Refreshes `assets/manifest.json` and `assets/provenance.json` while preserving all existing PNG/GIF/JSON files on disk (`FORCE_REBUILD = False`).
-- **Restricted Forced Re-Packaging (`npm run generate:art:force`):**
-  Rebuilds runtime sheets from `assets/source_ai/` and `assets/concepts/`. **Do NOT run `npm run generate:art:force` without explicit project-owner authorization.**
+Do not run npm run generate:art or npm run generate:art:force: both invoke the legacy whole-command build_assets.py route prohibited by AGENTS Section 4 and ARGON_NATIVE_ASSET_PROFILE. The non-force name does not make that whole command a safe manifest refresh. Use npm run verify:assets for read-only verification; generation/post-processing follows the native asset profile's approved task-specific commands.
+
+The commands in this setup guide are available operations, not a mandatory startup checklist. Select checks with AGENT_EXECUTION_CONTRACT Section 3: docs-only work needs no game tests/build; test-only fixes run affected tests/type checks; standalone exporter changes run disposable exporter fixtures; gameplay and slice acceptance retain their applicable integration checks. npm run build already includes verify:assets.
+
+Do not start npm run dev for a read-only review or docs task. For tests use the explicit isolated DB setup; never attach to a running owner's dev server to bypass an occupied E2E port. Diagnose environment blockers once and preserve other valid test evidence.

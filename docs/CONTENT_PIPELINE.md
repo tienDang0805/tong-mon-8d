@@ -16,7 +16,7 @@ The owner wants to request “add one NPC/domain/skill/region/quest” in future
 6. **Genuine image generation**: Native Antigravity image generator or specifically authorized provider; keep raw AI source and its checksum. **No automatic code-drawn production fallback** and no unapproved paid calls.
 7. **Deterministic post-processing**: Chroma cleanup, alignment, slicing, atlas/tileset/VFX packaging and reproducible provenance. Scripts may assemble, **not originate** finished art.
 8. **Implementation**: Add content registry entries, game rules, triggers, server validation, persistence, Phaser render, animation integration and Tiled metadata. Scope code only to the approved task.
-9. **Automated gates**: schema/typecheck, existing `npm run verify:assets`, `npm test`, `npm run typecheck`, `npm run build`, real browser `npm run test:e2e` when usable, plus relevant specialized simulation.
+9. **Automated gates**: Select checks by actual content/code/asset impact using AGENT_EXECUTION_CONTRACT Section 3. New player-visible content requires relevant schema/ID, asset and in-game checks; changed reward/condition logic requires its transaction/invariant tests. Use full applicable TD acceptance at slice release. A later docs-only or test-harness-only correction does not rerun the entire content pipeline. Build already includes asset verification; a required unavailable E2E is reported BLOCKED/NOT_RUN rather than silently waived.
 10. **In-game review**: screenshots, animation/GIF at actual gameplay zoom, real in-world usability and multiplayer verification.
 11. **Human creative approval**: Only owner marks artwork `HUMAN_APPROVED`; code pass/manifest pass ≠ approval. Present gaps honestly.
 12. **Release/handoff**: Update referenced specs, content index, changelog/status and evidence, then await owner commit/push policy.
@@ -49,5 +49,7 @@ Use existing `.agents/skills/ai-art-production/SKILL.md`; do not recreate or ove
 - **Visual**: real client captures, consistent silhouette and palette, readable attack/skill animation, sprites feet anchors, mobile viewport.
 
 ## Delivery format for future Argon tasks
+
+Use one owner-dispatched task and one completion report. Argon owns internal implementation/QA; routine external planner review and ZIP exports are not mandatory. Human canon/creative decisions and unresolved affected dependencies retain their approval gates.
 
 Each task request: goal; approved decision IDs; precise files/docs; scope/out-of-scope; dependencies; acceptance tests; art requirements; required screenshots; approval gate; commit policy. No giant autonomous “finish the entire game” prompt.

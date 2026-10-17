@@ -1,13 +1,17 @@
 # Agent Skill Router & 30-Skill Audit Registry — Tông Môn 8D
 
-> Status: `COMMITTED` (`G0`: `39d71c0`; `CTX-1`: `0e9cc8d`; Updated in `S1-B2` at Base Commit `0e9cc8d58618021a4c723efbc5fbc1860386b67c`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Task-based routing; current progress is owned by docs/implementation/FEATURE_LEDGER.md and docs/NEXT_ACTIONS.md. Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+
+## Task applicability
+
+Route skills by the changed behavior, not just by slice name. Docs-only and standalone tooling tasks may declare Skill Manifest: NONE. Core means authoritative when applicable, not load/run every core skill for every task. Skill checklists are acceptance references for affected work; select relevant checks through AGENT_EXECUTION_CONTRACT Section 3. Do not run a full multiplayer playtest for a docs or harness-only correction. Missing optional reference links already listed as unbundled are not blockers. Production art and slice-release requirements remain binding.
 
 ## 1. Routing Principles & Fail-Closed Path Policy
 
-1. **Task-Scoped Skill Loading & Mandatory Manifests (`S1`–`S8`)**: Every `S1`–`S8` task `PLAN` must explicitly declare a **Context Manifest**, a **Skill Manifest**, a **Code Allowlist**, a **Documentation Allowlist**, and a **Documentation Impact Assessment** (`docs/technical/AGENT_EXECUTION_CONTRACT.md`). Agents must load **only** the skills mapped to the active task in the **Skill Manifest**—never all 30 skills at once.
-2. **No Automatic `PLAN → BUILD` Continuation & No Blanket Slice Edit Permission**: **`PLAN` cannot automatically continue to `BUILD` without explicit project-owner approval.** Furthermore, **a slice-wide source list in Section 3 does NOT authorize editing all listed files**; it is a verified candidate pool from which each individual task must select and lock a minimal **Code Allowlist** and **Documentation Allowlist**.
+1. **Task-Scoped Context and Skills (`S1`–`S8`)**: Each S1–S8 execution task card names relevant source/skills, exact Code and Documentation Allowlists, acceptance/checks and commit policy. This can be concise; no separate long PLAN or evidence matrix is mandatory for an already actionable task (AGENT_EXECUTION_CONTRACT Section 3). Agents must load **only** the skills named for the active task—never all 30 skills at once.
+2. **Scoped Approval & No Blanket Slice Edit Permission**: PLAN ONLY stops at the plan. BUILD requires owner authorization for its exact scope; carry forward existing authorization for that same work and do not ask again for routine repairs. A slice-wide candidate list in Section 3 is not an edit allowlist. Use AGENT_EXECUTION_CONTRACT Section 3 for the full lifecycle.
 3. **Project Governance Overrides Skill Instructions**: Per `AGENTS.md` Section 1 and `RULES.md` (Rules 1–6), project rules (`AGENTS.md`, `RULES.md`), `docs/DECISIONS.md`, and `TD-01`..`TD-05` (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`) strictly override any conflicting default in `.agents/skills/*/SKILL.md`.
-4. **Fail-Closed Path Verification**: Every document, source file, and script path referenced in a task plan must exist in the repository tree (or be explicitly marked as a `PLANNED_NEW_FILE`). If a required specification or script path is missing or system ownership is ambiguous, the agent must stop and report `BLOCKED` rather than guessing or substituting filenames.
+4. **Required Path Verification**: Verify task inputs and execution targets, or identify planned new files explicitly. For missing required inputs, first consult current source/routing for a documented move or alternative, then pause only the affected operation if unresolved. Historical, illustrative and optional unbundled reference paths are not global blockers. Never invent required specifications or bypass data/art boundaries.
 5. **Continuous `TD-05` Visual Responsibility (`S1`–`S8`)**: `TD-05` (`docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`) applies across **every player-visible feature in `S1`–`S6`**, including `TD-05` visual review obligations, not only in `S7`.
 
 ---
@@ -59,9 +63,9 @@ All 30 installed workspace skills are classified into five operational tiers:
 ## 3. Concrete Slice Routing Matrix (`S1`, `S3`, `S7` Detailed Exemplars)
 
 > [!IMPORTANT]
-> For every task in `S1`–`S8`, the agent's `PLAN` must produce a task-specific **Context Manifest**, **Skill Manifest**, **Code Allowlist**, **Documentation Allowlist**, and **Documentation Impact Assessment**, and stop for owner approval before `BUILD`. **A slice-wide source list below does NOT authorize editing all listed files.**
+> For S1–S8, use a concise task-specific execution card under AGENT_EXECUTION_CONTRACT Section 3. Carry forward the owner's authorization; do not return an actionable EXECUTE card as another PLAN-only round. Separate planning is needed for unresolved material design decisions or an explicit PLAN_ONLY request. **A slice-wide source list below does NOT authorize editing all listed files.**
 
-### 3.1 Slice `S1` — Character Schema v0.2 & Migration (`TD-01` + `TD-05` HUD/Visual Contract; `IN PROGRESS, NOT COMPLETE`: `S1-B1a` `COMMITTED` at `b04ebdc`, `S1-B2` local/uncommitted `VERIFIED_READY_FOR_COMMIT` [`SELF_COMMIT`], `Character v0.2` runtime, `S1-B1b`, and `S1-C`..`S1-F` `NOT IMPLEMENTED`)
+### 3.1 Slice `S1` — Character Schema v0.2 & Migration (`TD-01` + `TD-05` HUD/Visual Contract)
 
 - **System Ownership (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
   - **TD-01** owns Character Level (`1–350+`), `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries (with `Đại Thánh` and `Cổ Thần` as lore only per `GD-044`), 6 origin stats (`Thể Phách, Lực Đạo, Linh Tính, Thân Pháp, Thần Thức, Ngộ Tính`), `+1` free stat point per level, separate Character EXP vs `Tu Vi`, no excessive EXP overflow banking at capped non-Saint realms, 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies (`Phàm, Hoàng, Tiên, Thần`), and at-most-1-of-10 Legendary `Thần Phẩm` signature exclusivity across all innate and acquired traits.
@@ -79,11 +83,11 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `packages/shared/src/index.ts` *(touched in `S1-B1a` `b04ebdc`)*
   - `packages/game-data/src/index.ts` *(touched in `S1-B1a` `b04ebdc`)*
   - `packages/game-data/src/runSimulation.ts`
-  - `apps/server/src/db.ts` *(touched in local/uncommitted `S1-B2` `SELF_COMMIT`)*
+  - `apps/server/src/db.ts`
   - `apps/server/src/worldEngine.ts`
   - `apps/server/src/zoneRoom.ts`
   - `apps/server/src/__tests__/td01Contracts.test.ts` *(created in `S1-B1a` `b04ebdc`)*
-  - `apps/server/src/__tests__/dbTransactions.test.ts` *(created in local/uncommitted `S1-B2` `SELF_COMMIT`)*
+  - `apps/server/src/__tests__/dbTransactions.test.ts`
   - `apps/server/src/__tests__/server.test.ts`
   - `apps/client/src/hud.ts`
   - `apps/client/src/network.ts`
@@ -194,7 +198,7 @@ All 30 installed workspace skills are classified into five operational tiers:
 | Slice | Primary Domain Owner(s) | Required Canonical Specs (`docs/`) | Active Skills Routed |
 |---|---|---|---|
 | `S0` (Committed `6e38c24`) | Foundation / DB / Ops | `docs/DEVELOPMENT_SETUP.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md` | `mmorpg-server-integrity`, `world-and-map-qa`, `game-playtest` |
-| `S1` (`IN PROGRESS, NOT COMPLETE`: `S1-B1a` `b04ebdc`; `S1-B2` local/uncommitted `VERIFIED_READY_FOR_COMMIT` [`SELF_COMMIT`]; `Character v0.2` runtime, `S1-B1b` & `S1-C`..`S1-F` `NOT IMPLEMENTED`) | **TD-01** + **TD-05** (HUD/visual bindings) | `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `cultivation-balance`, `game-ui-frontend`, `phaser4-scenes`, `game-playtest` |
+| `S1` (progress: FEATURE_LEDGER) | **TD-01** + **TD-05** (HUD/visual bindings) | `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/DESTINY.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD01_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `cultivation-balance`, `game-ui-frontend`, `phaser4-scenes`, `game-playtest` |
 | `S2` (`NOT STARTED`) | **TD-01** + **TD-03** (Quest Engine/FSM) + **TD-05** (Mentor encounter visuals/HUD) | `docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/QUEST_ENGINE.md`, `docs/technical/TD01_SIMULATION.md`, `docs/technical/TD03_CONSISTENCY_MATRIX.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `cultivation-balance`, `world-and-map-qa`, `game-ui-frontend`, `phaser4-sprites-and-images`, `game-playtest` |
 | `S3` (`NOT STARTED`) | **TD-02** + **TD-01** + **TD-05** (Cast poses/hit VFX) | `docs/systems/COMBAT.md`, `docs/systems/TECHNIQUES.md`, `docs/systems/DAO_MASTERY.md`, `docs/technical/TD02_SIMULATION.md`, `docs/technical/TD02_MIGRATION_TESTS.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md` | `mmorpg-server-integrity`, `cultivation-balance`, `phaser4-animations`, `phaser4-sprites-and-images`, `game-ui-frontend`, `game-playtest` |
 | `S4` (`NOT STARTED`) | **TD-03** (Auto Farm, Navigation, Quest FSM) + **TD-02** + **TD-05** (Route/HUD visuals) | `docs/systems/AUTO_FARM.md`, `docs/systems/NAVIGATION.md`, `docs/systems/QUEST_ENGINE.md`, `docs/technical/TD03_CONSISTENCY_MATRIX.md`, `docs/technical/TD03_PROTOCOL_MIGRATION_TESTS.md`, `docs/technical/TD03_REFERENCE_SIMULATION.md`, `docs/systems/COMBAT.md`, `docs/pipelines/UX_WORLD_FIRST.md` | `mmorpg-server-integrity`, `world-and-map-qa`, `phaser4-tilemaps`, `game-ui-frontend`, `game-playtest` |

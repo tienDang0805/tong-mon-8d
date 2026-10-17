@@ -1,6 +1,6 @@
 # Agent Execution Contract — Tông Môn 8D: Tu Tiên Chi Lộ
 
-> Status: `COMMITTED` (`G0`: `39d71c0`; `CTX-1`: `0e9cc8d`; `S1-B2`: `0543b71`; `GOV-REPORT`: `f06c510`) — Updated in `GOV-REPORT-H1` (`VERIFIED_READY_FOR_COMMIT` at Base Commit `f06c510d43049104d8feb76d4dcf4890ea0eea6c`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Operational policy | Current commit identities: docs/implementation/FEATURE_LEDGER.md | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Authority Position
 
@@ -34,106 +34,77 @@ Every implementation slice (`S1`–`S8`) MUST preserve strict single-owner domai
 
 ---
 
-## 3. Mandatory 9-Stage Task & Slice Execution Lifecycle (`DOC SYNC` Protocol)
+## 3. Owner + Planner → Argon Execution → Progress and Next Task
 
-Every task or implementation slice (`S1`–`S8` and `CTX-*`) MUST follow this ordered 9-stage workflow:
+The owner and ChatGPT plan the game. Argon implements the owner's dispatched tasks autonomously. ChatGPT is not a mandatory technical approval stage after each edit or task. This section replaces the old nine-stage approval interpretation: planning, execution and closeout are the three working phases. Self-review, relevant tests and documentation are responsibilities inside execution, not separate conversations or compulsory review packets. Frozen TD acceptance and owner canon/art/data decisions remain binding.
 
-```text
-PLAN → BUILD → REVIEW → VERIFY → DOC SYNC → CONTEXT CONSISTENCY CHECK → OWNER APPROVAL → COMMIT/PUSH → REMOTE CLOSEOUT
-```
+### 3.1 Plan and dispatch once
 
-### Stage 1 — `PLAN` (Strictly Read-Only Preflight, Dual Allowlists & Documentation Impact Assessment)
-1. Verify `git rev-parse HEAD` and `git status --short -uall`.
-2. Read the slice contract in `docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, and the exact `TD-01`..`TD-05` domain specifications.
-3. Every task `PLAN` MUST explicitly declare four mandatory sections:
-   - **Context Manifest**: Exact canonical specification files (`docs/systems/*`, `docs/pipelines/*`, `docs/technical/*`) and owner-approved `GD-*` decision IDs read for the task.
-   - **Skill Manifest**: Exact active skills (`.agents/skills/*/SKILL.md`) and permitted post-processing scripts loaded via `docs/technical/AGENT_SKILL_ROUTER.md`, plus explicitly excluded/forbidden skills.
-   - **Separate Per-Task `Code Allowlist` and `Documentation Allowlist`**:
-     - **Code Allowlist (Non-Markdown Implementation Artifacts)**: The minimal, exact list of existing or `PLANNED_NEW_FILE` non-Markdown implementation artifacts authorized to be modified or created in that specific task (or `NONE`). When explicitly authorized for a task, the `Code Allowlist` covers:
-       - Source code and tests (`.ts`, `.py`, etc.),
-       - Configuration and content JSON (`package.json`, `tsconfig.json`, catalog JSON, etc.),
-       - Tiled maps (`.tmj`),
-       - Generated and source artwork (`.png`, `.jpg`, spritesheets, atlases, `.gif` previews),
-       - Asset manifests and provenance records (`assets/manifest.json`, `assets/provenance.json`), and
-       - Other explicitly approved binary or generated artifacts.
-       **This is NOT blanket permission to modify those files: every path still requires explicit per-task owner approval, and a slice-wide candidate list in `docs/technical/AGENT_SKILL_ROUTER.md` does NOT authorize editing all listed files.**
-     - **Documentation Allowlist**: The minimal, exact list of existing or `PLANNED_NEW_FILE` Markdown documentation/governance files (`.md`) authorized to be modified or created in that specific task (or `NONE`). **Documentation changes are never implicit and require explicit per-task owner approval, and the 40 frozen Technical Design Freeze v1.0 Markdown files (`39c41a6`) remain strictly protected against modification.**
-   - **Documentation Impact Assessment**: Explicitly evaluate whether the planned task requires updating `docs/implementation/FEATURE_LEDGER.md`, `docs/PROJECT_STATUS.md`, `docs/NEXT_ACTIONS.md`, `docs/ROADMAP.md`, `docs/MASTER_PROJECT_PLAN.md`, or `docs/CONTEXT_INDEX.md`.
-4. **Strictly Read-Only `PLAN` Persistence Rule**: Stage 1 `PLAN` is strictly read-only and must not perform filesystem writes. If the task touches persistence (`apps/server/src/db.ts`), `PLAN` must identify the non-destructive offline backup and throwaway restore method for `apps/server/apps/server/data/pgdata` and its required approvals, while any actual offline database backup/restore requiring filesystem writes occurs **only within a separately approved safety preflight before schema mutations**.
-5. Present the scoped `PLAN` and stop. **`PLAN` cannot automatically continue to `BUILD` without explicit project-owner approval.**
+The owner and planner choose the player/system outcome, current base, boundaries, relevant specs and acceptance criteria. Use one concise executable task card with exact Code and Documentation Allowlists, the applicable verification profile and explicit commit policy. A small task needs no separate long PLAN document, source quotation matrix or external plan review. Detailed design work is appropriate only when an unresolved design/architecture choice materially affects the task.
 
-### Stage 2 — `BUILD` (Approved Safety Preflight & Scoped Code Implementation)
-1. Execute `BUILD` only after the project owner explicitly approves the `PLAN`. If the approved task touches schema/persistence (`apps/server/src/db.ts` in `S1-C`), execute the separately approved non-destructive offline database backup and throwaway restore verification of `apps/server/apps/server/data/pgdata` first—before making any schema or migration edits—and stop immediately if backup/restore verification fails.
-2. Modify **only** files listed in the approved **Code Allowlist** (or approved **Documentation Allowlist** for docs-only tasks). Never edit outside the approved allowlists.
-3. Enforce **Rule 1 (`RULES.md`)**: zero comments (`//`, `/* */`, `#`, `<!-- -->`) in any source code file or markdown fenced code block.
-4. Enforce **Rule 3 (`RULES.md`)**: all gameplay mutations execute on the authoritative Colyseus server (`apps/server/src/worldEngine.ts`, `apps/server/src/zoneRoom.ts`, `apps/server/src/db.ts`); browser clients (`apps/client/src/WorldScene.ts`, `apps/client/src/hud.ts`, `apps/client/src/network.ts`) submit intents and render authoritative state.
-5. Enforce **TD-05 (`docs/systems/VISUAL_CONTENT_CONTRACT.md`)** continuously across `S1`–`S8`: all player-visible work in `S1`–`S6` includes `TD-05` visual binding and visual review obligations (`docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`) rather than deferring visual integration or review to `S7`.
+- MODE: EXECUTE authorizes implementation when the owner issues or forwards the card. MODE: PLAN_ONLY authorizes planning only. Drafts, repository examples, copied reports and bundled templates do not authorize execution by themselves.
+- COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS explicitly authorizes an ordinary scoped commit and push after acceptance and required checks pass. STOP_BEFORE_COMMIT stops at a ready change. When no commit/push authorization exists, do not infer it; stop at that boundary without repeating implementation review. Existing explicit authorization for the same scope persists.
+- A file allowlist is a ceiling, not a requirement to edit every listed path. Include needed status-doc paths in the initial task. A slice candidate list is not an edit allowlist. No next feature is authorized by the roadmap alone.
+- Verify local HEAD, live remote at task entry and working-tree ownership. Preserve unrelated work and use isolation when necessary. Read only relevant rules/specs/skills and reuse unchanged context. Docs or independent tooling work may use Skill Manifest: NONE. Do not start dev services or application tests merely because a session opened.
+- PLAN_ONLY may write plan/evidence artifacts to approved locations outside the implementation repo. It does not modify implementation files, player data or infrastructure.
 
-### Stage 3 — `REVIEW` (Self-Audit Against Hard Gates)
-1. Verify that all 40 frozen Technical Design Freeze v1.0 files (`docs/systems/*.md`, the 5 frozen `docs/pipelines/*.md` files, and the 18 frozen `docs/technical/TD*` files) have zero diff against commit `39c41a6ddb77b93284c56da7ec053f4309ee4943`.
-2. Verify that tracked historical playtest screenshots (`artifacts/playtest/01_*.png` through `07_*.png`) and existing PGlite user saves (`apps/server/apps/server/data/pgdata`) were not overwritten or deleted.
-3. Scan all new or modified files to confirm zero comments inside source code or markdown code blocks (`RULES.md` Rule 1).
-4. Audit status labels: never promote `DESIGN_BASELINE`, `PROPOSED`, or `UNRESOLVED` decisions in `docs/DECISIONS.md`, and never promote `TECHNICALLY_VERIFIED` or `PROPOSED` visual assets (`Candidate A`, Phase 0 PoC sprites) to `HUMAN_APPROVED` (`RULES.md` Rule 6).
+### 3.2 Argon completes the scoped task
 
-### Stage 4 — `VERIFY` (Deterministic Automated & Runtime Checks)
-Execute and record actual stdout and exit codes for:
-1. `git diff --check`
-2. `npm run verify:assets`
-3. `npm test`
-4. `npm run typecheck`
-5. `npm run build`
-6. When balance/progression contracts or models are touched: `npm run test:sim`.
-7. When runtime, server, client, map, or visual changes occur: `npm run test:e2e` (using isolated `memory://` storage and writing per-run evidence exclusively to `artifacts/playtest/runs/<run-id>/`).
+Implement, self-review, run the applicable checks, fix concrete failures and synchronize affected docs without asking the owner/planner to approve each internal step. Choose routine implementation details within the approved architecture and scope. Do not bounce an actionable EXECUTE card back as a new PLAN-only report.
 
-### Stage 5 — `DOC SYNC` (Authorized Documentation Synchronization or Explicit `DOC_SYNC_DEFERRED`)
-1. **No Silent Omission or Fabricated No-Change Result**: Every task report must explicitly execute and report Stage 5 `DOC SYNC`.
-2. **When Documentation Paths Are Authorized in the Task's Approved `Documentation Allowlist`**:
-   - Every claim about implemented features MUST be backed by actual source diffs and Stage 4 verification evidence. Never claim a runtime system is implemented when only pure contracts, validators, or plans exist.
-   - Apply strict trigger rules per document:
-     - `docs/implementation/FEATURE_LEDGER.md`: Meaningful completed implementation tasks should normally add or update a grounded task entry when authorized.
-     - `docs/PROJECT_STATUS.md`: Update **only** on meaningful implementation or verification state changes.
-     - `docs/NEXT_ACTIONS.md`: Update **only** when work priorities, active sub-slices, or blockers change.
-     - `docs/ROADMAP.md` & `docs/MASTER_PROJECT_PLAN.md`: Update **only** when milestone, slice, or phase status changes.
-     - `docs/CONTEXT_INDEX.md`: Update **only** when context routing or indexed governance documents change.
-     - **40 Frozen TD Files (`39c41a6`)**: **NEVER** modify without explicit owner freeze-amendment authorization.
-3. **When Documentation Must Change Because of Code Progress, But the Current Task's Approved `Documentation Allowlist` Is `NONE`**:
-   - Do **not** edit unapproved Markdown files and do **not** claim no documentation changes are needed.
-   - Instead, explicitly record **`DOC_SYNC_DEFERRED`** in the task report, listing:
-     - the exact documentation paths requiring update,
-     - the exact status/ledger changes deferred, and
-     - the next scheduled `DOC SYNC` / `CTX-*` checkpoint that will reconcile them.
+Review the complete task change once before closeout. Collect known blockers together. After corrections, review the changed area and affected dependencies; reopen accepted code only for new evidence or a changed dependency. A blocker is a demonstrated correctness, acceptance, data/authority or required-evidence failure. Optional refactors, stylistic preferences and unrelated future work are advisory. If the same failure survives two focused attempts, diagnose the cause and pursue a concrete resolution or identify the external blocker; repeating a full test suite is not diagnosis. New demonstrated serious defects still require correction.
 
-### Stage 6 — `CONTEXT CONSISTENCY CHECK` (Pre-Approval Verification Gate)
-Before presenting the final deliverable for owner review, verify and report:
-1. `git status --short -uall` matches the union of the approved **Code Allowlist** and **Documentation Allowlist** with zero unexpected modified or untracked files.
-2. All repository-relative file paths referenced in modified or created Markdown files exist on disk (excluding explicitly labeled `PLANNED_NEW_FILE` paths, globs, or external URLs).
-3. No stale milestone statuses, invalid asset paths (such as non-existent `Candidate A` paths), or false implementation claims exist across updated documentation.
+Use the smallest sufficient verification profile:
 
-### Stage 7 — `OWNER APPROVAL` (Pre-Commit Sign-Off & Review Packet Handoff Gate)
-1. In accordance with `.agents/rules/review-handoff.md`, never dump full source files, long code diffs, or raw command logs into chat. Instead, run `scripts/export-review-packet.ps1` to generate `<TASK_ID>_REVIEW_PACKET.zip` under the system temporary directory outside the Git working tree (containing `<TASK_ID>_tracked_diff.patch`, explicitly selected new/untracked files validated against `git status --porcelain=v1 -uall` and `-TaskAllowlist` so no untracked task file is omitted, canonical root and reparse-point/junction checks across input and output paths, `<TASK_ID>_verification_evidence.md` or `<TASK_ID>_plan.md`, and `<TASK_ID>_manifest.json` with verified per-file SHA-256 hashes; note that path validation does not guarantee arbitrary file contents are free of secrets).
-2. Present a concise deliverable report in chat stating task status, base/current `HEAD` SHA, modified/created paths, verification exit codes, `DOC SYNC` / `DOC_SYNC_DEFERRED` status, and the exact review packet filename, absolute path, SHA-256 hash, and archived file list for the owner to upload to the independent ChatGPT reviewer.
-3. Stop and wait for explicit project-owner approval before running `git commit`, `git push`, or starting the next task.
+| Changed behavior | Required evidence | Not automatic |
+|---|---|---|
+| Read-only planning/review | Source/Git state and concrete task boundaries | Application tests, build, dev server, DB |
+| Docs/governance/status only | Diff/whitespace, new or changed path/command references, policy/status consistency and protected paths | Game tests/typecheck/build/assets/E2E; new tests that mirror Markdown wording |
+| Test/harness only | Changed tests and relevant type checks; meaningful negative cases for changed harness behavior | Unrelated application build or full E2E |
+| Independent tooling/scripts | Syntax and focused disposable fixtures for changed behavior, including relevant path/error/destructive-operation boundaries | Unrelated game suite/build/assets |
+| Pure contracts/numeric logic | Affected unit/contract tests, typecheck, consumer/build check when exports change; seeded simulation only when it exercises the new model | Browser E2E before runtime integration; treating the legacy simulator as evidence for formulas it never calls |
+| Runtime server/client/integration | Affected tests, typecheck/build and focused browser/integration proof | Unrelated scenarios after every small edit |
+| Shared persistence, rewards/economy, auth/session, protocol or migration | Full existing test suite, typecheck/build, relevant isolated integration and negative cases; applicable gameplay smoke before closeout | Live player DB tests or automatic PG access from DATABASE_URL |
+| Art/map/UI/content | Relevant schema/ID/provenance/assets and in-game proof at actual zoom; runtime checks when bindings or rewards change | Regenerating unchanged art or unrelated DB tests |
+| Slice/release acceptance | Applicable frozen TD gates, full required checks and relevant two-browser/restart/reconnect/visual evidence | Claiming prototype/unit-test evidence proves the new vertical slice |
 
-### Stage 8 — `COMMIT/PUSH` (Final Staged-Diff Gate & Normal Push)
-Only after explicit owner commit/push approval:
-1. Run `git fetch origin master` and verify both local `HEAD` and `origin/master` match the expected base SHA.
-2. Stage **only** the approved allowlist paths and run `git diff --cached --check` and `git diff --cached --name-status`.
-3. Commit with the approved commit message and push normally (`git push origin master`; never force-push).
+Mixed tasks use the union of affected profiles. Explicit task criteria and applicable frozen TD requirements still apply. Run focused checks during edits, then one required pass when relevant inputs stabilize. npm run build already includes verify:assets; do not duplicate it on unchanged inputs. Existing focused Vitest invocation: npm test -- <test-file>. Other commands remain available when applicable: npm run typecheck, npm run build, npm run test:sim, npm run test:e2e, and powershell -NoProfile -File scripts/tests/export-review-packet.test.ps1.
 
-### Stage 9 — `REMOTE CLOSEOUT` (Authoritative Commit History & SHA Paradox Resolution)
-1. **Git History Is Authoritative**: The Git repository and verified remote commit history (`origin/master`) are the sole authoritative source of truth for commit state.
-2. **Never Invent or Pre-Claim a Commit's Own Future SHA**:
-   - Because a Git commit cannot contain its own SHA inside its tracked file contents, and a file inside a commit cannot truthfully claim `COMMITTED` before `git commit` and `git push` succeed, any documentation updated *inside* commit `C` records `Status: VERIFIED_READY_FOR_COMMIT` and `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` for the active task, while recording exact immutable SHAs (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, etc.) for all prior completed commits.
-3. **Interactive Remote Closeout Certificate & Clean `CLOSEOUT` Packet Mode (No Infinite Backfill Commits)**:
-   - Immediately after `git push origin master` succeeds, verify `git rev-parse HEAD === git rev-parse origin/master` and `git status --short -uall` is clean, and report the actual new full commit SHA in the conversation response (when a post-commit `CLOSEOUT` review packet is requested on a clean working tree, `scripts/export-review-packet.ps1 -Stage CLOSEOUT` generates the commit patch against its verified parent SHA and records `localCommitSha`, `parentSha`, and `verifiedRemoteSha` while failing closed on remote SHA mismatch).
-   - **Never create a follow-up documentation-only commit solely to backfill the just-pushed SHA.** That SHA is backfilled into `docs/implementation/FEATURE_LEDGER.md` and `docs/PROJECT_STATUS.md` during the next task's authorized `DOC SYNC` or `CTX-*` checkpoint.
+Reuse a passing result when relevant source/test inputs, dependencies/lockfile, config, generated inputs and meaningful environment are unchanged. Retain the original run identity and label it reused, never freshly executed. Docs/report-only edits invalidate docs/report checks, not unrelated runtime evidence. No new caching/verification framework is required to follow this rule. Record executed/reused checks and actual results; NOT_APPLICABLE is different from relevant-but-NOT_RUN or FAILED. A required environment-blocked check remains open; passing unrelated checks cannot replace it.
+
+For occupied test ports, do not kill the owner's process or attach to its database. Use supported isolated configuration or an authorized documented alternative; otherwise report the specific environment blocker. Preserve other valid evidence.
+
+All DB tests use explicit isolated storage. External PostgreSQL needs TEST_DATABASE_URL, explicit isolated opt-in and a verified test target; never fall back to DATABASE_URL. Actual migration of existing saves requires its approved offline backup and throwaway restore preflight. A helper, test or docs edit does not itself require opening or backing up player databases.
+
+Player-visible work carries the applicable TD-05 in-world binding/feedback and visual evidence. Human art approval, canon changes, frozen-spec amendments and live-data operations retain their separate decisions. Technical checks cannot grant them.
+
+Keep DOC SYNC inside the task:
+
+- FEATURE_LEDGER owns task evidence, checks, limitations and immutable prior commit IDs. PROJECT_STATUS owns the current snapshot; NEXT_ACTIONS owns priorities and blockers. Update only affected authorized documents.
+- MASTER_PROJECT_PLAN/ROADMAP change for milestones. AGENTS/CONTEXT_INDEX/router own rules and routes, not duplicate per-task state lists.
+- SELF_COMMIT is legitimate before the new commit exists. Resolve it from Git at closeout and backfill during a later already-authorized doc change; do not create a commit solely to write its own SHA.
+- If an essential doc update is outside scope, report the exact affected path/decision at the existing task boundary. Do not invent consistency or silently expand scope. Unchanged docs need no edits or separate CTX task.
+
+At final scope check, account for all changed/new paths, preserve unrelated work and confirm the forty frozen files are unchanged. Check affected references, not every historical/proposed/example path in the repository. Missing optional bundled-skill references are not global blockers. Never open saved data merely to demonstrate that docs did not change it.
+
+### 3.3 Close out once; planner continues planning
+
+When acceptance and applicable checks pass, follow the dispatched commit policy. If COMMIT_AND_PUSH_AFTER_CHECKS is authorized, verify the expected remote base, stage only task paths, run git diff --cached --check, commit, push normally and verify full local/remote SHA. Do not ask for duplicate permission. Reconcile remote changes without resetting unrelated work or force pushing. If permission/network/branch protection blocks push, retain the verified local result and report that specific blocker; do not restart development. If commit was not authorized, report READY_FOR_COMMIT once.
+
+Return one concise completion report: task/status; implemented outcome and important limits; base/current commit and remote verification if pushed; changed scope; required checks with executed/reused/NOT_RUN distinctions; updated docs; unresolved owner decision, if any. Keep raw logs/diffs in artifacts. No mandatory PLAN ZIP, per-stage ZIP, SHA-only DOC SYNC commit, routine independent ChatGPT approval, or separate closeout-review conversation.
+
+The planner consumes the report, verifies live commit identity when relevant, updates progress and discusses the next task. It does not rerun the implementation suite or audit every diff by default. Targeted source review is appropriate when requested, evidence conflicts, acceptance is missing, or a concrete high-risk concern remains. Reports remain agent-reported evidence unless independently verified.
+
+Use scripts/export-review-packet.ps1 only when the owner/reviewer requests a packet or evidence must be transferred to someone without repository/artifact access. For that exporter, first verify ActualChangedPaths is a subset of the owner-approved allowlist, then pass the exact actual subset as CLI -TaskAllowlist and include all task untracked files through -NewFiles. Do not edit unused allowlisted files to satisfy the tool, omit changed files, package unrelated data, or weaken path protections. A requested packet must match the final scoped state. Exporter CLI stage labels such as OWNER_APPROVAL are transport labels, not additional approval gates.
+
+Escalate only a real scope expansion, unresolved owner design/creative/data decision, missing required capability/input, unsafe operation or concrete blocker that cannot be resolved within the task. State the precise decision and a recommended resolution. Continue independent authorized work; do not ask the owner to supervise routine debugging. The next feature starts only from the owner's next dispatched task.
 
 ---
 
 ## 4. Hard Stop Conditions (Fail-Closed Rules)
 
 An agent MUST immediately stop and report `BLOCKED` (without inventing fallbacks or workarounds) if any of the following conditions occur:
-1. **Missing Path or Unclear Ownership**: Any required specification, source file, or script path does not exist on disk, or system ownership conflicts with `docs/technical/TD_FREEZE_CONTRACT_MAP.md`.
+1. **Missing Required Input or Unclear Ownership**: Pause the affected operation when an actually required input is unavailable or ownership conflicts with `docs/technical/TD_FREEZE_CONTRACT_MAP.md`. First check the current source/router for a moved path or documented alternative. Missing optional/archived/illustrative skill references are not global blockers. Do not invent a required input, rewrite canon or bypass a database/art boundary; continue independent authorized work where possible.
 2. **Database Safety / Split-Brain Failure**: Both legacy (`apps/server/apps/server/data/pgdata`) and canonical (`apps/server/data/pgdata`) PGlite directories are initialized (`SPLIT_BRAIN_PGDATA_DIR`), or an offline backup + throwaway restore cannot be verified during an approved safety preflight prior to a schema migration.
 3. **Unavailable Native Image Generator or Unsafe Asset Command During Art Production**: If an authorized art-generation task cannot invoke the Argon host's native `image-generator` subagent, the agent must return `BLOCKED` (`docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`). It must never invoke `python packages/art-tools/build_assets.py` as a whole command (including with `--force`), `.agents/skills/generate2dmedia/scripts/route_media.py`, external paid APIs, external CLIs (`codex`, `grok`), `video2dsprite`, or `codeart2d`.
 4. **Frozen Specification Mutation**: Any task attempts to alter the 40 frozen Technical Design Freeze v1.0 Markdown files without an explicit freeze-amendment instruction from the project owner.

@@ -1,16 +1,14 @@
 ---
 trigger: always_on
-description: "Concise task reporting and mandatory ChatGPT review handoff"
+description: "Autonomous execution and concise closeout; packets on request"
 ---
 
-# Mandatory Concise Task Reporting & Independent Review Handoff
+# Task Completion and Evidence Transfer
 
-1. **No Source, Diff, or Log Dumps in Chat**: Never paste full source files, long code diffs, or raw command logs into chat responses. Write all code and documentation modifications directly to their real repository files.
-2. **Mandatory Pre-Review Packet Generation**: Before declaring any `PLAN`, `BUILD`, `REVIEW`, `VERIFY`, `DOC_SYNC`, or `CLOSEOUT` task ready for independent review or owner approval, generate a deterministic review packet outside the Git working tree using `scripts/export-review-packet.ps1` (passing `-NewFiles` and `-TaskAllowlist` so zero task-scoped untracked files are omitted, enforcing canonical root and no-reparse-point checks, and noting that path validation does not guarantee arbitrary file contents are free of secrets).
-3. **Truthful Verification & Artifact Reporting**: Never claim tests passed, artifacts exist, or commits/pushes succeeded without actual command execution and verification on the final file state. Report skipped or preflight-blocked checks (such as `LIVE_PG_INTEGRATION: NOT_RUN` or port-preflight stops) explicitly.
-4. **Strict Owner Approval Gates**: Never stage, commit, push, or start subsequent tasks/slices without explicit project-owner authorization. Stop at Stage 7 (`OWNER APPROVAL`) after completing local verification and review packet export.
-5. **Required End-of-Task Response Format**: Keep final chat responses concise and always conclude with:
-   - Task status, base/current `HEAD` SHA, and exact modified/untracked repository paths.
-   - Exact verification commands run, exit codes, and any blockers or known limitations.
-   - Next required owner approval gate.
-   - **Files Owner Must Send to ChatGPT**: exact review packet ZIP filename, absolute path under the system temporary directory, SHA-256 hash, exact archived file list, and review purpose.
+1. Follow AGENT_EXECUTION_CONTRACT Section 3: owner + planner choose the task; Argon executes, self-reviews, checks and syncs affected docs; the planner consumes the result and plans forward. Routine independent ChatGPT review is not a required gate.
+2. An owner-issued EXECUTE card authorizes its scope. Respect PLAN_ONLY, exact allowlists and the explicit commit policy. Carry forward authorization; do not ask again for each internal step or routine correction. Templates or old reports do not authorize execution.
+3. Select checks by actual impact. Reuse passing evidence with unchanged relevant inputs and its original identity. Docs-only changes do not require game tests/build/E2E. Required-but-unrun checks remain NOT_RUN or blocked.
+4. Return one concise outcome report with scope, commit/remote state, actual check evidence, documentation updates and concrete remaining decisions. Do not dump full source or logs into chat.
+5. ZIP export is not required for routine PLAN, execution, DOC SYNC or closeout. Use scripts/export-review-packet.ps1 when explicitly requested or when evidence must be transferred to a recipient without access. Existing exporter Stage labels do not add approval gates.
+6. When exporting, independently verify ActualChangedPaths is a subset of the approved allowlist, then pass that actual subset as CLI -TaskAllowlist and all task untracked files as -NewFiles. Preserve path protections and exclude unrelated work/secrets. No edits to unused allowlisted files solely for export.
+7. Fix concrete blockers within scope, then review only affected changes/dependencies. Optional refactors do not reopen acceptance. Escalate real owner decisions or blockers, not routine debugging. Canon/art/live-data/frozen-spec controls remain binding.

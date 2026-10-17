@@ -5,9 +5,9 @@
 >
 > **For the active existing repository:**
 > 1. Read `AGENTS.md` and `RULES.md` for the authoritative Context Hierarchy, Canonical Constraints, and AI Art Production Policy.
-> 2. Read `docs/CONTEXT_AUDIT.md` and `docs/PROJECT_STATUS.md` for verified implementation and asset status.
-> 3. Read `docs/DEVELOPMENT_SETUP.md` for local environment setup, verification (`npm run verify:assets`, `npm test`, `npm run typecheck`, `npm run build`), and running the game (`npm run dev`).
-> 4. Read `docs/NEXT_ACTIONS.md` for the active **Phase 1** design and documentation roadmap.
+> 2. Read `docs/NEXT_ACTIONS.md`, `docs/implementation/FEATURE_LEDGER.md` and `docs/PROJECT_STATUS.md` for current work and verified implementation. CONTEXT_AUDIT is historical.
+> 3. Read `docs/technical/AGENT_EXECUTION_CONTRACT.md` for scoped autonomy and impact-based checks. Use DEVELOPMENT_SETUP only when setup/runtime work is needed; do not auto-run tests or npm run dev at session startup.
+> 4. Use `docs/CONTEXT_INDEX.md` for relevant specs/skills and `docs/MASTER_PROJECT_PLAN.md` for the S1–S8 milestone map.
 
 ---
 
