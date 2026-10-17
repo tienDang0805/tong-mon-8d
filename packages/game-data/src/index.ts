@@ -1702,3 +1702,44 @@ export function meetsMajorRealmBreakthroughLevelAndStagePrerequisite(
   }
   return realmStage === band.stageCount && level === band.maxLevel;
 }
+
+export {
+  applyCandidateCharacterExpGrant,
+  CANDIDATE_DERIVED_STAT_COEFFICIENTS,
+  CANDIDATE_ORIGIN_BASE_ATTRIBUTE,
+  CANDIDATE_REALM_BASE_GROWTH,
+  CANDIDATE_REALM_STAGE_SPAN_BONUS,
+  CANDIDATE_SAINT_ACCELERATION_START_LEVEL,
+  computeCandidateBaselineStatSnapshot,
+  computeCandidateDerivedStatsFromEffectiveAttributes,
+  computeCandidateEffectiveBaseAttributes,
+  computeCandidateExpToNextLevel,
+  computeCandidateRealmStageFactor,
+  computeCandidateTotalExpForLevelSpan,
+  createCandidateOriginBaseAttributes,
+  getCandidateExpToNextLevelBigInt,
+  getCandidateExpToNextLevelDecimal,
+  getCandidateRealmStageFactor,
+  MAX_SINGLE_GRANT_LEVEL_ADVANCEMENTS,
+  MAX_SUPPORTED_EXP_BIGINT,
+  MAX_SUPPORTED_EXP_DECIMAL_DIGITS,
+  TD01_CANDIDATE_NUMERIC_APPROVAL_STATE,
+  TD01_CANDIDATE_RULESET_VERSION
+} from "./td01Numeric.js";
+
+export type {
+  CandidateBaselineStatSnapshot,
+  CandidateBaselineStatSnapshotErrorCode,
+  CandidateBaselineStatSnapshotResult,
+  CandidateCharacterExpGrantResult,
+  CandidateCharacterExpGrantSuccess,
+  CandidateDerivedStats,
+  CandidateDerivedStatsResult,
+  CandidateEffectiveBaseAttributesResult,
+  CandidateExpCostValidationCode,
+  CandidateExpGrantErrorCode,
+  CandidateExpGrantStopReason,
+  CandidateExpToNextResult,
+  CandidateLevelSpanExpCostResult,
+  CandidateRealmStageFactorResult
+} from "./td01Numeric.js";

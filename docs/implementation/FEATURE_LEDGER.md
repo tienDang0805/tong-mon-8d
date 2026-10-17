@@ -1,6 +1,6 @@
 # Tông Môn 8D — Implementation & Verification Feature Ledger
 
-> Active engineering ledger | Last verified remote: `0c00374cec4a489c523f5a8becb66bfa683210fa` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Active engineering ledger | Last verified remote: `fdd8e8bbd315638c16f68180fb01868550aecc30` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Ledger Governance Rules
 
@@ -9,7 +9,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 1. **Evidence-Grounded Entries Only**: Every entry must cite real repository paths, actual verification commands/outputs, and verified Git commit SHAs on `origin/master`.
 2. **Design vs. Implementation Separation**: Never record a gameplay system as implemented when only specifications, read-only plans, or pure TypeScript contract/validator subsets exist.
 3. **Commit SHA Closeout Rule (`docs/technical/AGENT_EXECUTION_CONTRACT.md`)**:
-   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`).
+   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`).
    - Because a commit cannot contain its own future SHA, the active task being committed records `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` and `Status: VERIFIED_READY_FOR_COMMIT`, which is then backfilled with the exact SHA during the next authorized `DOC SYNC`.
 
 ---
@@ -20,15 +20,15 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 |---|---|---|---|
 | `S0` | Foundation, PGlite split-brain safety, `.env` loader, isolated E2E runs | `COMMITTED` | `6e38c246cabcd020efe137863838d6a61e7b1a72` (`6e38c24`) |
 | `G0` | Agent workflow governance, 30-skill router & Argon native asset profile | `COMMITTED` | `39d71c06a830f5f2d9ae2d64b09cb18aa3efebc4` (`39d71c0`) |
-| `S1` (Overall) | Character schema v0.2 & migration (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`) |
+| `S1` (Overall) | Character schema v0.2 & migration (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`; `S1-B1b` at `SELF_COMMIT`) |
 | `S1-A` | Character v0.2 migration plan & strict Design Evidence Matrix | `READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED` | `NONE` (Read-only plan at base `39d71c0`) |
 | `S1-B1a` | Pure Character, Destiny metadata & 18-entry realm level-band contracts | `COMMITTED` | `b04ebdc72ffede9edb678008ed30d002c73b5cc6` (`b04ebdc`) |
 | `CTX-1` | Documentation reconciliation, `DOC SYNC` gate, Feature Ledger & Master Project Plan | `COMMITTED` | `0e9cc8d58618021a4c723efbc5fbc1860386b67c` (`0e9cc8d`) |
-| `S1-B1b` | Proposed next pure numeric/formula task (`TD-01` candidate curves/weights if authorized) | `PROPOSED NEXT PURE NUMERIC TASK, NOT IMPLEMENTED` | `NONE` |
+| `S1-B1b` | Pure `TD-01` numeric Character EXP/Level progression & candidate realm-scaled stat helpers | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `fdd8e8bbd315638c16f68180fb01868550aecc30`) |
 | `S1-B2` | Database transaction infrastructure & atomic unit-of-work helpers | `COMMITTED` | `0543b7157264ce672d2582d0bfa0a071ba855a42` (`0543b71`) |
 | `GOV-REPORT` | Persistent Antigravity review-handoff rule & reusable review packet exporter | `COMMITTED` | `f06c510d43049104d8feb76d4dcf4890ea0eea6c` (`f06c510`) |
 | `GOV-REPORT-H1` | Review packet exporter hardening (untracked detection, path/reparse safety, clean `CLOSEOUT`) | `COMMITTED` | `0c00374cec4a489c523f5a8becb66bfa683210fa` (`0c00374`) |
-| `GOV-FLOW-V2` | Streamlined 3-phase planner/executor workflow, impact-based verification matrix & status de-duplication | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `0c00374cec4a489c523f5a8becb66bfa683210fa`) |
+| `GOV-FLOW-V2` | Streamlined 3-phase planner/executor workflow, impact-based verification matrix & status de-duplication | `COMMITTED` | `fdd8e8bbd315638c16f68180fb01868550aecc30` (`fdd8e8b`) |
 | `S1-C` | PostgreSQL `v0.1 -> v0.2` schema, approved offline backup/restore preflight & migration | `SCHEMA / BACKUP / MIGRATION, NOT IMPLEMENTED` | `NONE` |
 | `S1-D` | Authoritative Colyseus server actions (creation/reroll/confirm/allocate) | `AUTHORITATIVE SERVER ACTIONS, NOT IMPLEMENTED` | `NONE` |
 | `S1-E` | Playfield-first client/HUD Character v0.2 & Destiny UI integration (`TD-05`) | `CLIENT/HUD, NOT IMPLEMENTED` | `NONE` |
@@ -208,10 +208,33 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
   - Installed the 3-phase operating model (Owner + Planner dispatch → autonomous Argon execution with self-review, impact-based verification matrix, and in-task `DOC SYNC` → concise closeout under the task card's explicit commit policy), removed routine per-task planner review and mandatory per-stage ZIP gates (preserving `scripts/export-review-packet.ps1` for explicit requests or external evidence transfer), de-duplicated changing task status from routing/navigation docs, and backfilled `GOV-REPORT` (`f06c510d43049104d8feb76d4dcf4890ea0eea6c`) and `GOV-REPORT-H1` (`0c00374cec4a489c523f5a8becb66bfa683210fa`) in `docs/PROJECT_STATUS.md`.
 - **Changed Files & Verified Commit SHA**:
   - Base Commit: `0c00374cec4a489c523f5a8becb66bfa683210fa` (`0c00374`)
-  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Commit: `fdd8e8bbd315638c16f68180fb01868550aecc30` (`fdd8e8b`, `docs(gov-flow-v2): install streamlined planner-executor workflow and sync status`)
   - Files (`14` Documentation Allowlist paths; `0` code paths): `.agents/rules/review-handoff.md`, `AGENTS.md`, `START_HERE.md`, `docs/CONTENT_PIPELINE.md`, `docs/CONTEXT_INDEX.md`, `docs/DEVELOPMENT_SETUP.md`, `docs/MASTER_PROJECT_PLAN.md`, `docs/NEXT_ACTIONS.md`, `docs/PROJECT_STATUS.md`, `docs/ROADMAP.md`, `docs/WORKSPACE_HANDOFF.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`
 - **Tests & Verification Evidence**:
   - Docs-only verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): `git apply --check --whitespace=error-all` (`PASS`, exit `0`), `git diff --check` (exit `0`), changed paths strictly within the 14-file Documentation Allowlist (`0` code/test/script/asset edits), 40 frozen TD files verified against `39c41a6ddb77b93284c56da7ec053f4309ee4943` and `BASELINE_VERIFICATION.json` (`40/40` blob hashes unchanged, `0` diffs), new/changed path and command references verified against repository source (`PASS`). Runtime/test/build/E2E/DB checks: `NOT_APPLICABLE` (documentation-only amendment; prior `scripts/tests/export-review-packet.test.ps1` `17/17 PASS` at `0c00374` remains unchanged historical evidence, not rerun).
 - **Known Limitations & Deferred Scope**:
   - Documentation and operating-workflow amendment only; does not implement `S1-B1b` or `S1-C`..`S1-F` runtime `Character v0.2` gameplay or database migration.
-- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `0c00374cec4a489c523f5a8becb66bfa683210fa`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then owner/planner planning of `S1-B1b`.
+- **Current Status & Next Dependency**: `COMMITTED` (`fdd8e8b`) → `S1-B1b`.
+
+---
+
+### 3.10 `S1-B1b` — Pure Numeric Progression & Candidate Stat Simulation Foundation
+- **Associated Slice**: `S1` (`TD-01` Pure Numeric Progression & Candidate Stat Sub-Slice)
+- **Design & Technical References**: `docs/DECISIONS.md` (`GD-020`, `GD-021`, `GD-022`, `GD-028`, `GD-044`), `docs/systems/CULTIVATION.md` (§2–§5), `docs/systems/CHARACTER.md` (§3–§5), `docs/technical/TD01_SIMULATION.md` (§1–§3), `docs/technical/TD_FREEZE_GATES.md`
+- **Actual Implementation Scope**:
+  - Created `packages/game-data/src/td01Numeric.ts` and re-exported its public API from `packages/game-data/src/index.ts`.
+  - Implemented pure integer-safe `BigInt` Character EXP cost helpers (`computeCandidateExpToNextLevel`, `getCandidateExpToNextLevelBigInt`, `getCandidateExpToNextLevelDecimal`, `computeCandidateTotalExpForLevelSpan`) for `expToNext(L) = 100 + 30*L + 8*L*L + 2*max(0,L-350)^2` within `NUMERIC(38,0)` (`MAX_SUPPORTED_EXP_BIGINT`) software safety bounds.
+  - Implemented pure Character EXP grant progression (`applyCandidateCharacterExpGrant`) reusing `CharacterLevelProgress` and realm level-band contracts (`getRealmLevelBand`, `isLevelAllowedForRealm`, `isAtNonSaintMajorRealmLevelCap`), enforcing `+1` free base-attribute point per actual Level gained, non-Saint major realm Level caps (`Phàm Nhân` Lv10, `Luyện Khí` Lv30, etc.), candidate no-banking overflow disposal (`expTowardNext = "0"` on reaching or while at a non-Saint cap), post-breakthrough boundary progression (e.g. `Luyện Khí` Lv10 → Lv11), and unlimited `Thánh Cảnh` progression (`Lv 350 -> 351+`) without mutating inputs or coupling to `Tu Vi`.
+  - Implemented pure candidate realm-stage factor and baseline derived-stat projection helpers for simulation (`createCandidateOriginBaseAttributes`, `computeCandidateRealmStageFactor`, `getCandidateRealmStageFactor`, `computeCandidateEffectiveBaseAttributes`, `computeCandidateDerivedStatsFromEffectiveAttributes`, `computeCandidateBaselineStatSnapshot`), explicitly tagged as `DESIGN_BASELINE` (`TD01_CANDIDATE_RULESET_VERSION = "td01-candidate-v0.3"`, `TD01_CANDIDATE_NUMERIC_APPROVAL_STATE = "DESIGN_BASELINE"`), while preserving existing legacy `Tu Vi` stage curves (`getRealmRequiredTuVi`, `getNextRealmAndStage`, `computeOfflineMeditationReward`) and runtime combat untouched.
+  - Added `apps/server/src/__tests__/td01Numeric.test.ts` (`11` deterministic test cases covering `TD01_SIMULATION.md` EXP/factor/stat samples, `Lv1..10000` monotonicity, `Lv1->10 = 4530`, multi-level grants, `Phàm Nhân` Lv10 & `Luyện Khí` Lv30 caps + overflow disposal, post-breakthrough `Lv10->11`, `Thánh Cảnh` `Lv350->351+`, `BigInt` precision above `Number.MAX_SAFE_INTEGER`, realm-factor monotonicity across all 18 realms, input immutability, and fail-closed rejection of invalid inputs).
+- **Changed Files & Verified Commit SHA**:
+  - Base Commit: `fdd8e8bbd315638c16f68180fb01868550aecc30` (`fdd8e8b`)
+  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Files (`3` Code Allowlist paths + `2` Documentation Allowlist paths): `packages/game-data/src/td01Numeric.ts`, `packages/game-data/src/index.ts`, `apps/server/src/__tests__/td01Numeric.test.ts`, `docs/implementation/FEATURE_LEDGER.md`, `docs/PROJECT_STATUS.md`
+- **Tests & Verification Evidence**:
+  - `PURE CONTRACTS / NUMERIC` verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): `npx vitest run apps/server/src/__tests__/td01Numeric.test.ts apps/server/src/__tests__/td01Contracts.test.ts` (`2` test files, `17/17` tests passing: `11` in `td01Numeric.test.ts` + `6` in `td01Contracts.test.ts`, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (including `npm run verify:assets`, exit `0`), `git diff --check` (exit `0`), 40 frozen TD files verified (`0` modified). Non-applicable checks (`dbTransactions.test.ts` / `server.test.ts` / `export-review-packet.test.ps1` / `test:e2e` / live PostgreSQL): `NOT_RUN` / reused prior passing evidence at unchanged inputs (`0543b71` for `db.ts`, `0c00374` for exporter).
+- **Known Limitations & Deferred Scope**:
+  - **Pure Numeric & Candidate Simulation Helpers Only — Runtime `Character v0.2` & Production Balance Are NOT Implemented**:
+    - The EXP polynomial (`100 + 30*L + 8*L*L + 2*max(0,L-350)^2`), origin attribute value (`10`), candidate realm factor (`1.50^r * [1 + 0.30*(s-1)/max(1,n-1)]`), derived stat coefficients, and non-Saint cap overflow disposal remain `DESIGN_BASELINE` simulation candidates, not owner-approved final production balance.
+    - Does not implement equipment/Destiny/technique/buff modifier pipelines, combat damage formulas (`TD-02`), Destiny rarity weight rolling (`GD-017`), event authorization/idempotency/persistence, `S1-C` (`SCHEMA / BACKUP / MIGRATION`), `S1-D` (`AUTHORITATIVE SERVER ACTIONS`), `S1-E` (`CLIENT/HUD`), or `S1-F` (`E2E ACCEPTANCE`).
+- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `fdd8e8bbd315638c16f68180fb01868550aecc30`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then owner/planner dispatch of next `S1` task (`S1-C` or remaining `S1` scope).
