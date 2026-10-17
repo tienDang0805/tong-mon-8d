@@ -9,6 +9,45 @@ import type {
   CombatDisciplineId
 } from "@tong-mon-8d/shared";
 import { INITIAL_DISCIPLINE_STATS, ZONES_REGISTRY } from "@tong-mon-8d/game-data";
+import {
+  CHARACTER_V02_SCHEMA_VERSION,
+  CHARACTERS_V02_TABLE_DDL,
+  CharacterV02PersistenceError,
+  CharacterV02Repository,
+  createInitialCharacterV02State,
+  hydrateCharacterV02Row,
+  validateCharacterV02PersistedState,
+  type CharacterV02CombatResources,
+  type CharacterV02CultivationState,
+  type CharacterV02ErrorCode,
+  type CharacterV02PersistedState,
+  type CharacterV02RepositoryHost,
+  type CharacterV02UpdateInput,
+  type CharacterV02ValidationOptions,
+  type CharacterV02ValidationResult,
+  type CharacterV02WorldAndEconomyState,
+  type CreateInitialCharacterV02Params
+} from "./characterV02Repository.js";
+
+export {
+  CHARACTER_V02_SCHEMA_VERSION,
+  CHARACTERS_V02_TABLE_DDL,
+  CharacterV02PersistenceError,
+  CharacterV02Repository,
+  createInitialCharacterV02State,
+  hydrateCharacterV02Row,
+  validateCharacterV02PersistedState,
+  type CharacterV02CombatResources,
+  type CharacterV02CultivationState,
+  type CharacterV02ErrorCode,
+  type CharacterV02PersistedState,
+  type CharacterV02RepositoryHost,
+  type CharacterV02UpdateInput,
+  type CharacterV02ValidationOptions,
+  type CharacterV02ValidationResult,
+  type CharacterV02WorldAndEconomyState,
+  type CreateInitialCharacterV02Params
+};
 
 export type TransactionErrorCode =
   | "NESTED_TRANSACTION_FORBIDDEN"
@@ -792,6 +831,7 @@ export function loadRepoEnvIfNeeded(
 export class GameDatabase {
   private executor: InternalSqlExecutor;
   private resolvedDataDir: string | null;
+  readonly charactersV02: CharacterV02Repository;
 
   constructor(options?: {
     dataDir?: string;
@@ -819,6 +859,11 @@ export class GameDatabase {
       this.resolvedDataDir = targetDir;
       this.executor = new PGliteAdapter(targetDir);
     }
+    this.charactersV02 = new CharacterV02Repository({
+      resolveQueryRunner: (tx?: SqlTransaction) => this.resolveQueryRunner(tx),
+      withTransaction: <T>(fn: (tx: SqlTransaction) => Promise<T>) =>
+        this.withTransaction(fn)
+    });
   }
 
   getDataDir(): string | null {
@@ -878,6 +923,7 @@ export class GameDatabase {
         updated_at BIGINT NOT NULL
       );
     `);
+    await this.executor.query(CHARACTERS_V02_TABLE_DDL);
     await this.executor.query(`
       CREATE TABLE IF NOT EXISTS idempotency_ledger (
         request_id TEXT PRIMARY KEY,
@@ -898,6 +944,38 @@ export class GameDatabase {
         created_at BIGINT NOT NULL
       );
     `);
+  }
+
+  async createCharacterV02(
+    state: unknown,
+    options?: CharacterV02ValidationOptions,
+    tx?: SqlTransaction
+  ): Promise<CharacterV02PersistedState> {
+    return this.charactersV02.createCharacter(state, options, tx);
+  }
+
+  async getCharacterV02ById(
+    characterId: string,
+    options?: CharacterV02ValidationOptions,
+    tx?: SqlTransaction
+  ): Promise<CharacterV02PersistedState | null> {
+    return this.charactersV02.getByCharacterId(characterId, options, tx);
+  }
+
+  async getCharacterV02ByAccount(
+    accountId: string,
+    options?: CharacterV02ValidationOptions,
+    tx?: SqlTransaction
+  ): Promise<CharacterV02PersistedState | null> {
+    return this.charactersV02.getByAccountId(accountId, options, tx);
+  }
+
+  async updateCharacterV02(
+    input: CharacterV02UpdateInput,
+    options?: CharacterV02ValidationOptions,
+    tx?: SqlTransaction
+  ): Promise<CharacterV02PersistedState> {
+    return this.charactersV02.updateCharacter(input, options, tx);
   }
 
   async loadOrCreateCharacter(
