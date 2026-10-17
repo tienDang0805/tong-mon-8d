@@ -8,12 +8,12 @@ This contract governs how autonomous and interactive coding agents execute tasks
 
 When resolving conflicts between documents or installed skills, agents MUST obey the priority hierarchy in `AGENTS.md` Section 1:
 1. `AGENTS.md` and `RULES.md` (Rule 1 Zero Comments in Code, Rule 2 Canonical Fidelity, Rule 3 Server Authority, Rule 4 Playfield First, Rule 5 Cohesive Pixel Art & Tiled Maps, Rule 6 Genuine Generative Art & Human Creative Approval).
-2. `docs/CONTEXT_INDEX.md`, `docs/MASTER_PROJECT_PLAN.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/ROADMAP.md`, `docs/CONTEXT_AUDIT.md`, `docs/PROJECT_STATUS.md`, `docs/WORKSPACE_HANDOFF.md`, and `docs/NEXT_ACTIONS.md`.
+2. `START_HERE.md`, `docs/CONTEXT_INDEX.md`, `docs/MASTER_PROJECT_PLAN.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/technical/TD_FREEZE_OVERVIEW.md`, `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/AGENT_SKILL_ROUTER.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/ROADMAP.md`, `docs/PROJECT_STATUS.md`, and `docs/NEXT_ACTIONS.md`.
 3. `docs/DECISIONS.md` (`GD-001`–`GD-046`), `docs/technical/TD_FREEZE_APPROVALS.md`, `docs/technical/TD_FREEZE_CONTRACT_MAP.md`, `docs/technical/TD_FREEZE_GATES.md`, and the Human Creative Decisions Ledger in `AGENTS.md` Section 5.
-4. `docs/GAME_LORE.md`, `docs/CHARACTER_VISUAL_BIBLE.md`, `packages/game-data/src/index.ts`, `packages/shared/src/index.ts`, and canonical identity sections (Sections 5–7) of `MASTER_PROMPT.md`.
+4. `docs/DECISIONS.md`, `docs/GAME_LORE.md`, `docs/CHARACTER_VISUAL_BIBLE.md`, `packages/game-data/src/catalogs/realms.ts`, `packages/game-data/src/catalogs/destinies.ts`, `packages/game-data/src/index.ts`, and `packages/shared/src/index.ts` (with historical canonical identity provenance from Sections 5–7 preserved in `docs/archive/legacy/MASTER_PROMPT.md` via locator `MASTER_PROMPT.md`).
 5. Phase 1B.0 Baseline v0.2 (`docs/GAME_VISION.md`, `docs/GAME_LORE.md`, `docs/GAME_DESIGN.md`, `docs/NARRATIVE_DESIGN.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/CONTENT_PIPELINE.md`, `docs/ART_BIBLE.md`, `docs/CHARACTER_VISUAL_BIBLE.md`) and Technical Design Freeze v1.0 (`docs/systems/*.md`, `docs/pipelines/*.md`, `docs/technical/TD01..TD05_*.md`).
 6. `.agents/skills/*/SKILL.md` as filtered and constrained by `docs/technical/AGENT_SKILL_ROUTER.md`.
-7. Archived prompts and historical status reports (`MASTER_PROMPT.md` Sections 0, 8–16, `START_HERE.md`, `docs/IMPLEMENTATION_STATUS.md`).
+7. Archived prompts, audits, and historical status reports (`docs/archive/legacy/MASTER_PROMPT.md`, `docs/archive/legacy/CONTEXT_AUDIT.md`, `docs/archive/legacy/IMPLEMENTATION_STATUS.md`, `docs/archive/legacy/EXTERNAL_SKILLS.md`, and locator stubs `MASTER_PROMPT.md`, `docs/CONTEXT_AUDIT.md`, `docs/IMPLEMENTATION_STATUS.md`).
 
 > [!IMPORTANT]
 > Documentation policy alone is **not** a runtime security barrier, and CI-enforced `DOC SYNC` automation does not yet exist. This contract defines mandatory operational discipline and verification gates, while future technical enforcement requires explicit command/tool allowlists, denial of external media routes, provenance validation, and automated CI/test coverage (see Section 5).
@@ -45,7 +45,7 @@ The owner and planner choose the player/system outcome, current base, boundaries
 - MODE: EXECUTE authorizes implementation when the owner issues or forwards the card. MODE: PLAN_ONLY authorizes planning only. Drafts, repository examples, copied reports and bundled templates do not authorize execution by themselves.
 - COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS explicitly authorizes an ordinary scoped commit and push after acceptance and required checks pass. STOP_BEFORE_COMMIT stops at a ready change. When no commit/push authorization exists, do not infer it; stop at that boundary without repeating implementation review. Existing explicit authorization for the same scope persists.
 - A file allowlist is a ceiling, not a requirement to edit every listed path. Include needed status-doc paths in the initial task. A slice candidate list is not an edit allowlist. No next feature is authorized by the roadmap alone.
-- **Scope-Based Allowlist Categories (`SOURCE_ARCHITECTURE.md` §12)**:
+- **Scope-Based Allowlist Categories (`SOURCE_ARCHITECTURE.md` §9)**:
   - `EDIT_EXISTING`: Specific existing files that may be modified.
   - `CREATE_WITHIN`: Specific feature/catalog/rule directories where new files may be created (`packages/game-data/src/catalogs/**`, `packages/game-data/src/rules/**`, `apps/server/src/features/<domain>/**`, `apps/client/src/features/<domain>/**`, etc.).
   - `PROTECTED`: Paths that must never be touched (`40` frozen TD specs, `assets/manifest.json` and `assets/provenance.json` unless art-scoped, `packages/art-tools/build_assets.py`, live player DBs).
@@ -74,7 +74,7 @@ Use the smallest sufficient verification profile:
 | Changed behavior | Required evidence | Not automatic |
 |---|---|---|
 | Read-only planning/review | Source/Git state and concrete task boundaries | Application tests, build, dev server, DB |
-| Docs/governance/status only | Diff/whitespace, new or changed path/command references, policy/status consistency (`npm run verify:doc-sync`) and protected paths | Game tests/typecheck/build/assets/E2E; new tests that mirror Markdown wording |
+| Docs/governance/status only | Diff/whitespace, new or changed path/command references, mechanical freeze/file/Atlas syntax check (`npm run verify:doc-sync`), scoped semantic status self-review, and protected paths | Game tests/typecheck/build/assets/E2E; new tests that mirror Markdown wording |
 | Test/harness only | Changed tests and relevant type checks; meaningful negative cases for changed harness behavior | Unrelated application build or full E2E |
 | Independent tooling/scripts | Syntax and focused disposable fixtures for changed behavior, including relevant path/error/destructive-operation boundaries | Unrelated game suite/build/assets |
 | Pure contracts/numeric logic | Affected unit/contract tests, typecheck, consumer/build check when exports change; seeded simulation only when it exercises the new model | Browser E2E before runtime integration; treating the legacy simulator as evidence for formulas it never calls |
@@ -104,7 +104,7 @@ Keep DOC SYNC inside the task:
   - `docs/MASTER_PROJECT_PLAN.md`
   - `docs/ROADMAP.md`
 - **Fail-Closed `DOC_SYNC_BLOCKED` Rule**: If a task changes milestone status (`PROPOSED NEXT` / `NOT IMPLEMENTED` → `IMPLEMENTED` / `COMMITTED` / `ACCEPTED`) and the task card's `DOC_SYNC` allowlist omits `docs/MASTER_PROJECT_PLAN.md` or `docs/ROADMAP.md`, Argon must report `DOC_SYNC_BLOCKED` rather than leaving contradictory status documents or silently editing outside the allowlist.
-- Run `npm run verify:doc-sync` before closeout whenever status, ledger, plan, roadmap, or Atlas files are updated.
+- Run `npm run verify:doc-sync` before closeout whenever status, ledger, plan, roadmap, or Atlas files are updated, and perform a short scoped self-review of modified status/roadmap claims against `docs/implementation/FEATURE_LEDGER.md`.
 - `SELF_COMMIT` is legitimate for the active task before the new commit exists. Resolve the immediately preceding task's `SELF_COMMIT` from Git during the next authorized doc sync; do not create a commit solely to write its own SHA.
 
 At final scope check, account for all changed/new paths, preserve unrelated work and confirm the forty frozen files are unchanged. Check affected references, not every historical/proposed/example path in the repository. Missing optional bundled-skill references are not global blockers. Never open saved data merely to demonstrate that docs did not change it.
@@ -149,5 +149,5 @@ Because documentation governance alone is not a runtime security barrier, techni
 3. **Pre-Deployment Server Security Gate (`/api/test/advance-clock`)**:
    - In `apps/server/src/index.ts`, `POST /api/test/advance-clock` is currently mounted unconditionally without authentication or an environment guard, allowing callers to advance `getSharedEngine().advanceSimulatedClockMs(deltaMs)`.
    - Before any public or staging deployment, this endpoint MUST be gated behind an explicit test-only flag (`NODE_ENV === "test"` or `ENABLE_TEST_CLOCK_API === "true"`) and covered by automated security regression tests.
-4. **Automated `DOC SYNC` Consistency Verification (`npm run verify:doc-sync`)**:
-   - `scripts/verify-doc-sync.mjs` (`npm run verify:doc-sync`) enforces that the 40 frozen TD files match freeze commit `39c41a6ddb77b93284c56da7ec053f4309ee4943`, that `MASTER_PROJECT_PLAN.md`, `ROADMAP.md`, `PROJECT_STATUS.md`, `NEXT_ACTIONS.md`, `FEATURE_LEDGER.md`, and `docs/tong-mon-8d-project-atlas.html` do not contradict completed milestones (`S1-B1a`..`S1-E`) or leave `S1-F` prematurely marked accepted, and that `docs/tong-mon-8d-project-atlas.html` inline script parses cleanly.
+4. **Mechanical `DOC SYNC` Verification (`npm run verify:doc-sync`)**:
+   - `scripts/verify-doc-sync.mjs` (`npm run verify:doc-sync`) mechanically verifies that the 40 frozen TD files match freeze commit `39c41a6ddb77b93284c56da7ec053f4309ee4943`, that required modular source/archive/locator files exist (and removed root/handoff paths stay absent), and that `docs/tong-mon-8d-project-atlas.html` inline script syntax parses cleanly via `node --check`. Semantic status consistency across active docs remains a scoped agent self-review during each task rather than a regex blacklist over historical records.

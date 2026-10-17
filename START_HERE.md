@@ -1,33 +1,30 @@
-# Tông Môn 8D — Historical Starter Kit & Active Workspace Entrypoint
+# Tông Môn 8D — Active Workspace Startup & Session Entrypoint
 
-> **HISTORICAL BOOTSTRAP NOTICE (DO NOT RE-CREATE THE REPOSITORY):**
-> This file originally accompanied the starter kit before the `tong-mon-8d` repository was created. **Do NOT create a new empty repository or re-run the initial bootstrap instructions below.**
->
-> **For the active existing repository:**
-> 1. Read `AGENTS.md` and `RULES.md` for the authoritative Context Hierarchy, Canonical Constraints, and AI Art Production Policy.
-> 2. Read `docs/NEXT_ACTIONS.md`, `docs/implementation/FEATURE_LEDGER.md` and `docs/PROJECT_STATUS.md` for current work and verified implementation. CONTEXT_AUDIT is historical.
-> 3. Read `docs/technical/AGENT_EXECUTION_CONTRACT.md` for scoped autonomy and impact-based checks. Use DEVELOPMENT_SETUP only when setup/runtime work is needed; do not auto-run tests or npm run dev at session startup.
-> 4. Use `docs/CONTEXT_INDEX.md` for relevant specs/skills and `docs/MASTER_PROJECT_PLAN.md` for the S1–S8 milestone map.
+This file is the single concise startup route for `tienDang0805/tong-mon-8d` (a browser 2D top-down pixel-art xianxia RPG for 8–20 friends, built with Phaser 4 / Tiled + Colyseus + PostgreSQL/PGlite). Do not create a new repository or execute historical Phase 0/1 bootstrap instructions.
 
----
+## 1. Session Resume Sequence
 
-## Archived Starter Kit Contents (Historical Reference)
+1. **Verify Git & Working Tree**: Check local `HEAD`, `origin/master`, and `git status --short` in the real repository. Never overwrite local work or player databases (`apps/server/data/pgdata`) with a stale snapshot.
+2. **Load Core Governance & Current Priority**:
+   - [`AGENTS.md`](AGENTS.md) and [`RULES.md`](RULES.md) — Source-of-Truth Hierarchy, Canonical Constraints, and AI Art Production Policy.
+   - [`docs/NEXT_ACTIONS.md`](docs/NEXT_ACTIONS.md) — Active owner priority sequence (`DOC-CLEAN-01 -> VISUAL-01 -> VISUAL-02 -> VISUAL-03 -> S1-F`).
+   - [`docs/technical/AGENT_EXECUTION_CONTRACT.md`](docs/technical/AGENT_EXECUTION_CONTRACT.md) — Planner/executor workflow (`PLAN_ONLY` vs `EXECUTE`), scope-based allowlists, and impact-based verification matrix.
+3. **Route Task Context Selectively**:
+   - [`docs/CONTEXT_INDEX.md`](docs/CONTEXT_INDEX.md) and [`docs/technical/AGENT_SKILL_ROUTER.md`](docs/technical/AGENT_SKILL_ROUTER.md) — Load only the domain specs and skills (`max 3`) needed for the active task.
+   - [`docs/implementation/FEATURE_LEDGER.md`](docs/implementation/FEATURE_LEDGER.md) and [`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md) — Verified commit SHAs, test evidence, and current implementation snapshot.
+   - [`docs/MASTER_PROJECT_PLAN.md`](docs/MASTER_PROJECT_PLAN.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md) — Slice `S1`–`S8` milestone navigation.
+   - [`docs/DEVELOPMENT_SETUP.md`](docs/DEVELOPMENT_SETUP.md) — Consult only when runtime setup, database safety, or isolated E2E execution is required. Do not automatically run full test suites or `npm run dev` on session resume.
 
-- `MASTER_PROMPT.md`: foundational canonical lore, gameplay, architecture, art, and acceptance specifications (note: its `"NEW PROJECT ONLY"` bootstrap execution instructions are archived).
-- `.agents/skills/world-and-map-qa/SKILL.md`: authored quality gate for actual tilemaps and two-way map transitions.
-- `.agents/skills/pixel-art-director/SKILL.md`: original asset quality direction and lore-consistent hero art.
-- `.agents/skills/mmorpg-server-integrity/SKILL.md`: two-browser server truth / reconnect / anti-duplication.
-- `.agents/skills/cultivation-balance/SKILL.md`: gameplay balance and simulation.
-- `.agents/skills/ai-art-production/SKILL.md`: end-to-end generative AI art production and human approval workflow.
-- `EXTERNAL_SKILLS.md`: researched third-party and official skills; install selectively after reviewing source.
+## 2. Active Source & Architecture Locations
 
-## Archived Initial Bootstrap Instructions (Historical — Do Not Execute)
+Route source structure and module boundaries through [`docs/technical/SOURCE_ARCHITECTURE.md`](docs/technical/SOURCE_ARCHITECTURE.md):
 
-1. [Historical] Create a NEW, empty `tong-mon-8d` project/workspace. Do NOT reuse or delete your old project automatically. You may archive it first.
-2. [Historical] Copy the `MASTER_PROMPT.md` and `.agents/skills/` to the workspace root.
-3. [Historical] In Antigravity IDE, confirm workspace skills are recognized (use the active skills/customizations display). The workspace location is `.agents/skills/<skill-name>/SKILL.md` according to official Antigravity docs. Global locations differ between IDE and CLI.
-4. [Historical] Paste the contents of `MASTER_PROMPT.md` into your FIRST agent instruction, or ask the agent to read the local file and execute Phase 0 and Phase 1 only. Do not ask it to implement every late-game feature in the first pass.
-5. [Historical] Ask it for a contact sheet (hero + village) and TWO screenshots (town + forest) **and** an A→B→A portal video/test report BEFORE you authorize later milestones.
-6. [Historical] Once art + maps work, proceed to networking and then combat/Phì Đế food quest.
+- **Shared Protocol & Contracts**: [`packages/shared/src/index.ts`](packages/shared/src/index.ts)
+- **Canonical Game Data & Pure Rules**: [`packages/game-data/src/catalogs/realms.ts`](packages/game-data/src/catalogs/realms.ts), [`packages/game-data/src/catalogs/destinies.ts`](packages/game-data/src/catalogs/destinies.ts), [`packages/game-data/src/rules/characterContracts.ts`](packages/game-data/src/rules/characterContracts.ts), [`packages/game-data/src/td01Numeric.ts`](packages/game-data/src/td01Numeric.ts), and [`packages/game-data/src/index.ts`](packages/game-data/src/index.ts)
+- **Authoritative Server (`Colyseus` + `PGlite`/`pg`)**: [`apps/server/src/index.ts`](apps/server/src/index.ts), [`apps/server/src/zoneRoom.ts`](apps/server/src/zoneRoom.ts), [`apps/server/src/worldEngine.ts`](apps/server/src/worldEngine.ts), [`apps/server/src/db.ts`](apps/server/src/db.ts), [`apps/server/src/characterV02Repository.ts`](apps/server/src/characterV02Repository.ts), [`apps/server/src/characterV02Actions.ts`](apps/server/src/characterV02Actions.ts), [`apps/server/src/guestIdentity.ts`](apps/server/src/guestIdentity.ts), and [`apps/server/src/features/`](apps/server/src/features/)
+- **Browser Client (`Phaser 4` + DOM HUD)**: [`apps/client/src/main.ts`](apps/client/src/main.ts), [`apps/client/src/WorldScene.ts`](apps/client/src/WorldScene.ts), [`apps/client/src/characterCreation.ts`](apps/client/src/characterCreation.ts), [`apps/client/src/hud.ts`](apps/client/src/hud.ts), [`apps/client/src/features/character/CharacterPanel.ts`](apps/client/src/features/character/CharacterPanel.ts), [`apps/client/src/network.ts`](apps/client/src/network.ts), [`apps/client/src/audio.ts`](apps/client/src/audio.ts), and [`apps/client/src/style.css`](apps/client/src/style.css)
+- **Runtime Maps & Asset Manifest**: `maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`, `assets/manifest.json`, `assets/provenance.json`, and validator [`packages/art-tools/verify_manifest.ts`](packages/art-tools/verify_manifest.ts) (never execute legacy whole-command `packages/art-tools/build_assets.py` or `npm run generate:art*`).
 
-Do not install arbitrary GitHub skills or execute their scripts without source review. A skill instructs an agent; it does not grant image generation, license rights or working multiplayer by itself.
+## 3. Historical Archives (Non-Executable Provenance Only)
+
+Unmodified historical bootstrap prompts, Phase 1A audits, initial v0.1 milestone tables, and early skill notes are archived in [`docs/archive/legacy/`](docs/archive/legacy/) (`MASTER_PROMPT.md`, `CONTEXT_AUDIT.md`, `IMPLEMENTATION_STATUS.md`, `EXTERNAL_SKILLS.md`), with short locator stubs at [`MASTER_PROMPT.md`](MASTER_PROMPT.md), [`docs/CONTEXT_AUDIT.md`](docs/CONTEXT_AUDIT.md), and [`docs/IMPLEMENTATION_STATUS.md`](docs/IMPLEMENTATION_STATUS.md).

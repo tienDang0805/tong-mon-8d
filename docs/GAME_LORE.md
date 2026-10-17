@@ -1,6 +1,6 @@
 # Game Lore — Bát Hoang Tu Tiên Giới
 
-> Baseline v0.2 | 2026-10-16 | Canonical identity preserved from `packages/game-data/src/index.ts` and `MASTER_PROMPT.md` (canonical Sections 5–7). New story extensions are labeled.
+> Baseline v0.2 | 2026-10-16 | Canonical identity routed through `docs/DECISIONS.md`, `packages/game-data/src/catalogs/realms.ts`, `packages/game-data/src/catalogs/destinies.ts`, and `packages/game-data/src/index.ts` (historical provenance from canonical Sections 5–7 preserved in `docs/archive/legacy/MASTER_PROMPT.md` via locator `MASTER_PROMPT.md`). New story extensions are labeled.
 
 ## The world and its age
 
@@ -59,9 +59,9 @@ Do not prematurely establish the masked immortal of the Mortal → Luyện Khí 
 
 ## Legendary unique-destiny design
 
-Ten and only ten special `Thần Phẩm` destinies correspond one-to-one with these ten NPCs. `phi_de` → **Vạn Vị Đạo Thai** is approved. Names for the other nine are not yet ratified; the designer's catalog candidates can be developed in a dedicated Destiny spec. Owning one prevents ever obtaining any different Legendary-specific signature, whether Tiên Thiên or Hậu Thiên.
+Ten and only ten special `Thần Phẩm` destinies correspond one-to-one with these ten NPCs. `phi_de` → **Vạn Vị Đạo Thai** is `APPROVED` (`GD-016`). In `S1-E`, the owner additionally authorized `dam_lon_tien_tu` → **Huyễn Ảnh Đạo Thai** (`huyen_anh_dao_thai`) strictly as development-trial content (`narrativeState: "NOT_DESIGNED"`, preserving `dam_lon_tien_tu.realmId = "UNKNOWN"`, not final narrative canon; see `docs/implementation/S1E_STARTER_DESTINY_CATALOG.md`). Final canonical names and narrative arcs for the remaining Legendary signatures are not yet ratified. Owning one prevents ever obtaining any different Legendary-specific signature, whether Tiên Thiên or Hậu Thiên.
 
-Each Legend matters within the Main Story, but each person's six-chapter True Disciple inheritance is a separate, optional quest arc with special conditions and rewards. The old `MASTER_PROMPT.md` six-chapter outlines are *historical candidate material*; preserve interesting story beats, but retrofit the new hard signature eligibility rule and do not force these arcs into Main Quest.
+Each Legend matters within the Main Story, but each person's six-chapter True Disciple inheritance is a separate, optional quest arc with special conditions and rewards. The historical six-chapter outlines preserved in `docs/archive/legacy/MASTER_PROMPT.md` are *historical candidate material*; preserve interesting story beats, but retrofit the new hard signature eligibility rule and do not force these arcs into Main Quest.
 
 ## Antagonist framework (Approved roles, names proposed)
 

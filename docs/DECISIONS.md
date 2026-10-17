@@ -44,7 +44,7 @@ For claims of implementation, read `docs/PROJECT_STATUS.md` and inspect code/tes
 |---|---|---|---|
 | GD-020 | APPROVED | **Phàm Nhân Lv 1–10** then **17 major realms × 20 Character Levels each**: Luyện Khí Lv 11–30 → ... → Thánh Cảnh Lv 331–350. At **Lv 351+** Saint realm continues with no level ceiling, increasing EXP cost. | Character EXP and Tu Vi are independent tracks. |
 | GD-021 | APPROVED | Each actual Character Level increase awards **1 freely allocated base-attribute point**. | Realm-stage progress/breakthrough scales core stats derived from base attributes. |
-| GD-022 | APPROVED | Reaching the realm's Level cap blocks further Level advancement until realm breakthrough; activity may continue. | Overflow EXP handling is UNRESOLVED. |
+| GD-022 | APPROVED | Reaching the realm's Level cap blocks further Level advancement until realm breakthrough; activity may continue. | Under the owner-accepted `TD-01` baseline (`docs/systems/CHARACTER.md`, `docs/technical/TD_FREEZE_APPROVALS.md`), there is **no excessive EXP overflow banking** at a capped non-Saint major realm (`S1` candidate implementation clamps `expTowardNext` to `0` at cap and discards excess EXP; polynomial curve coefficients remain `DESIGN_BASELINE`). |
 | GD-023 | APPROVED | Phàm Nhân → Luyện Khí requires a **Main Quest**: player meets a **masked/unknown immortal**, receives a beginner cultivation method and a breakthrough pill, completes the trial and breaks through. | Immortal identity is **not confirmed**; do not automatically label them Phì Đế. |
 | GD-024 | APPROVED | Six independent mastery paths: **Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu**. Each has **10 Đạo Cảnh** and may progress independent of major cultivation realm. | Luyện Khí achieving top sword mastery is allowed **in principle**, but exceptionally difficult. |
 | GD-025 | APPROVED | Every 3 mastery levels, advancement requires a **path-specific Bí Cảnh trial**: 3→4, 6→7, 9→10. | Trials may be combat or point-and-click. EXP alone cannot bypass. |
@@ -82,11 +82,11 @@ For claims of implementation, read `docs/PROJECT_STATUS.md` and inspect code/tes
 - Preserve all ten canonical NPC IDs and their names/realms from `packages/game-data/src/index.ts`, notably `dam_lon_tien_tu.realmId = "UNKNOWN"` and quadrupedal jade-cyan `chatdvt` as Phì Đế's Saint Beast.
 - Tam Đế: Phì Đế, RMT Đế, Vaal Đế (all Saint realm); RMT economy uses **fictional in-game currency only**, Vaal fate/refinement likewise does not create real-money gambling.
 - New FINAL art must come from genuine generative AI sources, with provenance and **human visual approval**, per `AGENTS.md`, `docs/ART_BIBLE.md` and `.agents/skills/ai-art-production/SKILL.md`.
-- Old `MASTER_PROMPT.md` sections about direct manual-combat-first, only three disciplines, generic True Disciple via reputation and single-equipped-master inheritance are **LEGACY where they contradict GD-002, GD-014, GD-015, GD-024, GD-031, GD-041**. Preserve useful world lore but do not implement superseded gameplay rules.
+- Old `MASTER_PROMPT.md` sections (archived unmodified in `docs/archive/legacy/MASTER_PROMPT.md`, with locator `MASTER_PROMPT.md`) about direct manual-combat-first, only three disciplines, generic True Disciple via reputation and single-equipped-master inheritance are **LEGACY where they contradict GD-002, GD-014, GD-015, GD-024, GD-031, GD-041**. Preserve useful world lore but do not implement superseded gameplay rules.
 
 ## Open design details before implementation
 
-1. Exact EXP/tu vi/Dao mastery curves, minor-stage mapping to 20 Character Levels, level-cap overflow and persistence changes.
+1. Final production tuning of EXP/tu vi/Dao mastery curves and minor-stage mapping to 20 Character Levels (note: no-banking at non-Saint major-realm cap is accepted under `TD-01`, while candidate curve/stat coefficients remain `DESIGN_BASELINE`).
 2. Quantified 6-stat formulas and modifier stack/cap policy; simulation-based monster balance and offline meditation calculations.
 3. Auto-combat targeting/recovery/pathfinding/online presence, ability timing and party/loot attribution.
 4. True Disciple special thresholds (Food Catalog first), quests, signature destiny effects and acquisition paths.

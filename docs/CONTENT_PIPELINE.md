@@ -19,7 +19,7 @@ The owner wants to request “add one NPC/domain/skill/region/quest” in future
 9. **Automated gates**: Select checks by actual content/code/asset impact using AGENT_EXECUTION_CONTRACT Section 3. New player-visible content requires relevant schema/ID, asset and in-game checks; changed reward/condition logic requires its transaction/invariant tests. Use full applicable TD acceptance at slice release. A later docs-only or test-harness-only correction does not rerun the entire content pipeline. Build already includes asset verification; a required unavailable E2E is reported BLOCKED/NOT_RUN rather than silently waived.
 10. **In-game review**: screenshots, animation/GIF at actual gameplay zoom, real in-world usability and multiplayer verification.
 11. **Human creative approval**: Only owner marks artwork `HUMAN_APPROVED`; code pass/manifest pass ≠ approval. Present gaps honestly.
-12. **Release/handoff**: Update referenced specs, content index, changelog/status and evidence (`npm run verify:doc-sync`), then await owner commit/push policy.
+12. **Release/handoff**: Update referenced specs, content index, changelog/status and evidence, run `npm run verify:doc-sync` (which mechanically verifies the 40 frozen TD files against `39c41a6`, required architecture/archive/locator files, removed active paths, and Project Atlas inline `<script>` syntax, while semantic status consistency across docs is verified via scoped agent self-review), and follow the task card's commit/push policy.
 
 ## How different content types flow
 
@@ -37,9 +37,9 @@ The owner wants to request “add one NPC/domain/skill/region/quest” in future
 
 Follow **`docs/technical/SOURCE_ARCHITECTURE.md`**: leaf catalogs under `packages/game-data/src/catalogs/*` (`realms.ts`, `destinies.ts`, and future domain catalogs) and pure rules under `packages/game-data/src/rules/*` (`characterContracts.ts`, etc.) define NPC, item, technique, Dao path, quest, zone, achievements and AI asset refs without circular dependencies, re-exported through `packages/game-data/src/index.ts`. Conditions (`hasDestiny`, `affinityAtLeast`, `hasItem`, `daoAtLeast`, `questCompleted`, etc.) and effects (`grantReward`, `unlockQuest`, `setFlag`) should be data-driven with a small vetted evaluator. Shared IDs are generated/validated centrally. Server domain logic lives under `apps/server/src/features/<domain>/*` (`destiny/DestinyRoller.ts`, `character/CharacterSnapshot.ts`) and client feature panels live under `apps/client/src/features/<domain>/*` (`character/CharacterPanel.ts`). Do not build ten services or a complex ECS before the slice proves need.
 
-## AI-art skill integration
+## AI-art skill integration & Slice `S1` visual handoff
 
-Use existing `.agents/skills/ai-art-production/SKILL.md`; do not recreate or overwrite it. Current Phaser/VFX sprite layout comes from `RULES.md` and actual manifest (`80×96` in `480×1920` for upgraded characters, with preserved legacy transition). Existing art remains *technical proof / placeholder* until human approved. The pipeline must not claim an external video route exists unless capability is verified for that actual session.
+Use existing `.agents/skills/ai-art-production/SKILL.md` and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`; do not recreate or overwrite them. Current Phaser/VFX sprite layout comes from `RULES.md` Rule 5 and `assets/manifest.json` (`80×96` in `480×1920` for upgraded characters, with preserved `48×64` in `288×1024` legacy compatibility). Existing art remains `TECHNICALLY_VERIFIED` / `PLACEHOLDER` until owner-approved through the active Slice `S1` visual sequence (`VISUAL-01` concept direction selection -> `VISUAL-02` scoped `S1` sample assets & continuous animation frames -> `VISUAL-03` Phaser/Tiled integration & measured frame-time/FPS review -> `S1-F` acceptance gate). The pipeline must never invoke `packages/art-tools/build_assets.py` as a whole command or claim an external video/API route exists.
 
 ## Testing tiers
 

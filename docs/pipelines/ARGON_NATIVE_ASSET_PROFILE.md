@@ -1,13 +1,17 @@
 # Argon Native Asset Production Profile — Tông Môn 8D
 
-> Status: `COMMITTED` (`G0`: `39d71c0`; Updated in `CTX-1` at Base Commit `b04ebdc72ffede9edb678008ed30d002c73b5cc6`) | Capability Status: `NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: `COMMITTED` (`G0`: `39d71c0`; Updated in `DOC-CLEAN-01` after `PRE-S1F` `b82e20b148ad08544c3efd1003d1111364a45e51`) | Capability Status: `NATIVE_IMAGE_TOOL_DISCOVERED_AT_G0 — LIVE_VERIFICATION_AT_VISUAL_01` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
-## 1. Capability Status, Style Reference State & Scope
+## 1. Capability Status, Style Reference State & `VISUAL-01..03` Scope
 
-- **Current Verified Capability State**: `NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`
-- During the `G0` audit, the Argon host's built-in `image-generator` subagent (`invoke_subagent` with `TypeName: "image-generator"`) and the local `.venv` Python post-processing environment (`Python 3.12.10`, `Pillow 12.3.0`, `numpy 2.5.4`, `scipy 1.18.1`) were verified as present on disk, while `ffmpeg` and `resvg-py` were confirmed absent.
-- Because `G0` was a read-only governance and routing gate, an end-to-end production asset generation run has **not** been executed in `G0`. The first live end-to-end pipeline proof under this profile will be executed only in a separately approved task.
-- **`Candidate A` Visual Reference Status (`DEC-002` in `AGENTS.md`)**: `Candidate A` (`assets/concepts/candidate_a_classic_xianxia.jpg`) is currently a **`PROPOSED` visual reference** (`PROPOSED` / `TECHNICALLY_VERIFIED`), **not** a fully `HUMAN_APPROVED` style lock. Any initial art production proof must receive explicit owner creative approval (`HUMAN_APPROVED`) before scaling asset production across characters, zones, or catalogs.
+- **Current Verified Capability State**: `NATIVE_IMAGE_TOOL_DISCOVERED_AT_G0 — LIVE_VERIFICATION_AT_VISUAL_01`
+- **Dated `G0` Host Observation (`39d71c0`, 2026-10-16)**: During the `G0` audit, the Argon host's built-in `image-generator` subagent (`invoke_subagent` with `TypeName: "image-generator"`) and the local `.venv` Python post-processing environment (`Python 3.12.10`, `Pillow 12.3.0`, `numpy 2.5.4`, `scipy 1.18.1`) were observed on disk, while `ffmpeg` and `resvg-py` were absent. Those version strings are **dated `G0` audit records**, not a live host capability check during `DOC-CLEAN-01`.
+- **When Live Capability Verification Occurs**: Because `G0` and `DOC-CLEAN-01` are documentation/governance tasks, live end-to-end generator verification is **not** run during cleanup. Live host capability verification happens at the start of **`VISUAL-01`** when the owner dispatches that task.
+- **Historical `Candidate A` Status (`DEC-002` in `AGENTS.md`) vs. New `VISUAL-01` Concepts**: Historical `Candidate A` (`assets/concepts/candidate_a_classic_xianxia.jpg`) is a **`PROPOSED` / `TECHNICALLY_VERIFIED` historical reference**, **not** a `HUMAN_APPROVED` style lock, and historical `Candidate A/B/C` are **not** the three new concept sets for `VISUAL-01`.
+- **Owner-Chosen `S1` Visual Sequence (`VISUAL-01 -> VISUAL-02 -> VISUAL-03 -> S1-F`)**:
+  1. **`VISUAL-01`**: Generate three new coherent visual direction sets under fresh IDs/versions (each covering world view + compact HUD + Character Creation + `[C]` Character/Destiny panel + mobile readability at `390x844`) for owner direction selection.
+  2. **`VISUAL-02`**: Produce a scoped `S1` sample asset pack in the owner-selected direction (hero/appearance in scope, UI panels/buttons, stat/rarity/destiny icons, starter tiles/props, sample NPC/monster/VFX, continuous animation frames, raw AI sources + SHA-256 provenance) for owner sample approval before scaling.
+  3. **`VISUAL-03`**: Integrate the approved `S1` sample assets into Phaser 4 / Tiled (`WorldScene.ts`, `hud.ts`, `CharacterPanel.ts`, Tiled maps), verify real animations, responsive layout, and playfield readability (`>= 75%`), and record measured frame-time/FPS evidence for owner in-game experience sign-off prior to **`S1-F`**.
 
 ---
 
@@ -35,10 +39,11 @@ Because `video2dsprite` and external image-to-video APIs are disabled, Tông Mô
 1. **Stage 1 — Art Brief & Visual Binding Contract (`TD-05`)**:
    - Author the asset brief and `VisualBindingDef` following `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md`, `docs/ART_BIBLE.md`, and `docs/CHARACTER_VISUAL_BIBLE.md`.
    - Record initial creative status as `PROPOSED`.
-2. **Stage 2 — Master Still Generation (Identity & Palette Anchor)**:
-   - Invoke the Argon native `image-generator` subagent to produce or refine the character/creature/object master reference still aligned with the `Candidate A` xianxia pixel-art reference direction (`PROPOSED` visual reference in `DEC-002`; `45°` top-left warm sunlight, crisp dark-umbral/indigo-charcoal pixel outlines, high-contrast solid chroma/ownership backing).
+2. **Stage 2 — Concept Set (`VISUAL-01`) & Master Still Generation (`VISUAL-02`)**:
+   - In `VISUAL-01`, invoke the Argon native `image-generator` subagent to produce three coherent visual direction sets under new IDs/versions (distinct from historical `Candidate A/B/C`) for owner selection.
+   - In `VISUAL-02`, generate master reference stills and UI/world sample assets aligned with the owner-selected `VISUAL-01` direction (`45°` top-left lighting, crisp pixel outlines, high-contrast solid chroma/ownership backing).
 3. **Stage 3 — Native Directional Pose Sheets & Creature-Specific Geometry**:
-   - Generate multi-pose directional locomotion (`down`, `left`, `right`, `up`) and combat/cast/hurt action grids via the native `image-generator` subagent, saving unmodified raw outputs directly under `assets/source_ai/` with recorded SHA-256 checksums.
+   - Generate multi-pose directional locomotion (`down`, `left`, `right`, `up`) and combat/cast/hurt action grids with continuous frame-to-frame motion via the native `image-generator` subagent, saving unmodified raw outputs directly under `assets/source_ai/` with recorded SHA-256 checksums.
    - **Humanoid Standard**: `80x96` logical frame canvas packed into `480x1920` runtime sheets (`6` columns × `20` rows, bottom-center foot anchor `(0.5, 0.9167)` / `(40, 88)`), while preserving legacy `48x64` (`288x1024`, `6` columns × `16` rows, anchor `(0.5, 0.90)` / `(24, 58)`) compatibility (`RULES.md` Rule 5).
    - **Creature-Specific Geometry (`chatdvt` & Non-Humanoid Beasts)**: Creature-specific frame geometry, bounding boxes, and locomotion pose layouts are explicitly permitted where appropriate. In particular, **`chatdvt` (`Linh Thú Thanh Ngọc`) is a jade-cyan quadruped spirit beast** (`AGENTS.md` Section 3, `RULES.md` Rule 2) and MUST be generated and animated with authentic quadruped anatomy and gait—never forced into a humanoid bipedal template.
 4. **Stage 4 — Audited Non-Generative Local Post-Processing & Packaging**:
@@ -48,10 +53,10 @@ Because `video2dsprite` and external image-to-video APIs are disabled, Tông Mô
      - `.agents/skills/pixel-art/scripts/quality_audit.py`, `atlas_pack.py`, `gif_export.py`, `palette_extract.py`, `palette_remap.py`
      - `.agents/skills/generate2dmap/scripts/extract_prop_pack.py`, `extract_terrain_tiles.py`, `map_nav.py`, `compose_layered_preview.py`, `export_tiled.py`
    - Do **not** run `python packages/art-tools/build_assets.py` (with or without `--force`) as a whole command; any reuse of logic from `packages/art-tools/build_assets.py` requires a separately approved command-level audit/refactor that strips all procedural `ImageDraw` generation and full-manifest/map overwrites.
-5. **Stage 5 — In-World Phaser 4 / Tiled Integration & Two-Tier Approval Gate**:
-   - Wire runtime sheets/tilesets into `apps/client/src/WorldScene.ts`, `apps/client/src/hud.ts`, and `maps/tan_thu_thon.tmj` / `maps/thanh_truc_lam.tmj`.
-   - Validate technical integrity with `npm run verify:assets` (`packages/art-tools/verify_manifest.ts`), `.agents/skills/pixel-art/scripts/quality_audit.py`, and Playwright in-world captures (`tests/e2e/runPlaytest.ts` at `1280x720` desktop and `390x844` mobile in `artifacts/playtest/runs/<run-id>/`).
-   - Passing automated checks confers **`TECHNICALLY_VERIFIED`** status only (`AGENTS.md` Section 5, `RULES.md` Rule 6). Promotion to **`HUMAN_APPROVED`** requires explicit sign-off by the human project owner after reviewing actual gameplay captures, and the first art production proof must receive owner creative approval before scaling production.
+5. **Stage 5 — In-World Phaser 4 / Tiled Integration (`VISUAL-03`) & Two-Tier Approval Gate**:
+   - Wire runtime sheets/tilesets/UI surfaces into `apps/client/src/WorldScene.ts`, `apps/client/src/hud.ts`, `apps/client/src/features/character/CharacterPanel.ts`, and `maps/tan_thu_thon.tmj` / `maps/thanh_truc_lam.tmj`.
+   - Validate technical integrity with `npm run verify:assets` (`packages/art-tools/verify_manifest.ts`), `.agents/skills/pixel-art/scripts/quality_audit.py`, and Playwright in-world captures (`tests/e2e/runPlaytest.ts` at `1280x720` desktop and `390x844` mobile in `artifacts/playtest/runs/<run-id>/`), recording measured frame-time/FPS on the tested scene/device.
+   - Passing automated checks confers **`TECHNICALLY_VERIFIED`** status only (`AGENTS.md` Section 5, `RULES.md` Rule 6). Promotion to **`HUMAN_APPROVED`** requires explicit sign-off by the human project owner after reviewing actual gameplay captures in `AGENTS.md` Section 5 and `docs/ART_BIBLE.md` (without mutating frozen `TD_FREEZE_APPROVALS.md`).
 
 ---
 

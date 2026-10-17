@@ -1,8 +1,8 @@
 # Tông Môn 8D — Source Architecture (Owner-Approved Direction)
 
-> **Trạng thái:** OWNER-APPROVED ARCHITECTURE DIRECTION — 2026-10-17; implementation pending Argon PRE-S1F task. Future gameplay examples are EXTENSION POINTS, not approved features.
-> **Cơ sở audit:** `master@a3de0549350e003019d17cef47833a8aa2943b38` (`S1-E`), đối chiếu `AGENTS.md`, `RULES.md`, `docs/DECISIONS.md`, TD-01…TD-05, `docs/CONTENT_PIPELINE.md`, game/UX/visual docs và workspace skills.
-> **Phạm vi duyệt:** Chủ dự án đã duyệt hướng *modular source architecture*, *scope-based allowlist*, *refactor Character có chọn lọc*, *đồng bộ status docs*. **Bản thiết kế chi tiết này là đề xuất**, không tự ủy quyền thực thi các hệ thống hậu MVP, không chỉnh 40 frozen TD Markdown, không thay đổi gameplay canon.
+> **Trạng thái:** OWNER-APPROVED ARCHITECTURE DIRECTION — Selective `PRE-S1F` modularization committed at `b82e20b148ad08544c3efd1003d1111364a45e51` (`b82e20b`). Unbuilt target directories and post-MVP gameplay examples remain `TARGET / EXTENSION POINTS`, not implemented features.
+> **Cơ sở audit:** `master@a3de0549350e003019d17cef47833a8aa2943b38` (`S1-E`) và refactor chọn lọc `PRE-S1F` tại `b82e20b148ad08544c3efd1003d1111364a45e51` (`b82e20b`), đối chiếu `AGENTS.md`, `RULES.md`, `docs/DECISIONS.md`, TD-01…TD-05, `docs/CONTENT_PIPELINE.md`, game/UX/visual docs và workspace skills.
+> **Phạm vi duyệt:** Chủ dự án đã duyệt hướng *modular source architecture*, *scope-based allowlist*, *refactor Character có chọn lọc* (`b82e20b`), và *đồng bộ status docs* (`DOC-CLEAN-01`). **Bản kiến trúc mục tiêu này không tự ủy quyền thực thi các hệ thống hậu MVP**, không chỉnh 40 frozen TD Markdown, không thay đổi gameplay canon.
 
 ## 1. Mục tiêu và các bất biến
 
@@ -213,7 +213,7 @@ tests/
 | Server `infrastructure/` | Driver, auth, clock, persistence, request ledger | Chứa game-design constants, gameplay quyết định |
 | `content/` | Declarative definitions từ registry/contracts | Dynamic `eval`, executable JS untrusted, mutate state hoặc trực tiếp gửi SQL |
 
-**Không tạo import vòng:** Hiện `td01Numeric.ts` import helper từ `./index.js` và `index.ts` re-export lại từ `td01Numeric.ts`. Khi tách, chuyển shared pure validations sang leaf modules, dùng `index.ts` chỉ để re-export; cấm nội bộ import barrel của chính package. Nên có import-cycle check trong CI sau khi tách.
+**Không tạo import vòng:** Ở `PRE-S1F` (`b82e20b`), import vòng trực tiếp `td01Numeric.ts ↔ index.ts` đã được gỡ bỏ: `packages/game-data/src/td01Numeric.ts` hiện import trực tiếp từ `./catalogs/destinies.js` và `./rules/characterContracts.js`, còn `packages/game-data/src/index.ts` re-export các leaf modules đó. Quy tắc bắt buộc cho các module tiếp theo: chuyển shared pure validations sang leaf modules, cấm nội bộ import barrel `index.ts` của chính package. Kiểm tra import-cycle tự động trong CI vẫn là mục tiêu tương lai.
 
 **Giữ một nguồn sự thật:** Shared contracts là API, server data source là sự thật runtime, content catalog là source of authored facts, TD specs là luật thiết kế. Không lưu thêm derived attack trong save nếu có thể tính từ nguồn stat/equipment/buff; không nhân đôi Quest FSM vào content pack hoặc Auto Farm.
 
@@ -273,18 +273,20 @@ Tạo feature module mới `features/<capability>` chỉ sau khi owner duyệt c
 
 **Production art:** nguồn genuinely generated/approved, raw source + SHA, deterministic slicing/post-process, asset manifest/visual binding QA, human gameplay-zoom approval; không chạy `build_assets.py` toàn phần hay code-painted art khi chưa có cho phép.
 
-## 8. Code organization migration từ S1-E — không big-bang
+## 8. Trạng thái modularization thực tế tại `b82e20b` (`PRE-S1F`) vs. Retained Compatibility vs. Target-Only
 
-**Ưu tiên P0/P1 sau S1-E, trước nghiệm thu S1-F:**
-1. Tách `packages/game-data/src/index.ts` thành leaf `catalogs/destinies.ts`, `catalogs/realms.ts`, common validators/helper; `index.ts` chỉ re-export. Sửa import vòng `td01Numeric.ts` ↔ barrel. Test output/IDs unchanged.
-2. Tách `apps/server/src/characterV02Actions.ts` theo trách nhiệm: `DestinyRoller` (pure RNG), `CharacterSnapshot`, `CharacterService`; giữ transaction/idempotency behavior, S1-E contract, nonce và concurrency. Bảo toàn API qua adapter/re-export trong giai đoạn chuyển.
-3. Tách Character UI hiện ở `hud.ts` sang CharacterPanel; giữ `HudOverlayController` làm thin composition. CharacterCreation overlay đã tách ở S1-E — tận dụng, không rewrite.
-4. Tách persistence validation/row hydration của `characterV02Repository.ts` khi có benefit rõ; **KHÔNG** động transaction driver `db.ts` hoặc tái cấu trúc `worldEngine.ts` lớn chỉ vì length trong lượt Character.
-5. Kiểm tra integration `ZoneRoom`/`WorldEngine` Character v0.2 projection: authoritative data không bị đồng bộ ngược vào legacy save; world actions, reconnect, restart, two-browser states và anti-double-grant pass. Không tự thúc S1-F nếu acceptance chưa đủ.
+| Phân loại | Đường dẫn / Thành phần | Trạng thái thực tế trên đĩa (`b82e20b`) |
+|---|---|---|
+| **Implemented at `b82e20b` (`PRE-S1F`)** | `packages/game-data/src/catalogs/realms.ts`, `packages/game-data/src/catalogs/destinies.ts`, `packages/game-data/src/rules/characterContracts.ts` | Đã tách thành leaf modules độc lập; `packages/game-data/src/td01Numeric.ts` import trực tiếp từ `./catalogs/destinies.js` và `./rules/characterContracts.js` (đã loại bỏ import vòng trực tiếp `td01Numeric.ts ↔ index.ts`). |
+| **Implemented at `b82e20b` (`PRE-S1F`)** | `apps/server/src/features/destiny/DestinyRoller.ts`, `apps/server/src/features/character/CharacterSnapshot.ts`, `apps/client/src/features/character/CharacterPanel.ts` | Đã tách `rollInnateDestinyTripleFromCatalog` (+ trọng số `50/30/15/5` & `60/40`), `toCharacterV02Snapshot`, và `renderCharacterPanelModal` (`[C]` modal). |
+| **Retained Compatibility / Mixed Modules (`b82e20b`)** | `packages/game-data/src/index.ts` (`2100 → 885` dòng Git), `apps/server/src/characterV02Actions.ts` (`2037 → 1778` dòng Git), `apps/client/src/hud.ts` (`925 → 660` dòng Git) | `game-data/src/index.ts` re-export các leaf modules nhưng vẫn giữ catalogs/logic `v0.1` (chưa phải pure barrel). `characterV02Actions.ts` re-export `DestinyRoller`/`CharacterSnapshot` và vẫn giữ `CharacterV02ActionService` + transaction/idempotency flow (`1778` dòng; báo cáo trước ghi `~627` dòng là sai — **không** mở thêm đợt refactor chỉ để ép giảm LOC). `hud.ts` uỷ quyền `[C]` modal sang `CharacterPanel.ts` và giữ phần HUD còn lại (`660` dòng). |
+| **Retained Runtime Foundations** | `apps/server/src/characterV02Repository.ts` (`1346` dòng), `apps/server/src/db.ts`, `apps/server/src/worldEngine.ts`, `apps/server/src/zoneRoom.ts` | Giữ nguyên ổn định cho `S1`; không tách `db.ts` hay rewrite `worldEngine.ts` big-bang trước visual/`S1-F`. |
+| **Target-Only / Chưa triển khai** | `CharacterService.ts`, `CharacterValidation.ts`, `DestinyOwnership.ts`, `infrastructure/database/*`, `runtime/world/*`, `packages/game-data/src/content/*`, `registry/*`, `.github/workflows` CI, đo tải/FPS | Chỉ là hướng kiến trúc mục tiêu khi triển khai các slice tương ứng (`S2`–`S8`) hoặc khi được giao task riêng; **chưa tồn tại** tại `b82e20b`. |
 
-**S2–S6:** mỗi slice tạo feature domain module ngay lúc implement, rồi dời phần đang ở `worldEngine.ts` sang sở hữu mới *theo mỗi behavior*; không có big-bang rewrite. Gắn contract tests trước khi tách. Old paths là compat façade tạm, không tiếp tục tăng vô hạn.
-
-**Quality heuristic:** nếu file ≥500–800 LOC, đánh giá tách theo trách nhiệm; không hard-fail chỉ vì số dòng. Cờ đỏ: SQL trong transport, UI action cộng stats, duplicate reward paths, `if` theo từng quest/NPC trong world engine, circular import, mutable singleton mới, server payload tùy tiện, code ảnh hưởng nhiều TD owners.
+**Quy tắc cho các bước tiếp theo (`VISUAL-01 -> VISUAL-02 -> VISUAL-03 -> S1-F` và `S2`–`S6`):**
+- Không lặp lại việc tách `realms`/`destinies`/`characterContracts`/`DestinyRoller`/`CharacterSnapshot`/`CharacterPanel` đã hoàn tất ở `b82e20b`, và không refactor thêm `characterV02Actions.ts` chỉ để giảm số dòng trước `VISUAL-01`..`S1-F`.
+- Từ `S2`–`S6`, mỗi slice tạo feature domain module ngay lúc implement rồi dời phần tương ứng khỏi `worldEngine.ts` theo từng behavior có contract test; không rewrite big-bang.
+- **Quality heuristic:** nếu file ≥500–800 LOC, đánh giá tách theo trách nhiệm khi chỉnh sửa domain đó; không hard-fail chỉ vì số dòng. Cờ đỏ: SQL trong transport, UI action cộng stats, duplicate reward paths, `if` theo từng quest/NPC trong world engine, circular import, mutable singleton mới, server payload tùy tiện, code ảnh hưởng nhiều TD owners.
 
 ## 9. Scope-Based Allowlist — owner đã duyệt hướng vận hành
 
@@ -334,8 +336,8 @@ TASK:
 **Minimum required sync triggers:**
 - Mỗi task gameplay có checkpoint: FEATURE_LEDGER, PROJECT_STATUS, NEXT_ACTIONS; nếu gate/slice phase thay đổi còn MASTER_PROJECT_PLAN, ROADMAP, Atlas. Với phần kiến trúc/phụ thuộc thay đổi phải xét MASTER_PROJECT_PLAN và CONTEXT_INDEX.
 - Nếu doc **cần** đổi mà không được sửa theo scope → `DOC_SYNC_BLOCKED` nêu rõ path và lý do **trước closeout**, không quietly skip; owner-approved docs scope phải bao gồm đường dẫn đó ở lượt dispatch. Không nên mở quyền `docs/**` vô điều kiện.
-- Commit chưa tồn tại khi đang soạn ledger: `SELF_COMMIT` là hợp lệ *trước push*, nhưng báo cáo sau push phải ghi SHA thực; commit kế tiếp backfill status của commit trước. MASTER_PROJECT_PLAN/ROADMAP nên dùng **phase status** chứ không tự chôn SHA từng subtask vào nhiều chỗ.
-- `doc-sync` verification có thể bắt stale contradictions: nếu ledger S1-E committed nhưng MASTER_PLAN S1-E `NOT IMPLEMENTED`; nếu NEXT_ACTIONS `SELF_COMMIT` nhưng remote đã đi qua commit đó, yêu cầu cảnh báo/tracker. Sau này thêm script `verify:doc-sync` chạy trên GitHub Actions khi được duyệt; không tạo máy sinh cả chục tài liệu bằng AI để chữa symptom.
+- Commit chưa tồn tại khi đang soạn ledger: `SELF_COMMIT` là hợp lệ *trước push*, nhưng báo cáo sau push phải ghi SHA thực; commit kế tiếp có thay đổi thực sự sẽ backfill SHA của commit trước (không tạo commit rỗng chỉ để ghi SHA). MASTER_PROJECT_PLAN/ROADMAP nên dùng **phase status** chứ không tự chôn SHA từng subtask vào nhiều chỗ.
+- `scripts/verify-doc-sync.mjs` (`npm run verify:doc-sync`) thực hiện kiểm tra cơ học: xác minh 40 file Freeze nguyên vẹn so với `39c41a6ddb77b93284c56da7ec053f4309ee4943`, kiểm tra sự tồn tại của các file kiến trúc/archive/locator bắt buộc, và kiểm tra cú pháp inline JavaScript của `docs/tong-mon-8d-project-atlas.html`. Công cụ này **không** phải bộ phân tích ngữ nghĩa toàn văn và không dùng regex blacklist cứng để chặn lịch sử hợp lệ hoặc cấm định dạng `S1-F` tương lai; việc đối chiếu nhất quán trạng thái giữa các tài liệu là bước self-review có phạm vi của agent trong mỗi task.
 - Phân biệt sự thật thời điểm *before commit* và *after remote closeout*, đặc biệt Atlas snapshot.
 
 ## 11. CI/tests, versioning và đặc thù multiplayer RPG
@@ -351,9 +353,9 @@ TASK:
 
 ## 12. Trạng thái duyệt và lộ trình thực hiện
 
-- **Đã được owner duyệt (quy trình):** thiết kế source architecture theo module và chọn lọc Character refactor; scope-based `create_within` và hoàn chỉnh status docs, trước S1-F gate.
-- **Chưa phải scope triển khai:** các hệ farm/housing/pets/events/crafting/leaderboards trong bảng chỉ là extension-point ví dụ; không tạo code/state/database schema cho chúng trong tác vụ tiếp theo.
-- **Bước tiếp:** task sau S1-E cập nhật governance architecture docs và tách Character nhỏ có kiểm soát; đồng bộ MASTER_PROJECT_PLAN/ROADMAP/ledger/status/Atlas; không thay đổi behavior. Sau đó S1-F proof/restart acceptance; từ S2 dùng modules ngay khi code.
+- **Đã hoàn tất tại `b82e20b` (`PRE-S1F`) và `DOC-CLEAN-01`:** tích hợp `SOURCE_ARCHITECTURE.md`, quy tắc scope-based allowlist (§9), tách chọn lọc leaf catalogs/rules (`realms.ts`, `destinies.ts`, `characterContracts.ts`), gỡ import vòng trực tiếp `td01Numeric.ts ↔ index.ts`, tách `DestinyRoller.ts`, `CharacterSnapshot.ts`, `CharacterPanel.ts`, và chuẩn hóa `verify:doc-sync` cơ học + dọn tài liệu lịch sử sang `docs/archive/legacy/*`.
+- **Chưa phải scope triển khai:** các hệ farm/housing/pets/events/crafting/leaderboards trong bảng §6 chỉ là extension-point ví dụ; không tạo code/state/database schema cho chúng khi chưa có task được owner duyệt.
+- **Chuỗi ưu tiên tiếp theo của owner (`docs/NEXT_ACTIONS.md`):** `DOC-CLEAN-01 -> VISUAL-01 (3 bộ concept UI/world đồng bộ để owner chọn) -> VISUAL-02 (bộ asset mẫu + animation thực cho S1 để owner duyệt tích hợp) -> VISUAL-03 (tích hợp Phaser/Tiled + đo nghiệm trải nghiệm/FPS thực tế để owner duyệt) -> S1-F (nghiệm thu đóng S1 với 2 client + file-backed restart)`. Từ `S2` trở đi áp dụng tạo feature modules theo từng slice.
 - **Không yêu cầu đóng băng folder tree:** kế hoạch là quy tắc dependency/ownership và cách mở rộng; cứ mỗi hệ mới được duyệt, bổ sung content pack hoặc feature đúng owner, review trong task đó.
 
 ### Source anchors
@@ -364,4 +366,4 @@ TASK:
 - `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/{WORLD_SCENE_ASSEMBLY,ANIMATION_VFX_FEEDBACK,UX_WORLD_FIRST,AI_ASSET_PRODUCTION}.md`
 - `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md` (A–L)
 - `.agents/skills/{rpg,mmorpg-server-integrity,game-ui-frontend,game-playtest,phaser4-scenes,phaser4-animations,phaser4-tilemaps,world-and-map-qa,ai-art-production,pixel-art-director}/SKILL.md`, routed through `AGENT_SKILL_ROUTER.md`
-- Source code `master@a3de054`: `apps/{server,client}/src`, `packages/{shared,game-data}/src`, `tests/e2e`.
+- Source code `master@b82e20b`: `apps/{server,client}/src`, `packages/{shared,game-data}/src`, `tests/e2e`.

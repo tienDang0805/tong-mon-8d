@@ -15,8 +15,8 @@ The server is authoritative on position, target validity, combat, EXP, inventory
 - Phàm Nhân: **Lv 1–10** (main-story breakthrough at cap).
 - Seventeen major cultivation realms, exactly **20 Character Levels per major realm** (Lv 11–350); Saint Lv **351+** with escalating experience, no new playable major realm.
 - Every **level-up grants exactly one freely allocatable point into a base attribute**. Character EXP is earned via gameplay (primarily valid monster combat and quests); **Tu Vi** is a separate resource for cultivation and breakthrough.
-- Reaching the current realm's Character-Level cap blocks further level ups until breakthrough. It must not disable quests, farming, Dao mastery or inventory actions. Overflow rules to be simulated and approved later.
-- Realm-stage progression (existing code has minor stages) multiplies/scales **base-derived stats**, but must not simply double-count Level power. Exact coefficients and stage-to-Level mapping are pending.
+- Reaching the current realm's Character-Level cap blocks further level ups until breakthrough. It must not disable quests, farming, Dao mastery or inventory actions. Under the owner-accepted `TD-01` baseline (`docs/systems/CHARACTER.md`, `docs/technical/TD_FREEZE_APPROVALS.md`), there is no excessive EXP overflow banking at a capped non-Saint major realm (`S1` candidate runtime clamps `expTowardNext` to `0` at cap and discards excess EXP; numeric curve and stat coefficients remain `DESIGN_BASELINE`).
+- Realm-stage progression (existing code has minor stages) multiplies/scales **base-derived stats**, but must not simply double-count Level power. Candidate coefficients (`DESIGN_BASELINE`) are implemented in `packages/game-data/src/td01Numeric.ts` for `S1`, subject to production balance calibration.
 
 | Realm | Levels | Realm | Levels |
 |---|---:|---|---:|
@@ -77,7 +77,7 @@ Stage 10 yields a remarkable path achievement; **Kiếm Đạo 10 → Kiếm Ti�
 - Many **Hậu Thiên** may be unlocked; exactly **3 active Hậu Thiên slots**. Store `ownedTraitIds` independently of `activeTraitIds`.
 - **One-of-ten Legendary constraint** across *all acquired and innate traits*, enforced transactionally on server, reward engines, account restore and trades. `Vạn Vị Đạo Thai` binds to `phi_de`.
 - Signature ownership satisfies only the *first prerequisite* of a Legendary questline; favor, special trigger, full six-chapter completion required. No bonus can silently grant another signature. Any invalid second-signature grant must be rejected or replaced through an explicitly authored alternate reward.
-- Generic god-tier destinies (combat, defense, cultivation, alchemy, cooking, exploration...) are distinct from ten protected Legendary signatures; exact catalog and effects pending.
+- Generic god-tier destinies (combat, defense, cultivation, alchemy, cooking, exploration...) are distinct from ten protected Legendary signatures; in `S1-E`, the 14 ordinary starter `Tiên Thiên` traits and development-trial `huyen_anh_dao_thai` (`dam_lon_tien_tu`, `realmId = "UNKNOWN"`, `narrativeState: "NOT_DESIGNED"`) were implemented in `packages/game-data/src/catalogs/destinies.ts` with `DESIGN_BASELINE` flat pre-realm attribute bonuses (`docs/implementation/S1E_STARTER_DESTINY_CATALOG.md`), while the remaining 8 Legendary signatures and full `Hậu Thiên` catalog remain unratified.
 
 ## 4. Techniques and combat disciplines
 
@@ -140,6 +140,6 @@ Sample candidate achievements: `Sát Phạt Chi Tâm`, `Bách Chiến Bất Khu�
 
 Affinity rises **chiefly via gifts**; special events and player decisions also contribute. Each NPC has preferences, diminishing/limited repeated gifts (exact threshold DESIGN_BASELINE), and milestone dialogues. Affinity is not sufficient for signature-gated quests. For Phì Đế, ordinary buying/cooking/eating, event participation and relationship are available to all; his exclusive arc requires **Vạn Vị Đạo Thai**, affinity, a special food-related achievement trigger and a full six-chapter questline. The sample “eat 80 dishes” is **not locked** until Food Catalog supports the design.
 
-### Boundary between existing prototype and new design
+### Boundary between implemented `S1` runtime, retained `v0.1` prototype, and unimplemented `S2`–`S8` systems
 
-Current `packages/game-data` and `apps/server` represent an earlier 3-style manual action prototype, legacy Level/realm rules and an old Phì Đế chapter. These are migration targets, not evidence this new blueprint is implemented. Phase 1B.0 is a **docs-only** baseline. Author technical specifications before changing the data model or persistence.
+Through `S1-E` (`a3de054`) and `PRE-S1F` (`b82e20b`), `Character v0.2` foundation and playable creation/HUD (`characters_v02` persistence, server-generated guest credential bootstrap, 16-trait `S1-E` starter Destiny catalog, full-trio CSPRNG rerolls, 6-attribute `+1` point allocation, and `[C]` `CharacterPanel` modal) are implemented in `packages/game-data`, `apps/server`, and `apps/client` alongside retained `v0.1` prototype world/combat/quest systems. Slice `S1` visual upgrades (`VISUAL-01`..`VISUAL-03`), `S1-F` acceptance, and Slices `S2`–`S8` (6 Dao mastery paths, 6-tier `Công pháp`/`Võ kỹ`, `TD-02` combat engine, online Auto Farm, Auto-Navigation, `TD-03` Quest FSM, and `TD-04` authored quests/shops/affinity) remain **not yet implemented**, and all numeric coefficients remain `DESIGN_BASELINE` pending production balance calibration.

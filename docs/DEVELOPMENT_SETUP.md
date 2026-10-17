@@ -85,10 +85,16 @@ Verify `assets/manifest.json`, `assets/provenance.json`, spritesheet dimensions 
 npm run verify:assets
 ```
 
-Verify documentation synchronization, the 40 frozen Technical Design Freeze v1.0 files (`39c41a6`), milestone status consistency across active status/plan/ledger docs, and `docs/tong-mon-8d-project-atlas.html` inline script syntax:
+Verify the 40 frozen Technical Design Freeze v1.0 files (`39c41a6ddb77b93284c56da7ec053f4309ee4943`), required modular/archive/locator files and removed active paths, and `docs/tong-mon-8d-project-atlas.html` inline `<script>` syntax (note: this command is a mechanical file/freeze/syntax check and does not prove semantic status consistency across docs, which requires scoped agent self-review):
 
 ```bash
 npm run verify:doc-sync
+```
+
+Run the standalone disposable fixture tests for the doc-sync utility:
+
+```bash
+node scripts/tests/verify-doc-sync.test.mjs
 ```
 
 Run the current Vitest suite (the executable output, not a hard-coded historical count, determines the current total):
