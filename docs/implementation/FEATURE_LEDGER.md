@@ -1,6 +1,6 @@
 # Tông Môn 8D — Implementation & Verification Feature Ledger
 
-> Status: Active Engineering Ledger (`S1-B2` `COMMITTED` at `0543b71`; `GOV-REPORT` Synchronized) | Base Commit: `0543b7157264ce672d2582d0bfa0a071ba855a42` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: Active Engineering Ledger (`S1-B2` `COMMITTED` at `0543b71`; `GOV-REPORT` `COMMITTED` at `f06c510`; `GOV-REPORT-H1` Synchronized) | Base Commit: `f06c510d43049104d8feb76d4dcf4890ea0eea6c` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Ledger Governance Rules
 
@@ -9,7 +9,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 1. **Evidence-Grounded Entries Only**: Every entry must cite real repository paths, actual verification commands/outputs, and verified Git commit SHAs on `origin/master`.
 2. **Design vs. Implementation Separation**: Never record a gameplay system as implemented when only specifications, read-only plans, or pure TypeScript contract/validator subsets exist.
 3. **Commit SHA Closeout Rule (`docs/technical/AGENT_EXECUTION_CONTRACT.md`)**:
-   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`).
+   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`).
    - Because a commit cannot contain its own future SHA, the active task being committed records `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` and `Status: VERIFIED_READY_FOR_COMMIT`, which is then backfilled with the exact SHA during the next authorized `DOC SYNC`.
 
 ---
@@ -26,7 +26,8 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 | `CTX-1` | Documentation reconciliation, `DOC SYNC` gate, Feature Ledger & Master Project Plan | `COMMITTED` | `0e9cc8d58618021a4c723efbc5fbc1860386b67c` (`0e9cc8d`) |
 | `S1-B1b` | Proposed next pure numeric/formula task (`TD-01` candidate curves/weights if authorized) | `PROPOSED NEXT PURE NUMERIC TASK, NOT IMPLEMENTED` | `NONE` |
 | `S1-B2` | Database transaction infrastructure & atomic unit-of-work helpers | `COMMITTED` | `0543b7157264ce672d2582d0bfa0a071ba855a42` (`0543b71`) |
-| `GOV-REPORT` | Persistent Antigravity review-handoff rule & reusable review packet exporter | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `0543b71`) |
+| `GOV-REPORT` | Persistent Antigravity review-handoff rule & reusable review packet exporter | `COMMITTED` | `f06c510d43049104d8feb76d4dcf4890ea0eea6c` (`f06c510`) |
+| `GOV-REPORT-H1` | Review packet exporter hardening (untracked detection, path/reparse safety, clean `CLOSEOUT`) | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `f06c510`) |
 | `S1-C` | PostgreSQL `v0.1 -> v0.2` schema, approved offline backup/restore preflight & migration | `SCHEMA / BACKUP / MIGRATION, NOT IMPLEMENTED` | `NONE` |
 | `S1-D` | Authoritative Colyseus server actions (creation/reroll/confirm/allocate) | `AUTHORITATIVE SERVER ACTIONS, NOT IMPLEMENTED` | `NONE` |
 | `S1-E` | Playfield-first client/HUD Character v0.2 & Destiny UI integration (`TD-05`) | `CLIENT/HUD, NOT IMPLEMENTED` | `NONE` |
@@ -166,10 +167,32 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
   - Synchronized `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/implementation/FEATURE_LEDGER.md`, and `docs/PROJECT_STATUS.md` (including backfilling `S1-B2`'s verified remote commit SHA `0543b71`).
 - **Changed Files & Verified Commit SHA**:
   - Base Commit: `0543b7157264ce672d2582d0bfa0a071ba855a42` (`0543b71`)
-  - Commit SHA: `SELF_COMMIT` (local/uncommitted; reported at `REMOTE CLOSEOUT` after owner approval and push)
+  - Commit: `f06c510d43049104d8feb76d4dcf4890ea0eea6c` (`f06c510`, `chore(gov-report): add concise review handoff rule and review packet exporter`)
   - Files: `.agents/rules/review-handoff.md`, `scripts/export-review-packet.ps1`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/PROJECT_STATUS.md`
 - **Tests & Verification Evidence**:
   - Positive & negative smoke tests of `scripts/export-review-packet.ps1` (valid ZIP creation, real UTF-8 Git patch + Vietnamese character preservation, explicitly selected new files, matching per-entry SHA-256 verification against `<TASK_ID>_manifest.json`, `PLAN`-mode validation, and fail-closed rejection of nonexistent files, invalid task IDs, `.env`, `pgdata`, `node_modules`, `.git`, and in-repo output directories while leaving Git index/working tree untouched); `git diff --check` (exit `0`), `npm run verify:assets` (exit `0`), `npm test` (`23/23` pass, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (exit `0`).
 - **Known Limitations & Deferred Scope**:
-  - Local/uncommitted governance and review-packaging tooling only; does not implement `S1-B1b` or `S1-C` gameplay/database changes.
-- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (local/uncommitted `SELF_COMMIT` at Base `0543b71`) → Owner review and commit/push approval.
+  - Governance and review-packaging tooling only; three P2 exporter limitations hardened in `GOV-REPORT-H1` (§3.8).
+- **Current Status & Next Dependency**: `COMMITTED` (`f06c510`) → `GOV-REPORT-H1`.
+
+---
+
+### 3.8 `GOV-REPORT-H1` — Review Packet Exporter Hardening (`FIX 1`, `FIX 2`, `FIX 3`)
+- **Associated Slice**: `GOV-REPORT-H1` (Targeted Exporter Hardening & Disposable Fixture Test Suite)
+- **Design & Technical References**: `AGENTS.md`, `RULES.md` (Rule 1), `.agents/rules/review-handoff.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`
+- **Actual Implementation Scope**:
+  - **FIX 1 (`MISSING_UNTRACKED_TASK_FILE` & `-TaskAllowlist`)**: Added Git status cross-checking (`git status --porcelain=v1 -uall`) and `-TaskAllowlist` validation in `scripts/export-review-packet.ps1` so any `??` untracked file in the working tree or `-TaskAllowlist` omitted from `-NewFiles` fails closed with `MISSING_UNTRACKED_TASK_FILE`, unapproved changed files fail closed with `UNAPPROVED_TASK_FILE`, and unrelated untracked files are never silently packaged.
+  - **FIX 2 (Canonical Path Boundaries, Reparse-Point Chain Guards & Scoped `-AdditionalFiles`)**: Added `Assert-NoReparsePointChain` (walking ancestor chains to reject symlinks, junctions, and reparse points across inputs, repo paths, and output directories), `Resolve-ApprovedExistingFile` (disallowing arbitrary external `-AdditionalFiles` and `-EvidenceFile`/`-PlanFile` paths outside canonical repository and trusted temporary/artifact evidence roots), `Assert-SafeArchiveEntryPath` (preventing ZIP entry traversal and collisions), duplicate input/leaf-name rejection (`DUPLICATE_INPUT_FILE`, `DUPLICATE_ADDITIONAL_FILE`), and explicit `contentSafetyDisclaimer` metadata noting that path validation does not guarantee arbitrary file contents are free of secrets.
+  - **FIX 3 (Clean `CLOSEOUT` Packet Mode)**: Added `-Stage CLOSEOUT` support on a clean working tree (`-CloseoutCommit`, `-RemoteName`, `-RemoteBranch`, `-ExpectedRemoteSha`), generating `<TASK_ID>_tracked_diff.patch` and changed-file lists from the commit against its verified first parent, verifying remote SHA via read-only `git ls-remote` (and local tracking ref when present) without pushing or mutating history, recording `localCommitSha`, `parentSha`, and `verifiedRemoteSha` in `<TASK_ID>_manifest.json`, and failing closed on dirty trees or remote SHA mismatches.
+  - Created `scripts/tests/export-review-packet.test.ps1` (`17` disposable-fixture positive and negative test cases outside the live repository).
+  - Updated `.agents/rules/review-handoff.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, and `docs/implementation/FEATURE_LEDGER.md` (including backfilling `GOV-REPORT` commit `f06c510`).
+- **Changed Files & Verified Commit SHA**:
+  - Base Commit: `f06c510d43049104d8feb76d4dcf4890ea0eea6c` (`f06c510`)
+  - Commit SHA: `SELF_COMMIT` (local/uncommitted; reported at `REMOTE CLOSEOUT` after owner approval and push)
+  - Files: `scripts/export-review-packet.ps1`, `scripts/tests/export-review-packet.test.ps1`, `.agents/rules/review-handoff.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/implementation/FEATURE_LEDGER.md`
+- **Tests & Verification Evidence**:
+  - `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/tests/export-review-packet.test.ps1` (`17/17` disposable-fixture tests `ALL_PASSED`, exit `0`), `git diff --check` (exit `0`), `npm run verify:assets` (exit `0`), `npm test` (`3` suites, `23/23` tests passing, exit `0`), `npm run typecheck` (exit `0`), `npm run build` (exit `0`), `LIVE_PG_INTEGRATION: NOT_RUN`.
+- **Known Limitations & Deferred Scope (`DOC_SYNC_DEFERRED`)**:
+  - **`DOC_SYNC_DEFERRED`**: `docs/PROJECT_STATUS.md` is outside the `GOV-REPORT-H1` Documentation Allowlist; backfilling `GOV-REPORT` (`f06c510`) and recording `GOV-REPORT-H1` in `docs/PROJECT_STATUS.md` is deferred to the next task or `CTX-*` checkpoint where `docs/PROJECT_STATUS.md` is authorized.
+  - Path, root, and reparse-point validation does not guarantee arbitrary file contents are free of secrets. Does not implement `S1-B1b` or `S1-C` gameplay/database changes.
+- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (local/uncommitted `SELF_COMMIT` at Base `f06c510`) → Owner review and commit/push approval.

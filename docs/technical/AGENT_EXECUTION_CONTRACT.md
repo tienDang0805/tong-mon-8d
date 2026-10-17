@@ -1,6 +1,6 @@
 # Agent Execution Contract — Tông Môn 8D: Tu Tiên Chi Lộ
 
-> Status: `COMMITTED` (`G0`: `39d71c0`; `CTX-1`: `0e9cc8d`; `S1-B2`: `0543b71`) — Updated in `GOV-REPORT` (`VERIFIED_READY_FOR_COMMIT` at Base Commit `0543b7157264ce672d2582d0bfa0a071ba855a42`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: `COMMITTED` (`G0`: `39d71c0`; `CTX-1`: `0e9cc8d`; `S1-B2`: `0543b71`; `GOV-REPORT`: `f06c510`) — Updated in `GOV-REPORT-H1` (`VERIFIED_READY_FOR_COMMIT` at Base Commit `f06c510d43049104d8feb76d4dcf4890ea0eea6c`) | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Authority Position
 
@@ -110,7 +110,7 @@ Before presenting the final deliverable for owner review, verify and report:
 3. No stale milestone statuses, invalid asset paths (such as non-existent `Candidate A` paths), or false implementation claims exist across updated documentation.
 
 ### Stage 7 — `OWNER APPROVAL` (Pre-Commit Sign-Off & Review Packet Handoff Gate)
-1. In accordance with `.agents/rules/review-handoff.md`, never dump full source files, long code diffs, or raw command logs into chat. Instead, run `scripts/export-review-packet.ps1` to generate `<TASK_ID>_REVIEW_PACKET.zip` under the system temporary directory outside the Git working tree (containing `<TASK_ID>_tracked_diff.patch`, explicitly selected new/untracked files, `<TASK_ID>_verification_evidence.md` or `<TASK_ID>_plan.md`, and `<TASK_ID>_manifest.json` with verified per-file SHA-256 hashes).
+1. In accordance with `.agents/rules/review-handoff.md`, never dump full source files, long code diffs, or raw command logs into chat. Instead, run `scripts/export-review-packet.ps1` to generate `<TASK_ID>_REVIEW_PACKET.zip` under the system temporary directory outside the Git working tree (containing `<TASK_ID>_tracked_diff.patch`, explicitly selected new/untracked files validated against `git status --porcelain=v1 -uall` and `-TaskAllowlist` so no untracked task file is omitted, canonical root and reparse-point/junction checks across input and output paths, `<TASK_ID>_verification_evidence.md` or `<TASK_ID>_plan.md`, and `<TASK_ID>_manifest.json` with verified per-file SHA-256 hashes; note that path validation does not guarantee arbitrary file contents are free of secrets).
 2. Present a concise deliverable report in chat stating task status, base/current `HEAD` SHA, modified/created paths, verification exit codes, `DOC SYNC` / `DOC_SYNC_DEFERRED` status, and the exact review packet filename, absolute path, SHA-256 hash, and archived file list for the owner to upload to the independent ChatGPT reviewer.
 3. Stop and wait for explicit project-owner approval before running `git commit`, `git push`, or starting the next task.
 
@@ -123,9 +123,9 @@ Only after explicit owner commit/push approval:
 ### Stage 9 — `REMOTE CLOSEOUT` (Authoritative Commit History & SHA Paradox Resolution)
 1. **Git History Is Authoritative**: The Git repository and verified remote commit history (`origin/master`) are the sole authoritative source of truth for commit state.
 2. **Never Invent or Pre-Claim a Commit's Own Future SHA**:
-   - Because a Git commit cannot contain its own SHA inside its tracked file contents, and a file inside a commit cannot truthfully claim `COMMITTED` before `git commit` and `git push` succeed, any documentation updated *inside* commit `C` records `Status: VERIFIED_READY_FOR_COMMIT` and `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` for the active task, while recording exact immutable SHAs (`6e38c24`, `39d71c0`, `b04ebdc`, etc.) for all prior completed commits.
-3. **Interactive Remote Closeout Certificate (No Infinite Backfill Commits)**:
-   - Immediately after `git push origin master` succeeds, verify `git rev-parse HEAD === git rev-parse origin/master` and `git status --short -uall` is clean, and report the actual new full commit SHA in the conversation response.
+   - Because a Git commit cannot contain its own SHA inside its tracked file contents, and a file inside a commit cannot truthfully claim `COMMITTED` before `git commit` and `git push` succeed, any documentation updated *inside* commit `C` records `Status: VERIFIED_READY_FOR_COMMIT` and `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` for the active task, while recording exact immutable SHAs (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, etc.) for all prior completed commits.
+3. **Interactive Remote Closeout Certificate & Clean `CLOSEOUT` Packet Mode (No Infinite Backfill Commits)**:
+   - Immediately after `git push origin master` succeeds, verify `git rev-parse HEAD === git rev-parse origin/master` and `git status --short -uall` is clean, and report the actual new full commit SHA in the conversation response (when a post-commit `CLOSEOUT` review packet is requested on a clean working tree, `scripts/export-review-packet.ps1 -Stage CLOSEOUT` generates the commit patch against its verified parent SHA and records `localCommitSha`, `parentSha`, and `verifiedRemoteSha` while failing closed on remote SHA mismatch).
    - **Never create a follow-up documentation-only commit solely to backfill the just-pushed SHA.** That SHA is backfilled into `docs/implementation/FEATURE_LEDGER.md` and `docs/PROJECT_STATUS.md` during the next task's authorized `DOC SYNC` or `CTX-*` checkpoint.
 
 ---
