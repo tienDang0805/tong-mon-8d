@@ -46,15 +46,20 @@ async function bootstrapGame(): Promise<void> {
     }
   });
 
-  worldScene.bindSystems(net, soundCtrl, (npc) => {
-    hud?.openNpcDialogue(npc);
-  });
-
   const hudRoot = document.getElementById("hud-overlay");
   if (hudRoot) {
     hud = new HudOverlayController(hudRoot, net, soundCtrl, () => worldScene);
     charCreate = new CharacterCreationOverlayController(hudRoot, net, soundCtrl);
   }
+
+  worldScene.bindSystems(
+    net,
+    soundCtrl,
+    (npc) => {
+      hud?.openNpcDialogue(npc);
+    },
+    () => hud
+  );
 
   await net.connect();
 

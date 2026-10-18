@@ -1,8 +1,8 @@
-# CAMERA AND MINIMAP CONTRACT — Tông Môn 8D (`VISUAL-03-P` R1)
+# CAMERA AND MINIMAP CONTRACT — Tông Môn 8D (`VISUAL-03-P` / `VISUAL-03-W`)
 
 - **Document ID**: `TECH-CAM-MM-01`
-- **Task**: `VISUAL-03-P` (`PLAN_AND_DOCS_ONLY` — Final Corrections Pass)
-- **Status**: `READY_FOR_VISUAL_03_W_AUTHORIZATION` (No runtime source modified)
+- **Task**: `VISUAL-03-W` (`IMPLEMENTED_AWAITING_OWNER_RUNTIME_REVIEW`; baseline accepted at `4679f49`)
+- **Status**: `IMPLEMENTED_IN_VISUAL_03_W` (`CameraView.ts`, `MinimapView.ts`, `WorldScene.ts`, `hud.ts`, `worldEngine.ts`, `zoneRoom.ts`)
 - **Visual Direction**: `V01-B — THIÊN MỆNH TIÊN CUNG` (Three-Tier Grandeur System; `Tân Thủ Thôn` = Tier I Grounded Starter Village)
 - **Governing Contracts**: `AGENTS.md`, `RULES.md` (Rule 1, Rule 3, Rule 4, Rule 5, Rule 6), `docs/ART_BIBLE.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`
 

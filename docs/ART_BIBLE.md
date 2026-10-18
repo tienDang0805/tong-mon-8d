@@ -41,33 +41,33 @@ Before running the `S1-F` Slice `S1` acceptance gate, visual work proceeds throu
 
 | Task | Deliverable for Owner Review | Approval Gate & Scope Boundary |
 |---|---|---|
-| **`VISUAL-01`** | **Three new coherent visual direction sets** under fresh IDs/versions distinct from historical `Candidate A/B/C`. Each set presents a matching world view + compact HUD + Character Creation (`Tiên Thiên` 3-trait roll) + `[C]` Character/Destiny panel in one unified style, including mobile readability (`390x844`) and current runtime geometry. Live host generator capability is verified at `VISUAL-01` start. | **Owner selects the visual direction.** Planner advises; concept mocks do not prove runtime or FPS. |
-| **`VISUAL-02`** | **Scoped `S1` representative sample asset pack** in the owner-selected direction: `S1` hero/appearance assets in scope, UI panels/buttons, stat/rarity/destiny icons, starter tiles/props, sample NPC/monster/VFX needed for the `S1` scene, continuous animation frames, and raw AI sources + SHA-256 provenance. | **Owner approves the sample art and animations** before scaling. Approved-for-integration samples still require in-game review in `VISUAL-03`. |
-| **`VISUAL-03`** | **In-world Phaser 4 / Tiled integration** (`WorldScene.ts`, `hud.ts`, `CharacterPanel.ts`, Tiled maps) with real sprite animations, working Character Creation and `[C]` panel, clean playfield readability (`>= 75%` unobstructed), responsive desktop/mobile focus, and measured animation/frame-time/FPS evidence on the stated scene and device. | **Owner approves the in-game visual experience.** Technical proof and `HUMAN_APPROVED` sign-off remain separate; no unmeasured `60 FPS` claim is made prior to measurement. |
+| **`VISUAL-01`** | **Three new coherent visual direction sets** (`V01-A`, `V01-B`, `V01-C`) under fresh IDs/versions distinct from historical `Candidate A/B/C`. | **Owner selected `V01-B — Thiên Mệnh Tiên Cung`** with Three-Tier Grandeur System (`Tân Thủ Thôn` = Tier I Grounded Starter Village). |
+| **`VISUAL-02`** | **Scoped `S1` Core Asset Kit & `96×72` `Tân Thủ Thôn` Blueprint** (`VISUAL-02A`, `VISUAL-02A-R1-CLOSE`, `VISUAL-02B`, `VISUAL-02B-CORRECTION`), including differentiated `phi_de` (chubby bear-hat saint mascot holding `Đùi Gà Luộc`) and `rmt_de` (`Thần Tài` merchant lord). | **Owner approved the `VISUAL-02B` Core Art Kit** (including corrected `phi_de` and `rmt_de`) for `VISUAL-03` integration. |
+| **`VISUAL-03`** | **Staged Phaser 4 / Tiled Integration (`VISUAL-03-P` → `VISUAL-03-W` → `VISUAL-03-U` → `VISUAL-03-Q`)**: `VISUAL-03-P` (`COMMITTED` at `4679f49`); **`VISUAL-03-W` (`IMPLEMENTED_AWAITING_OWNER_RUNTIME_REVIEW`)** integrates `96×72` `maps/tan_thu_thon.tmj`, `CameraView.ts`, `MinimapView.ts`, 11 `80×96` starter/NPC sprites (`full_80x96_20row`, `locomotion_80x96_8row`, `stationary_npc_80x96_4f`), buildings/props/bridges, and Y-sorted roof/nameplate occlusion; `VISUAL-03-U` (UI/HUD 9-slice & icons) and `VISUAL-03-Q` (FPS/frame-time closeout & `HUMAN_APPROVED` sign-off) follow next. | **Owner runtime review gate after `VISUAL-03-W`**, followed by `VISUAL-03-U` and `VISUAL-03-Q`. |
 | **`S1-F`** | **Slice `S1` (`Character Base`) Acceptance & Closeout Gate**: creation/reroll/confirm concurrency races, replay/idempotency, stat allocation & destiny equip invariants, two-browser multiplayer visibility, reconnect, file-backed isolated PGlite restart persistence, and current `VISUAL-03` visual evidence. | **Owner accepts `S1-F` closeout.** In-memory-only E2E (`memory://`) never substitutes for file-backed restart proof. |
 
 ---
 
-## 4. Verified Runtime Technical Specifications (Dual-Resolution Coexistence — `RULES.md` Rule 5)
+## 4. Verified Runtime Technical Specifications (Multi-Profile Coexistence — `RULES.md` Rule 5)
 
-Current runtime rendering geometry remains binding unless explicitly revised by an owner decision in a visual task:
+Current runtime rendering geometry in `apps/client/src/WorldScene.ts` and `packages/art-tools/verify_manifest.ts` (`48` verified manifest assets, `11` `VISUAL-03-W` character sheets, `2` Tiled maps):
 
-- **Logical World Grid**: `32x32` pixels per tile (`maps/tan_thu_thon.tmj` `40x30` tiles, `maps/thanh_truc_lam.tmj` `44x32` tiles).
-- **Upgraded Phase 0 Multi-Pose Character Sprites (`hero_kiem_tu`, `phi_de`, `dam_lon_tien_tu`)**:
-  - **Logical Frame Size**: `80x96` pixels per frame.
-  - **Runtime Spritesheet**: `480x1920` pixels (`6` columns × `20` rows: 5 animation states [`idle` 4f, `walk` 6f, `attack` 4f, `cast` 4f, `hurt` 4f] × 4 directions [`down`, `left`, `right`, `up`]).
-  - **Shared Foot Anchor**: `(0.5, 0.9167)` (`x = 40, y = 88` in `80x96` frame), rendered at `scale = 0.82` in `apps/client/src/WorldScene.ts`.
-  - **Exported Atlases**: `assets/atlases/<id>_atlas.png` + `assets/atlases/<id>_atlas.json` + per-frame PNGs in `assets/atlases/<id>/frames/`.
-- **Preserved Legacy v1 Character & Creature Sprites (`chatdvt`, `merchant_truong`, `hoa_tran`, `truc_lang`, `thanh_lan_xa`, `rmt_de`, `vaal_de`, `anh_7`, `ngoc_tam`)**:
-  - **Logical Frame Size**: `48x64` pixels per frame (preserved in `assets/sprites/` and backed up in `assets/sprites/legacy_v1/`).
-  - **Runtime Spritesheet**: `288x1024` pixels (`6` columns × `16` rows: 4 animation states [`idle` 4f, `walk` 6f, `attack` 4f, `cast` 4f] × 4 directions [`down`, `left`, `right`, `up`]).
-  - **Shared Foot Anchor**: `(0.5, 0.90)` (`x = 24, y = 58` in `48x64` frame), rendered at `scale = 1.0` in `apps/client/src/WorldScene.ts`.
-  - **Unproduced Character Aliases (`PLACEHOLDER`)**: `thai_tai` currently aliases `hoa_tran` (`spriteKey: "hoa_tran"`, `portraitKey: "portrait_hoa_tran"`) and `gia_bao` currently aliases `hero_kiem_tu` (`spriteKey: "hero_kiem_tu"`, `portraitKey: "portrait_hero_kiem_tu"`) in `packages/game-data/src/index.ts`.
-- **Combat & Environment VFX Sheets**:
-  - `assets/vfx/combat_vfx.png`: `256x256` pixels (`64x64` frame, `4x4` grid from AI source `assets/source_ai/vfx_combat_4x4.png`, `TECHNICALLY_VERIFIED`).
-  - `assets/vfx/portal_ring.png` & `assets/vfx/phi_de_blessing.png`: `256x64` pixels (`64x64` frame, `4x1` strip, `PLACEHOLDER` programmatically drawn art).
-- **Portraits**: `160x160` RGBA PNG with transparent background and nearest-neighbor pixel clusters (`10` portraits currently on disk; `thai_tai` and `gia_bao` dedicated portraits pending).
-- **Renderer Settings**: Phaser `4.2.1` with `pixelArt: true`, `antialias: false`, `roundPixels: true`, and `Phaser.Scale.RESIZE` viewport with integer-friendly camera zoom (`1.5x–2.0x` desktop, `1.25x` mobile).
+- **Logical World Grid**: `32x32` pixels per tile:
+  - `maps/tan_thu_thon.tmj`: **`96x72` tiles (`3072x2304` px)** using `assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png` (`256x192`, 48 tiles of `32x32` px; `5,357` walkable tiles, `1,555` blocked tiles).
+  - `maps/thanh_truc_lam.tmj`: **`44x32` tiles (`1408x1024` px)** using `assets/tilesets/bat_hoang_tileset.png`.
+- **Profile 1 — `full_80x96_20row` (`hero_kiem_tu`)**:
+  - **Runtime Spritesheet**: `480x1920` pixels (`6` columns × `20` rows of `80x96` frames: 5 states [`idle` 4f, `walk` 6f, `attack` 4f, `cast` 4f, `hurt` 4f] × 4 directions [`down`, `left`, `right`, `up`]), foot anchor `(0.5, 0.9167)` (`x = 40, y = 88`), rendered at `scale = 0.82`.
+- **Profile 2 — `locomotion_80x96_8row` (`hoa_tran`, Starter `ngoc_tam`, `anh_7`, Quadruped `chatdvt`)**:
+  - **Runtime Spritesheet**: `480x768` pixels (`6` columns × `8` rows of `80x96` frames: 4-direction `idle` rows `0..3` + 4-direction `walk` rows `4..7`), foot anchor `(0.5, 0.9167)`, rendered at `scale = 0.82`. Non-locomotion states (`attack`/`cast`/`hurt`) deterministically fall back to same-direction `idle_<dir>` (`S3_COMBAT_ACTION_SHEET_DEFERRED`).
+- **Profile 3 — `stationary_npc_80x96_4f` (`phi_de`, `rmt_de`, `merchant_truong`, `dam_lon_tien_tu`, `npc_ngoc_tam`, `thai_tai`)**:
+  - **Runtime Spritesheet**: `320x96` pixels (`4` columns × `1` row of `80x96` frames: 4-frame `idle_down` strip), foot anchor `(0.5, 0.9167)`, rendered at `scale = 0.82`. Dedicated `npc_ngoc_tam` (`Xui Xẻo Chân Quân`) and `thai_tai` (`Thái Tài`) sheets eliminate the former `ngoc_tam` starter collision and `hoa_tran` alias while preserving canonical NPC IDs (`"ngoc_tam"`, `"thai_tai"`).
+- **Profile 4 — Preserved `legacy_48x64_16row` (`truc_lang`, `thanh_lan_xa`, `vaal_de`)**:
+  - **Runtime Spritesheet**: `288x1024` pixels (`6` columns × `16` rows of `48x64` frames), foot anchor `(0.5, 0.90)` (`x = 24, y = 58`), rendered at `scale = 1.0`. `gia_bao` in `Thanh Trúc Lâm` retains `spriteKey: "hero_kiem_tu"` until its dedicated sheet is produced.
+- **World Landmarks, Architecture, Props & VFX**:
+  - Grounded Tier I buildings & props in `assets/props/` (`building_tan_thu_tu_duong.png`, `building_tu_bao_cac.png`, `building_hong_tran_cac.png`, `prop_noodle_stall.png`, `prop_than_dinh.png`, `prop_portal_arch.png`, `prop_peach_tree.png`, `prop_bamboo_cluster.png`, `prop_stone_lantern.png`, `prop_arched_bridge.png`, `prop_bridge_horizontal.png`, `prop_village_stele.png`, `prop_spirit_herb.png`, `prop_incense_brazier.png`, `prop_jade_rock.png`, `prop_wooden_fence.png`) with Y-sorted occlusion anchored at each structure's southern blocked footprint base $Y_{\text{base}}$.
+  - VFX sheets in `assets/vfx/`: `combat_vfx.png` (`256x256`), `portal_ring.png` (`256x64`), `phi_de_blessing.png` (`256x64`).
+- **Portraits**: `160x160` RGBA PNGs in `assets/portraits/` (`12` portraits including dedicated `portrait_thai_tai.png`, `portrait_npc_ngoc_tam.png`, and `portrait_ngoc_tam.png`).
+- **Camera & Minimap (`CameraView.ts` & `MinimapView.ts`)**: Phaser `4.2.1` with `pixelArt: true`, `antialias: false`, `roundPixels: true`, `Phaser.Scale.RESIZE`, adaptive camera zoom (`1.0×` at `1280x720`, `1.25×` at `1920x1080`, `1.5×` at `2560x1440`, `2.0833×` at `3840x2160`, `1.0×` at `390x844` mobile) keeping visible world $\le 60\% \times 45\%$ of `Tân Thủ Thôn`, and persistent read-only `MinimapView` in `#hud-minimap-mount`.
 
 ## 5. Reference World Palette (`Candidate A` Baseline — Subject to `VISUAL-01` Direction Selection)
 - **Tân Thủ Thôn (Warm Hearth & Jade Sanctuary)**:

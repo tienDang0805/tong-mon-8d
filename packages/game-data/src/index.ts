@@ -42,8 +42,8 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     spriteKey: "phi_de",
     portraitKey: "portrait_phi_de",
     zoneId: "tan_thu_thon",
-    spawnX: 536,
-    spawnY: 368,
+    spawnX: 1488,
+    spawnY: 1072,
     greetingLinesVi: [
       "Hương vị nhân gian chính là linh cơ chân thật nhất của Đại Đạo.",
       "Đừng tưởng bổn tọa chỉ ngồi thưởng mì nơi Tân Thủ Thôn mà xem nhẹ Ẩm Thực Đại Đạo!",
@@ -64,8 +64,8 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     spriteKey: "rmt_de",
     portraitKey: "portrait_rmt_de",
     zoneId: "tan_thu_thon",
-    spawnX: 816,
-    spawnY: 296,
+    spawnX: 2128,
+    spawnY: 656,
     greetingLinesVi: [
       "Dùng Linh Thạch mua Tiên Lộ không phải là lười biếng, mà là hiểu rõ quy luật vận chuyển của vạn vật!",
       "Nhớ kỹ: ở Bát Hoang này chỉ dùng Linh Thạch kiếm được trong thiên địa, tuyệt đối không có chuyện nạp tiền giả tạo!"
@@ -106,8 +106,8 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     spriteKey: "chatdvt",
     portraitKey: "portrait_chatdvt",
     zoneId: "tan_thu_thon",
-    spawnX: 668,
-    spawnY: 404,
+    spawnX: 1648,
+    spawnY: 1104,
     greetingLinesVi: [
       "Gâu... à nhầm, bổn Thánh Thú là ChatDVT của Phì Đế đại nhân, không phải con chó cảnh đâu nhé!",
       "Nhìn tu vi của ngươi kìa, chưa đánh nổi con Trúc Lang mà đã tính chuyện phi thăng à? Mau kiếm bát Mì Linh Mạch dâng lên Phì Đế đi!"
@@ -127,8 +127,8 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     spriteKey: "dam_lon_tien_tu",
     portraitKey: "portrait_dam_lon_tien_tu",
     zoneId: "tan_thu_thon",
-    spawnX: 256,
-    spawnY: 336,
+    spawnX: 624,
+    spawnY: 720,
     greetingLinesVi: [
       "Hồng trần vạn kiếp, giữ được một niệm chân tâm mới là điều khó nhất.",
       "Đặng Văn Tiến suốt ngày chỉ nhớ chuyện đại yến, nhưng cũng nhờ cái bụng chân thành ấy mà thiếp đồng hành cùng chàng qua bao kỷ nguyên."
@@ -145,11 +145,11 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     daoNameVi: "Nhân Quả Xui Xẻo Đạo",
     isLegendaryTen: true,
     isTamDe: false,
-    spriteKey: "ngoc_tam",
-    portraitKey: "portrait_ngoc_tam",
+    spriteKey: "npc_ngoc_tam",
+    portraitKey: "portrait_npc_ngoc_tam",
     zoneId: "tan_thu_thon",
-    spawnX: 256,
-    spawnY: 640,
+    spawnX: 656,
+    spawnY: 1712,
     greetingLinesVi: [
       "Đứng cách ta ba trượng ra... Hôm nay ta vừa bước chân ra cửa đã bị chim linh thú ỉa trúng đầu.",
       "Đừng nhầm ta với lão Vaal Đế Trần Vũ Hoàng Tâm kia, vận xui của ta là nhân quả định lượng!"
@@ -166,11 +166,11 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     daoNameVi: "Giám Bảo Cổ Khí Đạo",
     isLegendaryTen: true,
     isTamDe: false,
-    spriteKey: "hoa_tran",
-    portraitKey: "portrait_hoa_tran",
+    spriteKey: "thai_tai",
+    portraitKey: "portrait_thai_tai",
     zoneId: "tan_thu_thon",
-    spawnX: 832,
-    spawnY: 608,
+    spawnX: 2384,
+    spawnY: 688,
     greetingLinesVi: [
       "RMT Đế chỉ nhìn giá cả, còn lão phu nhìn thấu linh hồn và lịch sử ẩn trong từng món cổ bảo."
     ],
@@ -250,11 +250,11 @@ export const LEGENDARY_NPCS: LegendaryNpcDefinition[] = [
     spriteKey: "merchant_truong",
     portraitKey: "portrait_merchant_truong",
     zoneId: "tan_thu_thon",
-    spawnX: 384,
-    spawnY: 392,
+    spawnX: 1136,
+    spawnY: 1136,
     greetingLinesVi: [
       "Mì Linh Mạch nóng hổi, Bánh Bao Linh Thú thơm lừng đây! Mua ăn liền cũng đắc đạo, mà mua nguyên liệu về tự nấu bên Thần Đỉnh cũng thành tài!",
-      "Vị tiền bối mặc hắc kim bào ngồi cạnh quán lão phu chính là Phì Đế đại nhân đấy, mau dâng một món ngon để cầu cơ duyên!"
+      "Vị tiền bối mặc cẩm bào gấu tiên ngồi bên Thần Đỉnh chính là Phì Đế đại nhân đấy, mau dâng một món ngon để cầu cơ duyên!"
     ],
     questlineTitleVi: "Ẩm Thực Nhập Môn",
     inheritanceSkillNameVi: "Không"
@@ -602,22 +602,22 @@ export const ZONES_REGISTRY: Record<ZoneId, ZoneDefinition> = {
     nameVi: "Tân Thủ Thôn",
     subtitleVi: "Thôn trang linh khí quy tụ dưới chân Bát Đại Thiên Tông",
     mapFile: "maps/tan_thu_thon.tmj",
-    widthTiles: 40,
-    heightTiles: 30,
+    widthTiles: 96,
+    heightTiles: 72,
     tileSize: 32,
     isSafeZone: true,
-    defaultSpawn: { id: "village_center", x: 640, y: 512 },
+    defaultSpawn: { id: "village_center", x: 1552, y: 1232 },
     spawns: {
-      village_center: { x: 640, y: 512 },
-      from_thanh_truc_lam: { x: 1036, y: 480 }
+      village_center: { x: 1552, y: 1232 },
+      from_thanh_truc_lam: { x: 2608, y: 1200 }
     },
     portals: [
       {
         id: "portal_town_to_forest",
         labelVi: "Truyền Tống Trận → Thanh Trúc Lâm",
         sourceZoneId: "tan_thu_thon",
-        x: 1120,
-        y: 480,
+        x: 2768,
+        y: 1200,
         radiusPx: 92,
         targetZoneId: "thanh_truc_lam",
         targetSpawnId: "from_tan_thu_thon",
@@ -651,8 +651,8 @@ export const ZONES_REGISTRY: Record<ZoneId, ZoneDefinition> = {
         radiusPx: 92,
         targetZoneId: "tan_thu_thon",
         targetSpawnId: "from_thanh_truc_lam",
-        targetX: 1036,
-        targetY: 480
+        targetX: 2608,
+        targetY: 1200
       }
     ],
     monsterSpawns: [

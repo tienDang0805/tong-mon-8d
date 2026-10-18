@@ -14,14 +14,14 @@
       "sourceReferenceImage": "assets/portraits/portrait_hero_kiem_tu.png",
       "sourceAiFiles": [
         {
-          "path": "assets/source_ai/hero_kiem_tu_locomotion_4x4.png",
-          "sha256": "cfb729a74cbc8da9d4f9bae943de6995839aa666a1ae8cecf929006035a8502a",
-          "role": "locomotion_4x4_grid"
+          "path": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png",
+          "sha256": "7908805c5823302bf65cd169f948748bbd47d415e9852fa6b1d83e5824be2a5b",
+          "role": "locomotion_4dir_sheet_v01b"
         },
         {
-          "path": "assets/source_ai/hero_kiem_tu_combat_4x4.png",
-          "sha256": "de619cd8e0008bcd98584c4dd1fe8cb410e76b5401a8f047b094a89760f8cd35",
-          "role": "combat_action_4x4_grid"
+          "path": "assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
+          "sha256": "eb5c41732d263c945eccb8894f2f445880f91235852bcbe39fb695862640e9c3",
+          "role": "combat_cast_hurt_4dir_sheet_v01b"
         }
       ],
       "generatedDirectionalViews": [
@@ -98,14 +98,9 @@
       "sourceReferenceImage": "assets/portraits/portrait_phi_de.png",
       "sourceAiFiles": [
         {
-          "path": "assets/source_ai/phi_de_locomotion_4x4.png",
-          "sha256": "ba5aba339188d94fedcf76b7ea05db537f8babe2a65742d2a0ba0f46896b033c",
-          "role": "locomotion_4x4_grid"
-        },
-        {
-          "path": "assets/source_ai/phi_de_combat_4x4.png",
-          "sha256": "43729065b2e0d046bc8b83cbedbe0940d9fe63acb16ad0b902bf7b49c78275c9",
-          "role": "combat_action_4x4_grid"
+          "path": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
+          "sha256": "5b290074dfd9ef9c05e82e525fa8a483b25e497bfe7a00f2cf328540791a3e28",
+          "role": "stationary_idle_and_portrait_sheet_v01b"
         }
       ],
       "generatedDirectionalViews": [
@@ -182,14 +177,9 @@
       "sourceReferenceImage": "assets/portraits/portrait_dam_lon_tien_tu.png",
       "sourceAiFiles": [
         {
-          "path": "assets/source_ai/dam_lon_tien_tu_locomotion_4x4.png",
-          "sha256": "f8b048b6bd85027d147787f4877684bf1b77409e924fbe18133d4bd470a078fa",
-          "role": "locomotion_4x4_grid"
-        },
-        {
-          "path": "assets/source_ai/dam_lon_tien_tu_combat_4x4.png",
-          "sha256": "f39b31ff9b7333137aacdb4afca16a2a3413a3efc6a74b1ca88246d83d087b40",
-          "role": "combat_action_4x4_grid"
+          "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+          "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+          "role": "tan_thu_thon_npcs_sheet_v01b"
         }
       ],
       "generatedDirectionalViews": [
@@ -300,5 +290,112 @@
         }
       }
     }
-  ]
+  ],
+  "visual03wPromotedAssets": {
+    "stage": "VISUAL-03-W",
+    "direction": "V01-B — THIÊN MỆNH TIÊN CUNG",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "characters": {
+      "hero_kiem_tu": {
+        "sourceLocomotionGrid": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png",
+        "sourceLocomotionSha256": "7908805c5823302bf65cd169f948748bbd47d415e9852fa6b1d83e5824be2a5b",
+        "sourceCombatGrid": "assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
+        "sourceCombatSha256": "eb5c41732d263c945eccb8894f2f445880f91235852bcbe39fb695862640e9c3",
+        "runtimeSpritesheet": "assets/sprites/hero_kiem_tu.png",
+        "runtimeSpritesheetSha256": "8d8c9125c7757c92d7e9b5ec851910366a368daebb8f5eb1befd1f2bce808764"
+      },
+      "hoa_tran": {
+        "sourceLocomotionGrid": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
+        "sourceLocomotionSha256": "5be1e1848d7355a7243d429f61ab8ce62f6da153b06fd91877c44a1418aed476",
+        "sourceCombatGrid": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
+        "sourceCombatSha256": "5be1e1848d7355a7243d429f61ab8ce62f6da153b06fd91877c44a1418aed476",
+        "runtimeSpritesheet": "assets/sprites/hoa_tran.png",
+        "runtimeSpritesheetSha256": "5519398772e8b83f627b66740660cbcf12066e27fc21ff76eb169e7030af183c"
+      },
+      "ngoc_tam": {
+        "sourceLocomotionGrid": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
+        "sourceLocomotionSha256": "4629bf47a50153ef9cf9dc1946f1dc7bb300d4aec98684669ec821958b5ec77d",
+        "sourceCombatGrid": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
+        "sourceCombatSha256": "4629bf47a50153ef9cf9dc1946f1dc7bb300d4aec98684669ec821958b5ec77d",
+        "runtimeSpritesheet": "assets/sprites/ngoc_tam.png",
+        "runtimeSpritesheetSha256": "c5ca06e3af62e17c7fd4f42168a8f514458cf333e3a7e66fb6656a3b556262ee"
+      },
+      "anh_7": {
+        "sourceLocomotionGrid": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
+        "sourceLocomotionSha256": "8a5bcad415bf2e8f20f2fd119425654d72d8920cd738431b511d0e0906c1097c",
+        "sourceCombatGrid": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
+        "sourceCombatSha256": "8a5bcad415bf2e8f20f2fd119425654d72d8920cd738431b511d0e0906c1097c",
+        "runtimeSpritesheet": "assets/sprites/anh_7.png",
+        "runtimeSpritesheetSha256": "f6c3439e72a1c239f60e7e1970889a6962c041470e40d46e26bbdd7efb205c9d"
+      },
+      "chatdvt": {
+        "sourceLocomotionGrid": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
+        "sourceLocomotionSha256": "cb8530770357835af5b66dd5d5b3cbe1ea2d09bd7cd7ffc1f67bb47703de69aa",
+        "sourceCombatGrid": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
+        "sourceCombatSha256": "cb8530770357835af5b66dd5d5b3cbe1ea2d09bd7cd7ffc1f67bb47703de69aa",
+        "runtimeSpritesheet": "assets/sprites/chatdvt.png",
+        "runtimeSpritesheetSha256": "24ab92f78867a97760262ee77d39e21998c5f1f0d5d4a9fd6dc5e3d762b6b47c"
+      },
+      "phi_de": {
+        "sourceLocomotionGrid": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
+        "sourceLocomotionSha256": "5b290074dfd9ef9c05e82e525fa8a483b25e497bfe7a00f2cf328540791a3e28",
+        "sourceCombatGrid": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
+        "sourceCombatSha256": "5b290074dfd9ef9c05e82e525fa8a483b25e497bfe7a00f2cf328540791a3e28",
+        "runtimeSpritesheet": "assets/sprites/phi_de.png",
+        "runtimeSpritesheetSha256": "fe06e0994172ef40944c32cbe88d971a93403ff290991014992f40ed77fb8704"
+      },
+      "rmt_de": {
+        "sourceLocomotionGrid": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
+        "sourceLocomotionSha256": "16edf62e406f6920e90fcc2c6b1d0a9d10a3d5f9468e47e67ab719c60d63ae9a",
+        "sourceCombatGrid": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
+        "sourceCombatSha256": "16edf62e406f6920e90fcc2c6b1d0a9d10a3d5f9468e47e67ab719c60d63ae9a",
+        "runtimeSpritesheet": "assets/sprites/rmt_de.png",
+        "runtimeSpritesheetSha256": "7b4cfea19c364f715ddbc5435d9b71a7e12e813015c691af1aaf3b5000b89adf"
+      },
+      "merchant_truong": {
+        "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceLocomotionSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "runtimeSpritesheet": "assets/sprites/merchant_truong.png",
+        "runtimeSpritesheetSha256": "1ba8625894b19d422fe37f7265728c8c62843700cba3633db2459196dfa85318"
+      },
+      "dam_lon_tien_tu": {
+        "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceLocomotionSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "runtimeSpritesheet": "assets/sprites/dam_lon_tien_tu.png",
+        "runtimeSpritesheetSha256": "7aff71ff45b61f4536fc3bd2e347e9f10c1eeb0139a700270e000aa4e62a3fcb"
+      },
+      "thai_tai": {
+        "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceLocomotionSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "runtimeSpritesheet": "assets/sprites/thai_tai.png",
+        "runtimeSpritesheetSha256": "3258840dc51632b6ad5874d2fb92deffdd1ab26e60548a2b1eea55b512636e70"
+      },
+      "npc_ngoc_tam": {
+        "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceLocomotionSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "runtimeSpritesheet": "assets/sprites/npc_ngoc_tam.png",
+        "runtimeSpritesheetSha256": "a30a9f99c840dda09590648ea9e8714f8d19c18bc3173a824bb0c205233c8696"
+      }
+    },
+    "tileset": {
+      "file": "assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png",
+      "sha256": "f08b15662eeee98aa4b616bc277fc22ee40a5d5e15f8d04734df84b06c987022"
+    },
+    "map": {
+      "file": "maps/tan_thu_thon.tmj",
+      "sha256": "8a529dbd0457954f65a0d005ac9fc5bfeb6e8f75d4b6efd21f1d7a427cc239d2",
+      "widthTiles": 96,
+      "heightTiles": 72,
+      "walkableTiles": 5357,
+      "blockedTiles": 1555
+    }
+  }
 }

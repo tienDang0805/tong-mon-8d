@@ -1,8 +1,8 @@
-# VISUAL-03 INTEGRATION PLAN — S1 Core Asset Kit, 96×72 Tân Thủ Thôn & V01-B UI/HUD (`VISUAL-03-P` R1)
+# VISUAL-03 INTEGRATION PLAN — S1 Core Asset Kit, 96×72 Tân Thủ Thôn & V01-B UI/HUD (`VISUAL-03-P` / `VISUAL-03-W`)
 
 - **Document ID**: `IMPL-VISUAL-03-PLAN`
-- **Task**: `VISUAL-03-P` (`PLAN_AND_DOCS_ONLY` — Final Corrections Pass)
-- **Status**: `READY_FOR_VISUAL_03_W_AUTHORIZATION` (No runtime source, maps, DB, or assets modified)
+- **Task**: `VISUAL-03-W` (`VERIFIED_READY_FOR_COMMIT` / `SELF_COMMIT` at base `4679f49`; `VISUAL-03-U` & `VISUAL-03-Q` pending next)
+- **Status**: `STAGE_1_VISUAL_03_W_COMMITTED` (`SELF_COMMIT`)
 - **Visual Direction**: `V01-B — THIÊN MỆNH TIÊN CUNG` (Three-Tier Grandeur System; `Tân Thủ Thôn` = Tier I Grounded Starter Village)
 - **Companion Technical Contract**: `docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md`
 - **Governing Contracts**: `AGENTS.md`, `RULES.md` (Rule 1–6), `docs/ART_BIBLE.md`, `docs/CHARACTER_VISUAL_BIBLE.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`

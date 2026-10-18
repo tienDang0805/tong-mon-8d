@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "styleDirection": "Candidate A \u2014 Classic Crisp 16/32-bit Xianxia Top-Down RPG (AI Multi-Pose Pipeline)",
+  "styleDirection": "Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG (AI Multi-Pose Pipeline)",
   "logicalTileGrid": 32,
   "characterFrameSize": {
     "width": 80,
@@ -141,7 +141,7 @@
       "category": "character_spritesheet",
       "characterId": "hero_kiem_tu",
       "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
-      "source": "assets/source_ai/hero_kiem_tu_locomotion_4x4.png + assets/source_ai/hero_kiem_tu_combat_4x4.png via Agent Sprite Forge assemble_frames.py + build_assets.py",
+      "source": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png + assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
       "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
       "width": 480,
@@ -206,11 +206,11 @@
       "category": "character_spritesheet",
       "characterId": "phi_de",
       "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
-      "source": "assets/source_ai/phi_de_locomotion_4x4.png + assets/source_ai/phi_de_combat_4x4.png via Agent Sprite Forge assemble_frames.py + build_assets.py",
+      "source": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
       "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
-      "width": 480,
-      "height": 1920,
+      "width": 320,
+      "height": 96,
       "frameWidth": 80,
       "frameHeight": 96,
       "anchor": {
@@ -220,48 +220,11 @@
       "animations": {
         "idle": {
           "rows": [
-            0,
-            1,
-            2,
-            3
+            0
           ],
-          "framesPerRow": 4
-        },
-        "walk": {
-          "rows": [
-            4,
-            5,
-            6,
-            7
-          ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
-        },
-        "hurt": {
-          "rows": [
-            16,
-            17,
-            18,
-            19
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 4,
+          "fps": 5,
+          "gif": "assets/sprites/gifs/phi_de_idle.gif"
         }
       }
     },
@@ -270,14 +233,14 @@
       "file": "assets/sprites/chatdvt.png",
       "category": "creature_spritesheet",
       "characterId": "chatdvt",
-      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 768,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -290,7 +253,9 @@
             2,
             3
           ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 6,
+          "gif": "assets/sprites/gifs/chatdvt_idle.gif"
         },
         "walk": {
           "rows": [
@@ -299,25 +264,9 @@
             6,
             7
           ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 8,
+          "gif": "assets/sprites/gifs/chatdvt_walk.gif"
         }
       }
     },
@@ -326,14 +275,14 @@
       "file": "assets/sprites/merchant_truong.png",
       "category": "character_spritesheet",
       "characterId": "merchant_truong",
-      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 320,
+      "height": 96,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -341,39 +290,11 @@
       "animations": {
         "idle": {
           "rows": [
-            0,
-            1,
-            2,
-            3
+            0
           ],
-          "framesPerRow": 4
-        },
-        "walk": {
-          "rows": [
-            4,
-            5,
-            6,
-            7
-          ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 4,
+          "fps": 5,
+          "gif": "assets/sprites/gifs/merchant_truong_idle.gif"
         }
       }
     },
@@ -382,14 +303,14 @@
       "file": "assets/sprites/hoa_tran.png",
       "category": "character_spritesheet",
       "characterId": "hoa_tran",
-      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 768,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -402,7 +323,9 @@
             2,
             3
           ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 6,
+          "gif": "assets/sprites/gifs/hoa_tran_idle.gif"
         },
         "walk": {
           "rows": [
@@ -411,25 +334,9 @@
             6,
             7
           ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 8,
+          "gif": "assets/sprites/gifs/hoa_tran_walk.gif"
         }
       }
     },
@@ -439,11 +346,11 @@
       "category": "character_spritesheet",
       "characterId": "dam_lon_tien_tu",
       "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
-      "source": "assets/source_ai/dam_lon_tien_tu_locomotion_4x4.png + assets/source_ai/dam_lon_tien_tu_combat_4x4.png via Agent Sprite Forge assemble_frames.py + build_assets.py",
+      "source": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
       "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
-      "width": 480,
-      "height": 1920,
+      "width": 320,
+      "height": 96,
       "frameWidth": 80,
       "frameHeight": 96,
       "anchor": {
@@ -453,48 +360,11 @@
       "animations": {
         "idle": {
           "rows": [
-            0,
-            1,
-            2,
-            3
+            0
           ],
-          "framesPerRow": 4
-        },
-        "walk": {
-          "rows": [
-            4,
-            5,
-            6,
-            7
-          ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
-        },
-        "hurt": {
-          "rows": [
-            16,
-            17,
-            18,
-            19
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 4,
+          "fps": 5,
+          "gif": "assets/sprites/gifs/dam_lon_tien_tu_idle.gif"
         }
       }
     },
@@ -615,14 +485,14 @@
       "file": "assets/sprites/rmt_de.png",
       "category": "character_spritesheet",
       "characterId": "rmt_de",
-      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 320,
+      "height": 96,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -630,39 +500,11 @@
       "animations": {
         "idle": {
           "rows": [
-            0,
-            1,
-            2,
-            3
+            0
           ],
-          "framesPerRow": 4
-        },
-        "walk": {
-          "rows": [
-            4,
-            5,
-            6,
-            7
-          ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 4,
+          "fps": 5,
+          "gif": "assets/sprites/gifs/rmt_de_idle.gif"
         }
       }
     },
@@ -727,14 +569,14 @@
       "file": "assets/sprites/anh_7.png",
       "category": "character_spritesheet",
       "characterId": "anh_7",
-      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 768,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -747,7 +589,9 @@
             2,
             3
           ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 6,
+          "gif": "assets/sprites/gifs/anh_7_idle.gif"
         },
         "walk": {
           "rows": [
@@ -756,25 +600,9 @@
             6,
             7
           ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 8,
+          "gif": "assets/sprites/gifs/anh_7_walk.gif"
         }
       }
     },
@@ -783,14 +611,14 @@
       "file": "assets/sprites/ngoc_tam.png",
       "category": "character_spritesheet",
       "characterId": "ngoc_tam",
-      "artClassification": "POST-PROCESSED ART (single-frame AI quadrant + programmatic transform)",
-      "source": "Antigravity image-generator overworld grid + packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 288,
-      "height": 1024,
-      "frameWidth": 48,
-      "frameHeight": 64,
+      "width": 480,
+      "height": 768,
+      "frameWidth": 80,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -803,7 +631,9 @@
             2,
             3
           ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 6,
+          "gif": "assets/sprites/gifs/ngoc_tam_idle.gif"
         },
         "walk": {
           "rows": [
@@ -812,25 +642,9 @@
             6,
             7
           ],
-          "framesPerRow": 6
-        },
-        "attack": {
-          "rows": [
-            8,
-            9,
-            10,
-            11
-          ],
-          "framesPerRow": 4
-        },
-        "cast": {
-          "rows": [
-            12,
-            13,
-            14,
-            15
-          ],
-          "framesPerRow": 4
+          "framesPerRow": 6,
+          "fps": 8,
+          "gif": "assets/sprites/gifs/ngoc_tam_walk.gif"
         }
       }
     },
@@ -841,8 +655,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 128,
-      "height": 128,
+      "width": 244,
+      "height": 249,
       "requiresTransparency": true
     },
     {
@@ -852,8 +666,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 96,
-      "height": 96,
+      "width": 128,
+      "height": 233,
       "requiresTransparency": true
     },
     {
@@ -863,8 +677,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 96,
-      "height": 96,
+      "width": 176,
+      "height": 251,
       "requiresTransparency": true
     },
     {
@@ -874,8 +688,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 96,
-      "height": 96,
+      "width": 129,
+      "height": 240,
       "requiresTransparency": true
     },
     {
@@ -896,8 +710,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 96,
-      "height": 96,
+      "width": 217,
+      "height": 249,
       "requiresTransparency": true
     },
     {
@@ -907,8 +721,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 64,
-      "height": 64,
+      "width": 62,
+      "height": 120,
       "requiresTransparency": true
     },
     {
@@ -918,8 +732,8 @@
       "source": "Antigravity image-generator environment sheet + packages/art-tools/build_assets.py",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
-      "width": 64,
-      "height": 64,
+      "width": 183,
+      "height": 180,
       "requiresTransparency": true
     },
     {
@@ -939,8 +753,8 @@
       "assetId": "vfx_portal_ring",
       "file": "assets/vfx/portal_ring.png",
       "category": "vfx_spritesheet",
-      "artClassification": "PROGRAMMATICALLY DRAWN ART",
-      "source": "packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
       "license": "Original Project Asset (MIT/Proprietary)",
       "status": "approved",
       "width": 256,
@@ -952,8 +766,8 @@
       "assetId": "vfx_phi_de_blessing",
       "file": "assets/vfx/phi_de_blessing.png",
       "category": "vfx_spritesheet",
-      "artClassification": "PROGRAMMATICALLY DRAWN ART",
-      "source": "packages/art-tools/build_assets.py",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
       "license": "Original Project Asset (MIT/Proprietary)",
       "status": "approved",
       "width": 256,
@@ -983,14 +797,189 @@
       "status": "approved",
       "width": 960,
       "height": 560
+    },
+    {
+      "assetId": "portrait_npc_ngoc_tam",
+      "file": "assets/portraits/portrait_npc_ngoc_tam.png",
+      "category": "portrait",
+      "characterId": "npc_ngoc_tam",
+      "source": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "sprite_npc_ngoc_tam",
+      "file": "assets/sprites/npc_ngoc_tam.png",
+      "category": "character_spritesheet",
+      "characterId": "npc_ngoc_tam",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "width": 320,
+      "height": 96,
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0
+          ],
+          "framesPerRow": 4,
+          "fps": 5,
+          "gif": "assets/sprites/gifs/npc_ngoc_tam_idle.gif"
+        }
+      },
+      "requiresTransparency": true
+    },
+    {
+      "assetId": "tileset_tan_thu_thon_v01b",
+      "file": "assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png",
+      "category": "tileset",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_05_modular_terrain_tileset_v01b.png + assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "width": 256,
+      "height": 192,
+      "tileWidth": 32,
+      "tileHeight": 32,
+      "tileCount": 48
+    },
+    {
+      "assetId": "ui_hud_minimap_astrolabe_ring",
+      "file": "assets/ui/hud_minimap_astrolabe_ring.png",
+      "category": "ui_chrome",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b01_ui_expansion_v01b_textfree.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 180,
+      "height": 180
+    },
+    {
+      "assetId": "building_tan_thu_tu_duong",
+      "file": "assets/props/building_tan_thu_tu_duong.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_06_modular_village_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 405,
+      "height": 389
+    },
+    {
+      "assetId": "building_tu_bao_cac",
+      "file": "assets/props/building_tu_bao_cac.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_06_modular_village_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 343,
+      "height": 384
+    },
+    {
+      "assetId": "building_hong_tran_cac",
+      "file": "assets/props/building_hong_tran_cac.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_06_modular_village_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 291,
+      "height": 324
+    },
+    {
+      "assetId": "prop_arched_bridge",
+      "file": "assets/props/prop_arched_bridge.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_06_modular_village_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 235,
+      "height": 183
+    },
+    {
+      "assetId": "prop_bridge_horizontal",
+      "file": "assets/props/prop_bridge_horizontal.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 281,
+      "height": 209
+    },
+    {
+      "assetId": "prop_village_stele",
+      "file": "assets/props/prop_village_stele.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 110,
+      "height": 210
+    },
+    {
+      "assetId": "prop_incense_brazier",
+      "file": "assets/props/prop_incense_brazier.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 114,
+      "height": 223
+    },
+    {
+      "assetId": "prop_jade_rock",
+      "file": "assets/props/prop_jade_rock.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 186,
+      "height": 198
+    },
+    {
+      "assetId": "prop_wooden_fence",
+      "file": "assets/props/prop_wooden_fence.png",
+      "category": "environment_prop",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 271,
+      "height": 148
     }
   ],
   "maps": [
     {
       "zoneId": "tan_thu_thon",
       "file": "maps/tan_thu_thon.tmj",
-      "widthTiles": 40,
-      "heightTiles": 30
+      "widthTiles": 96,
+      "heightTiles": 72
     },
     {
       "zoneId": "thanh_truc_lam",

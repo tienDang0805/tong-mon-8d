@@ -1,6 +1,6 @@
 # Tông Môn 8D — Implementation & Verification Feature Ledger
 
-> Active engineering ledger | Last verified remote: `b82e20b148ad08544c3efd1003d1111364a45e51` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Active engineering ledger | Last verified remote: `4679f49bfc100374808f6ca6b1714bfaf31d8701` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
 ## 1. Purpose & Ledger Governance Rules
 
@@ -9,7 +9,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 1. **Evidence-Grounded Entries Only**: Every entry must cite real repository paths, actual verification commands/outputs, and verified Git commit SHAs on `origin/master`.
 2. **Design vs. Implementation Separation**: Never record a gameplay system as implemented when only specifications, read-only plans, or pure TypeScript contract/validator subsets exist.
 3. **Commit SHA Closeout Rule (`docs/technical/AGENT_EXECUTION_CONTRACT.md`)**:
-   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`, `cb360e8`, `bf2d24f`, `897197a`, `a3de054`, `b82e20b`).
+   - Completed prior commits record their exact immutable Git SHA (`6e38c24`, `39d71c0`, `b04ebdc`, `0e9cc8d`, `0543b71`, `f06c510`, `0c00374`, `fdd8e8b`, `cb360e8`, `bf2d24f`, `897197a`, `a3de054`, `b82e20b`, `51d4caf`, `4679f49`).
    - Because a commit cannot contain its own future SHA, the active task being committed records `Commit SHA: SELF_COMMIT (reported at REMOTE CLOSEOUT after push)` and `Status: VERIFIED_READY_FOR_COMMIT`, which is then backfilled with the exact SHA during the next authorized `DOC SYNC`.
 
 ---
@@ -20,7 +20,7 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 |---|---|---|---|
 | `S0` | Foundation, PGlite split-brain safety, `.env` loader, isolated E2E runs | `COMMITTED` | `6e38c246cabcd020efe137863838d6a61e7b1a72` (`6e38c24`) |
 | `G0` | Agent workflow governance, 30-skill router & Argon native asset profile | `COMMITTED` | `39d71c06a830f5f2d9ae2d64b09cb18aa3efebc4` (`39d71c0`) |
-| `S1` (Overall) | Character schema v0.2, `S1` visual sequence & persistence (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a` at `b04ebdc`; `S1-B2` at `0543b71`; `S1-B1b` at `cb360e8`; `S1-C` at `bf2d24f`; `S1-D` at `897197a`; `S1-E` at `a3de054`; `PRE-S1F` at `b82e20b`; `DOC-CLEAN-01` at `SELF_COMMIT`; `VISUAL-01..03` & `S1-F` open) |
+| `S1` (Overall) | Character schema v0.2, `S1` visual sequence & persistence (`TD-01` + `TD-05` HUD/visual bindings) | `IN PROGRESS, NOT COMPLETE` | Partial (`S1-B1a`..`PRE-S1F` through `b82e20b`; `DOC-CLEAN-01` at `51d4caf`; `VISUAL-03-P` at `4679f49`; `VISUAL-03-W` implemented locally `NO_COMMIT`; `VISUAL-03-U`, `VISUAL-03-Q` & `S1-F` open) |
 | `S1-A` | Character v0.2 migration plan & strict Design Evidence Matrix | `READ-ONLY PLAN / DESIGN EVIDENCE REVIEWED` | `NONE` (Read-only plan at base `39d71c0`) |
 | `S1-B1a` | Pure Character, Destiny metadata & 18-entry realm level-band contracts | `COMMITTED` | `b04ebdc72ffede9edb678008ed30d002c73b5cc6` (`b04ebdc`) |
 | `CTX-1` | Documentation reconciliation, `DOC SYNC` gate, Feature Ledger & Master Project Plan | `COMMITTED` | `0e9cc8d58618021a4c723efbc5fbc1860386b67c` (`0e9cc8d`) |
@@ -33,8 +33,11 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
 | `S1-D` | Authoritative Character v0.2 server actions, server-generated guest credential bootstrap, Project Atlas V2 & explicit skill routing | `COMMITTED` | `897197a268f3c906ac624cac89fa65782a38b034` (`897197a`) |
 | `S1-E` | Playable Character Creation, 16-trait Starter Destiny Catalog (`luc_hop_linh_cot` / `Lục Hợp Linh Cốt`), 4 appearances, [C] 6-attribute HUD & world spawn isolation (`TD-01` + `TD-05`) | `COMMITTED` | `a3de0549350e003019d17cef47833a8aa2943b38` (`a3de054`) |
 | `PRE-S1F` | Modular-monolith source architecture (`SOURCE_ARCHITECTURE.md`), scope-based allowlists, selective Character/Destiny leaf refactor (`index.ts` `2100 -> 885`, `characterV02Actions.ts` `2037 -> 1778`, `hud.ts` `925 -> 660`) & `verify:doc-sync` | `COMMITTED` | `b82e20b148ad08544c3efd1003d1111364a45e51` (`b82e20b`) |
-| `DOC-CLEAN-01` | Post-`PRE-S1F` doc reconciliation, legacy bootstrap archive (`docs/archive/legacy/*`) with locator stubs, bounded mechanical `verify:doc-sync` + fixture tests, and `VISUAL-01..03 -> S1-F` sequence | `VERIFIED_READY_FOR_COMMIT` (local/uncommitted) | `SELF_COMMIT` (Base `b82e20b148ad08544c3efd1003d1111364a45e51`) |
-| `VISUAL-01` → `VISUAL-03` | Scoped `S1` visual direction sets (`VISUAL-01`), sample asset pack & continuous animations (`VISUAL-02`), and Phaser/Tiled integration & measured frame-time/FPS review (`VISUAL-03`) | `NOT STARTED` | `NONE` |
+| `DOC-CLEAN-01` | Post-`PRE-S1F` doc reconciliation, legacy bootstrap archive (`docs/archive/legacy/*`) with locator stubs, bounded mechanical `verify:doc-sync` + fixture tests, and `VISUAL-01..03 -> S1-F` sequence | `COMMITTED` | `51d4caf2ae4ae101e41b0f31192a7319e06d965e` (`51d4caf`) |
+| `VISUAL-01` → `VISUAL-02B-CORRECTION` | Owner-selected `V01-B` direction (`VISUAL-01`), `96×72` `Tân Thủ Thôn` blueprint (`VISUAL-02A-R1-CLOSE`), and `S1` Core Asset Kit with differentiated `phi_de` & `rmt_de` (`VISUAL-02B-CORRECTION`) | `OWNER_APPROVED_FOR_VISUAL_03_INTEGRATION` | Artifact packages (`NO_COMMIT`) |
+| `VISUAL-03-P` | Integration Architecture & Camera/Minimap Contract (`CAMERA_AND_MINIMAP_CONTRACT.md`, `VISUAL_03_INTEGRATION_PLAN.md`) | `COMMITTED` | `4679f49bfc100374808f6ca6b1714bfaf31d8701` (`4679f49`) |
+| `VISUAL-03-W` | World Integration, Camera & Minimap (`96×72` `tan_thu_thon.tmj`, `CameraView.ts`, `MinimapView.ts`, 11 `80×96` starter/NPC sprites, Y-sort occlusion, `resolveSafeZoneCoordinates`) | `VERIFIED_READY_FOR_COMMIT` | `SELF_COMMIT` (Base `4679f49bfc100374808f6ca6b1714bfaf31d8701`) |
+| `VISUAL-03-U` & `VISUAL-03-Q` | `V01-B` UI/HUD 9-slice & icon integration (`VISUAL-03-U`) and measured frame-time/FPS review & `HUMAN_APPROVED` sign-off (`VISUAL-03-Q`) | `NOT STARTED` | `NONE` |
 | `S1-F` | Two-browser E2E acceptance & file-backed isolated PGlite restart verification for `S1` | `E2E ACCEPTANCE, NOT IMPLEMENTED` | `NONE` |
 | `S2`–`S8` | Remaining vertical slice implementation slices (`docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md`) | `NOT STARTED` | `NONE` |
 
@@ -375,10 +378,51 @@ This ledger records what each completed or reviewed task in `tienDang0805/tong-m
     - Added `scripts/tests/verify-doc-sync.test.mjs` with disposable temporary-directory fixture tests covering valid historical/future strings, missing required file detection, frozen-file diff failure, removed-file reappearance failure, and invalid inline `<script>` syntax failure without touching the live repository.
 - **Changed Files & Verified Commit SHA**:
   - Base Commit: `b82e20b148ad08544c3efd1003d1111364a45e51` (`b82e20b`)
-  - Commit SHA: `SELF_COMMIT` (reported at closeout after push under `COMMIT_POLICY: COMMIT_AND_PUSH_AFTER_CHECKS`)
+  - Commit: `51d4caf2ae4ae101e41b0f31192a7319e06d965e` (`51d4caf`, `docs(doc-clean-01): reconcile post-pre-s1f docs, archive legacy bootstrap docs, and bound doc-sync checker`)
   - Files (`21` edited documentation paths + `2` edited utility/HTML paths + `4` created archive paths + `1` created utility test path + `2` deleted active paths = `30` total allowlisted paths): `AGENTS.md`, `RULES.md`, `START_HERE.md`, `MASTER_PROMPT.md`, `docs/ART_BIBLE.md`, `docs/CONTENT_PIPELINE.md`, `docs/CONTEXT_AUDIT.md`, `docs/CONTEXT_INDEX.md`, `docs/DECISIONS.md`, `docs/DEVELOPMENT_SETUP.md`, `docs/GAME_DESIGN.md`, `docs/GAME_LORE.md`, `docs/IMPLEMENTATION_STATUS.md`, `docs/MASTER_PROJECT_PLAN.md`, `docs/NEXT_ACTIONS.md`, `docs/PROJECT_STATUS.md`, `docs/ROADMAP.md`, `docs/implementation/FEATURE_LEDGER.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/tong-mon-8d-project-atlas.html`, `scripts/verify-doc-sync.mjs`, `scripts/tests/verify-doc-sync.test.mjs`, `docs/archive/legacy/MASTER_PROMPT.md`, `docs/archive/legacy/CONTEXT_AUDIT.md`, `docs/archive/legacy/IMPLEMENTATION_STATUS.md`, `docs/archive/legacy/EXTERNAL_SKILLS.md`, plus removed `EXTERNAL_SKILLS.md` and `docs/WORKSPACE_HANDOFF.md`.
 - **Tests & Verification Evidence**:
   - `DOC SYNC` + standalone utility fixture verification profile (`docs/technical/AGENT_EXECUTION_CONTRACT.md` §3.2): 4 archived files verified byte-identical to `HEAD` (`b82e20b`) blobs (`7269e36...`, `95fb32d...`, `02346d5...`, `fdc601e...`), 40 frozen TD files verified (`0` diff lines vs `39c41a6ddb77b93284c56da7ec053f4309ee4943`), `node --check scripts/verify-doc-sync.mjs` (exit `0`), `node scripts/verify-doc-sync.mjs` (exit `0`), `node scripts/tests/verify-doc-sync.test.mjs` (`PASS`, exit `0`), Rule 1 zero-comment check across modified scripts, HTML, and Markdown code blocks (`0` violations), `git diff --cached --check` (exit `0`). Game runtime/build/E2E/sim/exporter suites: `NOT_APPLICABLE` (reused unchanged `b82e20b` and `0c00374` evidence).
 - **Known Limitations & Deferred Scope**:
   - Documentation and standalone doc-sync utility cleanup only; does not modify gameplay runtime, database schemas, or visual assets. Semantic status consistency across docs remains a scoped agent self-review rather than an NLP/regex machine proof.
-- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at Base `b82e20b148ad08544c3efd1003d1111364a45e51`) → Commit & push under `COMMIT_AND_PUSH_AFTER_CHECKS`, then await owner/planner dispatch of **`VISUAL-01`** (`VISUAL-01 -> VISUAL-02 -> VISUAL-03 -> S1-F`).
+- **Current Status & Next Dependency**: `COMMITTED` (`51d4caf`) → `VISUAL-01` → `VISUAL-02` → `VISUAL-03-P`.
+
+---
+
+### 3.16 `VISUAL-03-P` — Integration Architecture & Camera/Minimap Contract
+- **Associated Slice**: `S1` (`VISUAL-03` Planning & Contract Gate)
+- **Design & Technical References**: `AGENTS.md`, `RULES.md` (Rules 1–6), `docs/ART_BIBLE.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`
+- **Actual Implementation Scope**:
+  - Authored `docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md` and `docs/implementation/VISUAL_03_INTEGRATION_PLAN.md` defining the responsive camera zoom profile (`1280x720`, `1920x1080`, `2560x1440`, `3840x2160`, `390x844`), essential read-only `S1` `MinimapView` contract (without assuming `S4` `startAutoNav`), Y-sort and roof/nameplate occlusion rules, non-destructive `resolveSafeZoneCoordinates` persisted coordinate compatibility for the `40×30 → 96×72` transition, `ngoc_tam` vs `npc_ngoc_tam` and `thai_tai` visual key separation, and the staged `VISUAL-03-W → VISUAL-03-U → VISUAL-03-Q` execution plan.
+- **Changed Files & Verified Commit SHA**:
+  - Base Commit: `51d4caf2ae4ae101e41b0f31192a7319e06d965e` (`51d4caf`)
+  - Commit: `4679f49bfc100374808f6ca6b1714bfaf31d8701` (`4679f49`, `docs(visual-03-p): add camera/minimap contract and S1 visual integration plan`)
+  - Files: `docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md`, `docs/implementation/VISUAL_03_INTEGRATION_PLAN.md`
+- **Tests & Verification Evidence**:
+  - `npm run verify:doc-sync` (exit `0`), Rule 1 zero-comment check (`0` violations), `git diff --cached --check` (exit `0`), 40 frozen TD files verified (`0` modified).
+- **Current Status & Next Dependency**: `COMMITTED` (`4679f49`) → `VISUAL-03-W`.
+
+---
+
+### 3.17 `VISUAL-03-W` — World Integration, Camera & Minimap
+- **Associated Slice**: `S1` (`VISUAL-03` Stage 1 World, Camera & Minimap Runtime Integration)
+- **Design & Technical References**: `docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md`, `docs/implementation/VISUAL_03_INTEGRATION_PLAN.md`, `docs/ART_BIBLE.md`, `AGENTS.md`, `RULES.md` (Rules 1–6)
+- **Actual Implementation Scope**:
+  - **Modular `96×72` (`3072×2304 px`) Tiled `Tân Thủ Thôn` & Asset Promotion**:
+    - Promoted approved `VISUAL-02B` / `VISUAL-02A-R1` assets into `assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png` (`256×192`, 48 tiles of `32×32 px`), `assets/props/` (`building_tan_thu_tu_duong.png`, `building_tu_bao_cac.png`, `building_hong_tran_cac.png`, `prop_noodle_stall.png`, `prop_than_dinh.png`, `prop_portal_arch.png`, `prop_peach_tree.png`, `prop_bamboo_cluster.png`, `prop_stone_lantern.png`, `prop_arched_bridge.png`, `prop_bridge_horizontal.png`, `prop_village_stele.png`, `prop_spirit_herb.png`, `prop_incense_brazier.png`, `prop_jade_rock.png`, `prop_wooden_fence.png`), `assets/sprites/` (11 character/creature sheets + `assets/sprites/gifs/`), `assets/portraits/` (12 portraits including dedicated `portrait_thai_tai.png` and `portrait_npc_ngoc_tam.png`), `assets/vfx/`, `assets/ui/hud_minimap_astrolabe_ring.png`, `assets/source_ai/`, `assets/manifest.json`, and `assets/provenance.json`.
+    - Built `maps/tan_thu_thon.tmj` (`96×72` tiles at `32×32 px`, `5,357` walkable / `1,555` blocked tiles, 100% single-component BFS reachability across West/North/East bridges, 7 NPCs, cauldron, and portal).
+    - Synced `ZONES_REGISTRY` and `LEGENDARY_NPCS` in `packages/game-data/src/index.ts` (`tan_thu_thon` `96×72`, `village_center: (1552, 1232)`, `from_thanh_truc_lam: (2608, 1200)`, `portal_town_to_forest` at `(2768, 1200)`, `portal_forest_to_town.targetX/Y` at `(2608, 1200)`, `LEGENDARY_NPCS[5]` `id: "ngoc_tam"` using `spriteKey: "npc_ngoc_tam"` & `portraitKey: "portrait_npc_ngoc_tam"`, and `LEGENDARY_NPCS[6]` `id: "thai_tai"` using `spriteKey: "thai_tai"` & `portraitKey: "portrait_thai_tai"`).
+  - **Responsive `CameraView.ts` & Persistent `MinimapView.ts`**:
+    - Implemented `apps/client/src/game/world/CameraView.ts` (`computeResponsiveCameraProfile` enforcing adaptive zoom `1.0×` at `1280×720`, `1.25×` at `1920×1080`, `1.5×` at `2560×1440`, `2.0833×` at `3840×2160`, and `1.0×` at `390×844` mobile so visible world never exceeds `60% × 45%` of `Tân Thủ Thôn`, with hard zoom clamp).
+    - Implemented `apps/client/src/game/world/MinimapView.ts` mounted once in `#hud-minimap-mount` (`apps/client/src/hud.ts`, `apps/client/src/style.css`), keeping `staticCanvas` cached (`mountCount === 1`, `staticDrawCount === 1` throughout same-zone movement and expand/collapse toggles, rebuilding only on zone transitions) and updating dynamic player/camera/NPC/portal/cauldron markers without modifying `hud.ts` `innerHTML`.
+  - **Honest 4-Profile Animation Registration, Y-Sort Occlusion & Non-Destructive Coordinate Compatibility**:
+    - Implemented explicit `full_80x96_20row`, `locomotion_80x96_8row`, `stationary_npc_80x96_4f`, and `legacy_48x64_16row` animation registration and fallback logging in `apps/client/src/WorldScene.ts` and `packages/art-tools/verify_manifest.ts`.
+    - Fixed Y-sort and roof/nameplate occlusion in `apps/client/src/WorldScene.ts` so buildings/props/trees sort at their southern blocked footprint base $Y_{\text{base}}$ (`depth = baseY`), bridges render at surface `depth = 6`, and entity bundles sort together (`sprite = y`, `hpBg = y + 0.1`, `hpFill = y + 0.2`, `subLabel = y + 0.3`, `nameLabel = y + 0.4`) so roofs/canopies cleanly occlude both sprites and nameplates when behind structures.
+    - Implemented `resolveSafeZoneCoordinates` and BFS `connectedWalkableTiles` in `apps/server/src/worldEngine.ts` and `apps/server/src/zoneRoom.ts` (preserving valid walkable saves, migrating legacy `(640, 512)` → `(1552, 1232)` and `(1120, 480)` → `(2608, 1200)`, nudging blocked/island coordinates via ring search `1..6` tiles, or falling back to `defaultSpawn` with unit test coverage in `apps/server/src/__tests__/server.test.ts`).
+- **Changed Files & Verified Commit SHA**:
+  - Base Commit: `4679f49bfc100374808f6ca6b1714bfaf31d8701` (`4679f49`)
+  - Commit SHA: `SELF_COMMIT` (owner-authorized commit of `VISUAL-03-W`)
+- **Tests & Verification Evidence**:
+  - `npm run verify:assets` → `{"verifiedAssets":48,"verifiedProvenanceCharacters":3,"verifiedVisual03wCharacters":11,"verifiedMaps":2,"status":"OK"}` (exit `0`).
+  - `npm run typecheck` (exit `0`), `npm run build` (exit `0`), `npx vitest run --no-file-parallelism` (`6/6` test suites, `54/54` tests passing, exit `0`), `npm run verify:doc-sync` (exit `0`).
+  - Playwright live runtime verification (`VISUAL_03_W_SMOKE_TEST_REPORT.json` + 15 screenshots + 4 review boards + runtime GIF): `spawnPass: true`, `zoomClampPass: true`, `minimapPass: true` (`mountCount: 1`, `staticDrawCount: 1` across same-zone walks & expand toggle, `2` in `thanh_truc_lam`, `3` on return to `tan_thu_thon`), `bridgePass: true`, `occlusionPass: true`, `npcPass: true`, `portalPass: true`, `charPanelPass: true`, `consoleErrors: 0`, `pageErrors: 0`.
+- **Current Status & Next Dependency**: `VERIFIED_READY_FOR_COMMIT` (`SELF_COMMIT` at base `4679f49`) → `VISUAL-03-U`.

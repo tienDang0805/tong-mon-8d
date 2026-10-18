@@ -18,6 +18,12 @@ import {
   type LegendaryNpcDefinition
 } from "@tong-mon-8d/game-data";
 import { renderCharacterPanelModal } from "./features/character/CharacterPanel.js";
+import {
+  MinimapView,
+  type MinimapDynamicInput,
+  type MinimapStaticTileData,
+  type MinimapTelemetry
+} from "./game/world/MinimapView.js";
 import type { GameNetworkClient } from "./network.js";
 import type { SoundController } from "./audio.js";
 import type { WorldScene } from "./WorldScene.js";
@@ -39,12 +45,15 @@ export class HudOverlayController {
 
   private elTopLeft!: HTMLElement;
   private elTopRight!: HTMLElement;
+  private elMinimapMount!: HTMLElement;
+  private elTopRightControls!: HTMLElement;
   private elBottomLeft!: HTMLElement;
   private elBottomCenter!: HTMLElement;
   private elMobileDpad!: HTMLElement;
   private elChatLog!: HTMLElement;
   private elModalHost!: HTMLElement;
   private elBannerHost!: HTMLElement;
+  private minimapView!: MinimapView;
 
   constructor(
     root: HTMLElement,
@@ -63,7 +72,10 @@ export class HudOverlayController {
   private mountBaseStructure(): void {
     this.root.innerHTML = `
       <div class="hud-panel hud-top-left" id="hud-top-left"></div>
-      <div class="hud-panel hud-top-right" id="hud-top-right"></div>
+      <div class="hud-panel hud-top-right" id="hud-top-right">
+        <div class="hud-minimap-mount" id="hud-minimap-mount"></div>
+        <div class="hud-top-right-controls" id="hud-top-right-controls"></div>
+      </div>
       <div class="hud-panel hud-bottom-left" id="hud-bottom-left">
         <div class="chat-log" id="hud-chat-log"></div>
         <div class="chat-input-row">
@@ -111,12 +123,15 @@ export class HudOverlayController {
 
     this.elTopLeft = this.root.querySelector("#hud-top-left") as HTMLElement;
     this.elTopRight = this.root.querySelector("#hud-top-right") as HTMLElement;
+    this.elMinimapMount = this.root.querySelector("#hud-minimap-mount") as HTMLElement;
+    this.elTopRightControls = this.root.querySelector("#hud-top-right-controls") as HTMLElement;
     this.elBottomLeft = this.root.querySelector("#hud-bottom-left") as HTMLElement;
     this.elBottomCenter = this.root.querySelector("#hud-bottom-center") as HTMLElement;
     this.elMobileDpad = this.root.querySelector("#hud-mobile-dpad") as HTMLElement;
     this.elChatLog = this.root.querySelector("#hud-chat-log") as HTMLElement;
     this.elModalHost = this.root.querySelector("#hud-modal-host") as HTMLElement;
     this.elBannerHost = this.root.querySelector("#hud-banner-host") as HTMLElement;
+    this.minimapView = new MinimapView(this.elMinimapMount);
 
     const chatInput = this.root.querySelector("#hud-chat-input") as HTMLInputElement;
     const chatSend = this.root.querySelector("#hud-chat-send") as HTMLButtonElement;
@@ -370,11 +385,11 @@ export class HudOverlayController {
       ${buffsHtml || freePtsHtml ? `<div class="hud-buffs-row" id="hud-buffs-row">${freePtsHtml}${buffsHtml}</div>` : ""}
     `;
 
-    const zoneId = p?.zoneId ?? this.net.getCurrentZoneId();
+    const zoneId = this.net.getCurrentZoneId();
     const zoneDef = ZONES_REGISTRY[zoneId];
     const onlineCount = Object.keys(snap?.players ?? {}).length || 1;
 
-    this.elTopRight.innerHTML = `
+    this.elTopRightControls.innerHTML = `
       <div class="zone-title" id="hud-zone-title">${this.escapeHtml(zoneDef.nameVi)}</div>
       <div class="zone-meta" id="hud-zone-meta">Đạo hữu tại khu vực: ${onlineCount} • (${Math.round(p?.x ?? v02?.world.x ?? 0)}, ${Math.round(p?.y ?? v02?.world.y ?? 0)})</div>
       <div class="hud-btn-group">
@@ -384,20 +399,49 @@ export class HudOverlayController {
       </div>
     `;
 
-    this.elTopRight.querySelector("#btn-open-inventory")?.addEventListener("click", () => {
+    this.elTopRightControls.querySelector("#btn-open-inventory")?.addEventListener("click", () => {
       this.toggleModal("inventory");
     });
-    this.elTopRight.querySelector("#btn-open-cultivation")?.addEventListener("click", () => {
+    this.elTopRightControls.querySelector("#btn-open-cultivation")?.addEventListener("click", () => {
       this.toggleModal("cultivation");
     });
-    this.elTopRight.querySelector("#btn-toggle-mute")?.addEventListener("click", () => {
+    this.elTopRightControls.querySelector("#btn-toggle-mute")?.addEventListener("click", () => {
       this.soundCtrl.toggleMute();
       this.refreshPanels();
+    });
+
+    const scene = this.getScene();
+    const camTelemetry = scene?.getCameraTelemetry() ?? null;
+    const myCharId = p?.characterId ?? v02?.identity.characterId ?? "";
+    const remotes = Object.values(snap?.players ?? {}).filter((rp) => rp.characterId !== myCharId);
+    this.minimapView.updateDynamic({
+      zoneId,
+      playerX: p?.x ?? v02?.world.x ?? zoneDef.defaultSpawn.x,
+      playerY: p?.y ?? v02?.world.y ?? zoneDef.defaultSpawn.y,
+      playerDirection: p?.direction ?? v02?.world.direction ?? "down",
+      cameraTelemetry: camTelemetry,
+      remotePlayers: remotes
     });
 
     if (this.activeModal !== "none") {
       this.renderModal();
     }
+  }
+
+  public setMinimapStaticTileData(data: MinimapStaticTileData): void {
+    this.minimapView.setStaticTileData(data);
+  }
+
+  public updateMinimapDynamic(input: MinimapDynamicInput): void {
+    this.minimapView.updateDynamic(input);
+  }
+
+  public toggleMinimapSize(forceState?: boolean): boolean {
+    return this.minimapView.toggleExpanded(forceState);
+  }
+
+  public getMinimapTelemetry(): MinimapTelemetry {
+    return this.minimapView.getTelemetry();
   }
 
   private renderModal(): void {

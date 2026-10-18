@@ -488,9 +488,10 @@ export class ZoneRoom extends Room {
     if (options?.spawnId && zoneDef.spawns[options.spawnId]) {
       player.x = zoneDef.spawns[options.spawnId].x;
       player.y = zoneDef.spawns[options.spawnId].y;
-    } else if (!this.engine.isWalkable(this.zoneId, player.x, player.y)) {
-      player.x = zoneDef.defaultSpawn.x;
-      player.y = zoneDef.defaultSpawn.y;
+    } else {
+      const safeCoords = this.engine.resolveSafeZoneCoordinates(this.zoneId, player.x, player.y);
+      player.x = safeCoords.x;
+      player.y = safeCoords.y;
     }
 
     await this.db.saveCharacterState(player);
@@ -646,16 +647,17 @@ export class ZoneRoom extends Room {
     } else if (
       existingRuntime &&
       existingRuntime.zoneId === this.zoneId &&
-      this.engine.isWalkable(this.zoneId, existingRuntime.x, existingRuntime.y)
+      this.engine.isConnectedWalkable(this.zoneId, existingRuntime.x, existingRuntime.y)
     ) {
       x = existingRuntime.x;
       y = existingRuntime.y;
-    } else if (
-      snapV02.world.zoneId !== this.zoneId ||
-      !this.engine.isWalkable(this.zoneId, x, y)
-    ) {
+    } else if (snapV02.world.zoneId !== this.zoneId) {
       x = zoneDef.defaultSpawn.x;
       y = zoneDef.defaultSpawn.y;
+    } else {
+      const safeCoords = this.engine.resolveSafeZoneCoordinates(this.zoneId, x, y);
+      x = safeCoords.x;
+      y = safeCoords.y;
     }
 
     const player: CharacterSaveState = {

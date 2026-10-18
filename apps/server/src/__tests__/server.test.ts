@@ -76,8 +76,8 @@ describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
     expect(farTry.result.ok).toBe(false);
     expect(farTry.result.code).toBe("OUT_OF_RANGE");
 
-    player.x = 1120;
-    player.y = 480;
+    player.x = 2768;
+    player.y = 1200;
     const nearTry = await engine.handlePortalIntent(player, {
       portalId: "portal_town_to_forest",
       requestId: "portal_req_near"
@@ -85,6 +85,49 @@ describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
     expect(nearTry.result.ok).toBe(true);
     expect(nearTry.approval?.targetZoneId).toBe("thanh_truc_lam");
     expect(player.zoneId).toBe("thanh_truc_lam");
+  });
+
+  it("migrates legacy 40x30 and blocked/out-of-bounds persisted coordinates safely on join without destructive resets", () => {
+    const validCenter = engine.resolveSafeZoneCoordinates("tan_thu_thon", 1552, 1232);
+    expect(validCenter).toEqual({
+      x: 1552,
+      y: 1232,
+      migrated: false,
+      reason: "VALID_CONNECTED_WALKABLE"
+    });
+
+    const validBridge = engine.resolveSafeZoneCoordinates("tan_thu_thon", 1840, 1168);
+    expect(validBridge.migrated).toBe(false);
+    expect(engine.isConnectedWalkable("tan_thu_thon", validBridge.x, validBridge.y)).toBe(true);
+
+    const legacyCenter = engine.resolveSafeZoneCoordinates("tan_thu_thon", 640, 512);
+    expect(legacyCenter).toEqual({
+      x: 1552,
+      y: 1232,
+      migrated: true,
+      reason: "LEGACY_40X30_VILLAGE_CENTER"
+    });
+
+    const legacyFromForest = engine.resolveSafeZoneCoordinates("tan_thu_thon", 1036, 480);
+    expect(legacyFromForest).toEqual({
+      x: 2608,
+      y: 1200,
+      migrated: true,
+      reason: "LEGACY_40X30_FROM_THANH_TRUC_LAM"
+    });
+
+    const blockedHallTile = engine.resolveSafeZoneCoordinates("tan_thu_thon", 48 * 32 + 16, 21 * 32 + 16);
+    expect(blockedHallTile.migrated).toBe(true);
+    expect(blockedHallTile.reason).toBe("NUDGED_TO_CONNECTED_WALKABLE_TILE");
+    expect(engine.isConnectedWalkable("tan_thu_thon", blockedHallTile.x, blockedHallTile.y)).toBe(true);
+
+    const outOfBounds = engine.resolveSafeZoneCoordinates("tan_thu_thon", 9999, 9999);
+    expect(outOfBounds).toEqual({
+      x: 1552,
+      y: 1232,
+      migrated: true,
+      reason: "FALLBACK_DEFAULT_SPAWN"
+    });
   });
 
   it("synchronizes shared monster HP across two players and drops persistent loot", async () => {
@@ -140,8 +183,8 @@ describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
 
   it("supports Phì Đế's Vạn Vị Thành Đạo quest via BOTH purchased food AND self-cooked food", async () => {
     const buyer = await db.loadOrCreateCharacter("acc_buyer", "Thực Khách Mua", "kiem_tu");
-    buyer.x = 432;
-    buyer.y = 384;
+    buyer.x = 1136;
+    buyer.y = 1168;
 
     const buyRes = await engine.handleShopBuy(buyer, {
       npcId: "merchant_truong",
@@ -151,8 +194,8 @@ describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
     });
     expect(buyRes.ok).toBe(true);
 
-    buyer.x = 512;
-    buyer.y = 384;
+    buyer.x = 1488;
+    buyer.y = 1104;
     const acceptBuyer = await engine.handleQuestAction(buyer, {
       npcId: "phi_de",
       questId: "phi_de_ch1_huong_thom",
@@ -182,8 +225,8 @@ describe("Tông Môn 8D Server Authority & Canonical Progression", () => {
     });
     expect(cookRes.ok).toBe(true);
 
-    chef.x = 512;
-    chef.y = 384;
+    chef.x = 1488;
+    chef.y = 1104;
     await engine.handleQuestAction(chef, {
       npcId: "phi_de",
       questId: "phi_de_ch1_huong_thom",
