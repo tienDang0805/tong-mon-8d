@@ -56,6 +56,7 @@ export class CharacterCreationOverlayController {
   private activeDraftCharacterName = "Hàn Lập";
   private activeDraftAppearanceId = APPROVED_CHARACTER_V02_APPEARANCES[0]!.id;
   private confirmModalOpen = false;
+  private rosterDeleteTargetCharacterId: string | null = null;
   private titleSettingsOpen = false;
   private statusBanner: { kind: "info" | "error" | "ok"; text: string } | null = null;
   private busyAction = false;
@@ -96,6 +97,7 @@ export class CharacterCreationOverlayController {
 
   public transitionTo(nextState: EntryFlowState): void {
     this.confirmModalOpen = false;
+    this.rosterDeleteTargetCharacterId = null;
     this.titleSettingsOpen = false;
     if (this.stateMachine) {
       this.stateMachine.setState(nextState);
@@ -115,6 +117,7 @@ export class CharacterCreationOverlayController {
     this.busyAction = false;
     this.statusBanner = null;
     this.confirmModalOpen = false;
+    this.rosterDeleteTargetCharacterId = null;
     this.spriteAnimator.stop();
     if (this.getEntryFlowState() !== "IN_WORLD") {
       this.transitionTo("IN_WORLD");
@@ -162,9 +165,11 @@ export class CharacterCreationOverlayController {
     this.activeDraftCharacterId = state.identity.characterId;
     if (state.identity.name) {
       this.activeDraftCharacterName = state.identity.name;
+      this.draftNameInput = state.identity.name;
     }
     if (state.identity.appearanceId) {
       this.activeDraftAppearanceId = state.identity.appearanceId;
+      this.selectedAppearanceId = state.identity.appearanceId;
     }
     this.syncVisibilityAndRender();
   }
@@ -188,6 +193,8 @@ export class CharacterCreationOverlayController {
       this.activeDraftCharacterId = result.character.identity.characterId;
       this.activeDraftCharacterName = result.character.identity.name;
       this.activeDraftAppearanceId = result.character.identity.appearanceId;
+      this.draftNameInput = result.character.identity.name;
+      this.selectedAppearanceId = result.character.identity.appearanceId;
     }
 
     if (result.rollDraft) {
@@ -225,13 +232,12 @@ export class CharacterCreationOverlayController {
     }
 
     if (flowState === "CREATE") {
-      this.renderCreateStep();
+      this.renderUnifiedCreateAndDestinyStep(null);
       return;
     }
 
     if (flowState === "DESTINY_ROLL") {
-      this.spriteAnimator.stop();
-      this.renderDestinyRollStep(this.net.activeRollDraft);
+      this.renderUnifiedCreateAndDestinyStep(this.net.activeRollDraft);
       return;
     }
 
@@ -306,6 +312,8 @@ export class CharacterCreationOverlayController {
       }
 
       if (rosterRes.characters.length === 0) {
+        this.activeDraftCharacterId = null;
+        this.net.activeRollDraft = null;
         this.draftNameInput = "Hàn Lập";
         this.selectedAppearanceId = APPROVED_CHARACTER_V02_APPEARANCES[0]!.id;
         this.transitionTo("CREATE");
@@ -333,13 +341,17 @@ export class CharacterCreationOverlayController {
       this.net.getSelectedCharacterId() ?? characters[0]?.characterId ?? null;
     const selectedChar =
       characters.find((c) => c.characterId === selectedId) ?? characters[0] ?? null;
+    const deleteConfirmChar =
+      characters.find((c) => c.characterId === this.rosterDeleteTargetCharacterId) ??
+      null;
 
     this.hostEl.innerHTML = renderRosterScreenHtml({
       characters,
       selectedCharacterId: selectedChar?.characterId ?? null,
       previewDirection: this.previewDirection,
       busy: this.busyAction,
-      statusBanner: this.statusBanner
+      statusBanner: this.statusBanner,
+      deleteConfirmCharacter: deleteConfirmChar
     });
 
     const previewCanvas = this.hostEl.querySelector(
@@ -388,9 +400,28 @@ export class CharacterCreationOverlayController {
       }
     });
 
+    this.hostEl.querySelector("#btn-roster-delete-char")?.addEventListener("click", () => {
+      if (this.busyAction || !selectedChar) return;
+      this.rosterDeleteTargetCharacterId = selectedChar.characterId;
+      this.renderRosterStep();
+    });
+
+    this.hostEl.querySelector("#btn-roster-cancel-delete")?.addEventListener("click", () => {
+      if (this.busyAction) return;
+      this.rosterDeleteTargetCharacterId = null;
+      this.renderRosterStep();
+    });
+
+    this.hostEl.querySelector("#btn-roster-confirm-delete")?.addEventListener("click", () => {
+      if (this.busyAction || !this.rosterDeleteTargetCharacterId) return;
+      void this.handleRosterDeleteCharacter(this.rosterDeleteTargetCharacterId);
+    });
+
     this.hostEl.querySelector("#btn-roster-create-new")?.addEventListener("click", () => {
       if (this.busyAction) return;
       this.statusBanner = null;
+      this.activeDraftCharacterId = null;
+      this.net.activeRollDraft = null;
       this.draftNameInput = `Đạo Đồ ${characters.length + 1}`;
       this.selectedAppearanceId = APPROVED_CHARACTER_V02_APPEARANCES[0]!.id;
       this.transitionTo("CREATE");
@@ -401,6 +432,50 @@ export class CharacterCreationOverlayController {
       this.statusBanner = null;
       this.transitionTo("TITLE");
     });
+  }
+
+  private async handleRosterDeleteCharacter(characterId: string): Promise<void> {
+    if (this.busyAction) return;
+    this.busyAction = true;
+    this.rosterDeleteTargetCharacterId = null;
+    this.statusBanner = {
+      kind: "info",
+      text: "Đang xoá đạo thân khỏi danh sách..."
+    };
+    this.renderRosterStep();
+
+    try {
+      const delRes = await this.net.deleteCharacterHttp(characterId);
+      if (!delRes.ok) {
+        this.busyAction = false;
+        this.statusBanner = {
+          kind: "error",
+          text: delRes.messageVi || "Không thể xoá đạo thân."
+        };
+        this.renderRosterStep();
+        return;
+      }
+
+      await this.net.fetchCharacterRosterHttp();
+      this.busyAction = false;
+      this.statusBanner = {
+        kind: "ok",
+        text: delRes.messageVi || "Đã xoá đạo thân thành công."
+      };
+      if (this.net.rosterCharacters.length === 0) {
+        this.transitionTo("TITLE");
+      } else {
+        this.stateMachine?.publishGlobalTelemetry();
+        this.renderRosterStep();
+      }
+    } catch (err) {
+      this.busyAction = false;
+      this.statusBanner = {
+        kind: "error",
+        text: String((err as Error)?.message ?? err)
+      };
+      this.renderRosterStep();
+    }
   }
 
   private async handleRosterEnterWorld(charEntry: CharacterRosterEntryDto): Promise<void> {
@@ -430,6 +505,8 @@ export class CharacterCreationOverlayController {
     this.activeDraftCharacterId = charEntry.characterId;
     this.activeDraftCharacterName = charEntry.name;
     this.activeDraftAppearanceId = charEntry.appearanceId;
+    this.draftNameInput = charEntry.name;
+    this.selectedAppearanceId = charEntry.appearanceId;
     this.net.setSelectedCharacterId(charEntry.characterId);
 
     if (charEntry.activeRollDraft) {
@@ -470,16 +547,32 @@ export class CharacterCreationOverlayController {
   }
 
   private renderCreateStep(): void {
+    this.renderUnifiedCreateAndDestinyStep(null);
+  }
+
+  private renderDestinyRollStep(rollDraft: DestinyRollDraft | null): void {
+    this.renderUnifiedCreateAndDestinyStep(rollDraft);
+  }
+
+  private renderUnifiedCreateAndDestinyStep(rollDraft: DestinyRollDraft | null): void {
+    const flowState = this.getEntryFlowState();
+    const isRolledMode =
+      flowState === "DESTINY_ROLL" &&
+      Boolean(
+        rollDraft &&
+          Array.isArray(rollDraft.candidateTraitIds) &&
+          rollDraft.candidateTraitIds.length === 3
+      );
+
+    const effectiveAppearanceId = this.selectedAppearanceId;
+    const effectiveName = this.draftNameInput;
+
     const selectedApp =
-      APPROVED_CHARACTER_V02_APPEARANCES.find((a) => a.id === this.selectedAppearanceId) ??
+      APPROVED_CHARACTER_V02_APPEARANCES.find((a) => a.id === effectiveAppearanceId) ??
       APPROVED_CHARACTER_V02_APPEARANCES[0]!;
-    const selectedPortraitSrc = resolveStarterPortraitUrl(
-      selectedApp.id,
-      selectedApp.portraitUrl
-    );
 
     const appearancesHtml = APPROVED_CHARACTER_V02_APPEARANCES.map((app) => {
-      const isSelected = app.id === this.selectedAppearanceId;
+      const isSelected = app.id === selectedApp.id;
       const portraitSrc = resolveStarterPortraitUrl(app.id, app.portraitUrl);
       const cardFrameUrl = isSelected
         ? V01B_UI_CHROME_URLS.ccAppearanceCardSelected
@@ -487,7 +580,8 @@ export class CharacterCreationOverlayController {
       return `
         <button
           type="button"
-          class="cc-appearance-card ${isSelected ? "selected" : ""}"
+          class="cc-appearance-card ${isSelected ? "selected is-selected" : ""}"
+          aria-pressed="${isSelected ? "true" : "false"}"
           data-testid="create-appearance-card"
           data-appearance-id="${this.escapeHtml(app.id)}"
           style="background-image:url('${cardFrameUrl}')"
@@ -504,36 +598,217 @@ export class CharacterCreationOverlayController {
       `;
     }).join("");
 
-    const originBadgesHtml = BASE_ATTRIBUTE_KEYS.map((key) => {
+    const bonusMap: Record<string, number> = {};
+    if (isRolledMode && rollDraft) {
+      for (const tid of rollDraft.candidateTraitIds) {
+        const def = S1E_STARTER_DESTINY_CATALOG[tid];
+        if (def?.flatPreRealmAttributeBonuses) {
+          for (const [k, v] of Object.entries(def.flatPreRealmAttributeBonuses)) {
+            if (typeof v === "number") {
+              bonusMap[k] = (bonusMap[k] ?? 0) + v;
+            }
+          }
+        }
+      }
+    }
+
+    const originAttrsGridHtml = BASE_ATTRIBUTE_KEYS.map((key) => {
       const label = BASE_ATTRIBUTE_LABELS_VI[key];
       const iconUrl = resolveAttributeIconUrl(key, 32);
-      return `<span class="cc-origin-attr-pill"><img src="${iconUrl}" alt="${this.escapeHtml(label)}" />${this.escapeHtml(label)} 5</span>`;
+      const bonus = bonusMap[key] ?? 0;
+      const total = 10 + bonus;
+      const bonusSpan =
+        bonus > 0 ? `<span class="cc-merged-attr-bonus">(+${bonus})</span>` : "";
+      return `
+        <div class="cc-merged-attr-cell ${bonus > 0 ? "has-bonus" : ""}">
+          <div class="cc-merged-attr-head">
+            <img src="${iconUrl}" alt="${this.escapeHtml(label)}" />
+            <span>${this.escapeHtml(label)}</span>
+          </div>
+          <div class="cc-merged-attr-val">
+            <strong>${total}</strong> ${bonusSpan}
+          </div>
+        </div>
+      `;
     }).join("");
 
     const bannerHtml = this.statusBanner
       ? `<div class="cc-status-banner ${this.statusBanner.kind}" id="cc-status-banner" style="display:block;">${this.escapeHtml(this.statusBanner.text)}</div>`
       : "";
 
+    let cardsHtml = "";
+    if (isRolledMode && rollDraft) {
+      cardsHtml = rollDraft.candidateTraitIds
+        .map((traitId, idx) => {
+          const def = S1E_STARTER_DESTINY_CATALOG[traitId];
+          const rarity: DestinyRarity = def?.rarity ?? "pham";
+          const crownLabel = RARITY_CROWN_LABELS_VI[rarity];
+          const cardFrameUrl = resolveDestinyCardFrameUrl(rarity);
+          const emblemUrl = resolveDestinyTraitIconUrl(traitId, 64);
+          const bonusSummary = def
+            ? formatDestinyTraitBonusSummaryVi(def)
+            : "Chưa có dữ liệu";
+          let signatureBadgeHtml = "";
+          if (def?.legendaryNpcId) {
+            const npc = LEGENDARY_NPCS.find((n) => n.id === def.legendaryNpcId);
+            const npcName = npc?.nameVi ?? def.legendaryNpcId;
+            signatureBadgeHtml = `
+              <div class="cc-signature-badge" data-legendary-npc="${this.escapeHtml(def.legendaryNpcId)}">
+                [Độc Nhất Chân Truyền • ${this.escapeHtml(npcName)}]
+              </div>
+            `;
+          }
+          return `
+            <div
+              class="cc-destiny-card cc-merged-destiny-row v01b-destiny-edict-card rarity-${this.escapeHtml(rarity)}"
+              data-testid="destiny-roll-card"
+              data-slot-index="${idx}"
+              data-trait-id="${this.escapeHtml(traitId)}"
+              data-rarity="${this.escapeHtml(rarity)}"
+              style="background-image:url('${cardFrameUrl}')"
+            >
+              <div class="cc-merged-destiny-emblem-col">
+                <div class="v01b-edict-medallion-halo">
+                  <img class="v01b-edict-emblem-img" src="${this.escapeHtml(emblemUrl)}" alt="${this.escapeHtml(def?.displayNameVi ?? traitId)}" />
+                </div>
+                <span class="v01b-edict-slot-num">${idx + 1}</span>
+              </div>
+              <div class="cc-merged-destiny-info-col">
+                <div class="v01b-edict-rarity-sub">[${this.escapeHtml(crownLabel)}]</div>
+                <div class="cc-destiny-name">${this.escapeHtml(def?.displayNameVi ?? traitId)}</div>
+                ${signatureBadgeHtml}
+                <div class="cc-destiny-desc">${this.escapeHtml(def?.descriptionVi ?? "")}</div>
+                <div class="cc-destiny-bonus">+ ${this.escapeHtml(bonusSummary)}</div>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    } else {
+      cardsHtml = [0, 1, 2]
+        .map(
+          (idx) => `
+          <div
+            class="cc-destiny-unrolled-slot cc-merged-destiny-row v01b-destiny-edict-card unrolled"
+            data-slot-index="${idx}"
+            style="background-image:url('${resolveDestinyCardFrameUrl("pham")}')"
+          >
+            <div class="cc-merged-destiny-emblem-col">
+              <div class="v01b-edict-medallion-halo">
+                <img class="v01b-edict-emblem-img" src="${V01B_UI_CHROME_URLS.orbTuViCore64}" alt="" />
+              </div>
+              <span class="v01b-edict-slot-num">${idx + 1}</span>
+            </div>
+            <div class="cc-merged-destiny-info-col">
+              <div class="v01b-edict-rarity-sub">[Ô MỆNH CÁCH ${idx + 1} • CHƯA GIEO]</div>
+              <div class="cc-destiny-name">Thiên Cơ Ẩn Tàng</div>
+              <div class="cc-destiny-desc">Nhấn "Xoay Chuyển Tinh Bàn — Gieo Lại Cả 3" bên dưới để câu thông thiên đạo, đồng loạt hiển lộ 3 mệnh cách khởi đầu.</div>
+              <div class="cc-destiny-bonus">+ Chờ xoay chuyển tinh bàn</div>
+            </div>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    const hasActiveNonce = Boolean(isRolledMode && rollDraft?.rollNonce);
+    const stepCode = hasActiveNonce ? "ROLLED" : "DRAFT";
+
+    const confirmModalHtml =
+      this.confirmModalOpen && rollDraft
+        ? `
+          <div class="v01b-confirm-modal-backdrop" id="destiny-confirm-modal-backdrop">
+            <div class="v01b-confirm-modal v01b-panel-tier3-dragon" data-testid="destiny-confirm-modal">
+              <div class="v01b-banner-header">
+                <img class="v01b-banner-crest-img" src="${V01B_UI_CHROME_URLS.panelHeaderBannerCrest}" alt="" />
+                <span class="v01b-banner-title">XÁC NHẬN ẤN ĐỊNH TIÊN THIÊN KHÍ VẬN — BẤT KHẢ NGHỊCH</span>
+              </div>
+              <div class="v01b-confirm-body">
+                <p>Một khi đã khắc 3 Tiên Thiên Khí Vận vào bản mệnh của <strong>${this.escapeHtml(effectiveName)}</strong>, thiên cơ sẽ vĩnh viễn không thể thay đổi.</p>
+                <div class="v01b-confirm-traits-summary">
+                  ${rollDraft.candidateTraitIds
+                    .map((tid) => {
+                      const d = S1E_STARTER_DESTINY_CATALOG[tid];
+                      return `<span class="roster-destiny-pill rarity-${d?.rarity ?? "pham"}">${this.escapeHtml(d?.displayNameVi ?? tid)}</span>`;
+                    })
+                    .join("")}
+                </div>
+              </div>
+              <div class="v01b-confirm-actions">
+                <button
+                  type="button"
+                  class="hud-btn gold cc-btn-lg v01b-btn-cinnabar"
+                  id="btn-cc-confirm"
+                  data-testid="destiny-confirm-forever-btn"
+                  ${this.busyAction ? "disabled" : ""}
+                >
+                  <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoCinnabar}" alt="" />
+                  <span>Xác Nhận Ấn Định &amp; Bước Vào Bát Hoang</span>
+                </button>
+                <button
+                  type="button"
+                  class="hud-btn cc-btn-lg v01b-btn-jade"
+                  id="btn-cc-cancel-confirm"
+                  data-testid="destiny-cancel-confirm-btn"
+                  ${this.busyAction ? "disabled" : ""}
+                >
+                  <span>Suy Nghĩ Lại</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `
+        : "";
+
+    const rollButtonHtml = isRolledMode
+      ? `
+        <button
+          type="button"
+          class="hud-btn primary cc-btn-lg v01b-btn-jade cc-merged-reroll-btn"
+          id="btn-cc-reroll"
+          data-testid="destiny-reroll-all-btn"
+          ${this.busyAction ? "disabled" : ""}
+        >
+          <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
+          <span>Xoay Chuyển Tinh Bàn — Gieo Lại Cả 3</span>
+        </button>
+      `
+      : `
+        <button
+          type="button"
+          class="hud-btn primary cc-btn-lg v01b-btn-jade cc-merged-reroll-btn"
+          id="btn-cc-create-draft"
+          data-testid="create-submit-draft-btn"
+          ${this.busyAction ? "disabled" : ""}
+        >
+          <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
+          <span>Xoay Chuyển Tinh Bàn — Gieo Lại Cả 3</span>
+        </button>
+      `;
+
+    const backButtonId = isRolledMode ? "btn-cc-back-roster" : "btn-cc-back";
+    const backButtonTestId = isRolledMode ? "destiny-back-roster-btn" : "create-back-btn";
+
     this.hostEl.innerHTML = `
       <div
-        class="entry-screen entry-create-screen"
+        class="entry-screen entry-create-screen cc-merged-triptych-screen"
         id="cc-draft-section"
         data-testid="entry-create-screen"
-        data-step="DRAFT"
-        style="background-image:url('${V01B_UI_CHROME_URLS.entryTitleTerraceBackdrop}')"
+        data-step="${stepCode}"
+        style="background-image:url('${V01B_UI_CHROME_URLS.entryDestinyAstrolabeBackdrop}')"
       >
         <div class="entry-top-banner">
           <img class="entry-top-banner-img" src="${V01B_UI_CHROME_URLS.panelHeaderBannerCrest}" alt="" />
           <div class="entry-top-banner-titles">
-            <div class="entry-top-banner-main">THIÊN MỆNH KHỞI NGUYÊN ĐÀI</div>
-            <div class="entry-top-banner-sub">Định danh đạo hiệu &amp; chọn hình tướng khởi đầu trước khi bước vào Tinh Bàn Gieo Mệnh</div>
+            <div class="entry-top-banner-main">THIÊN MỆNH KHỞI NGUYÊN &amp; NGHỊCH THIÊN CẢI MỆNH</div>
+            <div class="entry-top-banner-sub">Định Danh Đạo Hiệu • Chọn Hình Tướng • Gieo Cùng Lúc 3 Tiên Thiên Khí Vận</div>
           </div>
         </div>
         ${bannerHtml}
-        <div class="entry-split-layout">
-          <div class="entry-left-plaque v01b-panel-celestial-jade">
+        <div class="cc-merged-triptych-grid">
+          <div class="cc-merged-left-col v01b-panel-celestial-jade">
             <div class="cc-form-row">
-              <label class="cc-label" for="cc-input-name">Đạo Danh</label>
+              <label class="cc-label" for="cc-input-name">Đạo Danh:</label>
               <div class="cc-name-scroll-wrap" style="background-image:url('${V01B_UI_CHROME_URLS.ccNameScrollInput}')">
                 <input
                   id="cc-input-name"
@@ -541,40 +816,30 @@ export class CharacterCreationOverlayController {
                   class="cc-input"
                   type="text"
                   maxlength="24"
-                  value="${this.escapeHtml(this.draftNameInput)}"
+                  value="${this.escapeHtml(effectiveName)}"
                   placeholder="Nhập đạo danh (2–16 ký tự)..."
                 />
               </div>
             </div>
-            <div class="cc-form-row">
-              <div class="cc-label">Chọn Hình Tướng Khởi Đầu (2×2)</div>
+            <div class="cc-form-row cc-merged-appearances-wrap">
               <div class="cc-appearance-grid" id="cc-appearance-grid">
                 ${appearancesHtml}
               </div>
             </div>
-            <div class="cc-origin-note">
-              <div class="cc-origin-summary-text">Cảnh Giới Khởi Đầu: Phàm Nhân • Cấp 1</div>
-              <div class="cc-origin-summary-sub">6 Thuộc Tính Gốc: Khởi đầu 5 điểm mỗi thuộc tính</div>
-              <div class="cc-origin-attr-strip">${originBadgesHtml}</div>
-            </div>
           </div>
-          <div class="entry-right-stage">
-            <div class="roster-stage-header">
-              <div class="roster-stage-name">${this.escapeHtml(selectedApp.displayNameVi)}</div>
-              <div class="roster-stage-subtitle">${this.escapeHtml(selectedApp.subtitleVi)}</div>
-            </div>
-            <div class="cc-dais-showcase">
-              <div class="cc-dais-portrait-crest">
-                <img src="${this.escapeHtml(selectedPortraitSrc)}" alt="${this.escapeHtml(selectedApp.displayNameVi)}" />
-              </div>
-              <div class="cc-dais-pedestal-wrap">
-                <canvas
-                  id="entry-sprite-preview-canvas"
-                  class="cc-dais-sprite-canvas"
-                  width="160"
-                  height="192"
-                ></canvas>
-                <img class="cc-dais-pedestal-img" src="${V01B_UI_CHROME_URLS.ccLotusPedestal}" alt="" />
+
+          <div class="cc-merged-center-col">
+            <div class="cc-merged-dais-stage">
+              <div class="cc-merged-astrolabe-halo">
+                <div class="cc-dais-pedestal-wrap">
+                  <canvas
+                    id="entry-sprite-preview-canvas"
+                    class="cc-dais-sprite-canvas"
+                    width="148"
+                    height="176"
+                  ></canvas>
+                  <img class="cc-dais-pedestal-img" src="${V01B_UI_CHROME_URLS.ccLotusPedestal}" alt="" />
+                </div>
               </div>
               <div class="cc-direction-controls">
                 <button type="button" class="hud-btn v01b-btn-jade cc-dir-btn ${this.previewDirection === "down" ? "active" : ""}" data-preview-dir="down">Nam</button>
@@ -582,33 +847,54 @@ export class CharacterCreationOverlayController {
                 <button type="button" class="hud-btn v01b-btn-jade cc-dir-btn ${this.previewDirection === "left" ? "active" : ""}" data-preview-dir="left">Tây</button>
                 <button type="button" class="hud-btn v01b-btn-jade cc-dir-btn ${this.previewDirection === "right" ? "active" : ""}" data-preview-dir="right">Đông</button>
                 <button type="button" class="hud-btn v01b-btn-jade cc-dir-btn ${this.previewAnimMode === "walk" ? "active" : ""}" id="btn-toggle-preview-walk">
-                  ${this.previewAnimMode === "walk" ? "Đang Bộ Hành" : "Thử Bộ Hành"}
+                  ${this.previewAnimMode === "walk" ? "Đang Bộ Hành" : "Bộ Hành"}
                 </button>
               </div>
             </div>
-            <div class="entry-stage-action-bar">
-              <button
-                type="button"
-                class="hud-btn gold cc-btn-lg v01b-btn-cinnabar"
-                id="btn-cc-create-draft"
-                data-testid="create-submit-draft-btn"
-                ${this.busyAction ? "disabled" : ""}
-              >
-                <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
-                <span>Ứng Thiên Khởi Mệnh</span>
-              </button>
-              <button
-                type="button"
-                class="hud-btn cc-btn-lg v01b-btn-jade"
-                id="btn-cc-back"
-                data-testid="create-back-btn"
-                ${this.busyAction ? "disabled" : ""}
-              >
-                <span>Quay Lại</span>
-              </button>
+            <div class="cc-merged-attrs-box">
+              <div class="cc-merged-attrs-title">Lục Hợp Thuộc Tính Gốc (Phàm Nhân • Cấp 1)</div>
+              <div class="cc-merged-attrs-grid">
+                ${originAttrsGridHtml}
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="cc-merged-right-col"
+            id="cc-rolled-section"
+            data-testid="entry-destiny-roll-screen"
+          >
+            <div class="cc-merged-destiny-stack" id="cc-destiny-grid">
+              ${cardsHtml}
+            </div>
+            <div class="cc-merged-reroll-dock">
+              ${rollButtonHtml}
             </div>
           </div>
         </div>
+
+        <div class="cc-merged-footer-bar">
+          <button
+            type="button"
+            class="hud-btn cc-btn-lg v01b-btn-jade cc-merged-back-btn"
+            id="${backButtonId}"
+            data-testid="${backButtonTestId}"
+            ${this.busyAction ? "disabled" : ""}
+          >
+            <span>Quay Lại Danh Sách</span>
+          </button>
+          <button
+            type="button"
+            class="hud-btn gold cc-btn-lg v01b-btn-cinnabar cc-merged-confirm-btn"
+            id="btn-cc-open-confirm"
+            data-testid="destiny-open-confirm-modal-btn"
+            ${this.busyAction ? "disabled" : ""}
+          >
+            <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoCinnabar}" alt="" />
+            <span>Ấn Định Thiên Mệnh — Bước Vào Bát Hoang</span>
+          </button>
+        </div>
+        ${confirmModalHtml}
       </div>
     `;
 
@@ -617,7 +903,7 @@ export class CharacterCreationOverlayController {
     ) as HTMLCanvasElement | null;
     this.spriteAnimator.attach(
       previewCanvas,
-      this.selectedAppearanceId,
+      selectedApp.id,
       this.previewDirection,
       this.previewAnimMode
     );
@@ -625,6 +911,7 @@ export class CharacterCreationOverlayController {
     const nameInput = this.hostEl.querySelector("#cc-input-name") as HTMLInputElement | null;
     nameInput?.addEventListener("input", () => {
       this.draftNameInput = nameInput.value;
+      this.activeDraftCharacterName = nameInput.value;
     });
 
     this.hostEl.querySelectorAll(".cc-appearance-card").forEach((card) => {
@@ -632,10 +919,12 @@ export class CharacterCreationOverlayController {
         const appId = (card as HTMLElement).dataset.appearanceId;
         if (appId) {
           this.selectedAppearanceId = appId;
+          this.activeDraftAppearanceId = appId;
           if (nameInput) {
             this.draftNameInput = nameInput.value;
+            this.activeDraftCharacterName = nameInput.value;
           }
-          this.renderCreateStep();
+          this.renderUnifiedCreateAndDestinyStep(rollDraft);
         }
       });
     });
@@ -648,7 +937,7 @@ export class CharacterCreationOverlayController {
           if (nameInput) {
             this.draftNameInput = nameInput.value;
           }
-          this.renderCreateStep();
+          this.renderUnifiedCreateAndDestinyStep(rollDraft);
         }
       });
     });
@@ -658,7 +947,7 @@ export class CharacterCreationOverlayController {
       if (nameInput) {
         this.draftNameInput = nameInput.value;
       }
-      this.renderCreateStep();
+      this.renderUnifiedCreateAndDestinyStep(rollDraft);
     });
 
     const submitDraft = () => {
@@ -669,19 +958,89 @@ export class CharacterCreationOverlayController {
     nameInput?.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
+        if (isRolledMode) {
+          void this.handleRerollAll();
+        } else {
+          submitDraft();
+        }
+      }
+    });
+
+    this.hostEl.querySelector("#btn-cc-reroll")?.addEventListener("click", () => {
+      void this.handleRerollAll();
+    });
+
+    this.hostEl.querySelector("#btn-cc-open-confirm")?.addEventListener("click", () => {
+      if (this.busyAction) return;
+      if (nameInput) {
+        this.draftNameInput = nameInput.value;
+        this.activeDraftCharacterName = nameInput.value;
+      }
+      if (!isRolledMode || !rollDraft?.rollNonce) {
         submitDraft();
+        return;
+      }
+      const cleanName = this.draftNameInput.trim();
+      if (cleanName.length < 2 || cleanName.length > 24) {
+        this.statusBanner = {
+          kind: "error",
+          text: "Đạo danh phải có độ dài từ 2 đến 24 ký tự."
+        };
+        this.renderUnifiedCreateAndDestinyStep(rollDraft);
+        return;
+      }
+      this.draftNameInput = cleanName;
+      this.activeDraftCharacterName = cleanName;
+      this.confirmModalOpen = true;
+      this.renderUnifiedCreateAndDestinyStep(rollDraft);
+    });
+
+    this.hostEl.querySelector("#btn-cc-cancel-confirm")?.addEventListener("click", () => {
+      this.confirmModalOpen = false;
+      this.renderUnifiedCreateAndDestinyStep(rollDraft);
+    });
+
+    this.hostEl.querySelector("#btn-cc-confirm")?.addEventListener("click", () => {
+      if (rollDraft?.rollNonce) {
+        void this.handleConfirmForever(rollDraft.rollNonce);
       }
     });
 
     this.hostEl.querySelector("#btn-cc-back")?.addEventListener("click", () => {
-      if (this.busyAction) return;
-      this.statusBanner = null;
-      if (this.net.rosterCharacters.length > 0) {
-        this.transitionTo("ROSTER");
-      } else {
-        this.transitionTo("TITLE");
-      }
+      void this.handleDiscardDraftAndBack();
     });
+
+    this.hostEl.querySelector("#btn-cc-back-roster")?.addEventListener("click", () => {
+      void this.handleDiscardDraftAndBack();
+    });
+  }
+
+  private async handleDiscardDraftAndBack(): Promise<void> {
+    if (this.busyAction) return;
+    this.busyAction = true;
+    this.statusBanner = null;
+    this.confirmModalOpen = false;
+
+    const draftIdToDiscard = this.activeDraftCharacterId;
+    this.activeDraftCharacterId = null;
+    this.net.activeRollDraft = null;
+
+    try {
+      if (draftIdToDiscard) {
+        await this.net.deleteCharacterHttp(draftIdToDiscard);
+      }
+      await this.net.fetchCharacterRosterHttp();
+    } catch {
+      this.activeDraftCharacterId = null;
+    } finally {
+      this.busyAction = false;
+    }
+
+    if (this.net.rosterCharacters.length > 0) {
+      this.transitionTo("ROSTER");
+    } else {
+      this.transitionTo("TITLE");
+    }
   }
 
   private async handleSubmitCreateDraft(rawName: string): Promise<void> {
@@ -729,7 +1088,11 @@ export class CharacterCreationOverlayController {
       if (!draftRes.rollDraft) {
         const rollRes = await this.net.rollInnateDestinyHttp(
           newCharId,
-          this.net.nextClientRequestId("v02_roll")
+          this.net.nextClientRequestId("v02_roll"),
+          {
+            name: cleanName,
+            appearanceId: this.selectedAppearanceId
+          }
         );
         if (!rollRes.ok) {
           this.busyAction = false;
@@ -742,7 +1105,6 @@ export class CharacterCreationOverlayController {
         }
       }
 
-      await this.net.fetchCharacterRosterHttp();
       this.net.setSelectedCharacterId(newCharId);
       this.busyAction = false;
       this.statusBanner = null;
@@ -757,241 +1119,6 @@ export class CharacterCreationOverlayController {
     }
   }
 
-  private renderDestinyRollStep(rollDraft: DestinyRollDraft | null): void {
-    const charV02 = this.net.selfStateV02;
-    const charName = charV02?.identity.name ?? this.activeDraftCharacterName;
-    const appearanceId = charV02?.identity.appearanceId ?? this.activeDraftAppearanceId;
-    const appDef =
-      APPROVED_CHARACTER_V02_APPEARANCES.find((a) => a.id === appearanceId) ??
-      APPROVED_CHARACTER_V02_APPEARANCES[0]!;
-    const starterPortraitSrc = resolveStarterPortraitUrl(appDef.id, appDef.portraitUrl);
-
-    const bannerHtml = this.statusBanner
-      ? `<div class="cc-status-banner ${this.statusBanner.kind}" id="cc-status-banner" style="display:block;">${this.escapeHtml(this.statusBanner.text)}</div>`
-      : "";
-
-    let cardsHtml = "";
-    if (
-      rollDraft &&
-      Array.isArray(rollDraft.candidateTraitIds) &&
-      rollDraft.candidateTraitIds.length === 3
-    ) {
-      cardsHtml = rollDraft.candidateTraitIds
-        .map((traitId, idx) => {
-          const def = S1E_STARTER_DESTINY_CATALOG[traitId];
-          const rarity: DestinyRarity = def?.rarity ?? "pham";
-          const crownLabel = RARITY_CROWN_LABELS_VI[rarity];
-          const cardFrameUrl = resolveDestinyCardFrameUrl(rarity);
-          const emblemUrl = resolveDestinyTraitIconUrl(traitId, 64);
-          const bonusSummary = def
-            ? formatDestinyTraitBonusSummaryVi(def)
-            : "Chưa có dữ liệu";
-          let signatureBadgeHtml = "";
-          if (def?.legendaryNpcId) {
-            const npc = LEGENDARY_NPCS.find((n) => n.id === def.legendaryNpcId);
-            const npcName = npc?.nameVi ?? def.legendaryNpcId;
-            signatureBadgeHtml = `
-              <div class="cc-signature-badge" data-legendary-npc="${this.escapeHtml(def.legendaryNpcId)}">
-                [Độc Nhất Chân Truyền — Tối Đa 1 Thần Phẩm • ${this.escapeHtml(npcName)}]
-              </div>
-            `;
-          }
-          return `
-            <div
-              class="cc-destiny-card v01b-destiny-edict-card rarity-${this.escapeHtml(rarity)}"
-              data-testid="destiny-roll-card"
-              data-slot-index="${idx}"
-              data-trait-id="${this.escapeHtml(traitId)}"
-              data-rarity="${this.escapeHtml(rarity)}"
-              style="background-image:url('${cardFrameUrl}')"
-            >
-              <div class="v01b-edict-slot-num">${idx + 1}</div>
-              <div class="v01b-edict-rarity-crown">${this.escapeHtml(crownLabel)}</div>
-              <div class="v01b-edict-medallion-stage">
-                <div class="v01b-edict-medallion-halo">
-                  <img class="v01b-edict-emblem-img" src="${this.escapeHtml(emblemUrl)}" alt="${this.escapeHtml(def?.displayNameVi ?? traitId)}" />
-                </div>
-              </div>
-              <div class="v01b-edict-lower-plaque">
-                <div class="v01b-edict-rarity-sub">${this.escapeHtml(crownLabel)}</div>
-                <div class="cc-destiny-name">${this.escapeHtml(def?.displayNameVi ?? traitId)}</div>
-                ${signatureBadgeHtml}
-                <div class="cc-destiny-desc">${this.escapeHtml(def?.descriptionVi ?? "")}</div>
-                <div class="cc-destiny-bonus">✦ ${this.escapeHtml(bonusSummary)}</div>
-              </div>
-            </div>
-          `;
-        })
-        .join("");
-    } else {
-      cardsHtml = [0, 1, 2]
-        .map(
-          (idx) => `
-          <div
-            class="cc-destiny-card v01b-destiny-edict-card unrolled"
-            data-testid="destiny-roll-card"
-            data-slot-index="${idx}"
-            style="background-image:url('${resolveDestinyCardFrameUrl("pham")}')"
-          >
-            <div class="v01b-edict-slot-num">${idx + 1}</div>
-            <div class="v01b-edict-rarity-crown">CHƯA GIEO MỆNH</div>
-            <div class="v01b-edict-medallion-stage">
-              <div class="v01b-edict-medallion-halo">
-                <img class="v01b-edict-emblem-img" src="${V01B_UI_CHROME_URLS.orbTuViCore64}" alt="" />
-              </div>
-            </div>
-            <div class="v01b-edict-lower-plaque">
-              <div class="cc-destiny-name">Thiên Cơ Ẩn Tàng</div>
-              <div class="cc-destiny-desc">Nhấn "Xoay Chuyển Tinh Bàn — Gieo Lại Cả 3" để câu thông thiên đạo, đồng loạt hiển lộ 3 mệnh cách khởi đầu.</div>
-            </div>
-          </div>
-        `
-        )
-        .join("");
-    }
-
-    const hasActiveNonce = Boolean(rollDraft?.rollNonce);
-    const stepCode = hasActiveNonce ? "ROLLED" : "DRAFT";
-
-    const confirmModalHtml =
-      this.confirmModalOpen && rollDraft
-        ? `
-          <div class="v01b-confirm-modal-backdrop" id="destiny-confirm-modal-backdrop">
-            <div class="v01b-confirm-modal v01b-panel-tier3-dragon" data-testid="destiny-confirm-modal">
-              <div class="v01b-banner-header">
-                <img class="v01b-banner-crest-img" src="${V01B_UI_CHROME_URLS.panelHeaderBannerCrest}" alt="" />
-                <span class="v01b-banner-title">XÁC NHẬN ẤN ĐỊNH TIÊN THIÊN KHÍ VẬN — BẤT KHẢ NGHỊCH</span>
-              </div>
-              <div class="v01b-confirm-body">
-                <p>Một khi đã khắc 3 Tiên Thiên Khí Vận vào bản mệnh của <strong>${this.escapeHtml(charName)}</strong>, thiên cơ sẽ vĩnh viễn không thể thay đổi.</p>
-                <div class="v01b-confirm-traits-summary">
-                  ${rollDraft.candidateTraitIds
-                    .map((tid) => {
-                      const d = S1E_STARTER_DESTINY_CATALOG[tid];
-                      return `<span class="roster-destiny-pill rarity-${d?.rarity ?? "pham"}">${this.escapeHtml(d?.displayNameVi ?? tid)}</span>`;
-                    })
-                    .join("")}
-                </div>
-              </div>
-              <div class="v01b-confirm-actions">
-                <button
-                  type="button"
-                  class="hud-btn gold cc-btn-lg v01b-btn-cinnabar"
-                  id="btn-cc-confirm"
-                  data-testid="destiny-confirm-forever-btn"
-                  ${this.busyAction ? "disabled" : ""}
-                >
-                  <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoCinnabar}" alt="" />
-                  <span>Xác Nhận Ấn Định &amp; Bước Vào Bát Hoang</span>
-                </button>
-                <button
-                  type="button"
-                  class="hud-btn cc-btn-lg v01b-btn-jade"
-                  id="btn-cc-cancel-confirm"
-                  data-testid="destiny-cancel-confirm-btn"
-                  ${this.busyAction ? "disabled" : ""}
-                >
-                  <span>Suy Nghĩ Lại</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        `
-        : "";
-
-    this.hostEl.innerHTML = `
-      <div
-        class="entry-screen entry-destiny-screen"
-        id="cc-rolled-section"
-        data-testid="entry-destiny-roll-screen"
-        data-step="${stepCode}"
-        style="background-image:url('${V01B_UI_CHROME_URLS.entryDestinyAstrolabeBackdrop}')"
-      >
-        <div class="entry-top-banner">
-          <img class="entry-top-banner-img" src="${V01B_UI_CHROME_URLS.panelHeaderBannerCrest}" alt="" />
-          <div class="entry-top-banner-titles">
-            <div class="entry-top-banner-main">TIÊN THIÊN NGHỊCH THIÊN CẢI MỆNH</div>
-            <div class="entry-top-banner-sub">Gieo Cùng Lúc 3 Thiên Mệnh • Không Khóa Từng Ô • Tối Đa 1 Thần Phẩm Độc Nhất</div>
-          </div>
-        </div>
-        <div class="cc-draft-summary-bar" id="cc-draft-summary-bar">
-          <div class="cc-draft-summary-ident">
-            <img class="cc-draft-mini-portrait" src="${this.escapeHtml(starterPortraitSrc)}" alt="${this.escapeHtml(appDef.displayNameVi)}" />
-            <div>
-              <strong style="color:var(--gold-bright);">${this.escapeHtml(charName)}</strong>
-              <span class="cc-rule-note"> • ${this.escapeHtml(appDef.displayNameVi)} • Phàm Nhân Cấp 1</span>
-            </div>
-          </div>
-          <div class="cc-step-pill active" id="cc-active-nonce">
-            ${hasActiveNonce ? "Thiên Cơ Đã Hiển Lộ • Có Thể Gieo Lại Hoặc Ấn Định" : "Chưa Gieo Thiên Mệnh"}
-          </div>
-        </div>
-        ${bannerHtml}
-        <div class="cc-destiny-grid v01b-destiny-stage-grid" id="cc-destiny-grid">
-          ${cardsHtml}
-        </div>
-        <div class="entry-destiny-ceremony-bar">
-          <button
-            type="button"
-            class="hud-btn primary cc-btn-lg v01b-btn-jade"
-            id="btn-cc-reroll"
-            data-testid="destiny-reroll-all-btn"
-            ${this.busyAction ? "disabled" : ""}
-          >
-            <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
-            <span>Xoay Chuyển Tinh Bàn — Gieo Lại Cả 3</span>
-          </button>
-          <button
-            type="button"
-            class="hud-btn gold cc-btn-lg v01b-btn-cinnabar"
-            id="btn-cc-open-confirm"
-            data-testid="destiny-open-confirm-modal-btn"
-            ${!hasActiveNonce || this.busyAction ? "disabled" : ""}
-          >
-            <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoCinnabar}" alt="" />
-            <span>Ấn Định Thiên Mệnh — Vĩnh Viễn</span>
-          </button>
-          <button
-            type="button"
-            class="hud-btn cc-btn-lg v01b-btn-jade"
-            id="btn-cc-back-roster"
-            data-testid="destiny-back-roster-btn"
-            ${this.busyAction ? "disabled" : ""}
-          >
-            <span>Lưu Bản Nháp &amp; Về Danh Sách</span>
-          </button>
-        </div>
-        ${confirmModalHtml}
-      </div>
-    `;
-
-    this.hostEl.querySelector("#btn-cc-reroll")?.addEventListener("click", () => {
-      void this.handleRerollAll();
-    });
-
-    this.hostEl.querySelector("#btn-cc-open-confirm")?.addEventListener("click", () => {
-      if (this.busyAction || !rollDraft?.rollNonce) return;
-      this.confirmModalOpen = true;
-      this.renderDestinyRollStep(rollDraft);
-    });
-
-    this.hostEl.querySelector("#btn-cc-cancel-confirm")?.addEventListener("click", () => {
-      this.confirmModalOpen = false;
-      this.renderDestinyRollStep(rollDraft);
-    });
-
-    this.hostEl.querySelector("#btn-cc-confirm")?.addEventListener("click", () => {
-      if (rollDraft?.rollNonce) {
-        void this.handleConfirmForever(rollDraft.rollNonce);
-      }
-    });
-
-    this.hostEl.querySelector("#btn-cc-back-roster")?.addEventListener("click", () => {
-      if (this.busyAction) return;
-      void this.openRosterFromWorld();
-    });
-  }
-
   private async handleRerollAll(): Promise<void> {
     if (this.busyAction) return;
     const charId =
@@ -999,6 +1126,19 @@ export class CharacterCreationOverlayController {
       this.net.selfStateV02?.identity.characterId ??
       this.net.getSelectedCharacterId();
     if (!charId) return;
+
+    const cleanName = this.draftNameInput.trim();
+    if (cleanName.length < 2 || cleanName.length > 24) {
+      this.statusBanner = {
+        kind: "error",
+        text: "Đạo danh phải có độ dài từ 2 đến 24 ký tự."
+      };
+      this.renderDestinyRollStep(this.net.activeRollDraft);
+      return;
+    }
+    this.draftNameInput = cleanName;
+    this.activeDraftCharacterName = cleanName;
+    this.activeDraftAppearanceId = this.selectedAppearanceId;
 
     this.busyAction = true;
     this.confirmModalOpen = false;
@@ -1009,7 +1149,10 @@ export class CharacterCreationOverlayController {
     this.renderDestinyRollStep(this.net.activeRollDraft);
 
     try {
-      const res = await this.net.rollInnateDestinyHttp(charId);
+      const res = await this.net.rollInnateDestinyHttp(charId, undefined, {
+        name: cleanName,
+        appearanceId: this.selectedAppearanceId
+      });
       this.busyAction = false;
       if (!res.ok) {
         this.statusBanner = {
@@ -1042,6 +1185,19 @@ export class CharacterCreationOverlayController {
       this.net.getSelectedCharacterId();
     if (!charId) return;
 
+    const cleanName = this.draftNameInput.trim();
+    if (cleanName.length < 2 || cleanName.length > 24) {
+      this.statusBanner = {
+        kind: "error",
+        text: "Đạo danh phải có độ dài từ 2 đến 24 ký tự."
+      };
+      this.renderDestinyRollStep(this.net.activeRollDraft);
+      return;
+    }
+    this.draftNameInput = cleanName;
+    this.activeDraftCharacterName = cleanName;
+    this.activeDraftAppearanceId = this.selectedAppearanceId;
+
     this.busyAction = true;
     this.confirmModalOpen = false;
     this.statusBanner = {
@@ -1051,7 +1207,15 @@ export class CharacterCreationOverlayController {
     this.renderDestinyRollStep(this.net.activeRollDraft);
 
     try {
-      const confirmRes = await this.net.confirmInnateDestinyHttp(charId, rollNonce);
+      const confirmRes = await this.net.confirmInnateDestinyHttp(
+        charId,
+        rollNonce,
+        undefined,
+        {
+          name: cleanName,
+          appearanceId: this.selectedAppearanceId
+        }
+      );
       if (!confirmRes.ok) {
         this.busyAction = false;
         this.statusBanner = {

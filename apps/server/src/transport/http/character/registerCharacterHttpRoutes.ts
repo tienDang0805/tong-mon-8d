@@ -362,4 +362,59 @@ export function registerCharacterHttpRoutes(
       } satisfies SelectCharacterForWorldEntryResultPayload);
     }
   });
+
+  const handleDeleteCharacter = async (req: Request, res: any): Promise<void> => {
+    try {
+      const rawToken = extractGuestTokenFromRequest(req);
+      const verified = await db.guestIdentity.verifyGuestToken(rawToken);
+      const reqId =
+        typeof req.body?.requestId === "string"
+          ? req.body.requestId.slice(0, 128)
+          : `del_${Date.now()}`;
+      if (!verified.ok) {
+        res.status(401).json({
+          requestId: reqId,
+          ok: false,
+          code: verified.code,
+          messageVi: "Chứng chỉ danh tính khách v0.2 không hợp lệ."
+        } satisfies CharacterV02ActionResultPayload);
+        return;
+      }
+
+      const paramCharacterId = String(req.params.characterId ?? "").trim();
+      const cleanBody = stripGuestTokenFromBody(req.body);
+      if (
+        cleanBody.characterId !== undefined &&
+        cleanBody.characterId !== paramCharacterId
+      ) {
+        res.status(400).json({
+          requestId: reqId,
+          ok: false,
+          code: "FORGED_INPUT_REJECTED",
+          messageVi: "ID nhân vật trong thân yêu cầu không khớp với đường dẫn."
+        } satisfies CharacterV02ActionResultPayload);
+        return;
+      }
+
+      const result = await db.characterV02Actions.deleteCharacter(
+        verified.accountId,
+        {
+          requestId: reqId,
+          characterId: paramCharacterId
+        },
+        db.getCharacterV02ActionDefaults()
+      );
+      res.status(result.ok ? 200 : mapActionCodeToStatus(result.code)).json(result);
+    } catch (err) {
+      res.status(500).json({
+        requestId: "",
+        ok: false,
+        code: "INTERNAL_ERROR",
+        messageVi: String(err)
+      } satisfies CharacterV02ActionResultPayload);
+    }
+  };
+
+  app.post("/api/v02/characters/:characterId/delete", handleDeleteCharacter);
+  app.delete("/api/v02/characters/:characterId", handleDeleteCharacter);
 }

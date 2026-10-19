@@ -27,6 +27,7 @@ import {
   DEFAULT_ROLL_DRAFT_TTL_MS,
   executeConfirmInnateDestiny,
   executeCreateCharacterDraft,
+  executeDeleteCharacter,
   executeRollInnateDestiny,
   queryActiveRollDraftForCharacter
 } from "./CharacterCreationCommands.js";
@@ -181,6 +182,22 @@ export class CharacterV02ActionService {
     });
   }
 
+  deleteCharacter(
+    accountId: string,
+    rawIntent: unknown,
+    options?: CharacterV02ActionOptions,
+    tx?: SqlTransaction
+  ): Promise<CharacterV02ActionResultPayload> {
+    return executeDeleteCharacter({
+      runAtomic: this.runAtomic,
+      repository: this.repository,
+      accountId,
+      rawIntent,
+      catalog: this.resolveCatalog(options),
+      tx
+    });
+  }
+
   allocateAttributePoint(
     accountId: string,
     rawIntent: unknown,
@@ -282,7 +299,6 @@ export class CharacterV02ActionService {
       return [];
     }
     const catalog = this.resolveCatalog(options);
-    const nowMs = this.resolveNowMs(options);
     const list = await this.repository.listCharactersByAccount(
       cleanAccount,
       { destinyCatalog: catalog },
@@ -290,14 +306,8 @@ export class CharacterV02ActionService {
     );
     const roster: CharacterRosterEntryDto[] = [];
     for (const charState of list) {
-      let activeRollDraft: DestinyRollDraft | null = null;
-      if (charState.identity.creationState === "draft") {
-        activeRollDraft = await this.getActiveRollDraftForCharacter(
-          cleanAccount,
-          charState.identity.characterId,
-          nowMs,
-          tx
-        );
+      if (charState.identity.creationState !== "confirmed") {
+        continue;
       }
       roster.push({
         characterId: charState.identity.characterId,
@@ -314,10 +324,10 @@ export class CharacterV02ActionService {
         y: charState.world.y,
         linhThach: charState.world.linhThach,
         innateTraitIds:
-          charState.identity.creationState === "confirmed" && charState.destiny
+          charState.destiny
             ? ([...charState.destiny.innate] as [string, string, string])
             : null,
-        activeRollDraft,
+        activeRollDraft: null,
         createdAtMs: charState.identity.createdAtMs,
         updatedAtMs: charState.updatedAtMs
       });

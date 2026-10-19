@@ -57,6 +57,46 @@
           "path": "assets/source_ai/source_h03_hero_source04_portrait_v01b.png",
           "sha256": "73110fcf2206dbf086ef67cc822c1eac78612152bcce0c9d5e9d76fc01d03bdb",
           "role": "hero_source04_canonical_portrait_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h11_native_hero_4dir_walk_magenta_v01b.png",
+          "sha256": "f0933149d990fb5b22a1867cc6b1beaa51968e40f615d0e5785ba7ba2f6459d3",
+          "role": "raw_ai_4dir_walk_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h12_native_hero_side_walk_magenta_v01b.png",
+          "sha256": "0660d4b66286e6ca71c013f10a57d2569494ddbec5d330fe0d7f6abee6e2ece6",
+          "role": "raw_ai_side_walk_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h13_native_hero_idle_cast_magenta_v01b.png",
+          "sha256": "8bbab32760de05f73ea0744ff08bcb7b13946a788d6df46e953ff0a095bdc32a",
+          "role": "raw_ai_idle_cast_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h15_native_hero_4dir_walk_crisp_v01b.png",
+          "sha256": "ae11e777150801f30533068cf14a14b81631b9343dcb0531889b42661e870a27",
+          "role": "raw_ai_4dir_walk_crisp_source"
+        },
+        {
+          "path": "assets/source_ai/source_h16_native_hero_left_idle_walk_crisp_v01b.png",
+          "sha256": "7d21996cd58920d9020a735077ba9bbbd5025f3b44c1342f543d6e0b77292961",
+          "role": "raw_ai_left_idle_walk_crisp_source"
+        },
+        {
+          "path": "assets/source_ai/source_h17_native_hero_4dir_idle_v01b.png",
+          "sha256": "2b4f503deee722bef8b2c10b9880f2ba5b87ad9db259f0b95c1eb3e1eb5c7372",
+          "role": "raw_ai_4dir_idle_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h18_native_hero_lr_walk_smooth_v01b.png",
+          "sha256": "0e2a05caa5215b0e448c48ae4566af7abf30d24cb198d58fed48980d9e798e6e",
+          "role": "raw_ai_lr_walk_smooth_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h19_native_hero_du_walk_smooth_v01b.png",
+          "sha256": "9b10e372ed5e220af2422253f8f7900cc907d819c3312c7b55395d75c2d0392b",
+          "role": "raw_ai_du_walk_smooth_magenta_source"
         }
       ],
       "generatedDirectionalViews": [
@@ -107,9 +147,9 @@
             "clean": true
           },
           "palette": {
-            "unique_colors": 100039,
-            "max_allowed": 256,
-            "clean": false
+            "unique_colors": 28,
+            "max_allowed": 64,
+            "clean": true
           },
           "grid_alignment": {
             "width": 480,
@@ -304,7 +344,7 @@
         "sourceCombatGrid": "assets/source_ai/source_h08_native_4dir_attack_v01b.png",
         "sourceCombatSha256": "01fcc604c7cb9f9b7ce86bbf1c8b7871108dd43c661b0a19184fa6714f4bc3d3",
         "runtimeSpritesheet": "assets/sprites/hero_kiem_tu.png",
-        "runtimeSpritesheetSha256": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
+        "runtimeSpritesheetSha256": "278cdfc9d78a6d645d321f15bd3a4242ff7c5e7c173038a8b5f978fb18c87b09",
         "canonicalMasterGrid": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png",
         "canonicalMasterSha256": "ca18e9e46de25a61e19ecf047ad844ada26f0624601df47a600293c4483de09b",
         "sourcePortrait": "assets/source_ai/source_h03_hero_source04_portrait_v01b.png",
@@ -430,6 +470,14 @@
         {
           "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png",
           "sha256": "43330cc7fad0cdd5f5744a785c9191ff81fd92945c47c5ccc0a65f340e980746"
+        },
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e04_c_panel_hexagram_and_meditation_stage_v01b.png",
+          "sha256": "ddc62f304bfeb03661cd68bb1d3a48519c9d61ff49587325a2c54a40e2794757"
+        },
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e05_inventory_paperdoll_and_8_equip_icons_v01b.png",
+          "sha256": "96d9c0003363f28ae6af6273c3cad2d55b3cc3c6ac44edde8f006bd385cb9834"
         }
       ],
       "runtimeOutputs": [
@@ -450,13 +498,58 @@
         },
         {
           "path": "assets/ui/presentation/cultivation_meditation_star_wheel_v01b.png",
-          "sha256": "0eccfad56ccb2e18632dabb900a78a24880c683b0317ce5679b5f8b5844ec20a",
-          "bytes": 378604
+          "sha256": "b7a06772bb5d753ec15b2a1e59712e19ec68b7f64bda053f13bb21b9776c8afd",
+          "bytes": 784273
         },
         {
           "path": "assets/ui/presentation/cultivation_meridian_hexagram_plate_v01b.png",
-          "sha256": "0e026f832fde8619ff7df159d2ef20bde3f978ee68ab410f4abe0c63a396d13c",
-          "bytes": 322093
+          "sha256": "3bf96487c79b578a1d467f1bdf2a8de72149e586f2e709f9077a63e270c6c7de",
+          "bytes": 599715
+        },
+        {
+          "path": "assets/ui/presentation/inventory_paperdoll_lotus_stage_v01b.png",
+          "sha256": "9e1c111118443049bdcbc0eb2a4446e228bfe2ce1fe6ad9c87f59aacadd69696",
+          "bytes": 456950
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_phap_bao_64.png",
+          "sha256": "cf4de20f2f02daadd7a4e0ca69340dd8945a2fd0f71c3b8854b35553484da083",
+          "bytes": 8368
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_mao_quan_64.png",
+          "sha256": "fdc7a72c83bc9ff1f2bc6f9481ad85a428659e13bb58ad3131c324b1219a5e5a",
+          "bytes": 8259
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_binh_khi_64.png",
+          "sha256": "ab33eb13121ff53e0f8ab40dd4c2a78f6f042b9236ec3e4103b80eb0f73a0eb8",
+          "bytes": 9239
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_dao_bao_64.png",
+          "sha256": "91a864851b99792cce470894145b518d591dcc1df784ba6aa459798572003ecb",
+          "bytes": 9057
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_ho_uyen_64.png",
+          "sha256": "c2785ef3d98e04f07a2cbc50ba3cb0bff3b781a4694ab64223168e0cefcb54ca",
+          "bytes": 9098
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_yeu_dai_64.png",
+          "sha256": "a8f7c6d4225c63183630848706ad6ddaf6343df931532f461c78bc0035867cd3",
+          "bytes": 8212
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_chien_hai_64.png",
+          "sha256": "f1d0835db9d1caa3acf0e29447d92455d5bbfa8de0e75a458268ceecb122e2b0",
+          "bytes": 8544
+        },
+        {
+          "path": "assets/ui/icons_64x64/equip_slot_ngoc_boi_64.png",
+          "sha256": "ac0489a68be8bcbc516d6fbfb46bb86dd9fb57d337d974eb6c711bee9e8901ea",
+          "bytes": 8668
         }
       ],
       "creativeApprovalState": "TECHNICALLY_VERIFIED"

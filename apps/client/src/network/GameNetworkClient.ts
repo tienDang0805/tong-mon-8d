@@ -319,12 +319,80 @@ export class GameNetworkClient {
 
   public async rollInnateDestinyHttp(
     characterId: string,
-    requestId?: string
+    requestId?: string,
+    identityUpdates?: { name?: string; appearanceId?: string }
   ): Promise<CharacterV02ActionResultPayload> {
     const token = await this.ensureGuestTokenIssued();
     const reqId = requestId || this.nextRequestId("v02_roll");
+    const bodyPayload: Record<string, unknown> = {
+      requestId: reqId,
+      characterId
+    };
+    if (identityUpdates?.name !== undefined) {
+      bodyPayload.name = identityUpdates.name;
+    }
+    if (identityUpdates?.appearanceId !== undefined) {
+      bodyPayload.appearanceId = identityUpdates.appearanceId;
+    }
     const resp = await fetch(
       `${this.httpEndpoint}/api/v02/characters/${encodeURIComponent(characterId)}/reroll`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(bodyPayload)
+      }
+    );
+    const data = (await resp.json()) as CharacterV02ActionResultPayload;
+    this.applyV02ActionResult(data);
+    return data;
+  }
+
+  public async confirmInnateDestinyHttp(
+    characterId: string,
+    rollNonce: string,
+    requestId?: string,
+    identityUpdates?: { name?: string; appearanceId?: string }
+  ): Promise<CharacterV02ActionResultPayload> {
+    const token = await this.ensureGuestTokenIssued();
+    const reqId = requestId || this.nextRequestId("v02_confirm");
+    const bodyPayload: Record<string, unknown> = {
+      requestId: reqId,
+      characterId,
+      rollNonce
+    };
+    if (identityUpdates?.name !== undefined) {
+      bodyPayload.name = identityUpdates.name;
+    }
+    if (identityUpdates?.appearanceId !== undefined) {
+      bodyPayload.appearanceId = identityUpdates.appearanceId;
+    }
+    const resp = await fetch(
+      `${this.httpEndpoint}/api/v02/characters/${encodeURIComponent(characterId)}/confirm`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(bodyPayload)
+      }
+    );
+    const data = (await resp.json()) as CharacterV02ActionResultPayload;
+    this.applyV02ActionResult(data);
+    return data;
+  }
+
+  public async deleteCharacterHttp(
+    characterId: string,
+    requestId?: string
+  ): Promise<CharacterV02ActionResultPayload> {
+    const token = await this.ensureGuestTokenIssued();
+    const reqId = requestId || this.nextRequestId("v02_delete");
+    const resp = await fetch(
+      `${this.httpEndpoint}/api/v02/characters/${encodeURIComponent(characterId)}/delete`,
       {
         method: "POST",
         headers: {
@@ -338,34 +406,20 @@ export class GameNetworkClient {
       }
     );
     const data = (await resp.json()) as CharacterV02ActionResultPayload;
-    this.applyV02ActionResult(data);
-    return data;
-  }
-
-  public async confirmInnateDestinyHttp(
-    characterId: string,
-    rollNonce: string,
-    requestId?: string
-  ): Promise<CharacterV02ActionResultPayload> {
-    const token = await this.ensureGuestTokenIssued();
-    const reqId = requestId || this.nextRequestId("v02_confirm");
-    const resp = await fetch(
-      `${this.httpEndpoint}/api/v02/characters/${encodeURIComponent(characterId)}/confirm`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          requestId: reqId,
-          characterId,
-          rollNonce
-        })
+    if (data.ok) {
+      this.rosterCharacters = this.rosterCharacters.filter(
+        (c) => c.characterId !== characterId
+      );
+      if (this.selectedCharacterId === characterId) {
+        this.setSelectedCharacterId(this.rosterCharacters[0]?.characterId ?? null);
       }
-    );
-    const data = (await resp.json()) as CharacterV02ActionResultPayload;
-    this.applyV02ActionResult(data);
+      if (this.selfStateV02?.identity.characterId === characterId) {
+        this.selfStateV02 = null;
+      }
+      if (this.activeRollDraft?.characterCreationId === characterId) {
+        this.activeRollDraft = null;
+      }
+    }
     return data;
   }
 

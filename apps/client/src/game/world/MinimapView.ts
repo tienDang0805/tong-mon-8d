@@ -160,6 +160,8 @@ export class MinimapView {
     }
     this.isExpanded = next;
     this.rootEl.classList.toggle("is-expanded", this.isExpanded);
+    const topRightEl = this.mountEl.closest(".hud-top-right");
+    topRightEl?.classList.toggle("is-expanded", this.isExpanded);
     if (this.lastDynamicInput && this.lastDynamicInput.zoneId === this.currentZoneId) {
       this.renderDynamicOverlay(this.lastDynamicInput);
     }

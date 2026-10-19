@@ -1,753 +1,2127 @@
 {
-  "characterId": "hero_kiem_tu",
-  "frameWidth": 80,
-  "frameHeight": 96,
-  "columns": 6,
-  "rows": 20,
-  "animations": {
-    "idle_down": [
-      {
-        "index": 0,
+  "frames": {
+    "hero_kiem_tu_idle_down_00.png": {
+      "frame": {
         "x": 0,
         "y": 0,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_00.png"
+        "h": 96
       },
-      {
-        "index": 1,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_down_01.png": {
+      "frame": {
         "x": 80,
         "y": 0,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_01.png"
+        "h": 96
       },
-      {
-        "index": 2,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_down_02.png": {
+      "frame": {
         "x": 160,
         "y": 0,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_02.png"
+        "h": 96
       },
-      {
-        "index": 3,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_down_03.png": {
+      "frame": {
         "x": 240,
         "y": 0,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "idle_left": [
-      {
-        "index": 6,
+    },
+    "hero_kiem_tu_idle_left_00.png": {
+      "frame": {
         "x": 0,
         "y": 96,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_00.png"
+        "h": 96
       },
-      {
-        "index": 7,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_left_01.png": {
+      "frame": {
         "x": 80,
         "y": 96,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_01.png"
+        "h": 96
       },
-      {
-        "index": 8,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_left_02.png": {
+      "frame": {
         "x": 160,
         "y": 96,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_02.png"
+        "h": 96
       },
-      {
-        "index": 9,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_left_03.png": {
+      "frame": {
         "x": 240,
         "y": 96,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "idle_right": [
-      {
-        "index": 12,
+    },
+    "hero_kiem_tu_idle_right_00.png": {
+      "frame": {
         "x": 0,
         "y": 192,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_00.png"
+        "h": 96
       },
-      {
-        "index": 13,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_right_01.png": {
+      "frame": {
         "x": 80,
         "y": 192,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_01.png"
+        "h": 96
       },
-      {
-        "index": 14,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_right_02.png": {
+      "frame": {
         "x": 160,
         "y": 192,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_02.png"
+        "h": 96
       },
-      {
-        "index": 15,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_right_03.png": {
+      "frame": {
         "x": 240,
         "y": 192,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "idle_up": [
-      {
-        "index": 18,
+    },
+    "hero_kiem_tu_idle_up_00.png": {
+      "frame": {
         "x": 0,
         "y": 288,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_00.png"
+        "h": 96
       },
-      {
-        "index": 19,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_up_01.png": {
+      "frame": {
         "x": 80,
         "y": 288,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_01.png"
+        "h": 96
       },
-      {
-        "index": 20,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_up_02.png": {
+      "frame": {
         "x": 160,
         "y": 288,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_02.png"
+        "h": 96
       },
-      {
-        "index": 21,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_idle_up_03.png": {
+      "frame": {
         "x": 240,
         "y": 288,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "walk_down": [
-      {
-        "index": 24,
+    },
+    "hero_kiem_tu_walk_down_00.png": {
+      "frame": {
         "x": 0,
         "y": 384,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_00.png"
+        "h": 96
       },
-      {
-        "index": 25,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_down_01.png": {
+      "frame": {
         "x": 80,
         "y": 384,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_01.png"
+        "h": 96
       },
-      {
-        "index": 26,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_down_02.png": {
+      "frame": {
         "x": 160,
         "y": 384,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_02.png"
+        "h": 96
       },
-      {
-        "index": 27,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_down_03.png": {
+      "frame": {
         "x": 240,
         "y": 384,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_03.png"
+        "h": 96
       },
-      {
-        "index": 28,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_down_04.png": {
+      "frame": {
         "x": 320,
         "y": 384,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_04.png"
+        "h": 96
       },
-      {
-        "index": 29,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_down_05.png": {
+      "frame": {
         "x": 400,
         "y": 384,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_05.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "walk_left": [
-      {
-        "index": 30,
+    },
+    "hero_kiem_tu_walk_left_00.png": {
+      "frame": {
         "x": 0,
         "y": 480,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_00.png"
+        "h": 96
       },
-      {
-        "index": 31,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_left_01.png": {
+      "frame": {
         "x": 80,
         "y": 480,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_01.png"
+        "h": 96
       },
-      {
-        "index": 32,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_left_02.png": {
+      "frame": {
         "x": 160,
         "y": 480,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_02.png"
+        "h": 96
       },
-      {
-        "index": 33,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_left_03.png": {
+      "frame": {
         "x": 240,
         "y": 480,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_03.png"
+        "h": 96
       },
-      {
-        "index": 34,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_left_04.png": {
+      "frame": {
         "x": 320,
         "y": 480,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_04.png"
+        "h": 96
       },
-      {
-        "index": 35,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_left_05.png": {
+      "frame": {
         "x": 400,
         "y": 480,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_05.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "walk_right": [
-      {
-        "index": 36,
+    },
+    "hero_kiem_tu_walk_right_00.png": {
+      "frame": {
         "x": 0,
         "y": 576,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_00.png"
+        "h": 96
       },
-      {
-        "index": 37,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_right_01.png": {
+      "frame": {
         "x": 80,
         "y": 576,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_01.png"
+        "h": 96
       },
-      {
-        "index": 38,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_right_02.png": {
+      "frame": {
         "x": 160,
         "y": 576,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_02.png"
+        "h": 96
       },
-      {
-        "index": 39,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_right_03.png": {
+      "frame": {
         "x": 240,
         "y": 576,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_03.png"
+        "h": 96
       },
-      {
-        "index": 40,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_right_04.png": {
+      "frame": {
         "x": 320,
         "y": 576,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_04.png"
+        "h": 96
       },
-      {
-        "index": 41,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_right_05.png": {
+      "frame": {
         "x": 400,
         "y": 576,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_05.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "walk_up": [
-      {
-        "index": 42,
+    },
+    "hero_kiem_tu_walk_up_00.png": {
+      "frame": {
         "x": 0,
         "y": 672,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_00.png"
+        "h": 96
       },
-      {
-        "index": 43,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_up_01.png": {
+      "frame": {
         "x": 80,
         "y": 672,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_01.png"
+        "h": 96
       },
-      {
-        "index": 44,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_up_02.png": {
+      "frame": {
         "x": 160,
         "y": 672,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_02.png"
+        "h": 96
       },
-      {
-        "index": 45,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_up_03.png": {
+      "frame": {
         "x": 240,
         "y": 672,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_03.png"
+        "h": 96
       },
-      {
-        "index": 46,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_up_04.png": {
+      "frame": {
         "x": 320,
         "y": 672,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_04.png"
+        "h": 96
       },
-      {
-        "index": 47,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_walk_up_05.png": {
+      "frame": {
         "x": 400,
         "y": 672,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_05.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "attack_down": [
-      {
-        "index": 48,
+    },
+    "hero_kiem_tu_attack_down_00.png": {
+      "frame": {
         "x": 0,
         "y": 768,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_00.png"
+        "h": 96
       },
-      {
-        "index": 49,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_down_01.png": {
+      "frame": {
         "x": 80,
         "y": 768,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_01.png"
+        "h": 96
       },
-      {
-        "index": 50,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_down_02.png": {
+      "frame": {
         "x": 160,
         "y": 768,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_02.png"
+        "h": 96
       },
-      {
-        "index": 51,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_down_03.png": {
+      "frame": {
         "x": 240,
         "y": 768,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "attack_left": [
-      {
-        "index": 54,
+    },
+    "hero_kiem_tu_attack_left_00.png": {
+      "frame": {
         "x": 0,
         "y": 864,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_00.png"
+        "h": 96
       },
-      {
-        "index": 55,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_left_01.png": {
+      "frame": {
         "x": 80,
         "y": 864,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_01.png"
+        "h": 96
       },
-      {
-        "index": 56,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_left_02.png": {
+      "frame": {
         "x": 160,
         "y": 864,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_02.png"
+        "h": 96
       },
-      {
-        "index": 57,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_left_03.png": {
+      "frame": {
         "x": 240,
         "y": 864,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "attack_right": [
-      {
-        "index": 60,
+    },
+    "hero_kiem_tu_attack_right_00.png": {
+      "frame": {
         "x": 0,
         "y": 960,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_00.png"
+        "h": 96
       },
-      {
-        "index": 61,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_right_01.png": {
+      "frame": {
         "x": 80,
         "y": 960,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_01.png"
+        "h": 96
       },
-      {
-        "index": 62,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_right_02.png": {
+      "frame": {
         "x": 160,
         "y": 960,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_02.png"
+        "h": 96
       },
-      {
-        "index": 63,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_right_03.png": {
+      "frame": {
         "x": 240,
         "y": 960,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "attack_up": [
-      {
-        "index": 66,
+    },
+    "hero_kiem_tu_attack_up_00.png": {
+      "frame": {
         "x": 0,
         "y": 1056,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_00.png"
+        "h": 96
       },
-      {
-        "index": 67,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_up_01.png": {
+      "frame": {
         "x": 80,
         "y": 1056,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_01.png"
+        "h": 96
       },
-      {
-        "index": 68,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_up_02.png": {
+      "frame": {
         "x": 160,
         "y": 1056,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_02.png"
+        "h": 96
       },
-      {
-        "index": 69,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_attack_up_03.png": {
+      "frame": {
         "x": 240,
         "y": 1056,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "cast_down": [
-      {
-        "index": 72,
+    },
+    "hero_kiem_tu_cast_down_00.png": {
+      "frame": {
         "x": 0,
         "y": 1152,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_00.png"
+        "h": 96
       },
-      {
-        "index": 73,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_down_01.png": {
+      "frame": {
         "x": 80,
         "y": 1152,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_01.png"
+        "h": 96
       },
-      {
-        "index": 74,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_down_02.png": {
+      "frame": {
         "x": 160,
         "y": 1152,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_02.png"
+        "h": 96
       },
-      {
-        "index": 75,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_down_03.png": {
+      "frame": {
         "x": 240,
         "y": 1152,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "cast_left": [
-      {
-        "index": 78,
+    },
+    "hero_kiem_tu_cast_left_00.png": {
+      "frame": {
         "x": 0,
         "y": 1248,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_00.png"
+        "h": 96
       },
-      {
-        "index": 79,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_left_01.png": {
+      "frame": {
         "x": 80,
         "y": 1248,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_01.png"
+        "h": 96
       },
-      {
-        "index": 80,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_left_02.png": {
+      "frame": {
         "x": 160,
         "y": 1248,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_02.png"
+        "h": 96
       },
-      {
-        "index": 81,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_left_03.png": {
+      "frame": {
         "x": 240,
         "y": 1248,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "cast_right": [
-      {
-        "index": 84,
+    },
+    "hero_kiem_tu_cast_right_00.png": {
+      "frame": {
         "x": 0,
         "y": 1344,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_00.png"
+        "h": 96
       },
-      {
-        "index": 85,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_right_01.png": {
+      "frame": {
         "x": 80,
         "y": 1344,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_01.png"
+        "h": 96
       },
-      {
-        "index": 86,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_right_02.png": {
+      "frame": {
         "x": 160,
         "y": 1344,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_02.png"
+        "h": 96
       },
-      {
-        "index": 87,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_right_03.png": {
+      "frame": {
         "x": 240,
         "y": 1344,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "cast_up": [
-      {
-        "index": 90,
+    },
+    "hero_kiem_tu_cast_up_00.png": {
+      "frame": {
         "x": 0,
         "y": 1440,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_00.png"
+        "h": 96
       },
-      {
-        "index": 91,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_up_01.png": {
+      "frame": {
         "x": 80,
         "y": 1440,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_01.png"
+        "h": 96
       },
-      {
-        "index": 92,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_up_02.png": {
+      "frame": {
         "x": 160,
         "y": 1440,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_02.png"
+        "h": 96
       },
-      {
-        "index": 93,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_cast_up_03.png": {
+      "frame": {
         "x": 240,
         "y": 1440,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "hurt_down": [
-      {
-        "index": 96,
+    },
+    "hero_kiem_tu_hurt_down_00.png": {
+      "frame": {
         "x": 0,
         "y": 1536,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_00.png"
+        "h": 96
       },
-      {
-        "index": 97,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_down_01.png": {
+      "frame": {
         "x": 80,
         "y": 1536,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_01.png"
+        "h": 96
       },
-      {
-        "index": 98,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_down_02.png": {
+      "frame": {
         "x": 160,
         "y": 1536,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_02.png"
+        "h": 96
       },
-      {
-        "index": 99,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_down_03.png": {
+      "frame": {
         "x": 240,
         "y": 1536,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "hurt_left": [
-      {
-        "index": 102,
+    },
+    "hero_kiem_tu_hurt_left_00.png": {
+      "frame": {
         "x": 0,
         "y": 1632,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_00.png"
+        "h": 96
       },
-      {
-        "index": 103,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_left_01.png": {
+      "frame": {
         "x": 80,
         "y": 1632,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_01.png"
+        "h": 96
       },
-      {
-        "index": 104,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_left_02.png": {
+      "frame": {
         "x": 160,
         "y": 1632,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_02.png"
+        "h": 96
       },
-      {
-        "index": 105,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_left_03.png": {
+      "frame": {
         "x": 240,
         "y": 1632,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "hurt_right": [
-      {
-        "index": 108,
+    },
+    "hero_kiem_tu_hurt_right_00.png": {
+      "frame": {
         "x": 0,
         "y": 1728,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_00.png"
+        "h": 96
       },
-      {
-        "index": 109,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_right_01.png": {
+      "frame": {
         "x": 80,
         "y": 1728,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_01.png"
+        "h": 96
       },
-      {
-        "index": 110,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_right_02.png": {
+      "frame": {
         "x": 160,
         "y": 1728,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_02.png"
+        "h": 96
       },
-      {
-        "index": 111,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_right_03.png": {
+      "frame": {
         "x": 240,
         "y": 1728,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ],
-    "hurt_up": [
-      {
-        "index": 114,
+    },
+    "hero_kiem_tu_hurt_up_00.png": {
+      "frame": {
         "x": 0,
         "y": 1824,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_00.png"
+        "h": 96
       },
-      {
-        "index": 115,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_up_01.png": {
+      "frame": {
         "x": 80,
         "y": 1824,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_01.png"
+        "h": 96
       },
-      {
-        "index": 116,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_up_02.png": {
+      "frame": {
         "x": 160,
         "y": 1824,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_02.png"
+        "h": 96
       },
-      {
-        "index": 117,
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      }
+    },
+    "hero_kiem_tu_hurt_up_03.png": {
+      "frame": {
         "x": 240,
         "y": 1824,
         "w": 80,
-        "h": 96,
-        "file": "assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_03.png"
+        "h": 96
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 96
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
       }
-    ]
+    }
+  },
+  "meta": {
+    "app": "tong-mon-8d-standard-character-packager",
+    "version": "2.2.0",
+    "image": "hero_kiem_tu_atlas.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 480,
+      "h": 1920
+    },
+    "scale": "1"
   }
 }

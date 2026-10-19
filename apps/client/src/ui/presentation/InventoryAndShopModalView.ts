@@ -8,6 +8,7 @@ import {
 } from "@tong-mon-8d/game-data";
 import {
   V01B_UI_CHROME_URLS,
+  resolveEquipmentSlotIconUrl,
   resolveItemIconUrl,
   resolveItemSlotFrameUrl,
   resolveNpcPortraitUrl
@@ -23,10 +24,10 @@ function escapeHtml(raw: string): string {
 
 export type InventoryCategoryTab =
   | "all"
-  | "food"
-  | "pill"
-  | "ingredient"
   | "weapon"
+  | "pill"
+  | "food"
+  | "ingredient"
   | "cook";
 
 function matchesCategoryTab(def: ItemDefinition | undefined, tab: InventoryCategoryTab): boolean {
@@ -38,11 +39,79 @@ function matchesCategoryTab(def: ItemDefinition | undefined, tab: InventoryCateg
   return true;
 }
 
+export interface PaperdollSlotSpec {
+  slotKey: string;
+  labelVi: string;
+  positionClass: string;
+  defaultBonusVi: string;
+  defaultDescVi: string;
+}
+
+export const PAPERDOLL_EQUIPMENT_SLOTS: readonly PaperdollSlotSpec[] = [
+  {
+    slotKey: "phap_bao",
+    labelVi: "Pháp Bảo",
+    positionClass: "pd-slot-top",
+    defaultBonusVi: "+15 Linh Lực • Hộ Đạo Linh Quang",
+    defaultDescVi: "Hồ lô bản mệnh ôn dưỡng trong đan điền, trấn giữ thần hồn và tụ nạp linh khí thiên địa."
+  },
+  {
+    slotKey: "mao_quan",
+    labelVi: "Mão Quán",
+    positionClass: "pd-slot-left-1",
+    defaultBonusVi: "+6 Phòng Ngự Pháp Thuật",
+    defaultDescVi: "Kim quan ngọc đới buộc tóc của đệ tử nội môn, giúp thanh tâm ngưng thần."
+  },
+  {
+    slotKey: "dao_bao",
+    labelVi: "Đạo Bào",
+    positionClass: "pd-slot-left-2",
+    defaultBonusVi: "+12 Phòng Ngự • +30 Sinh Lực",
+    defaultDescVi: "Thanh Vân Đạo Y dệt từ tơ linh tằm Bát Hoang, nhẹ tựa mây trôi, hộ thể trước yêu tà."
+  },
+  {
+    slotKey: "chien_hai",
+    labelVi: "Chiến Hài",
+    positionClass: "pd-slot-left-3",
+    defaultBonusVi: "+4 Thân Pháp • Bộ Hành Thanh Phong",
+    defaultDescVi: "Hài vải thêu vân văn tẩm linh dịch, giúp bước chân nhẹ nhàng vững chãi."
+  },
+  {
+    slotKey: "binh_khi",
+    labelVi: "Binh Khí",
+    positionClass: "pd-slot-right-1",
+    defaultBonusVi: "+10 Công Kích",
+    defaultDescVi: "Trường kiếm nhập môn của đệ tử Tông Môn 8D."
+  },
+  {
+    slotKey: "ho_uyen",
+    labelVi: "Hộ Uyển",
+    positionClass: "pd-slot-right-2",
+    defaultBonusVi: "+5 Công Vật Lý • +4 Phòng Ngự",
+    defaultDescVi: "Hộ uyển khảm ngọc bích gia cố cổ tay khi vung kiếm và bắt ấn quyết."
+  },
+  {
+    slotKey: "yeu_dai",
+    labelVi: "Yêu Đái",
+    positionClass: "pd-slot-right-3",
+    defaultBonusVi: "+25 Sinh Lực • Khóa Linh Khí",
+    defaultDescVi: "Đai lưng kim tuyến thắt chặt đạo bào, giữ khí tức đan điền không tán loạn."
+  },
+  {
+    slotKey: "ngoc_boi",
+    labelVi: "Ngọc Bội",
+    positionClass: "pd-slot-bottom",
+    defaultBonusVi: "+8 Linh Tính • Tịnh Tâm",
+    defaultDescVi: "Ngọc bội Thanh Vân truyền đời, phát ra linh quang ôn nhuận bảo vệ tâm mạch."
+  }
+];
+
 export interface InventoryModalRenderOptions {
   selfState: CharacterSaveState | null;
   selfStateV02: CharacterV02SnapshotPayload | null;
   activeTab: InventoryCategoryTab;
   selectedItemId: string | null;
+  equippedWeaponId?: string | null;
 }
 
 export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): string {
@@ -54,35 +123,41 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
     matchesCategoryTab(ITEMS_REGISTRY[st.itemId], opts.activeTab)
   );
 
+  const hasStarterSword = inv.some((st) => st.itemId === "thanh_van_kiem_so_cap" && st.quantity > 0);
+  const effectiveEquippedWeaponId =
+    opts.equippedWeaponId !== undefined
+      ? opts.equippedWeaponId
+      : hasStarterSword
+        ? "thanh_van_kiem_so_cap"
+        : null;
+
   const selectedStack =
     filteredInv.find((st) => st.itemId === opts.selectedItemId) ??
+    inv.find((st) => st.itemId === opts.selectedItemId) ??
     filteredInv[0] ??
     inv[0] ??
     null;
   const selectedDef = selectedStack ? ITEMS_REGISTRY[selectedStack.itemId] : undefined;
 
-  const tabs: Array<{ id: InventoryCategoryTab; label: string }> = [
+  const tabs: Array<{ id: InventoryCategoryTab; label: string; categoryAttr?: string }> = [
     { id: "all", label: "Tất Cả" },
-    { id: "food", label: "Linh Thiện" },
-    { id: "pill", label: "Đan Dược" },
-    { id: "ingredient", label: "Nguyên Liệu" },
     { id: "weapon", label: "Pháp Bảo" },
-    { id: "cook", label: "Linh Trù Chế Biến" }
+    { id: "pill", label: "Đan Dược" },
+    { id: "food", label: "Linh Thiện" },
+    { id: "ingredient", label: "Nguyên Liệu" },
+    { id: "cook", label: "Linh Trù", categoryAttr: "cooking" }
   ];
 
   const tabsHtml = tabs
     .map((t) => {
       const isActive = opts.activeTab === t.id;
-      const bgImg = isActive
-        ? V01B_UI_CHROME_URLS.tabClaspActive
-        : V01B_UI_CHROME_URLS.tabClaspInactive;
       return `
         <button
           type="button"
           class="v01b-tab-btn ${isActive ? "active" : ""}"
           data-inv-tab="${t.id}"
+          ${t.categoryAttr ? `data-inv-category="${t.categoryAttr}"` : ""}
           data-testid="inventory-tab-${t.id}"
-          style="background-image:url('${bgImg}')"
         >${escapeHtml(t.label)}</button>
       `;
     })
@@ -97,11 +172,6 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
       const slotFrameUrl = resolveItemSlotFrameUrl(st.itemId);
       const iconUrl = resolveItemIconUrl(st.itemId, 64);
       const isSelected = selectedStack?.itemId === st.itemId;
-      const canUse =
-        def &&
-        (def.category === "food" ||
-          def.category === "beverage" ||
-          def.category === "pill");
       gridCells.push(`
         <div
           class="v01b-reliquary-slot item-card ${isSelected ? "selected" : ""}"
@@ -112,11 +182,6 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
         >
           <img class="v01b-reliquary-slot-icon" src="${iconUrl}" alt="${escapeHtml(def?.nameVi ?? st.itemId)}" />
           <span class="v01b-reliquary-qty">x${st.quantity}</span>
-          ${
-            canUse
-              ? `<button type="button" class="btn-use-item v01b-slot-quick-use" data-item="${escapeHtml(st.itemId)}" title="Sử dụng ${escapeHtml(def?.nameVi ?? st.itemId)}">Dùng</button>`
-              : ""
-          }
         </div>
       `);
     } else {
@@ -130,6 +195,35 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
     }
   }
 
+  const paperdollSlotsHtml = PAPERDOLL_EQUIPMENT_SLOTS.map((slot) => {
+    const isWeaponEquipped =
+      slot.slotKey === "binh_khi" && Boolean(effectiveEquippedWeaponId);
+    const iconUrl =
+      isWeaponEquipped && effectiveEquippedWeaponId
+        ? resolveItemIconUrl(effectiveEquippedWeaponId, 64)
+        : resolveEquipmentSlotIconUrl(slot.slotKey, 64);
+    const frameUrl = isWeaponEquipped
+      ? "/assets/ui/slots_and_rarity_frames/slot_item_linh_64.png"
+      : "/assets/ui/slots_and_rarity_frames/slot_item_hoang_64.png";
+
+    return `
+      <div
+        class="v01b-paperdoll-slot-wrap ${slot.positionClass} ${isWeaponEquipped ? "is-equipped" : ""}"
+        data-equip-slot="${slot.slotKey}"
+        data-testid="paperdoll-slot-${slot.slotKey}"
+        title="${escapeHtml(slot.labelVi)}: ${escapeHtml(slot.defaultBonusVi)}"
+      >
+        <div
+          class="v01b-paperdoll-slot-box"
+          style="background-image:url('${frameUrl}')"
+        >
+          <img class="v01b-paperdoll-slot-icon" src="${iconUrl}" alt="${escapeHtml(slot.labelVi)}" />
+        </div>
+        <span class="v01b-paperdoll-slot-label">${escapeHtml(slot.labelVi)}</span>
+      </div>
+    `;
+  }).join("");
+
   let rightInspectionHtml = "";
   if (selectedStack && selectedDef) {
     const slotFrameUrl = resolveItemSlotFrameUrl(selectedStack.itemId);
@@ -138,6 +232,9 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
       selectedDef.category === "food" ||
       selectedDef.category === "beverage" ||
       selectedDef.category === "pill";
+    const isEquipment = selectedDef.category === "equipment";
+    const isCurrentlyEquipped = effectiveEquippedWeaponId === selectedStack.itemId;
+
     const effectParts: string[] = [];
     if (selectedDef.tuViGrant && selectedDef.tuViGrant > 0) {
       effectParts.push(`+${selectedDef.tuViGrant} Tu Vi Tức Thời`);
@@ -163,26 +260,33 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
       <div class="v01b-inspect-icon-frame" style="background-image:url('${slotFrameUrl}')">
         <img src="${iconUrl}" alt="${escapeHtml(selectedDef.nameVi)}" />
       </div>
-      <div class="v01b-inspect-rarity-pill">Số lượng: x${selectedStack.quantity}</div>
+      <div class="v01b-inspect-rarity-pill">
+        Số lượng: x${selectedStack.quantity}${isCurrentlyEquipped ? " • [Đang Trang Bị]" : ""}
+      </div>
       <div class="v01b-inspect-title">${escapeHtml(selectedDef.nameVi)}</div>
       <div class="v01b-inspect-desc">${escapeHtml(selectedDef.descriptionVi)}</div>
       <div class="v01b-inspect-effects">✦ ${escapeHtml(effectSummary)}</div>
-      <div class="v01b-inspect-actions">
-        ${
-          canUse
-            ? `
-              <button
-                type="button"
-                class="hud-btn gold btn-use-item v01b-btn-cinnabar"
-                data-item="${escapeHtml(selectedStack.itemId)}"
-                data-testid="inventory-use-selected-btn"
-              >
-                <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
-                <span>Sử Dụng</span>
-              </button>
-            `
-            : `<span class="v01b-inspect-nonconsumable">Vật phẩm chế biến / hộ thân</span>`
-        }
+      <div class="v01b-inspect-actions v01b-inspect-dual-btns">
+        <button
+          type="button"
+          class="hud-btn gold v01b-scroll-action-btn btn-equip-item"
+          id="btn-equip-selected-item"
+          data-item="${escapeHtml(selectedStack.itemId)}"
+          data-testid="inventory-equip-selected-btn"
+          ${isEquipment ? "" : "disabled"}
+        >
+          <span>${isEquipment && isCurrentlyEquipped ? "Tháo Trang Bị" : "Trang Bị"}</span>
+        </button>
+        <button
+          type="button"
+          class="hud-btn gold btn-use-item v01b-scroll-action-btn"
+          id="btn-use-selected-item"
+          data-item="${escapeHtml(selectedStack.itemId)}"
+          data-testid="inventory-use-selected-btn"
+          ${canUse ? "" : "disabled"}
+        >
+          <span>Sử Dụng</span>
+        </button>
       </div>
     `;
   } else {
@@ -190,7 +294,7 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
       <div class="v01b-inspect-empty">
         <img src="${V01B_UI_CHROME_URLS.orbTuViCore64}" alt="" />
         <div class="v01b-inspect-title">Túi Càn Khôn</div>
-        <div class="v01b-inspect-desc">Chọn một vật phẩm trong 30 ô bảo khố bên trái để xem chi tiết công hiệu, hoặc tới Quán Mì Linh Thiện của Lão Trù Trương [E].</div>
+        <div class="v01b-inspect-desc">Chọn một vật phẩm trong 30 ô bảo khố bên trái hoặc ô trang bị ở giữa để xem chi tiết.</div>
       </div>
     `;
   }
@@ -228,12 +332,12 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
     })
     .join("");
 
-  const showCookSection = opts.activeTab === "cook" || opts.activeTab === "all";
+  const showCookOverlay = opts.activeTab === "cook";
 
   return `
     <div class="hud-modal-backdrop" id="modal-backdrop">
       <div
-        class="hud-modal v01b-reliquary-modal v01b-panel-celestial-jade"
+        class="hud-modal v01b-reliquary-modal v01b-i-option-c-modal v01b-panel-celestial-jade"
         id="inventory-modal"
         data-testid="inventory-reliquary-modal"
       >
@@ -248,45 +352,58 @@ export function renderInventoryModalHtml(opts: InventoryModalRenderOptions): str
           <button type="button" class="hud-btn v01b-btn-jade" id="btn-close-modal" data-testid="close-inventory-modal-btn">Đóng [ESC]</button>
         </div>
 
-        <div class="v01b-tab-bar" id="inventory-tab-bar">
-          ${tabsHtml}
-        </div>
-
-        <div class="v01b-reliquary-body">
-          <div class="v01b-reliquary-left">
-            <div class="v01b-reliquary-grid" id="inventory-bag-grid">
-              ${gridCells.join("")}
+        <div class="v01b-reliquary-body v01b-i-option-c-body">
+          <section class="v01b-i-left-bag-col">
+            <div class="v01b-tab-bar v01b-i-left-tabs" id="inventory-tab-bar">
+              ${tabsHtml}
             </div>
-            ${
-              showCookSection
-                ? `
-                  <div class="v01b-cook-cauldron-panel">
-                    <div class="v01b-destiny-subhead">✦ Bếp Linh Trù Bát Hoang (Ẩm Thực Đại Đạo) ✦</div>
-                    <div class="v01b-cook-grid" id="inventory-cook-grid">
-                      ${cookRecipesHtml}
+
+            <div class="v01b-i-bag-panel-box">
+              ${
+                showCookOverlay
+                  ? `
+                    <div class="v01b-cook-cauldron-panel">
+                      <div class="v01b-destiny-subhead">✦ Bếp Linh Trù Bát Hoang (Ẩm Thực Đại Đạo) ✦</div>
+                      <div class="v01b-cook-grid" id="inventory-cook-grid">
+                        ${cookRecipesHtml}
+                      </div>
                     </div>
-                  </div>
-                `
-                : ""
-            }
-          </div>
+                  `
+                  : `
+                    <div class="v01b-reliquary-grid" id="inventory-bag-grid">
+                      ${gridCells.join("")}
+                    </div>
+                  `
+              }
+            </div>
 
-          <div
-            class="v01b-reliquary-inspect-scroll"
-            style="background-image:url('${V01B_UI_CHROME_URLS.frameIvoryScroll}')"
+            <div class="v01b-reliquary-footer v01b-i-left-footer">
+              <div class="v01b-footer-currency">
+                <img class="hud-inline-icon" src="${V01B_UI_CHROME_URLS.currencyLinhThach32}" alt="" />
+                <strong>${linhThach} Linh Thạch</strong>
+              </div>
+              <div class="v01b-footer-slots">
+                <span>👜 <strong>${inv.length} / 30 Ô</strong></span>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="v01b-i-center-paperdoll-col"
+            id="inventory-equipment-paperdoll"
+            data-testid="inventory-equipment-paperdoll"
           >
-            ${rightInspectionHtml}
-          </div>
-        </div>
+            <div class="v01b-paperdoll-circuit-ring"></div>
+            <div
+              class="v01b-paperdoll-lotus-figure"
+              style="background-image:url('${V01B_UI_CHROME_URLS.inventoryPaperdollLotusStage}')"
+            ></div>
+            ${paperdollSlotsHtml}
+          </section>
 
-        <div class="v01b-reliquary-footer">
-          <div class="v01b-footer-currency">
-            <img class="hud-inline-icon" src="${V01B_UI_CHROME_URLS.currencyLinhThach32}" alt="" />
-            <strong>${linhThach} Linh Thạch</strong>
-          </div>
-          <div class="v01b-footer-slots">
-            <span>Dung Lượng Bảo Khố: <strong>${inv.length} / 30 Ô</strong></span>
-          </div>
+          <section class="v01b-reliquary-inspect-scroll v01b-i-right-scroll-col">
+            ${rightInspectionHtml}
+          </section>
         </div>
       </div>
     </div>
@@ -409,10 +526,7 @@ export function renderNpcDialogueModalHtml(
             <div class="v01b-npc-realm-plaque" data-testid="npc-realm-badge">${escapeHtml(realmBadgeText)}</div>
           </div>
 
-          <div
-            class="v01b-npc-ivory-scroll"
-            style="background-image:url('${V01B_UI_CHROME_URLS.frameIvoryScroll}')"
-          >
+          <div class="v01b-npc-ivory-scroll">
             <div class="v01b-npc-scroll-realm-head">${escapeHtml(realmBadgeText)}</div>
             ${npc.greetingLinesVi
               .map((line) => `<div class="npc-speech-box">“${escapeHtml(line)}”</div>`)
@@ -460,7 +574,7 @@ export function renderEscSystemMenuModalHtml(opts: EscSystemMenuRenderOptions): 
         id="ingame-esc-menu"
         data-testid="ingame-esc-menu"
       >
-        <div class="v01b-triptych-header">
+        <div class="v01b-triptych-header v01b-esc-header">
           <div class="v01b-triptych-crest-wrap">
             <img class="v01b-triptych-crest-bg" src="${V01B_UI_CHROME_URLS.panelHeaderBannerCrest}" alt="" />
             <div class="v01b-triptych-crest-titles">
@@ -468,7 +582,20 @@ export function renderEscSystemMenuModalHtml(opts: EscSystemMenuRenderOptions): 
               <div class="v01b-triptych-sub-title">${escapeHtml(opts.characterName)} • 【${escapeHtml(opts.realmDisplay)}】</div>
             </div>
           </div>
-          <button type="button" class="hud-btn v01b-btn-jade" id="btn-close-modal">Đóng [ESC]</button>
+          <button type="button" class="hud-btn v01b-btn-jade v01b-esc-close-btn" id="btn-close-modal">Đóng [ESC]</button>
+        </div>
+
+        <div class="v01b-esc-status-card">
+          <div class="v01b-esc-status-head">
+            <img class="hud-inline-icon" src="${V01B_UI_CHROME_URLS.orbDantianStarCore}" alt="" />
+            <span>Đạo Thân Đang Hành Tẩu: <strong>${escapeHtml(opts.characterName)}</strong></span>
+          </div>
+          <div class="v01b-esc-hotkeys-grid">
+            <span><strong>[C]</strong> Nội Thị Đồ</span>
+            <span><strong>[I]</strong> Túi Càn Khôn</span>
+            <span><strong>[Q]</strong> Tự Hành Chỉ Dẫn</span>
+            <span><strong>[E / F]</strong> Đàm Đạo / Nhặt</span>
+          </div>
         </div>
 
         <div class="v01b-esc-actions-list">

@@ -110,7 +110,6 @@ export function renderCharacterPanelModal(
     const allocVal = v02?.levelProgress.allocated[key] ?? 0;
     const destVal = destinyBonuses[key];
     const effVal = effectiveAttrs[key];
-    const iconUrl = resolveAttributeIconUrl(key, 64);
     const plusBtnImg =
       freePts > 0 ? V01B_UI_CHROME_URLS.buttonPlusReady : V01B_UI_CHROME_URLS.buttonPlusDisabled;
     const vertexClass = HEXAGRAM_VERTEX_CLASSES[key];
@@ -122,21 +121,20 @@ export function renderCharacterPanelModal(
       >
         <div class="v01b-hex-label">${escapeHtml(labelVi)}</div>
         <div class="v01b-hex-medallion-wrap">
-          <img class="v01b-hex-medallion-img" src="${iconUrl}" alt="${escapeHtml(labelVi)}" />
-          <span class="char-attr-effective v01b-hex-value">${effVal}</span>
+          <div class="v01b-hex-number-circle">
+            <span class="char-attr-effective v01b-hex-value">${effVal}</span>
+          </div>
           <button
             type="button"
             class="btn-allocate-attr v01b-btn-plus-alloc ${freePts > 0 ? "ready" : "disabled"}"
             data-testid="allocate-attr-${key}"
             data-attr="${key}"
-            title="Cộng +1 ${escapeHtml(labelVi)}"
+            title="Cộng +1 ${escapeHtml(labelVi)} (Gốc ${origVal}${allocVal > 0 ? ` +${allocVal}` : ""}${destVal !== 0 ? ` • Mệnh +${destVal}` : ""})"
             style="background-image:url('${plusBtnImg}')"
             ${freePts > 0 ? "" : "disabled"}
           >+</button>
         </div>
-        <div class="v01b-hex-breakdown">
-          Gốc ${origVal}${allocVal > 0 ? ` (+${allocVal})` : ""}${destVal !== 0 ? ` • Mệnh +${destVal}` : ""}
-        </div>
+        <div class="v01b-hex-breakdown">${origVal}${destVal > 0 ? `+${destVal}` : ""}</div>
       </div>
     `;
   }).join("");
@@ -170,14 +168,14 @@ export function renderCharacterPanelModal(
                   <div class="v01b-innate-meta">
                     <div class="item-card-title">${escapeHtml(def?.displayNameVi ?? traitId)}</div>
                     <div class="v01b-innate-rarity">[${escapeHtml(rarityLabel)} • Tiên Thiên Ấn Định]</div>
+                    ${
+                      npc
+                        ? `<div class="cc-signature-badge">✦ Chân Truyền • ${escapeHtml(npc.nameVi)}</div>`
+                        : ""
+                    }
+                    <div class="cc-destiny-bonus">✦ ${escapeHtml(bonusText)}</div>
                   </div>
                 </div>
-                ${
-                  npc
-                    ? `<div class="cc-signature-badge">✦ Mệnh Cách Chân Truyền • ${escapeHtml(npc.nameVi)}</div>`
-                    : ""
-                }
-                <div class="cc-destiny-bonus">✦ ${escapeHtml(bonusText)}</div>
               </div>
             `;
           })
@@ -190,17 +188,18 @@ export function renderCharacterPanelModal(
     .map((slotTraitId, slotIdx) => {
       if (!slotTraitId) {
         return `
-          <div class="item-card char-ht-slot empty" data-ht-slot="${slotIdx}">
-            <div class="char-attr-head">
-              <div
-                class="char-ht-socket empty"
-                style="background-image:url('${V01B_UI_CHROME_URLS.socketHauThienEquippable}')"
-              ></div>
-              <div>
-                <div class="item-card-title">Hậu Thiên Ô ${slotIdx + 1}: Trống</div>
-                <div class="item-card-desc">Tinh đài sẵn sàng dung nạp Hậu Thiên Khí Vận.</div>
-              </div>
+          <div
+            class="item-card char-ht-slot v01b-ht-square-cell empty"
+            data-ht-slot="${slotIdx}"
+            title="Hậu Thiên Ô ${slotIdx + 1}: Trống — Tinh đài sẵn sàng dung nạp Hậu Thiên Khí Vận"
+          >
+            <div
+              class="char-ht-socket v01b-ht-star-box empty"
+              style="background-image:url('${V01B_UI_CHROME_URLS.socketHauThienEquippable}')"
+            >
+              <span class="v01b-ht-star-flare">✦</span>
             </div>
+            <div class="v01b-ht-cell-caption">Ô ${slotIdx + 1}: Trống</div>
           </div>
         `;
       }
@@ -210,23 +209,19 @@ export function renderCharacterPanelModal(
       const htEmblemUrl = resolveDestinyTraitIconUrl(slotTraitId, 64);
       return `
         <div
-          class="item-card char-ht-slot active"
+          class="item-card char-ht-slot v01b-ht-square-cell active"
           data-ht-slot="${slotIdx}"
           data-trait-id="${escapeHtml(slotTraitId)}"
+          title="Ô ${slotIdx + 1}: [${escapeHtml(rarityLabel)}] ${escapeHtml(def?.displayNameVi ?? slotTraitId)} (${escapeHtml(bonusText)})"
         >
-          <div class="char-attr-head">
-            <div
-              class="char-ht-socket active"
-              style="background-image:url('${V01B_UI_CHROME_URLS.socketHauThienActive}')"
-            >
-              <img src="${escapeHtml(htEmblemUrl)}" alt="${escapeHtml(def?.displayNameVi ?? slotTraitId)}" />
-            </div>
-            <div>
-              <div class="item-card-title">Ô ${slotIdx + 1}: [${escapeHtml(rarityLabel)}] ${escapeHtml(def?.displayNameVi ?? slotTraitId)}</div>
-              <div class="item-card-desc">✦ ${escapeHtml(bonusText)}</div>
-            </div>
+          <div
+            class="char-ht-socket v01b-ht-star-box active"
+            style="background-image:url('${V01B_UI_CHROME_URLS.socketHauThienActive}')"
+          >
+            <img src="${escapeHtml(htEmblemUrl)}" alt="${escapeHtml(def?.displayNameVi ?? slotTraitId)}" />
           </div>
-          <button type="button" class="hud-btn v01b-btn-jade btn-unequip-ht" data-slot="${slotIdx}">Gỡ Bỏ</button>
+          <div class="v01b-ht-cell-caption">${escapeHtml(def?.displayNameVi ?? slotTraitId)}</div>
+          <button type="button" class="hud-btn v01b-btn-jade btn-unequip-ht v01b-ht-mini-btn" data-slot="${slotIdx}">Gỡ</button>
         </div>
       `;
     })
@@ -234,7 +229,7 @@ export function renderCharacterPanelModal(
 
   const ownedHtHtml =
     ownedHtIds.length === 0
-      ? `<div class="v01b-ht-empty-note">Kho tàng Hậu Thiên: Chưa lĩnh ngộ thêm Hậu Thiên Khí Vận trong hành trình.</div>`
+      ? `<div class="v01b-ht-empty-note">Kho tàng Hậu Thiên: Chưa lĩnh ngộ thêm Khí Vận.</div>`
       : ownedHtIds
           .map((traitId) => {
             const def = S1E_STARTER_DESTINY_CATALOG[traitId];
@@ -246,7 +241,7 @@ export function renderCharacterPanelModal(
               <div class="item-card v01b-owned-ht-card" data-owned-ht="${escapeHtml(traitId)}">
                 <div class="char-attr-head">
                   <img class="char-attr-icon" src="${escapeHtml(htIconUrl)}" alt="${escapeHtml(def?.displayNameVi ?? traitId)}" />
-                  <div>
+                  <div class="v01b-owned-ht-meta">
                     <div class="item-card-title">${escapeHtml(def?.displayNameVi ?? traitId)}</div>
                     <div class="item-card-desc">${escapeHtml(def ? formatDestinyTraitBonusSummaryVi(def) : "")}</div>
                   </div>
@@ -258,7 +253,7 @@ export function renderCharacterPanelModal(
                   data-slot="${targetSlot}"
                   ${alreadyEquipped ? "disabled" : ""}
                 >
-                  ${alreadyEquipped ? "Đang Trang Bị" : `Trang Bị (Ô ${targetSlot + 1})`}
+                  ${alreadyEquipped ? "Đã Nạp" : `Nạp Ô ${targetSlot + 1}`}
                 </button>
               </div>
             `;
@@ -283,7 +278,7 @@ export function renderCharacterPanelModal(
   host.modalHost.innerHTML = `
     <div class="hud-modal-backdrop" id="modal-backdrop">
       <div
-        class="hud-modal v01b-triptych-modal v01b-panel-celestial-jade"
+        class="hud-modal v01b-triptych-modal v01b-c-option-c-modal v01b-panel-celestial-jade"
         id="cultivation-modal"
         data-testid="character-cultivation-panel"
       >
@@ -300,68 +295,11 @@ export function renderCharacterPanelModal(
           <button type="button" class="hud-btn v01b-btn-jade" id="btn-close-modal" data-testid="close-character-panel-btn">Đóng [X]</button>
         </div>
 
-        <div class="v01b-triptych-wings">
-          <section class="v01b-triptych-wing v01b-wing-left" id="char-v02-summary">
-            <div class="v01b-wing-title">✦ Tu Luyện &amp; Cảnh Giới ✦</div>
-            <div
-              class="v01b-meditation-wheel-stage"
-              style="background-image:url('${V01B_UI_CHROME_URLS.cultivationMeditationStarWheel}')"
-            >
-              <div class="v01b-meditation-portrait-halo">
-                <img src="${escapeHtml(portraitSrc)}" alt="${escapeHtml(appDef.displayNameVi)}" />
-              </div>
-            </div>
-
-            <div class="v01b-progression-block" id="char-modal-progression">
-              <div class="v01b-prog-row-head">
-                <span>Cấp: Lv ${level} / ${majorCapLevel} — ${escapeHtml(realmLabel)}</span>
-                <span>${atCap ? "Đỉnh Phong" : `${expNow} / ${expNext}`}</span>
-              </div>
-              <div class="bar-track bar-track-exp">
-                <div class="bar-fill exp" style="width:${expPct}%"></div>
-                <div class="bar-text">EXP: ${atCap ? `Đạt đỉnh phong cảnh giới (${expNow})` : `${expNow} / ${expNext}`}</div>
-              </div>
-
-              <div class="v01b-prog-row-head" style="margin-top:6px;">
-                <span>Cảnh Giới: ${escapeHtml(realmLabel)} → ${escapeHtml(nextRealmNameVi)}</span>
-              </div>
-              <div class="v01b-dantian-core-row">
-                <img class="char-dantian-orb" src="${V01B_UI_CHROME_URLS.orbDantianStarCore}" alt="" />
-                <div class="bar-track bar-track-tuvi" style="flex:1;">
-                  <div class="bar-fill tuvi" style="width:${tuViPct}%"></div>
-                  <div class="bar-text">Tu Vi: ${curTuVi} / ${reqTuVi}</div>
-                </div>
-              </div>
-              <div class="v01b-gd023-note">${escapeHtml(gd023Tooltip)}</div>
-            </div>
-
-            <div class="v01b-wing-actions">
-              <button
-                type="button"
-                class="hud-btn gold v01b-btn-cinnabar"
-                id="btn-modal-breakthrough"
-                data-testid="char-breakthrough-btn"
-                title="${escapeHtml(gd023Tooltip)}"
-              >
-                <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoCinnabar}" alt="" />
-                <span>Đột Phá Cảnh Giới</span>
-              </button>
-              <button
-                type="button"
-                class="hud-btn primary v01b-btn-jade"
-                id="btn-modal-meditate"
-                data-testid="char-meditate-btn"
-              >
-                <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.orbTuViCore32}" alt="" />
-                <span>Bế Quan Tịnh Tu (Tối Đa 8 Giờ)</span>
-              </button>
-            </div>
-          </section>
-
-          <section class="v01b-triptych-wing v01b-wing-center">
-            <div class="v01b-wing-title">
-              ✦ Lục Hợp Thuộc Tính Gốc ✦
-              <span class="v01b-free-pts-badge">Điểm Tiềm Năng Khả Dụng: <strong id="char-free-attr-points">${freePts}</strong></span>
+        <div class="v01b-triptych-wings v01b-c-option-c-wings">
+          <section class="v01b-triptych-wing v01b-wing-left v01b-c-left-attributes">
+            <div class="v01b-wing-title v01b-wing-title-split">
+              <span>✦ Lục Hợp Thuộc Tính</span>
+              <span class="v01b-free-pts-badge">Điểm Tiềm Năng: <strong id="char-free-attr-points">${freePts}</strong></span>
             </div>
             <div
               class="v01b-hexagram-board"
@@ -374,28 +312,87 @@ export function renderCharacterPanelModal(
               <span>Sinh Lực: <strong>${curHp}/${maxHp}</strong></span>
               <span>Linh Lực: <strong>${curMp}/${maxMp}</strong></span>
               <span>Công Vật Lý: <strong>${physAtk}</strong></span>
-              <span>Công Pháp Thuật: <strong>${spirAtk}</strong></span>
               <span>Thủ Vật Lý: <strong>${physDef}</strong></span>
+              <span>Công Pháp Thuật: <strong>${spirAtk}</strong></span>
               <span>Thủ Pháp Thuật: <strong>${spirDef}</strong></span>
             </div>
+          </section>
+
+          <section class="v01b-triptych-wing v01b-wing-center v01b-c-center-meditation" id="char-v02-summary">
+            <div class="v01b-wing-title">✦ Đài Thiền Định Trung Tâm ✦</div>
+            <div
+              class="v01b-meditation-wheel-stage"
+              style="background-image:url('${V01B_UI_CHROME_URLS.cultivationMeditationStarWheel}')"
+            >
+              <div class="v01b-meditation-portrait-corner" title="${escapeHtml(appDef.displayNameVi)}">
+                <img src="${escapeHtml(portraitSrc)}" alt="${escapeHtml(appDef.displayNameVi)}" />
+              </div>
+            </div>
+
+            <div class="v01b-progression-block" id="char-modal-progression">
+              <div class="v01b-prog-row-head">
+                <span>Cấp: Lv ${level}/${majorCapLevel} — ${escapeHtml(realmLabel)}</span>
+                <span>${atCap ? "Đỉnh Phong" : `EXP: ${expNow} / ${expNext}`}</span>
+              </div>
+              <div class="bar-track bar-track-exp">
+                <div class="bar-fill exp" style="width:${expPct}%"></div>
+                <div class="bar-text">EXP: ${atCap ? `Đạt đỉnh phong (${expNow})` : `${expNow} / ${expNext}`}</div>
+              </div>
+
+              <div class="v01b-dantian-core-row" title="${escapeHtml(gd023Tooltip)}">
+                <img class="char-dantian-orb" src="${V01B_UI_CHROME_URLS.orbDantianStarCore}" alt="" />
+                <div class="v01b-dantian-tuvi-col">
+                  <div class="v01b-prog-row-head">
+                    <span>Cảnh Giới: <strong>${escapeHtml(realmLabel)} → ${escapeHtml(nextRealmNameVi)}</strong></span>
+                  </div>
+                  <div class="bar-track bar-track-tuvi">
+                    <div class="bar-fill tuvi" id="char-modal-tuvi-fill" style="width:${tuViPct}%"></div>
+                    <div class="bar-text" id="char-modal-tuvi-text">Tu Vi: ${curTuVi} / ${reqTuVi}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="v01b-wing-actions v01b-center-dual-actions">
+              <button
+                type="button"
+                class="hud-btn gold v01b-btn-cinnabar"
+                id="btn-modal-breakthrough"
+                data-testid="char-breakthrough-btn"
+                title="${escapeHtml(gd023Tooltip)}"
+              >
+                <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
+                <span>Đột Phá Cảnh Giới</span>
+              </button>
+              <button
+                type="button"
+                class="hud-btn primary v01b-btn-jade v01b-btn-meditate-azure"
+                id="btn-modal-meditate"
+                data-testid="char-meditate-btn"
+              >
+                <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.orbTuViCore32}" alt="" />
+                <span>Bế Quan Tịnh Tu (8h)</span>
+              </button>
+            </div>
+
             <div class="v01b-party-compact-bar">
-              <span>Tổ Đội: ${p?.partyId ? escapeHtml(p.partyId) : "Chưa lập đội"}</span>
+              <span class="v01b-party-label">Tổ Đội: <strong>${p?.partyId ? escapeHtml(p.partyId) : "Chưa lập đội"}</strong></span>
               <div class="v01b-party-btns">
-                <button type="button" class="hud-btn v01b-btn-jade" id="btn-party-create">Lập Đội</button>
-                <button type="button" class="hud-btn v01b-btn-jade" id="btn-party-join">Gia Nhập</button>
-                <button type="button" class="hud-btn v01b-btn-jade" id="btn-party-leave">Rời Đội</button>
+                <button type="button" class="hud-btn v01b-btn-jade v01b-party-btn-create" id="btn-party-create">Lập Đội</button>
+                <button type="button" class="hud-btn v01b-btn-jade v01b-party-btn-join" id="btn-party-join">Gia Nhập</button>
+                <button type="button" class="hud-btn v01b-btn-cinnabar v01b-party-btn-leave" id="btn-party-leave">Rời Đội</button>
               </div>
             </div>
           </section>
 
-          <section class="v01b-triptych-wing v01b-wing-right">
+          <section class="v01b-triptych-wing v01b-wing-right v01b-c-right-destiny">
             <div class="v01b-wing-title">✦ Thiên Mệnh Tinh Đài ✦</div>
-            <div class="v01b-destiny-subhead">Tiên Thiên Khí Vận (3 Ô Ấn Định)</div>
+            <div class="v01b-destiny-subhead">Tiên Thiên Khí Vận (3 Ô Ấn)</div>
             <div class="v01b-innate-list" id="char-innate-destiny-grid">
               ${innateCardsHtml}
             </div>
-            <div class="v01b-destiny-subhead" style="margin-top:8px;">Hậu Thiên Khí Vận (3 Ô Tinh Đài)</div>
-            <div class="v01b-ht-list" id="ht-active-slots">
+            <div class="v01b-destiny-subhead v01b-ht-divider">✦ Hậu Thiên Khí Vận ✦</div>
+            <div class="v01b-ht-list v01b-ht-row-3" id="ht-active-slots">
               ${activeHtHtml}
             </div>
             <div class="v01b-ht-owned-list" id="ht-owned-collection">

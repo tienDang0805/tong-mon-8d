@@ -125,6 +125,7 @@ export interface RosterScreenRenderOptions {
   previewDirection: Direction;
   busy: boolean;
   statusBanner: { kind: "info" | "error" | "ok"; text: string } | null;
+  deleteConfirmCharacter?: CharacterRosterEntryDto | null;
 }
 
 export function renderRosterScreenHtml(opts: RosterScreenRenderOptions): string {
@@ -182,6 +183,7 @@ export function renderRosterScreenHtml(opts: RosterScreenRenderOptions): string 
 
   let stageHtml = "";
   let primaryActionBtnHtml = "";
+  let deleteActionBtnHtml = "";
   if (selected) {
     const appDef =
       APPROVED_CHARACTER_V02_APPEARANCES.find((a) => a.id === selected.appearanceId) ??
@@ -269,7 +271,56 @@ export function renderRosterScreenHtml(opts: RosterScreenRenderOptions): string 
         </button>
       `;
     }
+
+    deleteActionBtnHtml = `
+      <button
+        type="button"
+        class="hud-btn cc-btn-lg v01b-btn-cinnabar roster-delete-char-btn"
+        id="btn-roster-delete-char"
+        data-testid="roster-delete-character-btn"
+        ${opts.busy ? "disabled" : ""}
+      >
+        <span>Xoá Nhân Vật</span>
+      </button>
+    `;
   }
+
+  const deleteConfirmModalHtml = opts.deleteConfirmCharacter
+    ? `
+      <div class="v01b-confirm-modal-backdrop" id="roster-delete-confirm-backdrop">
+        <div class="v01b-confirm-modal v01b-panel-tier3-dragon" data-testid="roster-delete-confirm-modal">
+          <div class="v01b-banner-header">
+            <img class="v01b-banner-crest-img" src="${V01B_UI_CHROME_URLS.panelHeaderBannerCrest}" alt="" />
+            <span class="v01b-banner-title">XÁC NHẬN XOÁ ĐẠO THÂN — BẤT KHẢ KHÔI PHỤC</span>
+          </div>
+          <div class="v01b-confirm-body">
+            <p>Đạo hữu có chắc chắn muốn xoá vĩnh viễn đạo thân <strong>${escapeHtml(opts.deleteConfirmCharacter.name)}</strong> (Cấp ${opts.deleteConfirmCharacter.level}) khỏi danh sách không?</p>
+          </div>
+          <div class="v01b-confirm-actions">
+            <button
+              type="button"
+              class="hud-btn gold cc-btn-lg v01b-btn-cinnabar"
+              id="btn-roster-confirm-delete"
+              data-testid="roster-confirm-delete-btn"
+              ${opts.busy ? "disabled" : ""}
+            >
+              <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoCinnabar}" alt="" />
+              <span>Xác Nhận Xoá Vĩnh Viễn</span>
+            </button>
+            <button
+              type="button"
+              class="hud-btn cc-btn-lg v01b-btn-jade"
+              id="btn-roster-cancel-delete"
+              data-testid="roster-cancel-delete-btn"
+              ${opts.busy ? "disabled" : ""}
+            >
+              <span>Huỷ Bỏ</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `
+    : "";
 
   return `
     <div
@@ -309,6 +360,7 @@ export function renderRosterScreenHtml(opts: RosterScreenRenderOptions): string 
           ${stageHtml}
           <div class="entry-stage-action-bar">
             ${primaryActionBtnHtml}
+            ${deleteActionBtnHtml}
             <button
               type="button"
               class="hud-btn cc-btn-lg v01b-btn-jade"
@@ -321,6 +373,7 @@ export function renderRosterScreenHtml(opts: RosterScreenRenderOptions): string 
           </div>
         </div>
       </div>
+      ${deleteConfirmModalHtml}
     </div>
   `;
 }

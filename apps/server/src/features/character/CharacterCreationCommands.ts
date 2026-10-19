@@ -201,7 +201,9 @@ export async function executeRollInnateDestiny(params: {
 
   const keyCheck = validateAllowedClientIntentKeys(rawIntent, [
     "requestId",
-    "characterId"
+    "characterId",
+    "name",
+    "appearanceId"
   ]);
   if (!keyCheck.ok) {
     return {
@@ -213,6 +215,36 @@ export async function executeRollInnateDestiny(params: {
   }
 
   const { payload, requestId } = keyCheck;
+  let updatedDraftName: string | undefined;
+  if (payload.name !== undefined) {
+    const rawName = typeof payload.name === "string" ? payload.name.trim() : "";
+    if (rawName.length < 2 || rawName.length > 24 || rawName !== payload.name) {
+      return {
+        requestId,
+        ok: false,
+        code: "INVALID_CHARACTER_NAME",
+        messageVi: "Đạo hiệu phải từ 2 đến 24 ký tự và không chứa khoảng trắng thừa ở hai đầu."
+      };
+    }
+    updatedDraftName = rawName;
+  }
+
+  let updatedDraftAppearanceId: string | undefined;
+  if (payload.appearanceId !== undefined) {
+    if (
+      !isNonEmptyTrimmedString(payload.appearanceId, 64) ||
+      !isApprovedCharacterV02AppearanceId(payload.appearanceId)
+    ) {
+      return {
+        requestId,
+        ok: false,
+        code: "INVALID_APPEARANCE_ID",
+        messageVi: "Ngoại hình khởi tạo (appearanceId) không thuộc danh mục phê duyệt."
+      };
+    }
+    updatedDraftAppearanceId = payload.appearanceId;
+  }
+
   const requestedCharId = payload.characterId;
   const keyCharId =
     typeof requestedCharId === "string" ? requestedCharId.trim() : "";
@@ -224,7 +256,7 @@ export async function executeRollInnateDestiny(params: {
     keyCharId
   );
 
-  return runAtomic(tx, async (runner) => {
+  return runAtomic(tx, async (runner, activeTx) => {
     const dup = await checkScopedV02Idempotency(runner, scopedKey, requestId);
     if (dup) {
       return dup;
@@ -247,7 +279,7 @@ export async function executeRollInnateDestiny(params: {
         messageVi: targetRes.messageVi
       };
     }
-    const character = targetRes.character;
+    let character = targetRes.character;
 
     if (character.identity.creationState !== "draft") {
       return {
@@ -256,6 +288,31 @@ export async function executeRollInnateDestiny(params: {
         code: "CHARACTER_ALREADY_CONFIRMED",
         messageVi: "Nhân vật đã xác nhận Tiên Thiên Khí Vận, không thể gieo lại."
       };
+    }
+
+    const nextName = updatedDraftName ?? character.identity.name;
+    const nextAppearanceId = updatedDraftAppearanceId ?? character.identity.appearanceId;
+    if (
+      nextName !== character.identity.name ||
+      nextAppearanceId !== character.identity.appearanceId
+    ) {
+      character = await repository.updateCharacter(
+        {
+          expectedRevision: character.identity.revision,
+          nextState: {
+            ...character,
+            identity: {
+              ...character.identity,
+              name: nextName,
+              appearanceId: nextAppearanceId,
+              revision: character.identity.revision + 1
+            },
+            updatedAtMs: Math.max(nowMs, character.updatedAtMs)
+          }
+        },
+        { destinyCatalog: catalog },
+        activeTx
+      );
     }
 
     const rollOutcome = rollInnateDestinyTripleFromCatalog(catalog, {
@@ -352,7 +409,9 @@ export async function executeConfirmInnateDestiny(params: {
   const keyCheck = validateAllowedClientIntentKeys(rawIntent, [
     "requestId",
     "rollNonce",
-    "characterId"
+    "characterId",
+    "name",
+    "appearanceId"
   ]);
   if (!keyCheck.ok) {
     return {
@@ -364,6 +423,36 @@ export async function executeConfirmInnateDestiny(params: {
   }
 
   const { payload, requestId } = keyCheck;
+  let updatedConfirmName: string | undefined;
+  if (payload.name !== undefined) {
+    const rawName = typeof payload.name === "string" ? payload.name.trim() : "";
+    if (rawName.length < 2 || rawName.length > 24 || rawName !== payload.name) {
+      return {
+        requestId,
+        ok: false,
+        code: "INVALID_CHARACTER_NAME",
+        messageVi: "Đạo hiệu phải từ 2 đến 24 ký tự và không chứa khoảng trắng thừa ở hai đầu."
+      };
+    }
+    updatedConfirmName = rawName;
+  }
+
+  let updatedConfirmAppearanceId: string | undefined;
+  if (payload.appearanceId !== undefined) {
+    if (
+      !isNonEmptyTrimmedString(payload.appearanceId, 64) ||
+      !isApprovedCharacterV02AppearanceId(payload.appearanceId)
+    ) {
+      return {
+        requestId,
+        ok: false,
+        code: "INVALID_APPEARANCE_ID",
+        messageVi: "Ngoại hình khởi tạo (appearanceId) không thuộc danh mục phê duyệt."
+      };
+    }
+    updatedConfirmAppearanceId = payload.appearanceId;
+  }
+
   if (!isNonEmptyTrimmedString(payload.rollNonce, 128)) {
     return {
       requestId,
@@ -549,6 +638,8 @@ export async function executeConfirmInnateDestiny(params: {
         ...character,
         identity: {
           ...character.identity,
+          name: updatedConfirmName ?? character.identity.name,
+          appearanceId: updatedConfirmAppearanceId ?? character.identity.appearanceId,
           creationState: "confirmed",
           revision: character.identity.revision + 1
         },
@@ -598,6 +689,95 @@ export async function executeConfirmInnateDestiny(params: {
     }
     throw err;
   }
+}
+
+export async function executeDeleteCharacter(params: {
+  runAtomic: AtomicV02Runner;
+  repository: CharacterV02Repository;
+  accountId: string;
+  rawIntent: unknown;
+  catalog: Readonly<Record<string, DestinyDefinitionMetadata>>;
+  tx?: SqlTransaction;
+}): Promise<CharacterV02ActionResultPayload> {
+  const { runAtomic, repository, accountId, rawIntent, catalog, tx } = params;
+  const cleanAccount = typeof accountId === "string" ? accountId.trim() : "";
+  if (!isNonEmptyTrimmedString(cleanAccount, 128)) {
+    return {
+      requestId: "",
+      ok: false,
+      code: "UNAUTHENTICATED_V02_SESSION",
+      messageVi: "Danh tính tài khoản phiên chưa được xác thực."
+    };
+  }
+
+  const keyCheck = validateAllowedClientIntentKeys(rawIntent, [
+    "requestId",
+    "characterId"
+  ]);
+  if (!keyCheck.ok) {
+    return {
+      requestId: keyCheck.requestId,
+      ok: false,
+      code: keyCheck.code,
+      messageVi: keyCheck.messageVi
+    };
+  }
+
+  const { payload, requestId } = keyCheck;
+  if (!isNonEmptyTrimmedString(payload.characterId, 128)) {
+    return {
+      requestId,
+      ok: false,
+      code: "CHARACTER_NOT_FOUND",
+      messageVi: "Không tìm thấy nhân vật v0.2 theo yêu cầu."
+    };
+  }
+  const targetCharacterId = payload.characterId;
+
+  return runAtomic(tx, async (runner) => {
+    const targetRes = await repository.resolveLockedTargetCharacter(
+      runner,
+      cleanAccount,
+      targetCharacterId,
+      { destinyCatalog: catalog }
+    );
+    if (!targetRes.ok) {
+      return {
+        requestId,
+        ok: false,
+        code: targetRes.code,
+        messageVi: targetRes.messageVi
+      };
+    }
+
+    await runner.query(
+      `DELETE FROM character_v02_roll_drafts WHERE character_id = $1 AND account_id = $2`,
+      [targetCharacterId, cleanAccount]
+    );
+    await runner.query(
+      `DELETE FROM idempotency_ledger WHERE character_id = $1`,
+      [targetCharacterId]
+    );
+    await runner.query(
+      `DELETE FROM economy_audit_log WHERE character_id = $1`,
+      [targetCharacterId]
+    );
+    await runner.query(
+      `DELETE FROM characters WHERE character_id = $1 AND account_id = $2`,
+      [targetCharacterId, cleanAccount]
+    );
+    await runner.query(
+      `DELETE FROM characters_v02 WHERE character_id = $1 AND account_id = $2`,
+      [targetCharacterId, cleanAccount]
+    );
+
+    return {
+      requestId,
+      ok: true,
+      code: "OK",
+      messageVi: `Đã xoá đạo thân "${targetRes.character.identity.name}" thành công.`
+    };
+  });
 }
 
 export async function queryActiveRollDraftForCharacter(

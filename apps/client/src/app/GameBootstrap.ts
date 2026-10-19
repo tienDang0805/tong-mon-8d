@@ -163,6 +163,11 @@ export async function bootstrapGame(): Promise<Phaser.Game> {
     backgroundColor: "#0e1520",
     pixelArt: true,
     roundPixels: true,
+    input: {
+      mouse: {
+        preventDefaultWheel: false
+      }
+    },
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH

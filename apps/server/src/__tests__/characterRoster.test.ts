@@ -206,24 +206,14 @@ describe(
     const roll2 = (await roll2Resp.json()) as CharacterV02ActionResultPayload;
     expect(roll2.ok).toBe(true);
 
-    const rosterResp = await fetch(`${baseUrl}/api/v02/characters/roster`, {
+    const rosterBeforeConfirmResp = await fetch(`${baseUrl}/api/v02/characters/roster`, {
       method: "GET",
       headers: authHeaders
     });
-    const roster = (await rosterResp.json()) as CharacterRosterResponsePayload;
-    expect(roster.ok).toBe(true);
-    expect(roster.characters).toHaveLength(2);
-    expect(roster.lastSelectedCharacterId).toBe(char1Id);
-
-    const entry1 = roster.characters.find((c) => c.characterId === char1Id)!;
-    const entry2 = roster.characters.find((c) => c.characterId === char2Id)!;
-    expect(entry1.creationState).toBe("confirmed");
-    expect(entry1.innateTraitIds).toHaveLength(3);
-    expect(entry1.activeRollDraft).toBeNull();
-
-    expect(entry2.creationState).toBe("draft");
-    expect(entry2.innateTraitIds).toBeNull();
-    expect(entry2.activeRollDraft?.rollNonce).toBe(roll2.rollDraft!.rollNonce);
+    const rosterBeforeConfirm = (await rosterBeforeConfirmResp.json()) as CharacterRosterResponsePayload;
+    expect(rosterBeforeConfirm.ok).toBe(true);
+    expect(rosterBeforeConfirm.characters).toHaveLength(1);
+    expect(rosterBeforeConfirm.lastSelectedCharacterId).toBe(char1Id);
 
     const confirm2Resp = await fetch(
       `${baseUrl}/api/v02/characters/${encodeURIComponent(char2Id)}/confirm`,
@@ -233,13 +223,55 @@ describe(
         body: JSON.stringify({
           requestId: "req_confirm_char_2",
           characterId: char2Id,
-          rollNonce: entry2.activeRollDraft!.rollNonce
+          rollNonce: roll2.rollDraft!.rollNonce,
+          appearanceId: "hoa_tran"
         })
       }
     );
     const confirm2 = (await confirm2Resp.json()) as CharacterV02ActionResultPayload;
     expect(confirm2.ok).toBe(true);
     expect(confirm2.character?.identity.creationState).toBe("confirmed");
+    expect(confirm2.character?.identity.appearanceId).toBe("hoa_tran");
+
+    const rosterResp = await fetch(`${baseUrl}/api/v02/characters/roster`, {
+      method: "GET",
+      headers: authHeaders
+    });
+    const roster = (await rosterResp.json()) as CharacterRosterResponsePayload;
+    expect(roster.ok).toBe(true);
+    expect(roster.characters).toHaveLength(2);
+
+    const entry1 = roster.characters.find((c) => c.characterId === char1Id)!;
+    const entry2 = roster.characters.find((c) => c.characterId === char2Id)!;
+    expect(entry1.creationState).toBe("confirmed");
+    expect(entry1.innateTraitIds).toHaveLength(3);
+    expect(entry1.activeRollDraft).toBeNull();
+    expect(entry2.creationState).toBe("confirmed");
+    expect(entry2.appearanceId).toBe("hoa_tran");
+    expect(entry2.innateTraitIds).toHaveLength(3);
+
+    const delete2Resp = await fetch(
+      `${baseUrl}/api/v02/characters/${encodeURIComponent(char2Id)}/delete`,
+      {
+        method: "POST",
+        headers: authHeaders,
+        body: JSON.stringify({
+          requestId: "req_delete_char_2",
+          characterId: char2Id
+        })
+      }
+    );
+    const delete2 = (await delete2Resp.json()) as CharacterV02ActionResultPayload;
+    expect(delete2.ok).toBe(true);
+
+    const rosterAfterDeleteResp = await fetch(`${baseUrl}/api/v02/characters/roster`, {
+      method: "GET",
+      headers: authHeaders
+    });
+    const rosterAfterDelete = (await rosterAfterDeleteResp.json()) as CharacterRosterResponsePayload;
+    expect(rosterAfterDelete.ok).toBe(true);
+    expect(rosterAfterDelete.characters).toHaveLength(1);
+    expect(rosterAfterDelete.characters[0]?.characterId).toBe(char1Id);
   });
 
   it("rejects selecting or spawning an unconfirmed draft character and enforces ownership across accounts", async () => {

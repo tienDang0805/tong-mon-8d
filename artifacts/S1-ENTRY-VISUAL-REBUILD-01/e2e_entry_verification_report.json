@@ -1,12 +1,12 @@
 {
   "taskId": "S1-ENTRY-VISUAL-REBUILD-01",
-  "verifiedAt": "2026-10-18T20:56:51.452Z",
-  "accountId": "acct_v02_2bc6a20de3a1c611d331d429",
+  "verifiedAt": "2026-10-19T10:40:41.326Z",
+  "accountId": "acct_v02_f92a6271ef6e0ca9c84fe552",
   "charactersVerifiedOnSameAccount": [
-    "char_v02_34c80e37ce3ce6bbf10324b5",
-    "char_v02_3ab50d688d09bd7eefe9f916",
-    "char_v02_f21691ba62c7fe0a09e75671",
-    "char_v02_14d36507e30803a7cfdbc235"
+    "char_v02_25880163850244cb2c0394e0",
+    "char_v02_98bd46f351d1b8ef76ecda23",
+    "char_v02_60e60e6cd27a3f0850fb7857",
+    "char_v02_63f9578b53949c7e7f73dc35"
   ],
   "titleScreenZeroWorldActorVerified": true,
   "emptyAccountDirectToCreateVerified": true,
@@ -14,6 +14,10 @@
   "noAutoEnterWorldOnReloadVerified": true,
   "existingCharacterZonePositionResumeVerified": true,
   "inGameEscMenuSwitchAndReturnVerified": true,
+  "switchAppearanceAfterDestinyRollVerified": true,
+  "discardUnconfirmedDraftOnBackVerified": true,
+  "deleteCharacterFromRosterVerified": true,
+  "expandedMinimapNoQuestOverlapVerified": true,
   "consoleErrorCount": 0,
   "failedAssetCount": 0
 }

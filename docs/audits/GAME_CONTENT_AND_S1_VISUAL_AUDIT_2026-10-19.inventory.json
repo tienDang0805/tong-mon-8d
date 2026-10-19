@@ -1,0 +1,1456 @@
+{
+  "auditDateLocal": "2026-10-19",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "scopeNote": "Initial Markdown corpus snapshot. All project documents were inventoried and scanned; subject-specific deep reading and selective source cross-checks support the report. Supporting skill Markdown is inventory only except the two named loaded skills. No runtime acceptance or human creative approval is granted.",
+  "head": "638e83a75df6b6f31b009ed79980c388f7801099",
+  "originMasterTrackingRef": "638e83a75df6b6f31b009ed79980c388f7801099",
+  "remoteLiveQueried": false,
+  "counts": {
+    "project_document_audit": 73,
+    "support_skill_inventory": 93,
+    "historical_art_index": 1,
+    "historical_document": 4
+  },
+  "projectDocumentLines": 7172,
+  "markdownInSrc": [],
+  "loadedSkills": [
+    ".agents/skills/ai-art-production/SKILL.md",
+    ".agents/skills/pixel-art-director/SKILL.md"
+  ],
+  "checks": {
+    "docSync": "PASS; rerun separately after report creation",
+    "frozenTdFilesUnchanged": 40,
+    "inlineRelativeMarkdownLinksMissing": [],
+    "runtimeTests": "NOT_RUN; documentation audit"
+  },
+  "heroFileSha256": {
+    "assets/sprites/hero_kiem_tu.png": "278cdfc9d78a6d645d321f15bd3a4242ff7c5e7c173038a8b5f978fb18c87b09",
+    "assets/portraits/portrait_hero_kiem_tu.png": "1de6fc6029fd2efe1dfa855fd73d1931308290060a41071f6e19b856333f8823",
+    "assets/atlases/hero_kiem_tu_atlas.json": "5d47bb9c2e160f0713eeedaca365bf7f53f85a5603cf94eac1f5f40d2ba9cb8d"
+  },
+  "files": [
+    {
+      "path": "RULES.md",
+      "lines": 8,
+      "sha256": "ac34efc1ff08e3f567b85ef1f00d4e9ca85cdef95507a982ec6e65186d5f4f46",
+      "scope": "project_document_audit",
+      "title": "Workspace Rules — Tông Môn 8D: Tu Tiên Chi Lộ",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "MASTER_PROMPT.md",
+      "lines": 16,
+      "sha256": "50cfff9614339fa09eba66ac7ed1fc78368d1009a6614eeee7b56a937542904f",
+      "scope": "project_document_audit",
+      "title": "MASTER_PROMPT.md — Historical Bootstrap Prompt Locator (`ARCHIVED`)",
+      "status_terms_present": []
+    },
+    {
+      "path": "START_HERE.md",
+      "lines": 30,
+      "sha256": "3f56c9b758b6bcd66419ea8c0bfee02dbaaadf8b26f5e2780728dd83dd82acd8",
+      "scope": "project_document_audit",
+      "title": "Tông Môn 8D — Active Workspace Startup & Session Entrypoint",
+      "status_terms_present": []
+    },
+    {
+      "path": "AGENTS.md",
+      "lines": 130,
+      "sha256": "78bc392b0361ec72df18f933d4ef7dbcf80b1d5d07a1ca5ea5fdbc6b63c4c0db",
+      "scope": "project_document_audit",
+      "title": "AGENTS.md — Tông Môn 8D: Tu Tiên Chi Lộ",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED",
+        "LEGACY",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/PROJECT_STATUS.md",
+      "lines": 100,
+      "sha256": "d1b7234805f057c1fbb7609740d0a859723b0b9c2dd15dfe97f054ffb6c2ac5a",
+      "scope": "project_document_audit",
+      "title": "TÔNG MÔN 8D: TU TIÊN CHI LỘ — PROJECT STATUS (PHASE 1A, 1B.0, TD FREEZE v1.0, S0, G0, S1-B1a..E, PRE-S1F, DOC-CLEAN-01, VISUAL-03-P/W, HERO-ANIMSET-01, ARCH-FOUNDATION-02, COREKIT-CANON-02, ARCH-COREKIT-R1 & S1-ENTRY-VISUAL-REBUILD-01 RECONCILED)",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT",
+        "NOT STARTED"
+      ]
+    },
+    {
+      "path": "docs/GAME_LORE.md",
+      "lines": 77,
+      "sha256": "f8d643c6d899d850d73697aec97e9fdc2bac4114ba7f60d233b555bcee0fd131",
+      "scope": "project_document_audit",
+      "title": "Game Lore — Bát Hoang Tu Tiên Giới",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "lines": 106,
+      "sha256": "1ffea32115040d792f1cbd1eca1d4e127dcfd2dd4be7807ba2947e7bd3c93446",
+      "scope": "project_document_audit",
+      "title": "Tông Môn 8D — Human-Approved Decisions Register",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED",
+        "LEGACY",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": ".agents/skills/world-and-map-qa/SKILL.md",
+      "lines": 27,
+      "sha256": "8abb73f15f5b0598c1a5cd6ae36a7250269c9a13282789263ab0ce181fdb1b62",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/technical/TD_FREEZE_IMPLEMENTATION_PATH.md",
+      "lines": 25,
+      "sha256": "51f4599413a31a50a24fafc122ea7d24a0f2d9b1c19c13dec6bdc5189651dfba",
+      "scope": "project_document_audit",
+      "title": "TD-FREEZE-IMPLEMENTATION-PATH — Plan → Build → Review → Verify",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD01_SIMULATION.md",
+      "lines": 63,
+      "sha256": "9de27ad8aeab62c6647513e8769cf71af74cdcecd2af14ee4fd3066043532150",
+      "scope": "project_document_audit",
+      "title": "TD-01 — Formula Simulation & Sanity Checks",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/technical/TD03_REFERENCE_SIMULATION.md",
+      "lines": 61,
+      "sha256": "ba1ce8b3a38354f4bb91edde49763c5435e565894db940eabc4b563483dfd326",
+      "scope": "project_document_audit",
+      "title": "TD-03 — Reference Simulation and Scope of Evidence",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/technical/TD04_CONSISTENCY_FREEZE.md",
+      "lines": 58,
+      "sha256": "1e317fd762eaf006ec239d1917324badb55835902c226763e4bb25c351a8c498",
+      "scope": "project_document_audit",
+      "title": "TD-04 — Cross-TD Consistency Matrix and Design Freeze Handoff",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD02_SIMULATION.md",
+      "lines": 67,
+      "sha256": "5bb630452c013b5ee2039dab6eccf2a31cac13a824160d5a1054fb19f9e3d17f",
+      "scope": "project_document_audit",
+      "title": "TD-02 — Deterministic Combat Sanity Simulation",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/technical/TD03_PROTOCOL_MIGRATION_TESTS.md",
+      "lines": 143,
+      "sha256": "24453acd709b3faa83a3f9084bfa48bf8a9481be67d66a4d5b31dd13836ad942",
+      "scope": "project_document_audit",
+      "title": "TD-03 — Server Protocol, Migration and Verification Plan",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/technical/TD05_MIGRATION_TESTS.md",
+      "lines": 86,
+      "sha256": "f9eb4380482bec3c94238940dbee5a0fd54dd3f586522f7f0fcbe7992435623f",
+      "scope": "project_document_audit",
+      "title": "TD-05 · Implementation Migration & Visual QA Tests",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md",
+      "lines": 84,
+      "sha256": "d186e1b368137730121d9e08f5889f722ef2bb6dfdadcd0b75a530e2663b804e",
+      "scope": "project_document_audit",
+      "title": "TD-05 · World-First Vertical Slice — Scene-by-Scene Acceptance",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/technical/TD_FREEZE_GATES.md",
+      "lines": 24,
+      "sha256": "2bf938a80ed6003cdb7e00631caeef8c4bb6bdd4076a3e13c2f2f127c297f1d9",
+      "scope": "project_document_audit",
+      "title": "TD-FREEZE-GATES — Unresolved implementation, balance, content and creative gates",
+      "status_terms_present": [
+        "UNRESOLVED",
+        "TECHNICALLY_VERIFIED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD05_CROSS_TD_CONSISTENCY.md",
+      "lines": 66,
+      "sha256": "b2e5987de4b9358c433f3c1e146bf8d612214d06020fbfaa4342ddd2f38e2b18",
+      "scope": "project_document_audit",
+      "title": "TD-05 · Cross-TD Consistency & Design Freeze Handoff",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED",
+        "LEGACY",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md",
+      "lines": 289,
+      "sha256": "8483423dcb043b09cf08fb5dd339a39b3a851519ee0a45c5ee6bb8384fe586ff",
+      "scope": "project_document_audit",
+      "title": "CAMERA AND MINIMAP CONTRACT — Tông Môn 8D (`VISUAL-03-P` / `VISUAL-03-W`)",
+      "status_terms_present": [
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD03_CONSISTENCY_MATRIX.md",
+      "lines": 77,
+      "sha256": "36d0a26ee6a24aae887b1ac3f90bb33ecb1f1a46db6bc8ee3c178e1131fc9486",
+      "scope": "project_document_audit",
+      "title": "TD-03 — Game Design & TD-01..05 Consistency Register",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/technical/AGENT_EXECUTION_CONTRACT.md",
+      "lines": 153,
+      "sha256": "d3abff02ad0d1c26516bd0338bb79e3cc3a3d9340f29dcdcabf03978d9d5d2e4",
+      "scope": "project_document_audit",
+      "title": "Agent Execution Contract — Tông Môn 8D: Tu Tiên Chi Lộ",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD_FREEZE_APPROVALS.md",
+      "lines": 32,
+      "sha256": "d09ea51ce3ab6359ea68195766c7864489b73a0de74569482c09c358753b6b8c",
+      "scope": "project_document_audit",
+      "title": "TD-FREEZE-APPROVALS — Explicit owner decisions, provisional parameters and unresolved content",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD04_MIGRATION_TESTS.md",
+      "lines": 86,
+      "sha256": "6c3ac848bf7acc89d726b7c1788b18f5a27de855269266801c92d4c52046de7c",
+      "scope": "project_document_audit",
+      "title": "TD-04 — Repository Impact, Migration, Validation and Exploit Tests",
+      "status_terms_present": [
+        "APPROVED",
+        "LEGACY",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD04_REFERENCE_CHECKS.md",
+      "lines": 21,
+      "sha256": "7682a235623378c00dcce52772e6651f5037a37dafbce115e5f9380c2c0e4f22",
+      "scope": "project_document_audit",
+      "title": "TD-04 — Reference Contract Checks (Model Only)",
+      "status_terms_present": [
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD_FREEZE_OVERVIEW.md",
+      "lines": 30,
+      "sha256": "a8a591563fd9152704d962f5c5ddba3d0d85a13665fba721e02dc9478224e076",
+      "scope": "project_document_audit",
+      "title": "TD-FREEZE-OVERVIEW — V1.0 Technical Documentation Baseline",
+      "status_terms_present": [
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD02_MIGRATION_TESTS.md",
+      "lines": 96,
+      "sha256": "130361a0f7759f7a90aa2e79ba0bbaef1556d398f183e47432fc1decd5589503",
+      "scope": "project_document_audit",
+      "title": "TD-02 — Integration, Migration Risk and Verification Matrix",
+      "status_terms_present": []
+    },
+    {
+      "path": ".agents/skills/phaser4-v3-to-v4-migration/SKILL.md",
+      "lines": 430,
+      "sha256": "a7d2e1533ecb06874f54e4b93383e6b2c14f6c1dac13f0a10a0d7fe56b6020c3",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/technical/AGENT_SKILL_ROUTER.md",
+      "lines": 208,
+      "sha256": "177e59b255aa4db56ff4cce2d733b6ccd59a0d057052bba23a9ee240e7d1f181",
+      "scope": "project_document_audit",
+      "title": "Agent Skill Router & 30-Skill Audit Registry — Tông Môn 8D",
+      "status_terms_present": [
+        "NOT STARTED"
+      ]
+    },
+    {
+      "path": "docs/technical/TD01_MIGRATION_TESTS.md",
+      "lines": 97,
+      "sha256": "b2847e61175d758d0a1041fbd92a485a25dc44aad48d385a541eded0dfaf44f0",
+      "scope": "project_document_audit",
+      "title": "TD-01 — Repo Impact, Migration Plan, Security & Verification Matrix",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/technical/SOURCE_ARCHITECTURE.md",
+      "lines": 376,
+      "sha256": "656f3e7a3c3f592fa2101bab1bf638f9c898e88b54a4b9acdc64da58a1299b71",
+      "scope": "project_document_audit",
+      "title": "Tông Môn 8D — Source Architecture (Owner-Approved & Implemented Current-Game Modular Monolith)",
+      "status_terms_present": [
+        "APPROVED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT"
+      ]
+    },
+    {
+      "path": "docs/technical/TD_FREEZE_CONTRACT_MAP.md",
+      "lines": 24,
+      "sha256": "55f7bc5fe9935b58a3091c05e0dd1722e44563331518fb188c011c563ab92f64",
+      "scope": "project_document_audit",
+      "title": "TD-FREEZE-CONTRACT-MAP — One accountable owner per system",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/ART_BIBLE.md",
+      "lines": 97,
+      "sha256": "06bdd8b26a25ea7e573750c27ca87d0daa98a4d6a51719d179fd5c8ec8238595",
+      "scope": "project_document_audit",
+      "title": "Art Bible — Tông Môn 8D: Tu Tiên Chi Lộ",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT"
+      ]
+    },
+    {
+      "path": ".agents/skills/phaser4-tilemaps/SKILL.md",
+      "lines": 440,
+      "sha256": "c1754852ce72c05987c41e1e122eea8f2888cdf46f719259b252d2fda66073eb",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/game-playtest/SKILL.md",
+      "lines": 76,
+      "sha256": "413f2453c602678962fab62446144f2929fcd5b9239f209c7889cc592d2b5be8",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/game-ui-ux/SKILL.md",
+      "lines": 151,
+      "sha256": "8a094c84a377503aa8f4c40df676d1c6b6fc07d36ff95554ce06467f1614397e",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/game-ui-ux/references/layout-and-flow.md",
+      "lines": 113,
+      "sha256": "000d944db77155ebf97fde035a3d4fbe69ef0ae348e9dbcaff48c5ea134d7d69",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "assets/corekit/v01b/COREKIT_INDEX.md",
+      "lines": 45,
+      "sha256": "5ceb0f5a9456939ed02a8b7fb59c23cecf38286157cb8cfc9561c84766f29d8d",
+      "scope": "project_document_audit",
+      "title": "V01-B Core Kit Library (`assets/corekit/v01b/`)",
+      "status_terms_present": [
+        "APPROVED"
+      ]
+    },
+    {
+      "path": ".agents/skills/cultivation-balance/SKILL.md",
+      "lines": 23,
+      "sha256": "2fa80e95f2350e5bf9a1d2203e890ff0c7a742c36085d7fcb56c831b7ef0d3df",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/systems/WORLD_CONTENT.md",
+      "lines": 102,
+      "sha256": "f368082e7faacfec208203a42fb0f87e3dd7be647a6883a7d7bdb21a31a9c9b1",
+      "scope": "project_document_audit",
+      "title": "SYS-WORLD-CONTENT — World Graph, Zones, Instances and Location Registry",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/systems/COMBAT.md",
+      "lines": 203,
+      "sha256": "a236285b4a1918c15d9e755db9214ffd1c1bd23eb20138cb0a1649052b89660d",
+      "scope": "project_document_audit",
+      "title": "SYS-COMBAT — Server-Authoritative PvE, Realm Pressure and Monster Balance",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/systems/NPC_AFFINITY.md",
+      "lines": 85,
+      "sha256": "dcd1f21f1afc41ea613c2c78c3649d29bbf3d3cd232e0421f7ee43bea05592c8",
+      "scope": "project_document_audit",
+      "title": "SYS-NPC-AFFINITY — Legendary NPCs, Gifts, Relationship & True Disciple",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/systems/NPC_SHOPS.md",
+      "lines": 34,
+      "sha256": "db4905c2e2f4d93e0385c074aada037c418693a52aca5a428d5dde10e4fdc38f",
+      "scope": "project_document_audit",
+      "title": "TD-04 Owner-Approved Addendum — NPC Shops and Tụ Bảo Các",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/systems/CULTIVATION.md",
+      "lines": 149,
+      "sha256": "db535810cf7dbf6520b43f1f96cc52b369f61d97473fa24d4777dd0a312cbf93",
+      "scope": "project_document_audit",
+      "title": "SYS-CULTIVATION — Character EXP, Tu Vi, Realm & Breakthrough",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/systems/TECHNIQUES.md",
+      "lines": 139,
+      "sha256": "8ad34bf75cd5a9a59c4e3105d1aaa5f6c2b0fd8b3117465d41fee5f7203524a1",
+      "scope": "project_document_audit",
+      "title": "SYS-TECHNIQUES — Công Pháp, Võ Kỹ and Loadout Contracts",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/systems/NAVIGATION.md",
+      "lines": 101,
+      "sha256": "b4161f0bf3234d9e42c73e7bf82544c34cf899fb11000f03f5514df74177f51d",
+      "scope": "project_document_audit",
+      "title": "SYS-NAVIGATION — Quest Objective Auto-Travel Without Auto-Quest",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/systems/FOOD_CATALOG.md",
+      "lines": 84,
+      "sha256": "7b62a9840c73df2a0c1f1d5b66ace2e729b857bb6dff5b1dab9bcd14743b2cb1",
+      "scope": "project_document_audit",
+      "title": "SYS-FOOD-CATALOG — Cuisine Discovery, Buying/Cooking, and Phì Đế's Dao",
+      "status_terms_present": [
+        "PROPOSED",
+        "UNRESOLVED",
+        "LEGACY"
+      ]
+    },
+    {
+      "path": "docs/systems/VISUAL_CONTENT_CONTRACT.md",
+      "lines": 92,
+      "sha256": "b04e161cedfdc13f850d5a46727a3b19ed52a053d63183f106aa5fc5d1064b13",
+      "scope": "project_document_audit",
+      "title": "TD-05 · Visual Content Contract — Every Released Content Type Must Be Visible",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/systems/DESTINY.md",
+      "lines": 136,
+      "sha256": "ed0b26d17afe442b9b9d777a82c391376234c35ffab898d6abe99ae743a3a2f2",
+      "scope": "project_document_audit",
+      "title": "SYS-DESTINY — Tiên Thiên, Hậu Thiên, Signature & Ownership Invariants",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/systems/QUEST_CONTENT.md",
+      "lines": 53,
+      "sha256": "9029e4e9ab7743ea5f846a7a2144f3f74768fc2c5de31d29de70ba3260089631",
+      "scope": "project_document_audit",
+      "title": "SYS-QUEST-CONTENT — Authored Quest Packs, Repeat Rules, Story Gates",
+      "status_terms_present": [
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/systems/DAO_MASTERY.md",
+      "lines": 147,
+      "sha256": "df8e6c8d5a68deaee8e231e4f25fcc6faeef75f36f3e24b4ce30df7e83efc944",
+      "scope": "project_document_audit",
+      "title": "SYS-DAO-MASTERY — Six Independent Paths, Ten Stages and Trials",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/systems/CONTENT_REGISTRY.md",
+      "lines": 87,
+      "sha256": "5f9f13ff3ea13c284819b0566b888e92a353dde3bf62f600554e90526a622696",
+      "scope": "project_document_audit",
+      "title": "SYS-CONTENT-REGISTRY — Stable IDs, Predicates, Rewards and Validation",
+      "status_terms_present": [
+        "APPROVED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/systems/CHARACTER.md",
+      "lines": 172,
+      "sha256": "ee5b9bc551f9cd6ed3f5e4e5e3e66e8e6ee2c91218f0ad7f3ebb670dd503cd29",
+      "scope": "project_document_audit",
+      "title": "SYS-CHARACTER — Character & Attribute Model",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/systems/ITEMS_ECONOMY.md",
+      "lines": 105,
+      "sha256": "ed17997b5a945568d3e52b57d7c12dad626528648eafd23b340b17e5794495d1",
+      "scope": "project_document_audit",
+      "title": "SYS-ITEMS-ECONOMY — Items, Equipment, Loot, Rewards and Party Entitlement",
+      "status_terms_present": [
+        "UNRESOLVED",
+        "LEGACY"
+      ]
+    },
+    {
+      "path": "docs/systems/AUTO_FARM.md",
+      "lines": 155,
+      "sha256": "9f361fb06555898c77dacaf998f57f8b9fd3c62771b891bd7967f96d66af72ad",
+      "scope": "project_document_audit",
+      "title": "SYS-AUTO-FARM — Online-Only Automatic Combat",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/systems/QUEST_ENGINE.md",
+      "lines": 158,
+      "sha256": "eecc13aab32e7bb559cab04b45b858e00e8085c23731fa045480858578153f30",
+      "scope": "project_document_audit",
+      "title": "SYS-QUEST-ENGINE — Manual Questing, Journal, and Server Credit",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": ".agents/skills/phaser4-physics-arcade/SKILL.md",
+      "lines": 468,
+      "sha256": "ebee7a1c98dd6a05e393d33d9aeacf3ef6d247c9fdca0aeab212c18c22c79de7",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/CONTENT_PIPELINE.md",
+      "lines": 56,
+      "sha256": "bb6eac30726908e3334c6b23c00cc01e0b619beb80ab3627680b8369bfb8049b",
+      "scope": "project_document_audit",
+      "title": "Scalable Content Production Pipeline — Contract and Gates v0.2",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/NEXT_ACTIONS.md",
+      "lines": 37,
+      "sha256": "b26b4e8292d73b8b169adb40c6d4d0aca04ae8f2ce2ba409f0ca4e78fd1354ea",
+      "scope": "project_document_audit",
+      "title": "Tông Môn 8D — Next Actions",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT",
+        "NOT STARTED"
+      ]
+    },
+    {
+      "path": ".agents/skills/game-ui-frontend/SKILL.md",
+      "lines": 112,
+      "sha256": "cd017fe0761207dcfd801f236490896cbf1cd6627ee267c801a19c7c780b7a01",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/sprite-pipeline/SKILL.md",
+      "lines": 102,
+      "sha256": "eaaca5ef3faef575164e0775394980318b5561ba54fe7552dbe41971717cc7fc",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/implementation/S1E_STARTER_DESTINY_CATALOG.md",
+      "lines": 57,
+      "sha256": "90645489e50d3af14a52cd111a6796381ac7f90ae9619a9c2571c427adfa1d23",
+      "scope": "project_document_audit",
+      "title": "S1-E Starter Tiên Thiên Destiny Catalog (`s1e-starter-v1.0`)",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/implementation/S1_ENTRY_VISUAL_REBUILD_01.md",
+      "lines": 63,
+      "sha256": "b6d813e1678befffdb0b97e9cb46df62f364b2838f33919c79bf3de1b9dfd4c7",
+      "scope": "project_document_audit",
+      "title": "S1-ENTRY-VISUAL-REBUILD-01 — Fullscreen V01-B Entry Flow, Multi-Character Roster & S1 Presentation Rebuild",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT"
+      ]
+    },
+    {
+      "path": "docs/implementation/FEATURE_LEDGER.md",
+      "lines": 545,
+      "sha256": "e07cb363eaf80d9bdce69284de672763f2caaa755ea8df894279d88c4afb932b",
+      "scope": "project_document_audit",
+      "title": "Tông Môn 8D — Implementation & Verification Feature Ledger",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "LEGACY",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT",
+        "NOT STARTED"
+      ]
+    },
+    {
+      "path": "docs/implementation/VISUAL_03_INTEGRATION_PLAN.md",
+      "lines": 369,
+      "sha256": "5c9f141f078d4d27b2995c55fdac7be34731698a48d7cb339e2d029f8496dfb3",
+      "scope": "project_document_audit",
+      "title": "VISUAL-03 INTEGRATION PLAN — S1 Core Asset Kit, 96×72 Tân Thủ Thôn & V01-B UI/HUD (`VISUAL-03-P` / `VISUAL-03-W` / `VISUAL-03-U` / `VISUAL-03-Q`)",
+      "status_terms_present": [
+        "APPROVED",
+        "LEGACY",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT"
+      ]
+    },
+    {
+      "path": "docs/UX_DESIGN.md",
+      "lines": 62,
+      "sha256": "329fe71700f993b3ebaee3544c582ba31f26b929eea89e673a8ba88e6268377d",
+      "scope": "project_document_audit",
+      "title": "UX Design — Online AFK Cultivation RPG",
+      "status_terms_present": [
+        "APPROVED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "lines": 65,
+      "sha256": "b30966ec92d6dc05333acf45a92d2e0f81dd18a469548d7fb695a532fd8782e3",
+      "scope": "project_document_audit",
+      "title": "Roadmap — Tông Môn 8D, Design-to-Production",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT",
+        "NOT STARTED"
+      ]
+    },
+    {
+      "path": "docs/NARRATIVE_DESIGN.md",
+      "lines": 81,
+      "sha256": "c714ec68468df29abf591a6a6cd62b2f89ef10c0f54092c4031bc6c7397eaee0",
+      "scope": "project_document_audit",
+      "title": "Narrative & Quest Design — Baseline v0.2",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": "docs/CHARACTER_VISUAL_BIBLE.md",
+      "lines": 38,
+      "sha256": "dbdbee76a625e3643168aa24fff65e25bcd86e60b6f24bca9166e27fcb5216f3",
+      "scope": "project_document_audit",
+      "title": "Character Visual Bible — Tông Môn 8D: Tu Tiên Chi Lộ",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/GAME_VISION.md",
+      "lines": 49,
+      "sha256": "f0401fc6b9fea2beba43f71a39582041b4d5e8fa713cb583e156bafc76e13c06",
+      "scope": "project_document_audit",
+      "title": "Game Vision — Tông Môn 8D: Tu Tiên Chi Lộ",
+      "status_terms_present": [
+        "APPROVED"
+      ]
+    },
+    {
+      "path": ".agents/skills/create-game-assets/assets/art-direction-brief.md",
+      "lines": 42,
+      "sha256": "6d5dc4f9f5fcb24300bab9ce7dbd56d5c948ba41da3cca2d3b3d235fee5fb72c",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/create-game-assets/SKILL.md",
+      "lines": 135,
+      "sha256": "c178cde20316f7d326f2a853a76522b375b325346b5b8797ef52aa98740aff18",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/game-feel/SKILL.md",
+      "lines": 165,
+      "sha256": "68fc818ad939151be2db9e358e4295a71830c19d61f3aff849f1599307f39f9d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "assets/archive/history/ARCHIVE_INDEX.md",
+      "lines": 11,
+      "sha256": "525e347a5f42ff9393c384d5323f548541239ca1d3deaf77af7fc2e9640dee07",
+      "scope": "historical_art_index"
+    },
+    {
+      "path": ".agents/skills/game-feel/references/feedback-recipes.md",
+      "lines": 100,
+      "sha256": "c1d0c4d9480bf4cd729ca99f2b36ebc1f3f264a873b408f2145898841e5d6685",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/SKILL.md",
+      "lines": 94,
+      "sha256": "b1d0b1842a2d8a22572b72e615b0ada9e3c624998274d8e41c6136e4496fd204",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art-director/SKILL.md",
+      "lines": 29,
+      "sha256": "7f8b536fedd983d5bf20dd63141e78add7f051a40997442e0bd31520179aab9d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/create-game-assets/references/three-d-pipeline.md",
+      "lines": 53,
+      "sha256": "8278baa203b7cd560d9fc5688c33489a9c478275c1795def119b7e024b27d03e",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/create-game-assets/references/provenance.md",
+      "lines": 44,
+      "sha256": "2c2b30c69dec5c006c91ecbf506fce2ae3f857b5cc82bda9a10ddb5b769c7586",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/create-game-assets/references/art-direction.md",
+      "lines": 69,
+      "sha256": "19b2ccb827eae0c6c4cd3648ab7febb82e44706bef8515f2e8912de23dec0a5c",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/create-game-assets/references/raster-pipeline.md",
+      "lines": 65,
+      "sha256": "834ecaeb35e61fc50ed5fbd518942f767f0717d1ab641822234a1f9cbe5eeb6f",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/mmorpg-server-integrity/SKILL.md",
+      "lines": 24,
+      "sha256": "97e52a620af39418696446bca6461dda8991945ea9e29edc327c26ae65167690",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/rules/review-handoff.md",
+      "lines": 14,
+      "sha256": "0ed086c3e365835502a484f651d9a38a00aff676131e6fff5bbaf83ca4db15e1",
+      "scope": "project_document_audit",
+      "title": "Task Completion and Evidence Transfer",
+      "status_terms_present": []
+    },
+    {
+      "path": ".agents/skills/phaser4-sprites-and-images/SKILL.md",
+      "lines": 417,
+      "sha256": "e012da6dd694b5a54f8f708ecee7f085c36a915d4c8d167984e80a08b944c785",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/SKILL.md",
+      "lines": 106,
+      "sha256": "6449ff93a8ebd554ae9ed732f148a03ea6ebda62e3357db3d8479b52eadf6209",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/pipelines/WORLD_SCENE_ASSEMBLY.md",
+      "lines": 67,
+      "sha256": "e837130e4c3d19199113d6c103a446e10020510550dce2341b046c72afb2310b",
+      "scope": "project_document_audit",
+      "title": "TD-05 · Scene Assembly — A Real Traversable Xianxia World",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/pipelines/UX_WORLD_FIRST.md",
+      "lines": 63,
+      "sha256": "56ef9424f58dddfcbca3751a365c69a6681216133dd9a9b1dd929714258d612d",
+      "scope": "project_document_audit",
+      "title": "TD-05 · World-First Interaction & UX Presentation",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md",
+      "lines": 77,
+      "sha256": "8e129567ef7217d31b95552f24fa21490bcad9b04c791a41053efa9ca47b09bb",
+      "scope": "project_document_audit",
+      "title": "Argon Native Asset Production Profile — Tông Môn 8D",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT"
+      ]
+    },
+    {
+      "path": "docs/pipelines/AI_ASSET_PRODUCTION.md",
+      "lines": 57,
+      "sha256": "10d4b73f8b19717f2a4aede1a7c8a9a4dd9a8361a0e6ee0a817440496e687162",
+      "scope": "project_document_audit",
+      "title": "TD-05 · AI Asset Production Pipeline — Genuine Art to Phaser-Ready Assets",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md",
+      "lines": 76,
+      "sha256": "a8e3e97f3248a9484a1658e0201fd28bd036f20af236d7f75c0c28dd7e191267",
+      "scope": "project_document_audit",
+      "title": "TD-05 · Content-to-Art Production Brief & Render Handoff Template",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED"
+      ]
+    },
+    {
+      "path": "docs/pipelines/ANIMATION_VFX_FEEDBACK.md",
+      "lines": 42,
+      "sha256": "8daa8acbbc819c0196c73794da56ea543fd3209bbef061c14aede54e639fed8b",
+      "scope": "project_document_audit",
+      "title": "TD-05 · Animation, VFX & Authoritative Game-Feel",
+      "status_terms_present": [
+        "DESIGN_BASELINE"
+      ]
+    },
+    {
+      "path": "docs/CONTEXT_AUDIT.md",
+      "lines": 12,
+      "sha256": "cbbfb59992a8bb5961705a31267e3a5948d48dc3e51df6094f50e944f05a7907",
+      "scope": "project_document_audit",
+      "title": "CONTEXT_AUDIT.md — Phase 1A Historical Audit Locator (`ARCHIVED`)",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/DEVELOPMENT_SETUP.md",
+      "lines": 174,
+      "sha256": "e2cafc7f33e8b1be98df8097a931b3108fa07dd537f5a4ace3a854aa6c32c893",
+      "scope": "project_document_audit",
+      "title": "TÔNG MÔN 8D: TU TIÊN CHI LỘ — DEVELOPMENT SETUP & REPRODUCIBILITY GUIDE",
+      "status_terms_present": []
+    },
+    {
+      "path": "docs/CONTEXT_INDEX.md",
+      "lines": 75,
+      "sha256": "7b69966c520aa53077e3403917d3c165dfda1e510fea29d0f5a134414b940b6a",
+      "scope": "project_document_audit",
+      "title": "Context Index — Where an agent should read first",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT"
+      ]
+    },
+    {
+      "path": "docs/MASTER_PROJECT_PLAN.md",
+      "lines": 111,
+      "sha256": "23f3944a110a4dd66c1b04f5a9fb312465e656a2a42ce26273b4ed39089b5991",
+      "scope": "project_document_audit",
+      "title": "Tông Môn 8D: Tu Tiên Chi Lộ — Master Project Plan",
+      "status_terms_present": [
+        "APPROVED",
+        "DESIGN_BASELINE",
+        "PROPOSED",
+        "UNRESOLVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED",
+        "NO_COMMIT",
+        "NOT STARTED"
+      ]
+    },
+    {
+      "path": "docs/WORLD_DESIGN.md",
+      "lines": 50,
+      "sha256": "db8445e2a5a03bc70aa78141c7bfa25fe4635da6564656fb7fa2e2bbdcbeaf28",
+      "scope": "project_document_audit",
+      "title": "World & Map Design — Baseline v0.2",
+      "status_terms_present": [
+        "APPROVED",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": ".agents/skills/phaser4-loading-assets/SKILL.md",
+      "lines": 474,
+      "sha256": "2ba246be24e434d3647dd62cd1b51ac70258a57c1963b97a960a80e1aca8b638",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/SKILL.md",
+      "lines": 394,
+      "sha256": "705aecc307cea37ea0f292931dad574abdf48b3f7f6e728d5277a711bdba7b23",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/level-design/SKILL.md",
+      "lines": 138,
+      "sha256": "f1656cb00b9af8dc625a9655448b410b37ce6f1e523048a5abf09fda25cbfd32",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/engine-maps.md",
+      "lines": 118,
+      "sha256": "3ac04f429a0981303f5949046bd897cfe00fe80eb7e71852f45ee034328bacca",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/parallax-backgrounds.md",
+      "lines": 146,
+      "sha256": "cee8bb156b797beea48569a0555e3a7f7cf500aa2c6358b840d93fc6f11d971d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/background-scenes.md",
+      "lines": 136,
+      "sha256": "d4acb4ee03284c17517812813c1f96bc51a58920b2e55da86946abe2fd71877d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/hd2d-plates.md",
+      "lines": 122,
+      "sha256": "0c43cb5ebb19d3c2ba5301ccea8823994e91ab76513914b9959b27f463b85c86",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/phaser-arcade-physics/SKILL.md",
+      "lines": 175,
+      "sha256": "4b7186f03c236bbe83dfd8f24467cc4429ff47cb870e04ef939320165b6bcd04",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/SKILL.md",
+      "lines": 82,
+      "sha256": "6d00b1e35d29549e1772cb80737fb169f9483de739a7d7900dbf65c37da69ed8",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/level-design/references/pacing-and-flow.md",
+      "lines": 94,
+      "sha256": "e8e3940f585e376f353aefea009befe8199a1871f99d34d7b2340cb35cb61872",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/prop-pack-contract.md",
+      "lines": 110,
+      "sha256": "85b16b9f5d14a5c653b3f11d6642c4c28387004de2d6f3135b6178345139ee89",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/map-presets.md",
+      "lines": 78,
+      "sha256": "378df25f7089e2f94111600921226c864a25c88e6423f90c6bb673bb6e791e19",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/hd2d-presentation.md",
+      "lines": 125,
+      "sha256": "0ac7d5738881578f548ec7879f1ef087655ece1222bcd0abe945d075adcd776d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/layered-map-contract.md",
+      "lines": 251,
+      "sha256": "9c3e51ba61a077a1e7ad8696a7142e41a73a111b143b54347b229c37eb1e142c",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/side-scroll-scenes.md",
+      "lines": 151,
+      "sha256": "a506a0108f6bddccffd0b205082e817e90a8807c8e4823e57f399e58c7834e22",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/scene-preview.md",
+      "lines": 98,
+      "sha256": "cd130f08391049548cb6a5c853c6b080c6423213d2465b71397cb012fa3032f6",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmap/references/map-strategies.md",
+      "lines": 102,
+      "sha256": "4df4b204c19d5351701ef7aebd2862f574c7e34f0c632fddd9e5439382c3d50f",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/archive/legacy/EXTERNAL_SKILLS.md",
+      "lines": 37,
+      "sha256": "219d8073fedee6fe84fc671c4f175b0fdd576b0a1bf09d5ca9cffa8d1c8977da",
+      "scope": "historical_document"
+    },
+    {
+      "path": "docs/archive/legacy/MASTER_PROMPT.md",
+      "lines": 408,
+      "sha256": "04595472acb653195319d063b1fd11b150a2efc968d9e70db89050a22abdf47c",
+      "scope": "historical_document"
+    },
+    {
+      "path": "docs/archive/legacy/CONTEXT_AUDIT.md",
+      "lines": 175,
+      "sha256": "3c6986104456c0304dd66387f504e16bc9545635c8993a557d540f215d179ea0",
+      "scope": "historical_document"
+    },
+    {
+      "path": "docs/archive/legacy/IMPLEMENTATION_STATUS.md",
+      "lines": 24,
+      "sha256": "4352b51c00a21700dafc9b1432efe8de2cc4723a024c84aa98247f9c3bde3c86",
+      "scope": "historical_document"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/color_theory.md",
+      "lines": 61,
+      "sha256": "8bce2da110f2609d41b446c70cd2745ec1902c60d3e96a2fd52e5b4b25d4300f",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/sprite_conventions.md",
+      "lines": 65,
+      "sha256": "204feeb91ec4f6c4ea5d78666d4fdaea6ec51fb55005af0448559e84d54f58c2",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/tileset_rules.md",
+      "lines": 68,
+      "sha256": "845fa997f850e657c77f08ed980f4bcb03affb4089bffb5dfb1ca9d4205b3e5b",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/ui_elements.md",
+      "lines": 114,
+      "sha256": "24296c3bf23027515125f85b9ff80e4e677c9915c6041306c5769167c6b1f051",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/particle_effects.md",
+      "lines": 81,
+      "sha256": "c5dc4e5a072e37c4564d9bc7ba7a71381ecbee582e9c12cc959e9841fd6bb244",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/isometric_guide.md",
+      "lines": 92,
+      "sha256": "7c75f71d1851199ea2c35ec13f16a1488b5dd0f2ce5527aa4468da2d6a122b57",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/pixel-art/references/animation_principles.md",
+      "lines": 135,
+      "sha256": "724749df901e09e0b1284809205741ffe487530c555b18b43c06839b26b19e32",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": "docs/IMPLEMENTATION_STATUS.md",
+      "lines": 10,
+      "sha256": "77b408ffabdd94f2f87d6d8462e1dc8d0ebe53a6e1cd48cd2d9b1aa35b717f85",
+      "scope": "project_document_audit",
+      "title": "IMPLEMENTATION_STATUS.md — Historical v0.1 Prototype Milestone Report Locator (`ARCHIVED`)",
+      "status_terms_present": [
+        "APPROVED",
+        "TECHNICALLY_VERIFIED",
+        "HUMAN_APPROVED"
+      ]
+    },
+    {
+      "path": "docs/GAME_DESIGN.md",
+      "lines": 145,
+      "sha256": "9a2298e39a76708c05aeefcfd06f3bfbeaae063e62939a523e28c0adfb2b9093",
+      "scope": "project_document_audit",
+      "title": "Game Design — Systems Blueprint v0.2",
+      "status_terms_present": [
+        "DESIGN_BASELINE",
+        "PROPOSED"
+      ]
+    },
+    {
+      "path": ".agents/skills/phaser-arcade-physics/references/bodies-and-collision.md",
+      "lines": 123,
+      "sha256": "3ea38f74ac01e0c9f872407acd219104e1a729cb5a14b95498cc5b1aaa145b05",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/rpg/SKILL.md",
+      "lines": 129,
+      "sha256": "f33ea8698049050be589c50c532e06adeab52fbeacff81eafb909f230a38745b",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/prototype-fast/SKILL.md",
+      "lines": 119,
+      "sha256": "02491395c621833d2252f7a33a96aa11f26eb48523fea167c68272fb3c785ba1",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/phaser4-scenes/SKILL.md",
+      "lines": 450,
+      "sha256": "31a07e16634d7b49e33cdb681576e158037d4856d40aaa8f7177d662da47cfa8",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/character-animation.md",
+      "lines": 37,
+      "sha256": "5a679848f390262ef6aeed05c7add6b959fd0c4f3a82fc4e5328f5043c22b4ee",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/animation-planning.md",
+      "lines": 96,
+      "sha256": "fda350b7636239a002130781906cbf28809a4e97276e82b182800efeeb9682d9",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/modes.md",
+      "lines": 58,
+      "sha256": "5836599ce82ccf5e3d33640f20c9489a42efce579f4b53dfc14bd0c7b2f22af2",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/runtime-integration.md",
+      "lines": 89,
+      "sha256": "02699ce63804a4c073f859456d7619b1dc373b2043ea0392eec29d4d48cce8f5",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/master-still.md",
+      "lines": 171,
+      "sha256": "edae0a708f93a852eda8cf71ae41bf76c409cbc827a73d7634f016614289a6fd",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/video-handoff.md",
+      "lines": 119,
+      "sha256": "01d8be6c31be5952f4526b6f52940d5446c0b8499f21a6b887501fd80b446133",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/frames-and-clips.md",
+      "lines": 191,
+      "sha256": "e80b1811976fb8a0f895c519f6276d88fb738c55eed03728fb2d6176420893b6",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/action-recipes.md",
+      "lines": 204,
+      "sha256": "28cce3a363ea8e8a9b3ee463878f5cf259848a47412ce6d2132afe3776e33e62",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/palette-and-pixels.md",
+      "lines": 151,
+      "sha256": "5f7728625ba66689c3faca7bc742709c0513be33134f9e5a8556d917714146ff",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/engine-export.md",
+      "lines": 121,
+      "sha256": "0d2db0cfaae4cfbf02c253a4633ecb8aeb5885db1bbdf96942250f5d7edd76c6",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/phaser4-animations/SKILL.md",
+      "lines": 481,
+      "sha256": "ea86dbfe87da895799995e36e7a3382be8a069d60f4b075077b1cdac74a68383",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/rpg/references/stats-combat-quests.md",
+      "lines": 110,
+      "sha256": "3b5b7504ffe2fe23fb73c12e225b7422faedb5e9a7abae69d2c98344f224d066",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/prompt-rules.md",
+      "lines": 74,
+      "sha256": "cba6b61c9ee2e2e7c7dfe480a66baeafe9dcc451b575e4e0c70af0755a84fc15",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dsprite/references/processing.md",
+      "lines": 138,
+      "sha256": "98f5edf014fd5db5c2e35f56a9415f40140a3df540cf80cc7015046342104d23",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/SKILL.md",
+      "lines": 108,
+      "sha256": "5c14c84df107ccb60553a36c2cf4a690aaaa13b85aa5280257e572a27ba52f92",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/ai-art-production/SKILL.md",
+      "lines": 97,
+      "sha256": "764de5bca1b02d6d5ba4e28a72bd31935e1cc227980d964c7a1b8bdd7df6541e",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/phaser4-game-setup-and-config/SKILL.md",
+      "lines": 485,
+      "sha256": "d93abdb3123d74583a6792081c54a90cd8f0e8d3ddeee476d1e96a401b9f12a9",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/tiles-and-maps.md",
+      "lines": 162,
+      "sha256": "e65cce1b86726d2a0937f0486053d0e828ce2691cf0e0f8f2c8e4be77b8dd7c4",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/rasterizers.md",
+      "lines": 73,
+      "sha256": "81a7e9fd48c28302ccad63020e45cdb0ec94ca5155ee2e8176a6e5e2ec7d3f2d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/fx-runtime-contract.md",
+      "lines": 91,
+      "sha256": "83fd981593a6a0aa1b1e01af68c701b0dc447709b55c2c1b6a3e82e7b10f2959",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/phaser-core/SKILL.md",
+      "lines": 175,
+      "sha256": "101c9382dd8a68f2573ef83d978bd19432f61512c5aa83e8c2a5cf7e7e3e38b4",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/SKILL.md",
+      "lines": 73,
+      "sha256": "26f8c9fef202c7bb25ddee1197f164b439aea3d32b815842bcc4ff2a2559ada2",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/matte.md",
+      "lines": 194,
+      "sha256": "d3ff00667a13742d037b939caa02a1d465a89b444a232cc461ecf93988bd3ef7",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/motion-prompts.md",
+      "lines": 246,
+      "sha256": "e40b771d98a953fb4449abbd153bdd5a2dc01507e5f979cdae44e3f224713b30",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/animation-review.md",
+      "lines": 193,
+      "sha256": "30fb3b9f210ade94415cd3bb09ea2bde29d11dc99dc9be12246401ee3f5b3b40",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/sprite-set.md",
+      "lines": 254,
+      "sha256": "e20a3b2f760fd09fd0115c29e14151ea0a0714f01559984d709280ff3191f79b",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/finishing.md",
+      "lines": 332,
+      "sha256": "2b0493b8de3a58c9ca0c94302fb8cd4aae931a949a378ebf0e3e3f3e8bda7fee",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/pipeline.md",
+      "lines": 269,
+      "sha256": "2d04bf5eea46c60b7fe9ba5c59f24aac8567d3417cc8f0a869a5a0fab7463073",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/phaser-core/references/scene-flow.md",
+      "lines": 108,
+      "sha256": "355c1553a116351d7088e4f15b2dd08976e2241f576dcef50a61f92d4540d143",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/layouts-and-parallax.md",
+      "lines": 169,
+      "sha256": "bca2850f8ea21aa3e1348824e8e582b899ae197727f73fcf0f16c1a174e9f443",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/rig-animation.md",
+      "lines": 180,
+      "sha256": "8cde4f0c056a54fe7612b82d410c649487e9605b2421c78de8ad2293d834a800",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/fx-language.md",
+      "lines": 84,
+      "sha256": "e0e4c139a1db1302c4bf8da1b0e9134389f03ea513b82084d09022dbb0e9fda2",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/svg-profile.md",
+      "lines": 125,
+      "sha256": "7c96458acd8d65e189c13326765b27303d91577917f00353502e3781b3f14fe8",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/style-envelope.md",
+      "lines": 83,
+      "sha256": "2f7f9f0d54c7daf24fcb683924a37ff4b764e4ccccd45046daf1e48eab5db477",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/codeart2d/references/pixelspec.md",
+      "lines": 186,
+      "sha256": "28859b58f3eb96601c154008efe5611720586e1879b7e20c887c02529e2920be",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/video2dsprite/references/prompt-rules.md",
+      "lines": 151,
+      "sha256": "a12effc45dd44f34744e09cee8353cc89c2bd359c7d6fcf3dc7113e92e664e9d",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/references/route-media.md",
+      "lines": 180,
+      "sha256": "f7aa8ca15d1899a0555220f45e0be7ab4fc6c7002dc09cfe102ebd7a04f8f998",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/references/agent-profiles/README.md",
+      "lines": 21,
+      "sha256": "97786d1d3e44b0a2d014bf44f9194b35676b069b5edc0f92a8fdc3d76900db7a",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/references/agent-profiles/video-agent.md",
+      "lines": 20,
+      "sha256": "ab9cb82947c41562cf6314f1768495035aa6b3241ad0a426426f56e9ba956a06",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/references/api-usage.md",
+      "lines": 290,
+      "sha256": "abe160ce9a344bd1c376a5a74501f965ccb53fc44a4159f5f07441277bfd93f0",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/references/cli-routes.md",
+      "lines": 223,
+      "sha256": "7bdb92c790b3a71610c5387d68c91b8f74078e5789131fb78a1279f0484e14c7",
+      "scope": "support_skill_inventory"
+    },
+    {
+      "path": ".agents/skills/generate2dmedia/references/provider-survey.md",
+      "lines": 230,
+      "sha256": "e4fc1dfb86dd9d7633febed9b2e390179f7af8725e329fa351f5251a6e9b6f8b",
+      "scope": "support_skill_inventory"
+    }
+  ]
+}

@@ -96,6 +96,7 @@ export const V01B_UI_CHROME_URLS = {
   panelHeaderBannerCrest: "/assets/ui/presentation/header_banner_crest_v01b.png",
   cultivationMeditationStarWheel: "/assets/ui/presentation/cultivation_meditation_star_wheel_v01b.png",
   cultivationMeridianHexagramPlate: "/assets/ui/presentation/cultivation_meridian_hexagram_plate_v01b.png",
+  inventoryPaperdollLotusStage: "/assets/ui/presentation/inventory_paperdoll_lotus_stage_v01b.png",
   frameCelestialJadeGold: "/assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png",
   frameGroundedWoodJade: "/assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png",
   frameIvoryScroll: "/assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png",
@@ -240,6 +241,25 @@ export function resolveItemSlotFrameUrl(itemId: string): string {
   return "/assets/ui/slots_and_rarity_frames/slot_item_pham_64.png";
 }
 
+export function resolveEquipmentSlotIconUrl(
+  slotKey: string,
+  size: 32 | 64 = 64
+): string {
+  const dir = size === 64 ? "icons_64x64" : "icons_32x32";
+  const validSlots = new Set([
+    "phap_bao",
+    "mao_quan",
+    "binh_khi",
+    "dao_bao",
+    "ho_uyen",
+    "yeu_dai",
+    "chien_hai",
+    "ngoc_boi"
+  ]);
+  const safeKey = validSlots.has(slotKey) ? slotKey : "phap_bao";
+  return `/assets/ui/${dir}/equip_slot_${safeKey}_${size}.png`;
+}
+
 export function preloadWorldSceneAssets(loader: Phaser.Loader.LoaderPlugin): void {
   for (const ts of TILESET_IMAGE_BINDINGS) {
     loader.image(ts.key, ts.url);
@@ -248,7 +268,7 @@ export function preloadWorldSceneAssets(loader: Phaser.Loader.LoaderPlugin): voi
     loader.tilemapTiledJSON(tm.key, tm.url);
   }
   for (const def of Object.values(SPRITE_PROFILES)) {
-    loader.spritesheet(def.spriteKey, `/assets/sprites/${def.spriteKey}.png`, {
+    loader.spritesheet(def.spriteKey, `/assets/sprites/${def.spriteKey}.png?v=20261019_v5`, {
       frameWidth: def.frameWidth,
       frameHeight: def.frameHeight
     });

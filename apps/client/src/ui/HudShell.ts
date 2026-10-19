@@ -20,6 +20,8 @@ import {
 import { renderCharacterPanelModal } from "../features/character/CharacterPanel.js";
 import {
   V01B_UI_CHROME_URLS,
+  resolveAttributeIconUrl,
+  resolveItemIconUrl,
   resolveStarterPortraitUrl
 } from "../game/assets/RuntimeAssetBindings.js";
 import {
@@ -54,6 +56,7 @@ export class HudOverlayController implements HudWorldMinimapPort {
   private activeModal: "none" | "npc" | "inventory" | "cultivation" | "esc_menu" = "none";
   private inventoryTab: InventoryCategoryTab = "all";
   private selectedInventoryItemId: string | null = null;
+  private equippedWeaponId: string | null | undefined = undefined;
   private selectedNpc: LegendaryNpcDefinition | null = null;
   private escSettingsOpen = false;
   private autoFarmOnlineEnabled = false;
@@ -66,6 +69,8 @@ export class HudOverlayController implements HudWorldMinimapPort {
     }
   ];
 
+  private elTopLeftBuffs!: HTMLElement;
+  private elTopCenterBar!: HTMLElement;
   private elTopLeft!: HTMLElement;
   private elTopRight!: HTMLElement;
   private elMinimapMount!: HTMLElement;
@@ -116,7 +121,14 @@ export class HudOverlayController implements HudWorldMinimapPort {
   }
 
   private mountBaseStructure(): void {
+    const iconSkill1 = resolveItemIconUrl("thanh_van_kiem_so_cap", 64);
+    const iconSkill2 = resolveAttributeIconUrl("than_phap", 64);
+    const iconSkill3 = resolveAttributeIconUrl("the_phach", 64);
+    const iconInteract = resolveAttributeIconUrl("than_thuc", 64);
+
     this.root.innerHTML = `
+      <div class="hud-top-left-buffs" id="hud-top-left-buffs"></div>
+      <div class="hud-top-center-bar" id="hud-top-center-bar"></div>
       <div class="hud-panel hud-top-left" id="hud-top-left"></div>
       <div class="hud-panel hud-top-right" id="hud-top-right">
         <div class="hud-minimap-mount" id="hud-minimap-mount"></div>
@@ -131,50 +143,109 @@ export class HudOverlayController implements HudWorldMinimapPort {
         </div>
       </div>
       <div class="hud-panel hud-bottom-center" id="hud-bottom-center">
-        <div class="hud-autofarm-seal-row">
-          <button
-            type="button"
-            class="hud-autofarm-seal v01b-btn-jade"
-            id="btn-hud-autofarm"
-            data-testid="hud-autofarm-toggle-btn"
-          >
-            <img class="v01b-btn-seal-icon" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="" />
-            <span id="hud-autofarm-label">Tự Động Chiến Đấu (Online)</span>
-          </button>
+        <div class="hud-poe2-upper-utility-row">
+          <div class="hud-poe2-micro-btns">
+            <button
+              type="button"
+              class="skill-slot hud-micro-slot"
+              id="btn-open-cultivation"
+              data-action="panel_c"
+              data-testid="hud-quick-c-btn"
+              title="Thiên Cung Nội Thị Đồ [C]"
+            >
+              <span class="hud-micro-glyph">C</span>
+              <span class="hud-micro-key">[C]</span>
+            </button>
+            <button
+              type="button"
+              class="skill-slot hud-micro-slot"
+              id="btn-open-inventory"
+              data-action="panel_i"
+              data-testid="hud-quick-i-btn"
+              title="Túi Càn Khôn [I]"
+            >
+              <span class="hud-micro-glyph">I</span>
+              <span class="hud-micro-key">[I]</span>
+            </button>
+            <button
+              type="button"
+              class="skill-slot hud-micro-slot"
+              data-action="panel_q"
+              data-testid="hud-quick-q-btn"
+              title="Tự Hành Dẫn Đường [Q]"
+            >
+              <span class="hud-micro-glyph">Q</span>
+              <span class="hud-micro-key">[Q]</span>
+            </button>
+            <button
+              type="button"
+              class="skill-slot hud-micro-slot"
+              id="btn-open-esc-menu"
+              data-action="panel_esc"
+              data-testid="hud-system-menu-btn"
+              title="Thiên Mệnh Hệ Thống [ESC]"
+            >
+              <span class="hud-micro-glyph">☰</span>
+              <span class="hud-micro-key">[ESC]</span>
+            </button>
+            <button
+              type="button"
+              class="hud-micro-slot"
+              id="btn-toggle-mute"
+              title="Bật / Tắt Âm Thanh"
+            >
+              <span class="hud-micro-glyph" id="hud-mute-glyph">🔊</span>
+              <span class="hud-micro-key">Âm</span>
+            </button>
+          </div>
+          <div class="hud-poe2-currency-plaque" id="hud-linh-thach">
+            <img class="hud-inline-icon" src="${V01B_UI_CHROME_URLS.currencyLinhThach32}" alt="" />
+            <span class="hud-currency-val">0</span>
+            <span class="hud-currency-unit">Linh Thạch</span>
+          </div>
         </div>
-        <div class="hud-lotus-dock-row">
-          <div class="skill-slot" data-action="skill_j" data-testid="hud-skill-slot-1">
-            <span class="skill-key">[1 / J] Kiếm Quyết</span>
+        <div class="hud-lotus-dock-row hud-poe2-skill-row">
+          <div class="skill-slot hud-poe2-skill-box" data-action="skill_j" data-testid="hud-skill-slot-1" title="[1 / J] Kiếm Quyết: Thanh Vân Trảm">
+            <div class="hud-skill-icon-well skill-well-cyan">
+              <img class="hud-skill-art" src="${iconSkill1}" alt="Thanh Vân Trảm" />
+            </div>
+            <span class="skill-key">[1 / J]</span>
             <span class="skill-name">Thanh Vân Trảm</span>
           </div>
-          <div class="skill-slot" data-action="skill_k" data-testid="hud-skill-slot-2">
-            <span class="skill-key">[2 / K] Đao Phong</span>
+          <div class="skill-slot hud-poe2-skill-box" data-action="skill_k" data-testid="hud-skill-slot-2" title="[2 / K] Đao Phong: Kiếm Khí Ưng">
+            <div class="hud-skill-icon-well skill-well-jade">
+              <img class="hud-skill-art" src="${iconSkill2}" alt="Kiếm Khí Ưng" />
+            </div>
+            <span class="skill-key">[2 / K]</span>
             <span class="skill-name">Kiếm Khí Ưng</span>
           </div>
-          <div class="skill-slot" data-action="skill_l" data-testid="hud-skill-slot-3">
-            <span class="skill-key">[3 / L] Chưởng Ấn</span>
+          <div class="skill-slot hud-poe2-skill-box" data-action="skill_l" data-testid="hud-skill-slot-3" title="[3 / L] Chưởng Ấn: Hộ Thể Kim Quang">
+            <div class="hud-skill-icon-well skill-well-gold">
+              <img class="hud-skill-art" src="${iconSkill3}" alt="Hộ Thể Kim Quang" />
+            </div>
+            <span class="skill-key">[3 / L]</span>
             <span class="skill-name">Hộ Thể Kim Quang</span>
           </div>
-          <div class="skill-slot" data-action="interact_e" data-testid="hud-interact-slot">
-            <span class="skill-key">[E / F] Tương Tác</span>
-            <span class="skill-name">Đàm Đạo / Nhặt</span>
+          <div class="skill-slot hud-poe2-skill-box" data-action="interact_e" data-testid="hud-interact-slot" title="[E / F] Tương Tác & Nhặt Vật Phẩm">
+            <div class="hud-skill-icon-well skill-well-spirit">
+              <img class="hud-skill-art" src="${iconInteract}" alt="Tương Tác" />
+            </div>
+            <span class="skill-key">[E / F]</span>
+            <span class="skill-name">Tương Tác</span>
           </div>
-          <div class="skill-slot" data-action="panel_c" data-testid="hud-quick-c-btn">
-            <span class="skill-key">[C] Nội Thị</span>
-            <span class="skill-name">Thiên Cung Đồ</span>
-          </div>
-          <div class="skill-slot" data-action="panel_i" data-testid="hud-quick-i-btn">
-            <span class="skill-key">[I] Túi Càn Khôn</span>
-            <span class="skill-name">Bảo Khố</span>
-          </div>
-          <div class="skill-slot" data-action="panel_q" data-testid="hud-quick-q-btn">
-            <span class="skill-key">[Q] Nhiệm Vụ</span>
-            <span class="skill-name">Chỉ Dẫn</span>
-          </div>
-          <div class="skill-slot" data-action="panel_esc" data-testid="hud-quick-m-btn">
-            <span class="skill-key">[ESC] Hệ Thống</span>
-            <span class="skill-name">Đổi Nhân Vật</span>
-          </div>
+          <button
+            type="button"
+            class="hud-autofarm-seal hud-poe2-skill-box"
+            id="btn-hud-autofarm"
+            data-testid="hud-autofarm-toggle-btn"
+            title="Tự Động Chiến Đấu (Online)"
+          >
+            <div class="hud-skill-icon-well skill-well-lotus">
+              <img class="hud-skill-art" src="${V01B_UI_CHROME_URLS.sealDaoGoldLotus}" alt="Auto-Farm" />
+            </div>
+            <span class="skill-key" id="hud-autofarm-label">Auto-Farm</span>
+            <span class="skill-name" id="hud-autofarm-sub">Online</span>
+          </button>
         </div>
       </div>
       <div class="mobile-dpad" id="hud-mobile-dpad">
@@ -189,6 +260,8 @@ export class HudOverlayController implements HudWorldMinimapPort {
       <div id="hud-modal-host"></div>
     `;
 
+    this.elTopLeftBuffs = this.root.querySelector("#hud-top-left-buffs") as HTMLElement;
+    this.elTopCenterBar = this.root.querySelector("#hud-top-center-bar") as HTMLElement;
     this.elTopLeft = this.root.querySelector("#hud-top-left") as HTMLElement;
     this.elTopRight = this.root.querySelector("#hud-top-right") as HTMLElement;
     this.elMinimapMount = this.root.querySelector("#hud-minimap-mount") as HTMLElement;
@@ -224,15 +297,22 @@ export class HudOverlayController implements HudWorldMinimapPort {
       this.autoFarmOnlineEnabled = !this.autoFarmOnlineEnabled;
       const btn = this.root.querySelector("#btn-hud-autofarm");
       const lbl = this.root.querySelector("#hud-autofarm-label");
+      const sub = this.root.querySelector("#hud-autofarm-sub");
       btn?.classList.toggle("active", this.autoFarmOnlineEnabled);
       if (lbl) {
-        lbl.textContent = this.autoFarmOnlineEnabled
-          ? "Tự Động Chiến Đấu (Online: Đang Bật)"
-          : "Tự Động Chiến Đấu (Online)";
+        lbl.textContent = this.autoFarmOnlineEnabled ? "Auto: BẬT" : "Auto-Farm";
+      }
+      if (sub) {
+        sub.textContent = this.autoFarmOnlineEnabled ? "Đang Đánh" : "Online";
       }
       if (this.autoFarmOnlineEnabled) {
         this.getScene()?.triggerSkill("basic_slash");
       }
+    });
+
+    this.root.querySelector("#btn-toggle-mute")?.addEventListener("click", () => {
+      this.soundCtrl.toggleMute();
+      this.refreshPanels();
     });
 
     this.root.querySelectorAll(".skill-slot").forEach((slot) => {
@@ -415,6 +495,8 @@ export class HudOverlayController implements HudWorldMinimapPort {
   ): void {
     const inWorld = this.isInWorldState();
     const hudDisplay = inWorld ? "" : "none";
+    this.elTopLeftBuffs.style.display = hudDisplay;
+    this.elTopCenterBar.style.display = hudDisplay;
     this.elTopLeft.style.display = hudDisplay;
     this.elTopRight.style.display = hudDisplay;
     this.elRightQuestScroll.style.display = hudDisplay;
@@ -458,13 +540,83 @@ export class HudOverlayController implements HudWorldMinimapPort {
 
     const playerName = v02?.identity.name ?? p?.nickname ?? "Đang kết nối...";
     const realmBadge = formatRealmDisplay(realmId, realmStage);
-    const buffsHtml = (p?.buffs ?? [])
-      .map((b) => `<span class="buff-pill">${this.escapeHtml(b.name)}</span>`)
-      .join("");
-    const freePtsHtml =
+    const activeBuffs = p?.buffs ?? [];
+    const buffRowsHtml =
+      activeBuffs.length > 0
+        ? activeBuffs
+            .map(
+              (b) => `
+                <div class="hud-poe2-buff-row">
+                  <div class="hud-poe2-buff-box buff-box-jade">
+                    <img src="${V01B_UI_CHROME_URLS.orbTuViCore32}" alt="" />
+                  </div>
+                  <span class="buff-pill hud-poe2-buff-text">${this.escapeHtml(b.name)}</span>
+                </div>
+              `
+            )
+            .join("")
+        : `
+            <div class="hud-poe2-buff-row">
+              <div class="hud-poe2-buff-box buff-box-jade">
+                <img src="${V01B_UI_CHROME_URLS.orbTuViCore32}" alt="" />
+              </div>
+              <span class="buff-pill hud-poe2-buff-text">Hộ Thể Linh Khí • ${this.escapeHtml(realmBadge)}</span>
+            </div>
+          `;
+
+    const freePtsRowHtml =
       freePts > 0
-        ? `<span class="buff-pill" id="hud-free-points-pill">+${freePts} Điểm Thuộc Tính [C]</span>`
+        ? `
+            <div class="hud-poe2-buff-row hud-poe2-buff-clickable" id="hud-free-points-pill" title="Nhấn để mở Thiên Cung Nội Thị Đồ [C]">
+              <div class="hud-poe2-buff-box buff-box-pts">+${freePts}</div>
+              <span class="buff-pill hud-poe2-buff-text">+${freePts} Điểm Tiềm Năng [C]</span>
+            </div>
+          `
         : "";
+
+    this.elTopLeftBuffs.innerHTML = `
+      <div class="hud-buffs-row" id="hud-buffs-row">
+        ${buffRowsHtml}
+        ${freePtsRowHtml}
+      </div>
+    `;
+    this.elTopLeftBuffs.querySelector("#hud-free-points-pill")?.addEventListener("click", () => {
+      this.toggleModal("cultivation");
+    });
+
+    const zoneId = this.net.getCurrentZoneId();
+    const zoneDef = ZONES_REGISTRY[zoneId];
+    const px = p?.x ?? v02?.world.x ?? zoneDef.defaultSpawn.x;
+    const py = p?.y ?? v02?.world.y ?? zoneDef.defaultSpawn.y;
+    const monsters = Object.values(snap?.monsters ?? {}).filter((m) => m.hp > 0);
+    let nearestMonster: (typeof monsters)[number] | null = null;
+    let nearestDist = 460;
+    for (const m of monsters) {
+      const d = Math.hypot(m.x - px, m.y - py);
+      if (d < nearestDist) {
+        nearestDist = d;
+        nearestMonster = m;
+      }
+    }
+
+    const topBarLabel = nearestMonster
+      ? `${nearestMonster.nameVi} — HP ${nearestMonster.hp} / ${nearestMonster.maxHp}`
+      : `${zoneDef.nameVi} • 【${realmBadge}】`;
+    const topBarFillPct = nearestMonster
+      ? Math.min(100, Math.round((nearestMonster.hp / Math.max(1, nearestMonster.maxHp)) * 100))
+      : hpPct;
+
+    this.elTopCenterBar.innerHTML = `
+      <div class="hud-poe2-boss-plate">
+        <span class="hud-poe2-boss-finial left">❖</span>
+        <div class="hud-poe2-boss-track">
+          <div class="hud-poe2-boss-crown">◆</div>
+          <div class="hud-poe2-boss-fill" style="width:${topBarFillPct}%"></div>
+          <span class="hud-poe2-boss-label">${this.escapeHtml(topBarLabel)}</span>
+        </div>
+        <span class="hud-poe2-boss-finial right">❖</span>
+      </div>
+    `;
 
     const appearanceId = v02?.identity.appearanceId ?? p?.appearanceId ?? "hero_kiem_tu";
     const portraitSrc = resolveStarterPortraitUrl(appearanceId);
@@ -483,88 +635,91 @@ export class HudOverlayController implements HudWorldMinimapPort {
           ? "Đang thực hiện — Gặp Lão Trù Trương / Phì Đế"
           : "Khả dụng — Gặp Phì Đế [E]";
 
+    const expArcDash = Math.round(4.65 * expPct);
+    const tuViArcDash = Math.round(4.27 * tuViPct);
+
     this.elTopLeft.innerHTML = `
-      <div class="hud-crest-top">
-        <div class="hud-portrait-socket">
-          <img src="${this.escapeHtml(portraitSrc)}" alt="${this.escapeHtml(playerName)}" />
-          <span class="hud-portrait-lv-badge">Lv.${level}</span>
-        </div>
-        <div class="hud-crest-meta">
-          <div class="hud-player-header">
+      <div class="hud-dantian-corner-stack">
+        <div class="hud-dantian-identity-ribbon">
+          <div class="hud-portrait-socket">
+            <div class="hud-portrait-inner">
+              <img src="${this.escapeHtml(portraitSrc)}" alt="${this.escapeHtml(playerName)}" />
+            </div>
+            <span class="hud-portrait-lv-badge">Lv.${level}</span>
+          </div>
+          <div class="hud-dantian-name-plaque">
             <span class="hud-player-name" id="hud-player-name">${this.escapeHtml(playerName)}</span>
             <span class="hud-realm-badge" id="hud-realm-badge">Cấp ${level} • ${this.escapeHtml(realmBadge)}</span>
           </div>
-          <div class="hud-title-row">
-            <span class="hud-equipped-title">${this.escapeHtml(p?.equippedTitle ?? v02?.world.equippedTitle ?? "Tân Nhập Môn Đệ Tử")}</span>
-            <span class="hud-currency" id="hud-linh-thach"><img class="hud-inline-icon" src="${V01B_UI_CHROME_URLS.currencyLinhThach32}" alt="" /> ${p?.linhThach ?? v02?.world.linhThach ?? 0} Linh Thạch</span>
+        </div>
+        <div class="hud-dantian-orb-row">
+          <div class="hud-dantian-globe-container">
+            <svg class="hud-dantian-ring-svg" viewBox="0 0 160 160" aria-hidden="true">
+              <circle class="ring-track-exp" cx="80" cy="80" r="74" />
+              <circle class="ring-fill-exp" cx="80" cy="80" r="74" stroke-dasharray="${expArcDash} 465" />
+              <circle class="ring-track-tuvi" cx="80" cy="80" r="68" />
+              <circle class="ring-fill-tuvi" cx="80" cy="80" r="68" stroke-dasharray="${tuViArcDash} 427" />
+            </svg>
+            <div class="hud-dantian-inner-sphere">
+              <div class="hud-dantian-half hp-half bar-track-hp">
+                <div class="bar-fill hp hud-orb-liquid" style="height:${hpPct}%"></div>
+                <div class="hud-orb-readout">
+                  <span class="hud-orb-title">HP</span>
+                  <div class="bar-text hud-orb-val" id="hud-hp-text">${curHp}/${maxHp}</div>
+                </div>
+              </div>
+              <div class="hud-dantian-half mp-half bar-track-mp">
+                <div class="bar-fill mp hud-orb-liquid" style="height:${mpPct}%"></div>
+                <div class="hud-orb-readout">
+                  <span class="hud-orb-title">Linh Lực</span>
+                  <div class="bar-text hud-orb-val" id="hud-mp-text">${curMp}/${maxMp}</div>
+                </div>
+              </div>
+              <svg class="hud-dantian-yinyang-svg" viewBox="0 0 128 128" aria-hidden="true">
+                <path d="M 64,0 A 32,32 0 0,0 64,64 A 32,32 0 0,1 64,128" fill="none" stroke="#f5cf70" stroke-width="2.5" />
+                <circle cx="54" cy="30" r="4.5" fill="rgba(51, 154, 240, 0.85)" stroke="#f5cf70" stroke-width="1.2" />
+                <circle cx="74" cy="98" r="4.5" fill="rgba(224, 49, 49, 0.85)" stroke="#f5cf70" stroke-width="1.2" />
+              </svg>
+              <div class="hud-dantian-glass-shine"></div>
+            </div>
+          </div>
+          <div class="hud-dantian-ring-callout">
+            <div class="bar-track bar-track-tuvi hud-ring-mini-track">
+              <div class="bar-fill tuvi" style="width:${tuViPct}%"></div>
+              <span class="bar-text" id="hud-tuvi-text">Tu Vi ${curTuVi}/${reqTuVi}</span>
+            </div>
+            <div class="bar-track bar-track-exp hud-ring-mini-track">
+              <div class="bar-fill exp" style="width:${expPct}%"></div>
+              <span class="bar-text" id="hud-exp-text">${atLevelCap ? "Đỉnh Phong" : `EXP ${expNowStr}/${expNextStr}`}</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="bar-row">
-        <span class="bar-label">HP</span>
-        <div class="bar-track bar-track-hp">
-          <div class="bar-fill hp" style="width:${hpPct}%"></div>
-          <div class="bar-text" id="hud-hp-text">${curHp} / ${maxHp}</div>
-        </div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Linh Lực</span>
-        <div class="bar-track bar-track-mp">
-          <div class="bar-fill mp" style="width:${mpPct}%"></div>
-          <div class="bar-text" id="hud-mp-text">${curMp} / ${maxMp}</div>
-        </div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">Tu Vi</span>
-        <div class="bar-track bar-track-tuvi">
-          <div class="bar-fill tuvi" style="width:${tuViPct}%"></div>
-          <div class="bar-text" id="hud-tuvi-text">${curTuVi} / ${reqTuVi}</div>
-        </div>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">EXP</span>
-        <div class="bar-track bar-track-exp">
-          <div class="bar-fill exp" style="width:${expPct}%"></div>
-          <div class="bar-text" id="hud-exp-text">${atLevelCap ? "Đỉnh Phong Cảnh Giới" : `${expNowStr} / ${expNextStr}`}</div>
-        </div>
-      </div>
-      ${buffsHtml || freePtsHtml ? `<div class="hud-buffs-row" id="hud-buffs-row">${freePtsHtml}${buffsHtml}</div>` : ""}
     `;
 
-    const zoneId = this.net.getCurrentZoneId();
-    const zoneDef = ZONES_REGISTRY[zoneId];
-    const onlineCount = Object.keys(snap?.players ?? {}).length || 1;
-    const zoneMetaText = `Đạo hữu: ${onlineCount} • (${Math.round(p?.x ?? v02?.world.x ?? 0)}, ${Math.round(p?.y ?? v02?.world.y ?? 0)})`;
-
-    const existingZoneMeta = this.elTopRightControls.querySelector("#hud-zone-meta");
-    if (_snap && existingZoneMeta) {
-      existingZoneMeta.textContent = zoneMetaText;
-    } else {
-      this.elTopRightControls.innerHTML = `
-        <div class="zone-title" id="hud-zone-title">${this.escapeHtml(zoneDef.nameVi)}</div>
-        <div class="zone-meta" id="hud-zone-meta">${zoneMetaText}</div>
-        <div class="hud-btn-group">
-          <button type="button" class="hud-btn v01b-btn-jade" id="btn-open-inventory" title="Túi Càn Khôn [I]">Bảo Khố [I]</button>
-          <button type="button" class="hud-btn gold v01b-btn-cinnabar" id="btn-open-cultivation" title="Thiên Cung Nội Thị Đồ [C]">Nội Thị [C]</button>
-          <button type="button" class="hud-btn v01b-btn-jade" id="btn-open-esc-menu" data-testid="hud-system-menu-btn" title="Thiên Mệnh Hệ Thống [ESC]">Hệ Thống [ESC]</button>
-          <button type="button" class="hud-btn v01b-btn-jade" id="btn-toggle-mute" title="Bật / Tắt Âm Thanh">${this.soundCtrl.isMuted() ? "🔇" : "🔊"}</button>
-        </div>
+    const linhThachVal = p?.linhThach ?? v02?.world.linhThach ?? 0;
+    const currencyPlaque = this.elBottomCenter.querySelector("#hud-linh-thach");
+    if (currencyPlaque) {
+      currencyPlaque.innerHTML = `
+        <img class="hud-inline-icon" src="${V01B_UI_CHROME_URLS.currencyLinhThach32}" alt="" />
+        <span class="hud-currency-val">${linhThachVal}</span>
+        <span class="hud-currency-unit">Linh Thạch</span>
       `;
-
-      this.elTopRightControls.querySelector("#btn-open-inventory")?.addEventListener("click", () => {
-        this.toggleModal("inventory");
-      });
-      this.elTopRightControls.querySelector("#btn-open-cultivation")?.addEventListener("click", () => {
-        this.toggleModal("cultivation");
-      });
-      this.elTopRightControls.querySelector("#btn-open-esc-menu")?.addEventListener("click", () => {
-        this.toggleModal("esc_menu");
-      });
-      this.elTopRightControls.querySelector("#btn-toggle-mute")?.addEventListener("click", () => {
-        this.soundCtrl.toggleMute();
-        this.refreshPanels();
-      });
     }
+    const muteGlyph = this.elBottomCenter.querySelector("#hud-mute-glyph");
+    if (muteGlyph) {
+      muteGlyph.textContent = this.soundCtrl.isMuted() ? "🔇" : "🔊";
+    }
+    const cBtn = this.elBottomCenter.querySelector("#btn-open-cultivation");
+    cBtn?.classList.toggle("has-free-pts", freePts > 0);
+
+    const onlineCount = Object.keys(snap?.players ?? {}).length || 1;
+    const zoneMetaText = `Đạo hữu: ${onlineCount} • (${Math.round(px)}, ${Math.round(py)})`;
+
+    this.elTopRightControls.innerHTML = `
+      <div class="zone-title" id="hud-zone-title">${this.escapeHtml(zoneDef.nameVi)}</div>
+      <div class="zone-meta" id="hud-zone-meta">${zoneMetaText}</div>
+    `;
 
     if (!_snap || !this.elRightQuestScroll.innerHTML) {
       this.elRightQuestScroll.innerHTML = `
@@ -580,7 +735,6 @@ export class HudOverlayController implements HudWorldMinimapPort {
               <div class="hud-quest-tracker" id="hud-quest-tracker">
                 <div class="hud-quest-tracker-text">${this.escapeHtml(phiQuest.titleVi)}</div>
                 <div class="hud-quest-tracker-sub">${questStatusLabel}</div>
-                <div class="hud-quest-tracker-rule">Tự Hành Dẫn Đường — Dừng Tại Điểm Nhiệm Vụ</div>
                 <button
                   type="button"
                   class="hud-btn v01b-btn-jade hud-autonav-btn"
@@ -614,7 +768,21 @@ export class HudOverlayController implements HudWorldMinimapPort {
     });
     this.elTopRight.classList.toggle("is-expanded", this.minimapView.getTelemetry().isExpanded);
 
-    if (this.activeModal !== "none" && !_snap) {
+    if (this.activeModal === "cultivation" && _self) {
+      const modalTuViFill = this.elModalHost.querySelector(
+        "#char-modal-tuvi-fill"
+      ) as HTMLElement | null;
+      const modalTuViText = this.elModalHost.querySelector(
+        "#char-modal-tuvi-text"
+      ) as HTMLElement | null;
+      if (modalTuViFill && modalTuViText) {
+        modalTuViFill.style.width = `${tuViPct}%`;
+        modalTuViText.textContent = `Tu Vi: ${curTuVi} / ${reqTuVi}`;
+        return;
+      }
+    }
+
+    if (this.activeModal !== "none" && !_snap && !_self) {
       this.renderModal();
     }
   }
@@ -644,25 +812,24 @@ export class HudOverlayController implements HudWorldMinimapPort {
       return;
     }
 
+    const prevModalEl = this.elModalHost.querySelector(".hud-modal") as HTMLElement | null;
+    const savedModalScrollTop = prevModalEl ? prevModalEl.scrollTop : 0;
+
     this.root.classList.add("modal-open");
 
     if (this.activeModal === "npc" && this.selectedNpc) {
       this.renderNpcModal(this.selectedNpc);
-      return;
-    }
-
-    if (this.activeModal === "inventory") {
+    } else if (this.activeModal === "inventory") {
       this.renderInventoryAndCulinaryModal();
-      return;
-    }
-
-    if (this.activeModal === "cultivation") {
+    } else if (this.activeModal === "cultivation") {
       this.renderCultivationModal();
-      return;
+    } else if (this.activeModal === "esc_menu") {
+      this.renderEscSystemMenuModal();
     }
 
-    if (this.activeModal === "esc_menu") {
-      this.renderEscSystemMenuModal();
+    const nextModalEl = this.elModalHost.querySelector(".hud-modal") as HTMLElement | null;
+    if (nextModalEl && savedModalScrollTop > 0) {
+      nextModalEl.scrollTop = savedModalScrollTop;
     }
   }
 
@@ -699,7 +866,8 @@ export class HudOverlayController implements HudWorldMinimapPort {
       selfState: this.net.selfState,
       selfStateV02: this.net.selfStateV02,
       activeTab: this.inventoryTab,
-      selectedItemId: this.selectedInventoryItemId
+      selectedItemId: this.selectedInventoryItemId,
+      equippedWeaponId: this.equippedWeaponId
     });
 
     this.bindModalClose();
@@ -724,6 +892,32 @@ export class HudOverlayController implements HudWorldMinimapPort {
           this.selectedInventoryItemId = itemId;
           this.renderInventoryAndCulinaryModal();
         }
+      });
+    });
+    this.elModalHost.querySelectorAll("[data-equip-slot]").forEach((eqSlot) => {
+      eqSlot.addEventListener("click", () => {
+        const slotKey = (eqSlot as HTMLElement).dataset.equipSlot;
+        if (slotKey === "binh_khi") {
+          this.selectedInventoryItemId = "thanh_van_kiem_so_cap";
+          this.renderInventoryAndCulinaryModal();
+        }
+      });
+    });
+    this.elModalHost.querySelectorAll(".btn-equip-item").forEach((btn) => {
+      btn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const itemId = (btn as HTMLElement).dataset.item;
+        if (!itemId) return;
+        const currentlyEquipped =
+          this.equippedWeaponId !== undefined ? this.equippedWeaponId : "thanh_van_kiem_so_cap";
+        if (currentlyEquipped === itemId) {
+          this.equippedWeaponId = null;
+          this.appendLog("system", `[Pháp Bảo] Đã tháo trang bị ${itemId}.`);
+        } else {
+          this.equippedWeaponId = itemId;
+          this.appendLog("system", `[Pháp Bảo] Đã trang bị ${itemId} (+10 Công Kích).`);
+        }
+        this.renderInventoryAndCulinaryModal();
       });
     });
     this.elModalHost.querySelectorAll(".btn-use-item").forEach((btn) => {

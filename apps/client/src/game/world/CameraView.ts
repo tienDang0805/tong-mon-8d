@@ -126,7 +126,7 @@ export class CameraView {
     const cam = this.scene.cameras.main;
     cam.setBounds(0, 0, worldW, worldH);
     cam.setRoundPixels(true);
-    cam.startFollow(target, true, 0.14, 0.14, 0, -24);
+    cam.startFollow(target, true, 1, 1, 0, -24);
 
     this.applyResponsiveViewport(
       this.scene.scale.width || window.innerWidth || 1280,

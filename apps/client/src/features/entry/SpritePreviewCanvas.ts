@@ -13,7 +13,7 @@ function getOrLoadSpriteSheet(spriteKey: string): HTMLImageElement {
     return existing;
   }
   const img = new Image();
-  img.src = `/assets/sprites/${spriteKey}.png`;
+  img.src = `/assets/sprites/${spriteKey}.png?v=20261019_v5`;
   imageCache.set(spriteKey, img);
   return img;
 }

@@ -163,8 +163,8 @@
         },
         {
           "path": "assets/sprites/hero_kiem_tu.png",
-          "sha256": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
-          "bytes": 638788,
+          "sha256": "278cdfc9d78a6d645d321f15bd3a4242ff7c5e7c173038a8b5f978fb18c87b09",
+          "bytes": 177003,
           "role": "master_reference"
         },
         {
@@ -234,6 +234,54 @@
           "sha256": "fde6638b46e4fc36dd08d0d8b51ce1d524739470aa4e263d169aa377690acf0e",
           "bytes": 1348979,
           "role": "raw_ai_4dir_hurt_source"
+        },
+        {
+          "path": "assets/source_ai/source_h11_native_hero_4dir_walk_magenta_v01b.png",
+          "sha256": "f0933149d990fb5b22a1867cc6b1beaa51968e40f615d0e5785ba7ba2f6459d3",
+          "bytes": 1247032,
+          "role": "raw_ai_4dir_walk_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h12_native_hero_side_walk_magenta_v01b.png",
+          "sha256": "0660d4b66286e6ca71c013f10a57d2569494ddbec5d330fe0d7f6abee6e2ece6",
+          "bytes": 1184537,
+          "role": "raw_ai_side_walk_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h13_native_hero_idle_cast_magenta_v01b.png",
+          "sha256": "8bbab32760de05f73ea0744ff08bcb7b13946a788d6df46e953ff0a095bdc32a",
+          "bytes": 975673,
+          "role": "raw_ai_idle_cast_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h15_native_hero_4dir_walk_crisp_v01b.png",
+          "sha256": "ae11e777150801f30533068cf14a14b81631b9343dcb0531889b42661e870a27",
+          "bytes": 1172246,
+          "role": "raw_ai_4dir_walk_crisp_source"
+        },
+        {
+          "path": "assets/source_ai/source_h16_native_hero_left_idle_walk_crisp_v01b.png",
+          "sha256": "7d21996cd58920d9020a735077ba9bbbd5025f3b44c1342f543d6e0b77292961",
+          "bytes": 1128022,
+          "role": "raw_ai_left_idle_walk_crisp_source"
+        },
+        {
+          "path": "assets/source_ai/source_h17_native_hero_4dir_idle_v01b.png",
+          "sha256": "2b4f503deee722bef8b2c10b9880f2ba5b87ad9db259f0b95c1eb3e1eb5c7372",
+          "bytes": 873695,
+          "role": "raw_ai_4dir_idle_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h18_native_hero_lr_walk_smooth_v01b.png",
+          "sha256": "0e2a05caa5215b0e448c48ae4566af7abf30d24cb198d58fed48980d9e798e6e",
+          "bytes": 1193035,
+          "role": "raw_ai_lr_walk_smooth_magenta_source"
+        },
+        {
+          "path": "assets/source_ai/source_h19_native_hero_du_walk_smooth_v01b.png",
+          "sha256": "9b10e372ed5e220af2422253f8f7900cc907d819c3312c7b55395d75c2d0392b",
+          "bytes": 1092205,
+          "role": "raw_ai_du_walk_smooth_magenta_source"
         }
       ],
       "runtimeBindings": [
@@ -254,7 +302,7 @@
           "#1F3442",
           "#1F2833"
         ],
-        "proportions": "80x96 frame, standing height ~74px, foot anchor (40, 88)",
+        "proportions": "80x96 frame, standing height ~84px, foot anchor (40, 88)",
         "perspective": "4-directional (down, left, right, up) across 5 states (idle 4f, walk 6f, attack 4f, cast 4f, hurt 4f)"
       },
       "supersedes": [
@@ -1255,6 +1303,18 @@
           "sha256": "43330cc7fad0cdd5f5744a785c9191ff81fd92945c47c5ccc0a65f340e980746",
           "bytes": 1301231,
           "role": "raw_ai_source"
+        },
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e04_c_panel_hexagram_and_meditation_stage_v01b.png",
+          "sha256": "ddc62f304bfeb03661cd68bb1d3a48519c9d61ff49587325a2c54a40e2794757",
+          "bytes": 1453447,
+          "role": "raw_ai_source"
+        },
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e05_inventory_paperdoll_and_8_equip_icons_v01b.png",
+          "sha256": "96d9c0003363f28ae6af6273c3cad2d55b3cc3c6ac44edde8f006bd385cb9834",
+          "bytes": 1082131,
+          "role": "raw_ai_source"
         }
       ],
       "runtimeBindings": [
@@ -1262,7 +1322,16 @@
         "ui_entry_destiny_astrolabe_chamber_backdrop",
         "ui_presentation_header_banner_crest",
         "ui_presentation_cultivation_meditation_star_wheel",
-        "ui_presentation_cultivation_meridian_hexagram_plate"
+        "ui_presentation_cultivation_meridian_hexagram_plate",
+        "ui_presentation_inventory_paperdoll_lotus_stage",
+        "ui_icon_equip_slot_phap_bao_64",
+        "ui_icon_equip_slot_mao_quan_64",
+        "ui_icon_equip_slot_binh_khi_64",
+        "ui_icon_equip_slot_dao_bao_64",
+        "ui_icon_equip_slot_ho_uyen_64",
+        "ui_icon_equip_slot_yeu_dai_64",
+        "ui_icon_equip_slot_chien_hai_64",
+        "ui_icon_equip_slot_ngoc_boi_64"
       ],
       "identitySpec": {
         "palette": [

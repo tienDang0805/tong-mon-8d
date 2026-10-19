@@ -129,17 +129,19 @@ export class ActorViewSystem {
 
     const profile = SPRITE_PROFILES[spriteKey] ?? SPRITE_PROFILES.hero_kiem_tu!;
     const is80x96 = profile.frameWidth === 80 && profile.frameHeight === 96;
-    const hpOffsetY = is80x96 ? 76 : 44;
-    const nameOffsetY = is80x96 ? 87 : 55;
-    const subOffsetY = is80x96 ? 99 : 68;
+    const rx = Math.round(x);
+    const ry = Math.round(y);
+    const hpOffsetY = is80x96 ? 82 : 44;
+    const nameOffsetY = is80x96 ? 93 : 55;
+    const subOffsetY = is80x96 ? 105 : 68;
     const sprite = this.scene.add
-      .sprite(x, y, spriteKey, 0)
+      .sprite(rx, ry, spriteKey, 0)
       .setOrigin(0.5, is80x96 ? 0.9167 : 0.9)
-      .setScale(is80x96 ? 0.86 : 1.0)
-      .setDepth(y);
+      .setScale(1.0)
+      .setDepth(ry);
 
     const subLabel = this.scene.add
-      .text(x, y - subOffsetY, subtitle, {
+      .text(rx, ry - subOffsetY, subtitle, {
         fontFamily: "Be Vietnam Pro, sans-serif",
         fontSize: "10px",
         color: "#ced4da",
@@ -147,10 +149,10 @@ export class ActorViewSystem {
         strokeThickness: 3
       })
       .setOrigin(0.5, 0.5)
-      .setDepth(y + 0.3);
+      .setDepth(ry + 0.3);
 
     const nameLabel = this.scene.add
-      .text(x, y - nameOffsetY, title, {
+      .text(rx, ry - nameOffsetY, title, {
         fontFamily: "Be Vietnam Pro, sans-serif",
         fontSize: "11px",
         fontStyle: "bold",
@@ -159,19 +161,19 @@ export class ActorViewSystem {
         strokeThickness: 3
       })
       .setOrigin(0.5, 0.5)
-      .setDepth(y + 0.4);
+      .setDepth(ry + 0.4);
 
     let hpBg: Phaser.GameObjects.Rectangle | undefined;
     let hpFill: Phaser.GameObjects.Rectangle | undefined;
     if (withHpBar) {
       hpBg = this.scene.add
-        .rectangle(x, y - hpOffsetY, 38, 5, 0x0b0f17, 0.85)
+        .rectangle(rx, ry - hpOffsetY, 38, 5, 0x0b0f17, 0.85)
         .setStrokeStyle(1, 0x343a40, 0.9)
-        .setDepth(y + 0.1);
+        .setDepth(ry + 0.1);
       hpFill = this.scene.add
-        .rectangle(x - 18, y - hpOffsetY, 36, 3, 0x51cf66, 1)
+        .rectangle(rx - 18, ry - hpOffsetY, 36, 3, 0x51cf66, 1)
         .setOrigin(0, 0.5)
-        .setDepth(y + 0.2);
+        .setDepth(ry + 0.2);
     }
 
     return { sprite, nameLabel, subLabel, hpBg, hpFill, auraRing, telegraphRing };
@@ -186,29 +188,30 @@ export class ActorViewSystem {
     showTelegraph = false
   ): void {
     const is80x96 = b.sprite.width === 80 && b.sprite.height === 96;
-    const hpOffsetY = is80x96 ? 76 : 44;
-    const nameOffsetY = is80x96 ? 87 : 55;
-    const subOffsetY = is80x96 ? 99 : 68;
-    b.sprite.setPosition(x, y).setDepth(y);
-    b.subLabel.setPosition(x, y - subOffsetY).setDepth(y + 0.3);
-    b.nameLabel.setPosition(x, y - nameOffsetY).setDepth(y + 0.4);
+    const depthY = Math.round(y);
+    const hpOffsetY = is80x96 ? 84 : 44;
+    const nameOffsetY = is80x96 ? 95 : 55;
+    const subOffsetY = is80x96 ? 107 : 68;
+    b.sprite.setPosition(x, y).setDepth(depthY);
+    b.subLabel.setPosition(x, y - subOffsetY).setDepth(depthY + 0.3);
+    b.nameLabel.setPosition(x, y - nameOffsetY).setDepth(depthY + 0.4);
     if (b.hpBg && b.hpFill) {
-      b.hpBg.setPosition(x, y - hpOffsetY).setDepth(y + 0.1);
+      b.hpBg.setPosition(x, y - hpOffsetY).setDepth(depthY + 0.1);
       b.hpFill
         .setPosition(x - 18, y - hpOffsetY)
         .setSize(Math.max(0, Math.min(1, hpRatio)) * 36, 3)
-        .setDepth(y + 0.2);
+        .setDepth(depthY + 0.2);
     }
     if (b.auraRing) {
       b.auraRing
         .setPosition(x, y - 4)
-        .setDepth(Math.max(8, y - 2))
+        .setDepth(Math.max(8, depthY - 2))
         .setVisible(showAura);
     }
     if (b.telegraphRing) {
       b.telegraphRing
         .setPosition(x, y - 4)
-        .setDepth(Math.max(8, y - 3))
+        .setDepth(Math.max(8, depthY - 3))
         .setVisible(showTelegraph);
     }
   }

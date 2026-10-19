@@ -237,6 +237,25 @@ async function main(): Promise<void> {
       "Full-trio reroll updates nonce"
     );
 
+    await page.locator('.cc-appearance-card[data-appearance-id="hoa_tran"]').click();
+    await waitForCondition(
+      async () =>
+        await page
+          .locator('.cc-appearance-card[data-appearance-id="hoa_tran"]')
+          .evaluate((el) => el.classList.contains("is-selected")),
+      3000,
+      "Can switch appearance to hoa_tran after rolling destiny"
+    );
+    await page.locator('.cc-appearance-card[data-appearance-id="hero_kiem_tu"]').click();
+    await waitForCondition(
+      async () =>
+        await page
+          .locator('.cc-appearance-card[data-appearance-id="hero_kiem_tu"]')
+          .evaluate((el) => el.classList.contains("is-selected")),
+      3000,
+      "Can switch appearance back to hero_kiem_tu after rolling destiny"
+    );
+
     await page.locator("#btn-cc-open-confirm").click();
     await waitForCondition(
       async () => await page.locator('[data-testid="destiny-confirm-modal"]').isVisible(),
@@ -272,11 +291,32 @@ async function main(): Promise<void> {
     const char1Id = stInWorld1.v02Character.identity.characterId as string;
     assert.equal(stInWorld1.v02Character.identity.accountId, primaryAccountId);
     assert.equal(stInWorld1.v02Character.identity.creationState, "confirmed");
+    assert.equal(stInWorld1.v02Character.identity.appearanceId, "hero_kiem_tu");
     assert.equal(stInWorld1.zoneId, "tan_thu_thon");
 
     await page.screenshot({
       path: path.join(SCREENSHOTS_DIR, "01_main_world_hud_1280x720.png")
     });
+
+    await page.locator("#btn-toggle-minimap-size").click();
+    await page.waitForTimeout(250);
+    const minimapAndQuestRects = await page.evaluate(() => {
+      const mm = document.querySelector("#hud-top-right")?.getBoundingClientRect();
+      const qs = document.querySelector("#hud-right-quest-scroll")?.getBoundingClientRect();
+      return {
+        mmBottom: mm ? mm.bottom : 0,
+        qsTop: qs ? qs.top : 0
+      };
+    });
+    assert.ok(
+      minimapAndQuestRects.mmBottom <= minimapAndQuestRects.qsTop + 2,
+      `Expanded minimap (${minimapAndQuestRects.mmBottom}) must not overlap quest tracker (${minimapAndQuestRects.qsTop})`
+    );
+    await page.screenshot({
+      path: path.join(SCREENSHOTS_DIR, "01b_expanded_minimap_no_quest_overlap_1280x720.png")
+    });
+    await page.locator("#btn-toggle-minimap-size").click();
+    await page.waitForTimeout(200);
 
     const { S1E_STARTER_DESTINY_CATALOG } = await import("@tong-mon-8d/game-data");
     const innateSet1 = new Set<string>(stInWorld1.v02Character.destiny.innate);
@@ -325,6 +365,24 @@ async function main(): Promise<void> {
       await page.waitForTimeout(250);
     }
 
+    const cPanelVisibility = await page.evaluate(() => {
+      const selectors = [
+        "#char-attributes-grid",
+        "#btn-modal-breakthrough",
+        "#btn-modal-meditate",
+        "#btn-party-create",
+        "#char-innate-destiny-grid",
+        "#ht-active-slots"
+      ];
+      return selectors.every((sel) => {
+        const el = document.querySelector(sel) as HTMLElement | null;
+        if (!el) return false;
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && r.top >= 0 && r.bottom <= 720;
+      });
+    });
+    assert.ok(cPanelVisibility, "[C] Option C renders all attributes, breakthrough, meditate, party, and destiny controls in viewport with zero scrolling");
+
     await page.screenshot({
       path: path.join(SCREENSHOTS_DIR, "04_character_cultivation_panel_1280x720.png")
     });
@@ -337,6 +395,18 @@ async function main(): Promise<void> {
       "[I] Túi Càn Khôn panel open"
     );
     await page.waitForTimeout(350);
+    const iPanelLayoutOk = await page.evaluate(() => {
+      const bag = document.querySelector("#inventory-bag-grid") as HTMLElement | null;
+      const doll = document.querySelector("#inventory-equipment-paperdoll") as HTMLElement | null;
+      const inspect = document.querySelector(".v01b-reliquary-inspect-scroll") as HTMLElement | null;
+      const equipSlots = document.querySelectorAll("#inventory-equipment-paperdoll [data-equip-slot]");
+      if (!bag || !doll || !inspect || equipSlots.length !== 8) return false;
+      const br = bag.getBoundingClientRect();
+      const dr = doll.getBoundingClientRect();
+      const ir = inspect.getBoundingClientRect();
+      return br.left < dr.left && dr.left < ir.left && dr.bottom <= 720;
+    });
+    assert.ok(iPanelLayoutOk, "[I] Option C renders Left Bag Grid, Center 8-Slot Paperdoll, and Right Inspector Scroll in viewport");
     await page.screenshot({
       path: path.join(SCREENSHOTS_DIR, "05_inventory_linh_tru_panel_1280x720.png")
     });
@@ -438,7 +508,8 @@ async function main(): Promise<void> {
 
     const createConfirmedCharacterFromRoster = async (
       charName: string,
-      appearanceId: string
+      appearanceId: string,
+      switchAppearanceAfterRoll = false
     ): Promise<string> => {
       await page.locator("#btn-roster-create-new").click();
       await waitForCondition(
@@ -447,15 +518,30 @@ async function main(): Promise<void> {
         `CREATE visible for ${charName}`
       );
       await page.locator("#cc-input-name").fill(charName);
-      await page
-        .locator(`.cc-appearance-card[data-appearance-id="${appearanceId}"]`)
-        .click();
+      if (!switchAppearanceAfterRoll) {
+        await page
+          .locator(`.cc-appearance-card[data-appearance-id="${appearanceId}"]`)
+          .click();
+      }
       await page.locator("#btn-cc-create-draft").click();
       await waitForCondition(
         async () => (await page.locator(".cc-destiny-card").count()) === 3,
         8000,
         `DESTINY_ROLL visible for ${charName}`
       );
+      if (switchAppearanceAfterRoll) {
+        await page
+          .locator(`.cc-appearance-card[data-appearance-id="${appearanceId}"]`)
+          .click();
+        await waitForCondition(
+          async () =>
+            await page
+              .locator(`.cc-appearance-card[data-appearance-id="${appearanceId}"]`)
+              .evaluate((el) => el.classList.contains("is-selected")),
+          3000,
+          `Switched appearance to ${appearanceId} after rolling destiny`
+        );
+      }
       await page.locator("#btn-cc-open-confirm").click();
       await waitForCondition(
         async () => await page.locator("#btn-cc-confirm").isVisible(),
@@ -478,6 +564,7 @@ async function main(): Promise<void> {
       );
       const st = await readGameState(page);
       assert.equal(st.v02Character.identity.accountId, primaryAccountId);
+      assert.equal(st.v02Character.identity.appearanceId, appearanceId);
       assert.equal(st.zoneId, "tan_thu_thon");
       const newCid = st.v02Character.identity.characterId as string;
       await page.keyboard.press("Escape");
@@ -497,18 +584,20 @@ async function main(): Promise<void> {
 
     const char2Id = await createConfirmedCharacterFromRoster(
       "Thanh Phong Khách",
-      "hoa_tran"
+      "hoa_tran",
+      false
     );
     const char3Id = await createConfirmedCharacterFromRoster(
       "Ngọc Tâm Tiên",
-      "ngoc_tam"
+      "ngoc_tam",
+      true
     );
 
     await page.locator("#btn-roster-create-new").click();
     await waitForCondition(
       async () => await page.locator("#cc-draft-section").isVisible(),
       6000,
-      "CREATE visible for Character 4 draft"
+      "CREATE visible for unconfirmed draft test"
     );
     await page.locator("#cc-input-name").fill("Huyền Kiếm Nháp");
     await page.locator('.cc-appearance-card[data-appearance-id="anh_7"]').click();
@@ -516,34 +605,53 @@ async function main(): Promise<void> {
     await waitForCondition(
       async () => (await page.locator(".cc-destiny-card").count()) === 3,
       8000,
-      "DESTINY_ROLL visible for Character 4 draft"
+      "DESTINY_ROLL visible for unconfirmed draft test"
     );
-    const stDraft4 = await readGameState(page);
-    const char4DraftId = stDraft4.v02ActiveRollDraft.characterCreationId as string;
 
     await page.locator("#btn-cc-back-roster").click();
     await waitForCondition(
       async () => {
         const es = await readEntryState(page);
-        return es.state === "ROSTER" && es.rosterCount === 4;
+        return es.state === "ROSTER" && es.rosterCount === 3;
       },
       8000,
-      "ROSTER lists all 4 characters (3 confirmed + 1 draft) on same account"
+      "Backing out before confirming discards unconfirmed draft and keeps rosterCount at 3"
     );
-    await page.waitForTimeout(450);
+
+    const char4ToDeleteId = await createConfirmedCharacterFromRoster(
+      "Huyền Kiếm Thử Xoá",
+      "anh_7",
+      false
+    );
+    await waitForCondition(
+      async () => (await readEntryState(page)).rosterCount === 4,
+      5000,
+      "Roster has 4 confirmed characters before deletion"
+    );
+
+    await page
+      .locator(`[data-testid="roster-character-card"][data-character-id="${char4ToDeleteId}"]`)
+      .click();
+    await page.locator("#btn-roster-delete-char").click();
+    await waitForCondition(
+      async () => await page.locator('[data-testid="roster-delete-confirm-modal"]').isVisible(),
+      5000,
+      "Delete character confirmation modal open on ROSTER"
+    );
+    await page.locator("#btn-roster-confirm-delete").click();
+    await waitForCondition(
+      async () => {
+        const es = await readEntryState(page);
+        return es.state === "ROSTER" && es.rosterCount === 3;
+      },
+      8000,
+      "Deleted character removed from ROSTER and rosterCount returns to 3"
+    );
+    await page.waitForTimeout(350);
 
     await page.screenshot({
       path: path.join(SCREENSHOTS_DIR, "00b_roster_screen_multi_character_1280x720.png")
     });
-
-    await page
-      .locator(`[data-testid="roster-character-card"][data-character-id="${char4DraftId}"]`)
-      .click();
-    await waitForCondition(
-      async () => await page.locator("#btn-roster-resume-draft").isVisible(),
-      5000,
-      "Selecting draft character shows Tiếp Tục Khởi Tạo button"
-    );
 
     await page
       .locator(`[data-testid="roster-character-card"][data-character-id="${char1Id}"]`)
@@ -585,10 +693,10 @@ async function main(): Promise<void> {
     await waitForCondition(
       async () => {
         const es = await readEntryState(page);
-        return es.state === "ROSTER" && es.rosterCount === 4;
+        return es.state === "ROSTER" && es.rosterCount === 3;
       },
       8000,
-      "Bắt Đầu Chơi after reload opens ROSTER with all 4 saved characters"
+      "Bắt Đầu Chơi after reload opens ROSTER with all 3 confirmed characters"
     );
 
     await page
@@ -634,13 +742,17 @@ async function main(): Promise<void> {
       taskId: "S1-ENTRY-VISUAL-REBUILD-01",
       verifiedAt: new Date().toISOString(),
       accountId: primaryAccountId,
-      charactersVerifiedOnSameAccount: [char1Id, char2Id, char3Id, char4DraftId],
+      charactersVerifiedOnSameAccount: [char1Id, char2Id, char3Id, char4ToDeleteId],
       titleScreenZeroWorldActorVerified: true,
       emptyAccountDirectToCreateVerified: true,
       populatedAccountRoutesToRosterVerified: true,
       noAutoEnterWorldOnReloadVerified: true,
       existingCharacterZonePositionResumeVerified: true,
       inGameEscMenuSwitchAndReturnVerified: true,
+      switchAppearanceAfterDestinyRollVerified: true,
+      discardUnconfirmedDraftOnBackVerified: true,
+      deleteCharacterFromRosterVerified: true,
+      expandedMinimapNoQuestOverlapVerified: true,
       consoleErrorCount: consoleErrors.length,
       failedAssetCount: failedAssets.length
     };
