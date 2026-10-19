@@ -1,0 +1,3207 @@
+{
+  "taskId": "COREKIT-CANON-02",
+  "timestamp": "2026-10-18T14:25:24.171Z",
+  "startingAssetCount": 560,
+  "backupDir": "C:\\Users\\admin\\.gemini\\antigravity\\brain\\db5781dc-e77d-4dd7-8dea-92b4277feb65\\scratch\\backup_assets_pre_corekit02",
+  "importedRawSources": [
+    {
+      "fromKit": "raw_source_ai/source_01_ui_kit_v01b_textfree.png",
+      "toPath": "assets/source_ai/source_01_ui_kit_v01b_textfree.png",
+      "sha256": "31095b0454e7cbe3f5625605b9c9cbc84937270bdb73da75d975b6606b8fbc9b",
+      "reason": "Import missing immutable V01-B raw AI source sheet from approved kit"
+    },
+    {
+      "fromKit": "raw_source_ai/source_02_icons_v01b_s1_proof.png",
+      "toPath": "assets/source_ai/source_02_icons_v01b_s1_proof.png",
+      "sha256": "ebc6d1d626d2ba9e0a287c3ed11cb2921fd41523947e2d5e15bd0c8aaff6d065",
+      "reason": "Import missing immutable V01-B raw AI source sheet from approved kit"
+    },
+    {
+      "fromKit": "raw_source_ai/source_03_grounded_tan_thu_thon_world_proof.png",
+      "toPath": "assets/source_ai/source_03_grounded_tan_thu_thon_world_proof.png",
+      "sha256": "63fd49bdb7203b13d78e61f4c303c9957f928a0535e251077f21073b5680e929",
+      "reason": "Import missing immutable V01-B raw AI source sheet from approved kit"
+    },
+    {
+      "fromKit": "raw_source_ai/source_b02_s1_items_and_destiny_sockets_v01b.png",
+      "toPath": "assets/source_ai/source_b02_s1_items_and_destiny_sockets_v01b.png",
+      "sha256": "df15642f224df0d956194920142dfd925b5154c23ff72ecd1b637f531d30701f",
+      "reason": "Import missing immutable V01-B raw AI source sheet from approved kit"
+    },
+    {
+      "fromKit": "raw_source_ai/reference_mascot_tien_directions.png",
+      "toPath": "assets/source_ai/reference_mascot_tien_directions.png",
+      "sha256": "6c048f18f657b41ec4ed88689840074a0d7f03b88ca45324417d879b1b1610f3",
+      "reason": "Import missing immutable V01-B raw AI source sheet from approved kit"
+    }
+  ],
+  "importedUiAssets": [
+    {
+      "fromKit": "batch_a_ui_core/batch_a_ui_atlas_mapping.json",
+      "toPath": "assets/ui/batch_a_ui_atlas_mapping.json",
+      "sha256": "cb7b4154fa04e62e2f81609b950aab0c58e285a16b1c82f99435d31b8f4b9926",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_cinnabar_default.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_cinnabar_default.png",
+      "sha256": "b595343b5cec6cfd86e71ae9fc4cdccf134ae59a4b7c4b6542e7e5acafb97e9e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_cinnabar_disabled.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_cinnabar_disabled.png",
+      "sha256": "19e7aca58e69fe9453bf761db176cf5a635115baaaf0ad6046f14ce54bda42b7",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_cinnabar_hover.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_cinnabar_hover.png",
+      "sha256": "85e07c386325645896ddd16987c22f67b2484225485e25b2ec14859a5815eb22",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_cinnabar_pressed.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_cinnabar_pressed.png",
+      "sha256": "9e664fa3183081cae94f6cb8039bc0704a87baf48f8d4101e7bce3f2e52241e6",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_jade_gold_default.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_jade_gold_default.png",
+      "sha256": "7927bb47ec8b09d4ce6b286720a67a863454bba6cb18eecd765acb4e7ced3de8",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_jade_gold_disabled.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_jade_gold_disabled.png",
+      "sha256": "424acfb147bfe694e46585fb455611a394d5030b7a52bc84ee5f93fbd68089b0",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_jade_gold_hover.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_jade_gold_hover.png",
+      "sha256": "1a32e75ee651e702b86611b267e1edad05d41472c3dcd46ae06cfb54d58349dc",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_jade_gold_pressed.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_jade_gold_pressed.png",
+      "sha256": "68557c545accbc136c688a76b1466ddb76dda1c99abae252f75ff15c10775840",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_plus_alloc_disabled.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_plus_alloc_disabled.png",
+      "sha256": "18fae06a5b5a1d22e1d40506f447d4e9cd60c84cde0e3cdc2de8222414d106f9",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/btn_plus_alloc_ready.png",
+      "toPath": "assets/ui/buttons_and_tabs/btn_plus_alloc_ready.png",
+      "sha256": "8a4bd41898fba2728e6e057506945257e3d262629ee1151d15fdafe1cc69a863",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/seal_dao_cinnabar.png",
+      "toPath": "assets/ui/buttons_and_tabs/seal_dao_cinnabar.png",
+      "sha256": "ac0df77214b46286f725c55d76311eede6e942d2e14829fab290f7abe4d82c5c",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/seal_dao_gold_lotus.png",
+      "toPath": "assets/ui/buttons_and_tabs/seal_dao_gold_lotus.png",
+      "sha256": "ecfc42bce0b6153585be8caa08c9c9bb253d1fc24ec4068cacd69aa07e0af6e3",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/tab_header_active_gold_jade.png",
+      "toPath": "assets/ui/buttons_and_tabs/tab_header_active_gold_jade.png",
+      "sha256": "8336e90814588d11cc0ed23e3bfe87d31420e67b7b87f49ea271129b224e344d",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/tab_header_hover_azure_jade.png",
+      "toPath": "assets/ui/buttons_and_tabs/tab_header_hover_azure_jade.png",
+      "sha256": "4020d0db610276679143cefda672aa352c1c43be9b819e2ac5c7c6cd30335343",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/buttons_and_tabs/tab_header_inactive_wood_jade.png",
+      "toPath": "assets/ui/buttons_and_tabs/tab_header_inactive_wood_jade.png",
+      "sha256": "85f059543d481ee89f7b56ae48aa144a191a73c73458c6b23cb1ced92e1e5c17",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/cc_appearance_card_selected.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/cc_appearance_card_selected.png",
+      "sha256": "75d04d79d81c8d1b0cd574c24adb9fae27ffa9be624372e3fadcc0e5afba2787",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/cc_appearance_card_unselected.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/cc_appearance_card_unselected.png",
+      "sha256": "6aa153888f5344c1bfb0e27ebb2606e21afab6f1e444bb6e68d02d87139346a5",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/cc_name_scroll_input_frame.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/cc_name_scroll_input_frame.png",
+      "sha256": "d2bd8458b9de65e9b69822678c8c5028e5d23e7c94a2226a26fd768507b86552",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/cc_pedestal_lotus_dais.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/cc_pedestal_lotus_dais.png",
+      "sha256": "4fa101151d495350bf4f9b786843c88d364f8ffed9bd2fbaa8eab7bddf14c0c9",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/destiny_card_hoang.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/destiny_card_hoang.png",
+      "sha256": "ee4f622eb24621f47f1f82efc0d5d5de3743e5beeb7ae3d2a796d8652ff7de54",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/destiny_card_pham.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/destiny_card_pham.png",
+      "sha256": "a6f0db76e66d189293f3cd34f6be3688d035aff9f07c444d756d6b79d9095f60",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/destiny_card_than.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/destiny_card_than.png",
+      "sha256": "58ace30e67c968029f073c7aa58bff4735c2ae8d92e73257e766cb07326a008f",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/destiny_card_tien.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/destiny_card_tien.png",
+      "sha256": "93f8d7f8b8754b775a08812b39da9ef142f1a18241426c96c054094edb6f0b35",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_destiny_hau_thien_active.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_active.png",
+      "sha256": "a890b06804dbb07c979175b5aa8bf30bf281d349aa46e009ea49fba3c02995b6",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "sha256": "2ccf1bd0068973a0d50609907ec43ed0c8143c1e786c41afe0f8c50d40187f4e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "toPath": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "sha256": "768626f6c6d0cc6d485addcf69542b459316863cbaf65c003caf5dfca287e268",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_quest_tracker_scroll_9slice.png",
+      "toPath": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice.png",
+      "sha256": "4e17733e0486f643dc7dc9bbdeee3adb7fca0d0b1ecea03090cfeda029bebeb6",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_quest_tracker_scroll_9slice_320x200.png",
+      "toPath": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_320x200.png",
+      "sha256": "3d94e26934ea78745141b27db73afc879bb73720fc938ad2acd2acd0f9c1b83a",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_quest_tracker_scroll_9slice_520x340.png",
+      "toPath": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_520x340.png",
+      "sha256": "7ddff906dcce7d1184d41e2326639598f75b03cdd17c3d81d16c5ec15d2b53b0",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_quest_tracker_scroll_9slice_840x520.png",
+      "toPath": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_840x520.png",
+      "sha256": "e0c5aece3016c57e3323926e0b48f9c3e02d6e62f13c9933494305ff621cf7ad",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png",
+      "sha256": "2638a682e234e440c6ae929bf3a20e682adb78e540b539ad0a5a481b8803f37a",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier1_grounded_wood_jade_9slice_320x200.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_320x200.png",
+      "sha256": "16e55ad4b79785b22b49fddd647f278424c08911608d5a13523cc00aedfbaf42",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier1_grounded_wood_jade_9slice_520x340.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_520x340.png",
+      "sha256": "5fc176ac2bd567263227c96f8dbcb09b575faa7c28b23f4608aefe0a4b619114",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier1_grounded_wood_jade_9slice_840x520.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_840x520.png",
+      "sha256": "e3ad17112af2a8427010e306e2b7b1f180ff813d9d936692a646d352df3d967e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png",
+      "sha256": "9a395f6a5353a8c75fee564848909168e1b18bc209ac601b87fd96adaf016f7e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_320x200.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_320x200.png",
+      "sha256": "81173dc2e0f430f9dd0fb9331b04bf3a964f3320f0b55b8e88ed3fd81f7252c4",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_520x340.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_520x340.png",
+      "sha256": "e62140bc5315446c0a541b319d37870a047fbc5d0dc36b3f1d69984204e3f5ab",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_840x520.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_840x520.png",
+      "sha256": "362863ac4c803327a1f2d5c1dc8b21c0a8c72a40e5fc72743081a33d76dda1ac",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png",
+      "sha256": "a636848da66b11db18e41040b1a8085408971eda0b51bc0af428aae1f2b83038",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_navy_jade_9slice_320x200.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_320x200.png",
+      "sha256": "45a7e34682a44982196d5fa628dd3608852832f9588f5e9a5e0847501920b783",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_navy_jade_9slice_520x340.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_520x340.png",
+      "sha256": "91c2a705072f9e63923b0d09bdfb43dc522692222e496777ba5ade70031596f4",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier2_celestial_navy_jade_9slice_840x520.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_840x520.png",
+      "sha256": "5fbeabf07cbb52fd514b078006dc07bd289cfb3bd6169641361df4afd150d1c0",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png",
+      "sha256": "412b7c0696882b8d8e9c054fb7bd755ba3c2bc7512951f88964c19bcbc42f94a",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_320x200.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_320x200.png",
+      "sha256": "cee2a4acc0132c21eef73c31d3d096d94efc13d57054d4d359a5beb2cacd0d2d",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_520x340.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_520x340.png",
+      "sha256": "51285b68ca714b8bbb6a5a4049fa96efa391bef793a3b8b6b2d7fdd8a9bd63f1",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_840x520.png",
+      "toPath": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_840x520.png",
+      "sha256": "a51231123c44e8bddba13c9c523ec2396aa0b52f6e6dcc4e24274ada1b4398fa",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tooltip_callout_9slice.png",
+      "toPath": "assets/ui/frames_9slice/panel_tooltip_callout_9slice.png",
+      "sha256": "4683bac9b4f92d72ed48076f2c157b34e73b7e0d48239dcea04114de4935c30a",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tooltip_callout_9slice_320x200.png",
+      "toPath": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_320x200.png",
+      "sha256": "24c869699d12ea7f0e18f3ef1f25086cd85ee19b8043507ef15e09430fc71b14",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tooltip_callout_9slice_520x340.png",
+      "toPath": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_520x340.png",
+      "sha256": "1c1b4609628b05b72a72caf54212268c3c69d69bd69e9c1d7f4d78fa3855ef78",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/frames_9slice/panel_tooltip_callout_9slice_840x520.png",
+      "toPath": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_840x520.png",
+      "sha256": "a65daad5c6f250d16f3f4e9c6fdb3efd8bb03c4e73cc5a6c239ef33e08ab9e51",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/bar_exp_silver_gold.png",
+      "toPath": "assets/ui/hud_chrome/bar_exp_silver_gold.png",
+      "sha256": "06910b28e2a5a2a54f019c4be8838119f4130047841c24570354cecf5d5f8dc9",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/bar_hp_ruby.png",
+      "toPath": "assets/ui/hud_chrome/bar_hp_ruby.png",
+      "sha256": "2006885fe5c05e70068f29743ce5cb9ee5abc6e850aa3c74d9c0f6589f0bdf5d",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/bar_linh_luc_azure.png",
+      "toPath": "assets/ui/hud_chrome/bar_linh_luc_azure.png",
+      "sha256": "686918f7a8c55b44264358b008254e94c7cfb5cb428fa2e6f03322f1e7ba05ec",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/bar_tu_vi_cyan_gold.png",
+      "toPath": "assets/ui/hud_chrome/bar_tu_vi_cyan_gold.png",
+      "sha256": "07b03bc0f4d847460cae01517ef69e5c307b1206f6fdb5fac39c2f84953d10d6",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/hud_skillbar_lotus_dock.png",
+      "toPath": "assets/ui/hud_chrome/hud_skillbar_lotus_dock.png",
+      "sha256": "988120107f006b3319f0116cedfbfea42015f3cbb9512163a4514911ff3c9373",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/hud_top_left_crest_frame.png",
+      "toPath": "assets/ui/hud_chrome/hud_top_left_crest_frame.png",
+      "sha256": "4e2d74c423c073a178184326ad5828a423946258fc0a4383ee0a6b1fab9f748f",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/hud_chrome/orb_dantian_star_core.png",
+      "toPath": "assets/ui/hud_chrome/orb_dantian_star_core.png",
+      "sha256": "2abb2b0479ec2719813202b81c49fdc41dd0c9f12acdec6becf08140c7e031de",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/attr_linh_tinh_32.png",
+      "toPath": "assets/ui/icons_32x32/attr_linh_tinh_32.png",
+      "sha256": "dc1dfb9eb18cb209e8243d0ccacf5024f036f50ce3c9be96171efa8d7fe5ac9e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/attr_luc_dao_32.png",
+      "toPath": "assets/ui/icons_32x32/attr_luc_dao_32.png",
+      "sha256": "cd903fd350638ba36eb8537420146907744ed95e1c6aad7282aa9d5a88e79b73",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/attr_ngo_tinh_32.png",
+      "toPath": "assets/ui/icons_32x32/attr_ngo_tinh_32.png",
+      "sha256": "bd12e862cb1e3fee0d869b9f52efa323ba164ff7c5f8c59d8543402ac64b1009",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/attr_than_phap_32.png",
+      "toPath": "assets/ui/icons_32x32/attr_than_phap_32.png",
+      "sha256": "23d04ad0cc2c8ef46f6935dce85cd7319d4deb5262e015e9c1d99d5f6302f921",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/attr_than_thuc_32.png",
+      "toPath": "assets/ui/icons_32x32/attr_than_thuc_32.png",
+      "sha256": "295eb696b1609391b441720cf5ccd18d0b19a6342271870441debfd6f3ea2230",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/attr_the_phach_32.png",
+      "toPath": "assets/ui/icons_32x32/attr_the_phach_32.png",
+      "sha256": "0ea9c52055c9ead9426207d0145028b465686df5064b3aba5bcf5c2e900d7dda",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/currency_linh_thach_32.png",
+      "toPath": "assets/ui/icons_32x32/currency_linh_thach_32.png",
+      "sha256": "3f7bd6f961c2ae6e7b7d68210cc61f72e5e981368fd7a794b5b189efe88c5ba1",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/destiny_kim_cang_can_cot_32.png",
+      "toPath": "assets/ui/icons_32x32/destiny_kim_cang_can_cot_32.png",
+      "sha256": "4d95277eb6e3f92a74798bcf9a576daf5d85d663b6d234b4d80a964c8256dfd0",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/destiny_minh_khong_ngo_dao_32.png",
+      "toPath": "assets/ui/icons_32x32/destiny_minh_khong_ngo_dao_32.png",
+      "sha256": "68fc45dcceb1e6bcbd4530642ee45b37bcaaa28914a705b67eb28b5c505c9a23",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/destiny_thach_cot_so_sinh_32.png",
+      "toPath": "assets/ui/icons_32x32/destiny_thach_cot_so_sinh_32.png",
+      "sha256": "9028e9c3ccd5a63893544432060c94a26fcaa5a8133e5219d237ae51d7491c6e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/destiny_thai_hu_than_niem_32.png",
+      "toPath": "assets/ui/icons_32x32/destiny_thai_hu_than_niem_32.png",
+      "sha256": "1160fd21a52e22a3ed5781dc8435cd60df94451c6085e5900489a74292db1d44",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/destiny_van_vi_dao_thai_32.png",
+      "toPath": "assets/ui/icons_32x32/destiny_van_vi_dao_thai_32.png",
+      "sha256": "9e5602727f2fa1f11b761e2999395838cd2f2f36fcfce9a182240afd01b3145b",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_banh_bao_linh_thu_32.png",
+      "toPath": "assets/ui/icons_32x32/item_banh_bao_linh_thu_32.png",
+      "sha256": "41a19818f0375b006c85aa745a39ce3fe744b1f2c705083cd1fd8336f2c7438d",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_bot_linh_mach_32.png",
+      "toPath": "assets/ui/icons_32x32/item_bot_linh_mach_32.png",
+      "sha256": "9159b5d7249eebd744abb28a6336d8a9956710e0840618960f876a3758c95780",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_canh_truc_lang_linh_thao_32.png",
+      "toPath": "assets/ui/icons_32x32/item_canh_truc_lang_linh_thao_32.png",
+      "sha256": "48f77a62470ea7c816759fef058e46fd0b534d2ffef0eacd18531a987b2c75b8",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_mi_linh_thach_thanh_truc_32.png",
+      "toPath": "assets/ui/icons_32x32/item_mi_linh_thach_thanh_truc_32.png",
+      "sha256": "58f4ed2733366730457477266c38fab451ba8016bd2a65c2f7a318305ccfd95b",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_nanh_truc_lang_32.png",
+      "toPath": "assets/ui/icons_32x32/item_nanh_truc_lang_32.png",
+      "sha256": "5a28f399dc0ff125730cfb54e9ea8a754322df20df2a9ca52a677e2c7baaf4d5",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_thanh_tam_thao_32.png",
+      "toPath": "assets/ui/icons_32x32/item_thanh_tam_thao_32.png",
+      "sha256": "333a2c60401ee4e8ab5fe126fd3821780ac650d338773e040b5899d7b958d652",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_thanh_van_kiem_so_cap_32.png",
+      "toPath": "assets/ui/icons_32x32/item_thanh_van_kiem_so_cap_32.png",
+      "sha256": "be5fc536e37a845106084fdcad19c119205f6e85d3c5695bd6172141603cd14b",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_thit_truc_lang_32.png",
+      "toPath": "assets/ui/icons_32x32/item_thit_truc_lang_32.png",
+      "sha256": "aca30681a6863e92c6c4c2075bfa11eafcded1f1c065f9824942a9d7aca2279a",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_tra_thanh_tam_tinh_khi_32.png",
+      "toPath": "assets/ui/icons_32x32/item_tra_thanh_tam_tinh_khi_32.png",
+      "sha256": "45914774c8fed9d58c544419b729c6f2ee121a29aa76995d25a398f888602872",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_tu_khi_dan_so_cap_32.png",
+      "toPath": "assets/ui/icons_32x32/item_tu_khi_dan_so_cap_32.png",
+      "sha256": "821ecededf7c5d543d6243b893b4d52a430d215b4a8f45109f962613174f69f8",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_tu_khi_dan_so_cap_gourd_32.png",
+      "toPath": "assets/ui/icons_32x32/item_tu_khi_dan_so_cap_gourd_32.png",
+      "sha256": "56fbe0f31e65bd096993a4552f3634cbd976bcbaf70d688733e34f770bde77fa",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/item_vay_thanh_lan_32.png",
+      "toPath": "assets/ui/icons_32x32/item_vay_thanh_lan_32.png",
+      "sha256": "32b2d28e7cbcd3170e27793add1441e037252cac58be66368422b3aae8a463e9",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_32x32/orb_tu_vi_core_32.png",
+      "toPath": "assets/ui/icons_32x32/orb_tu_vi_core_32.png",
+      "sha256": "5ca220fbf30369100ca93a7686a28be34fe1e64178a1ce187e8736f326f78154",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/attr_linh_tinh_64.png",
+      "toPath": "assets/ui/icons_64x64/attr_linh_tinh_64.png",
+      "sha256": "b25239ae7a02a2b35c484188498b1e0280a8850afdecbf53cc82b611cc771b1e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/attr_luc_dao_64.png",
+      "toPath": "assets/ui/icons_64x64/attr_luc_dao_64.png",
+      "sha256": "b3b9cb0b649ac32b609c26c16f6ae085d7695aeb91750cafb3acaba86181261e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/attr_ngo_tinh_64.png",
+      "toPath": "assets/ui/icons_64x64/attr_ngo_tinh_64.png",
+      "sha256": "bd1594d51fa1ede09bcb21690cd86955977b422835cb05e9f9426fd872b24303",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/attr_than_phap_64.png",
+      "toPath": "assets/ui/icons_64x64/attr_than_phap_64.png",
+      "sha256": "2f621e1ec08cd5eb18766566c5c6eded361fa3ee98f3c22f2cb97c31c25b88c5",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/attr_than_thuc_64.png",
+      "toPath": "assets/ui/icons_64x64/attr_than_thuc_64.png",
+      "sha256": "a6906c015c8db0fedc6f7f8f1c1932f9aff47fbbd5b428714fbffeceda8eaad5",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/attr_the_phach_64.png",
+      "toPath": "assets/ui/icons_64x64/attr_the_phach_64.png",
+      "sha256": "3a9615a3e120a1839af19303a020b771e7087cbb86fdef944b6d6ff5680a62a5",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/currency_linh_thach_64.png",
+      "toPath": "assets/ui/icons_64x64/currency_linh_thach_64.png",
+      "sha256": "806faf147579e2b8242e929f7c46c769fca7cc2d689ca73bb9e5860140893922",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/destiny_kim_cang_can_cot_64.png",
+      "toPath": "assets/ui/icons_64x64/destiny_kim_cang_can_cot_64.png",
+      "sha256": "ee9dbba593844c74071e8e17313018b0c5d204950cf000c804f72324b7ab05cc",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/destiny_minh_khong_ngo_dao_64.png",
+      "toPath": "assets/ui/icons_64x64/destiny_minh_khong_ngo_dao_64.png",
+      "sha256": "6e9b34f0f6d5536f5c15cdf016ca32d6227c62273f9db5fb4eacf9005a469ecb",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/destiny_thach_cot_so_sinh_64.png",
+      "toPath": "assets/ui/icons_64x64/destiny_thach_cot_so_sinh_64.png",
+      "sha256": "8e677752121f568e349dcf22da899451d8aaad925b43b9b04d62d23a9583ed06",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/destiny_thai_hu_than_niem_64.png",
+      "toPath": "assets/ui/icons_64x64/destiny_thai_hu_than_niem_64.png",
+      "sha256": "94283e97283d627c0680a8cd4a12ce11ff03e6323b832b81adb105075480de4d",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/destiny_van_vi_dao_thai_64.png",
+      "toPath": "assets/ui/icons_64x64/destiny_van_vi_dao_thai_64.png",
+      "sha256": "51fce518441b76e2082e9c014e661a5a2aa55d53407f13f8a2204b963a0568fd",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_banh_bao_linh_thu_64.png",
+      "toPath": "assets/ui/icons_64x64/item_banh_bao_linh_thu_64.png",
+      "sha256": "0e7916e5f4708ecdd7866225b20dfe4ec30f69f70c4393dafb122ff5b5239893",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_bot_linh_mach_64.png",
+      "toPath": "assets/ui/icons_64x64/item_bot_linh_mach_64.png",
+      "sha256": "2a940c77fd5de5f8b2ef97c7dfca2cc7f70ac0421c77e4e7da7894706c73ad1b",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_canh_truc_lang_linh_thao_64.png",
+      "toPath": "assets/ui/icons_64x64/item_canh_truc_lang_linh_thao_64.png",
+      "sha256": "e4a81faa4cc1b9845ab981341f2d3d0ba555bd239d1960b93bd717c9b7ca83b0",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_mi_linh_thach_thanh_truc_64.png",
+      "toPath": "assets/ui/icons_64x64/item_mi_linh_thach_thanh_truc_64.png",
+      "sha256": "0d5d99a07b6e783d44ee98a959a5ca8160718d5ed7d045eec2efe4e6a757d6ba",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_nanh_truc_lang_64.png",
+      "toPath": "assets/ui/icons_64x64/item_nanh_truc_lang_64.png",
+      "sha256": "727a726668fe992cf971392fcaff7395570ee70e5a52f816ca6c77f2e31ffa05",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_thanh_tam_thao_64.png",
+      "toPath": "assets/ui/icons_64x64/item_thanh_tam_thao_64.png",
+      "sha256": "99650824638467e8122869a1d007dbac0b1e9027fcc15a7d32711cb2f07f51d9",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_thanh_van_kiem_so_cap_64.png",
+      "toPath": "assets/ui/icons_64x64/item_thanh_van_kiem_so_cap_64.png",
+      "sha256": "525b39bb73f4da28c6a0f20371d0ceaf9e1869810a5a9161cf33abeab0d5040a",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_thit_truc_lang_64.png",
+      "toPath": "assets/ui/icons_64x64/item_thit_truc_lang_64.png",
+      "sha256": "2cd4908a431ae098cc0dc13d04c415e3ad9a0291d229af4373e6305f405e1f99",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_tra_thanh_tam_tinh_khi_64.png",
+      "toPath": "assets/ui/icons_64x64/item_tra_thanh_tam_tinh_khi_64.png",
+      "sha256": "2026777b42500aa6e5c3fb73b5f2a6878b34311d61a24ed717a6fc461a4a0f37",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_tu_khi_dan_so_cap_64.png",
+      "toPath": "assets/ui/icons_64x64/item_tu_khi_dan_so_cap_64.png",
+      "sha256": "8526888fc5fb19f1ded1d69ffc752ecd68f567cae4312c25c804dbaae6a8b705",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_tu_khi_dan_so_cap_gourd_64.png",
+      "toPath": "assets/ui/icons_64x64/item_tu_khi_dan_so_cap_gourd_64.png",
+      "sha256": "d344c8a68e4e05fa1f8b3ba7f04ff245fcbb3166aff515eea43a5d3fc9bfc5e8",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/item_vay_thanh_lan_64.png",
+      "toPath": "assets/ui/icons_64x64/item_vay_thanh_lan_64.png",
+      "sha256": "d4d7a67768dcc22a98bceb87db3f1e30e63055b6abf1fa6af6ab3374fdf4a777",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/icons_64x64/orb_tu_vi_core_64.png",
+      "toPath": "assets/ui/icons_64x64/orb_tu_vi_core_64.png",
+      "sha256": "1dcd9ac48739ddc8de4bbc7fb6b7d68ddf5ef3aa81d9348842b77f0a47d27ace",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/quest_and_prompts/interact_prompt_pill_azure_jade.png",
+      "toPath": "assets/ui/quest_and_prompts/interact_prompt_pill_azure_jade.png",
+      "sha256": "61585712182e575ad13b761a33774dc268fcd06de68eac16bb6d215724eb17c8",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/quest_and_prompts/interact_prompt_pill_gold_jade.png",
+      "toPath": "assets/ui/quest_and_prompts/interact_prompt_pill_gold_jade.png",
+      "sha256": "88f5a12751e08cad250041b3e17bb5dbbae636c5bf04e4be4823343e60ea623e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/quest_and_prompts/quest_marker_active_question.png",
+      "toPath": "assets/ui/quest_and_prompts/quest_marker_active_question.png",
+      "sha256": "439f85e4f31ca9b970911a53c3179d8cbfc9f4f2e8db531cf6ad45f1494d8264",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/quest_and_prompts/quest_marker_available_excl.png",
+      "toPath": "assets/ui/quest_and_prompts/quest_marker_available_excl.png",
+      "sha256": "19cee80942ebcfe7d1ba110235a4d57244b9ae8afab2bd9338deeb7aa4bbbb64",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/quest_and_prompts/quest_marker_turnin_seal.png",
+      "toPath": "assets/ui/quest_and_prompts/quest_marker_turnin_seal.png",
+      "sha256": "912550defbb37362cc1bdce78ee513d43739c89eca275d33bdfdf5ec815eff62",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/quest_and_prompts/quest_nav_waypoint_star.png",
+      "toPath": "assets/ui/quest_and_prompts/quest_nav_waypoint_star.png",
+      "sha256": "4f21dc6220b75efa44ffd05a12a48215cb9fda7bd84901157e4ebb77dacef263",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/slots_and_rarity_frames/slot_item_dia_64.png",
+      "toPath": "assets/ui/slots_and_rarity_frames/slot_item_dia_64.png",
+      "sha256": "75c6039d1879a10ecd2a4bf7bf3c0021d66688dcc91562d8658a6a1ab5966852",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/slots_and_rarity_frames/slot_item_hoang_64.png",
+      "toPath": "assets/ui/slots_and_rarity_frames/slot_item_hoang_64.png",
+      "sha256": "2591b590b4140cffec42c6368ebd7885961073d63a04f549bb4d340943bd5b19",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/slots_and_rarity_frames/slot_item_linh_64.png",
+      "toPath": "assets/ui/slots_and_rarity_frames/slot_item_linh_64.png",
+      "sha256": "9a06d661431582c2dd041fd5b87672f8679ee0c3ddc7f30ded88f84c86505e11",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/slots_and_rarity_frames/slot_item_pham_64.png",
+      "toPath": "assets/ui/slots_and_rarity_frames/slot_item_pham_64.png",
+      "sha256": "ffce273329637f2d1abbff59de7ca2bb80da3eef78cf3f8ab085f7e33ce92f02",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/slots_and_rarity_frames/slot_item_than_64.png",
+      "toPath": "assets/ui/slots_and_rarity_frames/slot_item_than_64.png",
+      "sha256": "b050b3b96969e96946fc4338e102822a0f6ff5ce469e52aa4529183a0f044e10",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    },
+    {
+      "fromKit": "batch_a_ui_core/slots_and_rarity_frames/slot_item_thien_64.png",
+      "toPath": "assets/ui/slots_and_rarity_frames/slot_item_thien_64.png",
+      "sha256": "4450097c8af27c3dc1be957bcf2dce1c9133d1b28a9a7e32f24635f1c166fa0e",
+      "reason": "Import approved reusable V01-B Batch A UI asset into canonical repo path"
+    }
+  ],
+  "archivedFiles": [
+    {
+      "oldPath": "assets/concepts/candidate_a_classic_xianxia.jpg",
+      "newPath": "assets/archive/history/concepts/candidate_a_classic_xianxia.jpg",
+      "sha256": "3fec4368db3d20b99ec3cf23524a14ef6fef8a8959781f90a9617c3732177c91",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/candidate_b_dark_inkwash.jpg",
+      "newPath": "assets/archive/history/concepts/candidate_b_dark_inkwash.jpg",
+      "sha256": "d9bb24f932521163ade82a21ac9fbb0494264ce7320ad994f046af5cb6002bd0",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/candidate_c_pastel_chibi.jpg",
+      "newPath": "assets/archive/history/concepts/candidate_c_pastel_chibi.jpg",
+      "sha256": "d1d1cdc2cd3de93a59f95517b1951c2733069c9b20ef85d2d78e6d68a0ba96dc",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/capability_proof_phi_de.jpg",
+      "newPath": "assets/archive/history/concepts/capability_proof_phi_de.jpg",
+      "sha256": "d88b828de228197703794e5808b1e812c8c75d0bccff0c9c4422b1a5b3cdad28",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/overworld_cast_grid_1.jpg",
+      "newPath": "assets/archive/history/concepts/overworld_cast_grid_1.jpg",
+      "sha256": "6b1475bffb425697520e3a6038753d800faff570a753786fa1c8d6bc2a1378a1",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/overworld_cast_grid_2.jpg",
+      "newPath": "assets/archive/history/concepts/overworld_cast_grid_2.jpg",
+      "sha256": "c35008fc2704f9ac08cc637e25fad98226aca9c5f67ce4eedae3a0bd7363f0fa",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/overworld_cast_grid_3.jpg",
+      "newPath": "assets/archive/history/concepts/overworld_cast_grid_3.jpg",
+      "sha256": "c43e4520599dd3bbd24afba0067b0294370f656faa52438ba0e3bd4f2da44bda",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/portraits_hero_chatdvt_raw.jpg",
+      "newPath": "assets/archive/history/concepts/portraits_hero_chatdvt_raw.jpg",
+      "sha256": "d1f1b43e858503e49037c9a7f46721d1e6efa4e4a5b5903d0599e7684feb7023",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/portraits_merchant_hoatran_raw.jpg",
+      "newPath": "assets/archive/history/concepts/portraits_merchant_hoatran_raw.jpg",
+      "sha256": "7c92116e64f7d89a5de56a8296ce22a033a419baa9bb2dd9a36631f2c4d088a2",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/xianxia_env_grid.jpg",
+      "newPath": "assets/archive/history/concepts/xianxia_env_grid.jpg",
+      "sha256": "a6c84e4da58c43b09b1452bbcfe1a937f7db161dcec1d9c729993c50a861b69d",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/concepts/xianxia_landmarks_grid.jpg",
+      "newPath": "assets/archive/history/concepts/xianxia_landmarks_grid.jpg",
+      "sha256": "30e4f947fa7080faa112ce96bd78db44ff8305e5921d97668916222badb3cd84",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/anh_7.png",
+      "newPath": "assets/archive/history/legacy_v1/anh_7.png",
+      "sha256": "d88764cd278cbf46b4a867a192ed69d464e60586dc513eae6f0e6f914d3c0386",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/chatdvt.png",
+      "newPath": "assets/archive/history/legacy_v1/chatdvt.png",
+      "sha256": "513a9586540ed7c203e4f9588a81403f1306841d9623e331487e745b4daf197d",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/dam_lon_tien_tu.png",
+      "newPath": "assets/archive/history/legacy_v1/dam_lon_tien_tu.png",
+      "sha256": "012447ea208a7a809c74fac1c11e7ddc5ebd145a0430251f92c237a2a987d81c",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/hero_kiem_tu.png",
+      "newPath": "assets/archive/history/legacy_v1/hero_kiem_tu.png",
+      "sha256": "b147cd3f32e0d97d8e7229f00f5801844b7d9a4124d5f846d5eb3bbf0dfbe826",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/hoa_tran.png",
+      "newPath": "assets/archive/history/legacy_v1/hoa_tran.png",
+      "sha256": "46ee37f8ca27bd037c22ca93ef16f4f96d0e4e113019c356491544617de07bbb",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/merchant_truong.png",
+      "newPath": "assets/archive/history/legacy_v1/merchant_truong.png",
+      "sha256": "6925290561ce9a1da25e29222039e4e3e3abeb878981ca2b3f176bb55ad7f3c1",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/ngoc_tam.png",
+      "newPath": "assets/archive/history/legacy_v1/ngoc_tam.png",
+      "sha256": "e546997a26235e865a7e9706ead269c80656830b949dc3deb2e40e840bbdde98",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/phi_de.png",
+      "newPath": "assets/archive/history/legacy_v1/phi_de.png",
+      "sha256": "67197376ffb22cae5e0d53e805de92757a3bf60c2c71e7669d7ee8af72236a48",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/rmt_de.png",
+      "newPath": "assets/archive/history/legacy_v1/rmt_de.png",
+      "sha256": "f12c578cb33b036c2ef7a3f9a7e6c3ae3c3922ef74bdf6d8b64e75df258f1f36",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "oldPath": "C:/Users/admin/AppData/Local/Temp/codex-clipboard-e255030a-16a7-4e82-8e58-b6501c76c95e.png",
+      "newPath": "assets/archive/history/comparison_boards/owner_phi_de_rmt_de_correction_board.png",
+      "sha256": "13d1f2bb2fa59dec7d231b68b74dcef5b9f419ff0b492c0d053b6950bd907d3a",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED_OLD_PANES_REFERENCE_EVIDENCE",
+      "reason": "Store owner Phì Đế / RMT Đế comparison board with OLD (REJECTED) panes in archive-only storage so it is never used as an unrestricted master"
+    },
+    {
+      "oldPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/npc_phi_de_idle_4f.png",
+      "newPath": "assets/archive/history/pre_correction_npcs/npc_phi_de_idle_4f.png",
+      "sha256": "b49eee3a02f1b8ae6daafc5134a7ba862679562e18468ac3bc3d17e011007091",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    },
+    {
+      "oldPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/npc_rmt_de_idle_4f.png",
+      "newPath": "assets/archive/history/pre_correction_npcs/npc_rmt_de_idle_4f.png",
+      "sha256": "cc1b1c55e9ca74c0519562a32ef2a8e2c295601e07ef31aafc4add37a34dd3fd",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    },
+    {
+      "oldPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/portrait_phi_de.png",
+      "newPath": "assets/archive/history/pre_correction_npcs/portrait_phi_de.png",
+      "sha256": "09b1827c94482fc2c669d747ff436e58f0adfc69aca7ea6e4d3b47c812f6941b",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    },
+    {
+      "oldPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/portrait_rmt_de.png",
+      "newPath": "assets/archive/history/pre_correction_npcs/portrait_rmt_de.png",
+      "sha256": "d045a8d43e15d91922864c1a54c0d004a3d3b19cc7d4084039154f445f8642db",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    }
+  ],
+  "migratedPreviewGifs": [
+    {
+      "oldPath": "assets/sprites/gifs/anh_7_idle.gif",
+      "newPath": "assets/previews/anh_7_idle.gif",
+      "sha256": "62d2985b1e34c018866a3ef9bdcfcde098ae6b4698bf255fdbb09ba6414260e0",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/anh_7_walk.gif",
+      "newPath": "assets/previews/anh_7_walk.gif",
+      "sha256": "cc51563a9696ad28f009b0d9c2211a786a04b2262ab3061716a097c0a17d4969",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/chatdvt_idle.gif",
+      "newPath": "assets/previews/chatdvt_idle.gif",
+      "sha256": "10428f88d6e81acf91ddc65c0086ae62901a623fd133b3c69f9a80056e5c5848",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/chatdvt_walk.gif",
+      "newPath": "assets/previews/chatdvt_walk.gif",
+      "sha256": "8fac8ebda59fb01d3472954e62038bb66ed246c310784196eff230144c7c069a",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/dam_lon_tien_tu_idle.gif",
+      "newPath": "assets/previews/dam_lon_tien_tu_idle.gif",
+      "sha256": "7d2cde841bba05a02bd5808a432605e86a05ec60948b358c4e795e3a10eb2441",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hoa_tran_idle.gif",
+      "newPath": "assets/previews/hoa_tran_idle.gif",
+      "sha256": "de727890de92b03d72544b62fc1caa8ded1291924c44673c8dde79439203a395",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hoa_tran_walk.gif",
+      "newPath": "assets/previews/hoa_tran_walk.gif",
+      "sha256": "5ea7fd880b699f261d50b06b24ef6d9835c745994918c2211afb1323bf015a8c",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/merchant_truong_idle.gif",
+      "newPath": "assets/previews/merchant_truong_idle.gif",
+      "sha256": "f4990c3402b771ecdc78e0e3398b7aa8dbe3ebac03c657d0db687bf481582db3",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/ngoc_tam_idle.gif",
+      "newPath": "assets/previews/ngoc_tam_idle.gif",
+      "sha256": "ff533a7c84951941755c2b01e6a0f1b255fa025ba93ad5897e7dce5bae841c69",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/ngoc_tam_walk.gif",
+      "newPath": "assets/previews/ngoc_tam_walk.gif",
+      "sha256": "d9e49eebb00e74c26aadee8bda7f18988b0f39f63c91d87b071ec2c6f8df9169",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/npc_ngoc_tam_idle.gif",
+      "newPath": "assets/previews/npc_ngoc_tam_idle.gif",
+      "sha256": "5dbf8aa7a14a247c7e2145845d70abba6367d871192b2f4f5db279401cdc96fc",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/phi_de_idle.gif",
+      "newPath": "assets/previews/phi_de_idle.gif",
+      "sha256": "fb82683053eef4c8bf394574a8a9139d7bb6f91f51d7b7195685a759996b9aa1",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/rmt_de_idle.gif",
+      "newPath": "assets/previews/rmt_de_idle.gif",
+      "sha256": "9dfe8132436ac695d9df77c17e8b71e17a84a00c734efbd7eb8bd5453f95dd6a",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/thai_tai_idle.gif",
+      "newPath": "assets/previews/thai_tai_idle.gif",
+      "sha256": "0aaa50ac8d9b8819aa1d5b300bdc9bdb64a073eb7cd6b274a44013696b077092",
+      "reason": "Consolidate current V01-B starter/NPC preview GIF into canonical assets/previews/ directory"
+    }
+  ],
+  "deletedFiles": [
+    {
+      "oldPath": "assets/sprites/legacy_v1/thanh_lan_xa.png",
+      "sha256": "016e7cb07d5a3e2aaa9ce189c378748debaee1698e7e7aa799b00d03604a4141",
+      "retainedCanonicalPath": "assets/sprites/thanh_lan_xa.png",
+      "reason": "Byte-identical duplicate of active legacy_required runtime sprite"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/truc_lang.png",
+      "sha256": "75f00492476dda6a11ad0e5faef6736db2309ff97fd36cf656968e497d9e8035",
+      "retainedCanonicalPath": "assets/sprites/truc_lang.png",
+      "reason": "Byte-identical duplicate of active legacy_required runtime sprite"
+    },
+    {
+      "oldPath": "assets/sprites/legacy_v1/vaal_de.png",
+      "sha256": "5add85a465e5acef63cff1cdadbeb158879520cc9d37ae952e0500da9e860b70",
+      "retainedCanonicalPath": "assets/sprites/vaal_de.png",
+      "reason": "Byte-identical duplicate of active legacy_required runtime sprite"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de_atlas.png",
+      "sha256": "4f4e87464f90859091ce2f9ff16032f9121bc55101c601ca53f5524219ec7b30",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de_atlas.json",
+      "sha256": "43d8c5b77e551dfe79c9f80a2cb4b90c32bcd9306b014cea5c767853f9087f36",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_down_00.png",
+      "sha256": "330ef944be384d5093bef2114a41236c33015fb3a48712cf640cedc658fffffd",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_down_01.png",
+      "sha256": "e8e4bb8249f63f0d03652d3d0d5d7c9bf272639dcfb25d00d0e8ec2ae6f31c07",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_down_02.png",
+      "sha256": "aa92a6a59a05b1242d23e77c8ebbf95adc33e8dbaae41bd97f058e0912a5c9d1",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_down_03.png",
+      "sha256": "c90aad5d97fda814f9c2285f53a60b88e24d59b29f250c25cf3a6a13ada23d58",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_left_00.png",
+      "sha256": "b385aa752c284d4e9b77f2587264057efd4b1dcf748b600c396c151eaf31dbe7",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_left_01.png",
+      "sha256": "2bc2478d8f86379e1cee1620231897a224e56bcb63ff6463717708b79d3d36bf",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_left_02.png",
+      "sha256": "4a05e474c65f07cb227df858176aca92c385ba1c19c5d8dc0f76c97f50d402ab",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_left_03.png",
+      "sha256": "0aa8796b12519d56ca3eb7529b3c30b00df34e43e2afe750740c90cfc0c4daed",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_right_00.png",
+      "sha256": "af66d513b7bb084b35344f7dc384fb79d57ea94267aaa1d4bd4116fd1352d8f2",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_right_01.png",
+      "sha256": "46d9a8166f592b541556e3c1216cb41b8f2881247650a2cf73f8064c8a997fb7",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_right_02.png",
+      "sha256": "38d41da72e274fe86d5dff35a8d20809c940a2dfe84f1447608996c1a6951175",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_right_03.png",
+      "sha256": "0fc7de90b705efe0d950c9d88c562c3a709e30d4b87be83e070aa9ea69eef734",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_up_00.png",
+      "sha256": "2371c97f5d8986614d27a0df4e1a4304f3798851624c3a714622e61e4280cc39",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_up_01.png",
+      "sha256": "ce90b5b1f587cbd3104cd7b9a371bc727827501da0a6cafb3e857bb2292e4c18",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_up_02.png",
+      "sha256": "95f9ff8431a58e1d4ae3b3ce5cb435492103f7a53124004485bbeab9b893e95c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/attack_up_03.png",
+      "sha256": "cd945e42000701a17d952cfe61c83a8670b57aeff602c3e231a55b65a861db1c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_down_00.png",
+      "sha256": "f517f96adbdcd5a327c2dd24b772ef268b9ff62023ab7f6143ef6a312cce7cf2",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_down_01.png",
+      "sha256": "8a0af9a6c6e1a2701d28ea1b8c067690e25f58450b656ce3b3acee3297526829",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_down_02.png",
+      "sha256": "b6f91e1451d6112cc3210c5f0df0c57765ade64982a37a53c496a2b94d884430",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_down_03.png",
+      "sha256": "9f1d6b6dce498d3752183148fff6c9066a5afb147cfee8841ebe8c20ee53e1fa",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_left_00.png",
+      "sha256": "2b32f6a7e8c42c08396fa79376b5d1b03b7280d726c1648f95b908fc25d0524c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_left_01.png",
+      "sha256": "3bbac9725cbada9911a9a450fb8777c280c8fb1898e4fc9de3878b977273e99b",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_left_02.png",
+      "sha256": "37ec5d36098274618929a68ae8b243126aaec72e0a006608b9e5e80c8b7560c9",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_left_03.png",
+      "sha256": "b1abcbbbe1eb6c7f5f7a166a84f88109d55c116bd088de5101dde260e010528f",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_right_00.png",
+      "sha256": "e6af7fa9d5ef7af9527b18bb00ad8ac07451f347314fa227ec07e8cddfdda967",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_right_01.png",
+      "sha256": "f517f96adbdcd5a327c2dd24b772ef268b9ff62023ab7f6143ef6a312cce7cf2",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_right_02.png",
+      "sha256": "8a0af9a6c6e1a2701d28ea1b8c067690e25f58450b656ce3b3acee3297526829",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_right_03.png",
+      "sha256": "b6f91e1451d6112cc3210c5f0df0c57765ade64982a37a53c496a2b94d884430",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_up_00.png",
+      "sha256": "2371c97f5d8986614d27a0df4e1a4304f3798851624c3a714622e61e4280cc39",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_up_01.png",
+      "sha256": "2607a4a0f39fe7510fc1b44ecdaae13d2cc24d4162c33daa414059f05dc8cfa6",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_up_02.png",
+      "sha256": "a1dfb53faa18b2cd8b2925f20cf148a73b694b32848da9c57689a09dec61924e",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/cast_up_03.png",
+      "sha256": "cd945e42000701a17d952cfe61c83a8670b57aeff602c3e231a55b65a861db1c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_down_00.png",
+      "sha256": "330ef944be384d5093bef2114a41236c33015fb3a48712cf640cedc658fffffd",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_down_01.png",
+      "sha256": "503ed79d9c41b5b08dcb329ca8adf49e005c7142999d8062e664b65dfa6dfc65",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_down_02.png",
+      "sha256": "f482a2b0edf83e75c1cf729919839251a83dd0ab0055d503274494e4dd22ab36",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_down_03.png",
+      "sha256": "2901e81f28e36d4f71f0043486fbe1feaaa453392e88ba0313aa17ff8bbc8794",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_left_00.png",
+      "sha256": "2b32f6a7e8c42c08396fa79376b5d1b03b7280d726c1648f95b908fc25d0524c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_left_01.png",
+      "sha256": "ad958d7b1b4efdd90b33b8e56bed45537acc9bfadcd3a961b21b952b655259bc",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_left_02.png",
+      "sha256": "22f0f017dd82d7648de106878194ad13b9f9726b73a2f1b335b8123d18041f83",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_left_03.png",
+      "sha256": "2374d39c7b3814e92ca12611f2380419453719a410811773e89677b14da9201c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_right_00.png",
+      "sha256": "e6af7fa9d5ef7af9527b18bb00ad8ac07451f347314fa227ec07e8cddfdda967",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_right_01.png",
+      "sha256": "503ed79d9c41b5b08dcb329ca8adf49e005c7142999d8062e664b65dfa6dfc65",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_right_02.png",
+      "sha256": "f482a2b0edf83e75c1cf729919839251a83dd0ab0055d503274494e4dd22ab36",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_right_03.png",
+      "sha256": "bf1085296d6789a4d60223a44d91a2f457122d32117f0aa95697760447cc37a7",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_up_00.png",
+      "sha256": "2371c97f5d8986614d27a0df4e1a4304f3798851624c3a714622e61e4280cc39",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_up_01.png",
+      "sha256": "cde361be86d3e263e4ef1a642faea483acaf7beb8a6710752e7b494a61bac6d8",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_up_02.png",
+      "sha256": "671ffd30aec156edf3cfc10acdad93415241096a50570da909d8ba629984b756",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/hurt_up_03.png",
+      "sha256": "cd945e42000701a17d952cfe61c83a8670b57aeff602c3e231a55b65a861db1c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_down_00.png",
+      "sha256": "d4bd2fd5b0d1f1f5ea7084a7e377ae1637a07495d17ed5d450125399344242f1",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_down_01.png",
+      "sha256": "2901e81f28e36d4f71f0043486fbe1feaaa453392e88ba0313aa17ff8bbc8794",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_down_02.png",
+      "sha256": "c0403add68b18579696b3285ca2d122cd4d7d17ef091ed97749dd70a4c239dfc",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_down_03.png",
+      "sha256": "1120c46deee5d3a70b5d901d08b5287f2cbe9b519bb71076b7b5b6e3ac66825a",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_left_00.png",
+      "sha256": "2b32f6a7e8c42c08396fa79376b5d1b03b7280d726c1648f95b908fc25d0524c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_left_01.png",
+      "sha256": "2374d39c7b3814e92ca12611f2380419453719a410811773e89677b14da9201c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_left_02.png",
+      "sha256": "f164e9661f88bfa71d402f2f2143f694c15fbf01f7cbca9090c7a2d902c08419",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_left_03.png",
+      "sha256": "fae0f894dc3246725292c4a8158418f89c774200f461d91ea9b44e1dc318ace5",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_right_00.png",
+      "sha256": "e6af7fa9d5ef7af9527b18bb00ad8ac07451f347314fa227ec07e8cddfdda967",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_right_01.png",
+      "sha256": "bf1085296d6789a4d60223a44d91a2f457122d32117f0aa95697760447cc37a7",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_right_02.png",
+      "sha256": "8863bea5e1f04fa194ccc14b0f8844f47f9cd2fb91ff99a4380f5871bad2a842",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_right_03.png",
+      "sha256": "07c0eeed7d9e6c1f23e6977577567dab568d5e33b148b09b3cfcfd929b1ab516",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_up_00.png",
+      "sha256": "2371c97f5d8986614d27a0df4e1a4304f3798851624c3a714622e61e4280cc39",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_up_01.png",
+      "sha256": "cd945e42000701a17d952cfe61c83a8670b57aeff602c3e231a55b65a861db1c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_up_02.png",
+      "sha256": "36e8a18d95bbbdb7b13f7460f3c020f3d6c8cfc47e612fffe6d21b8fd3822b81",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/idle_up_03.png",
+      "sha256": "e585043e1c5c9e85e07c319ca8320383ac7e5114f31afa428274ae4e65e2f2eb",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_down_00.png",
+      "sha256": "d4bd2fd5b0d1f1f5ea7084a7e377ae1637a07495d17ed5d450125399344242f1",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_down_01.png",
+      "sha256": "080f42339c9ded1c2e1c4872e170d5c45b4b30baa92f4634dc4e9e2d113c8c9a",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_down_02.png",
+      "sha256": "8e774103fcb04da9edd9e1c743bca174a4cb9ec4788258f356b6a95fbee46b21",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_down_03.png",
+      "sha256": "2901e81f28e36d4f71f0043486fbe1feaaa453392e88ba0313aa17ff8bbc8794",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_down_04.png",
+      "sha256": "3c6fd82888098915f72b97986fbd838c70cf885b5739fbb6a37e3d9c321bffc2",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_down_05.png",
+      "sha256": "2073700c3326be060c1330d623e9ab68d6edfe30e6407961ad6c4d118e28b9a5",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_left_00.png",
+      "sha256": "2b32f6a7e8c42c08396fa79376b5d1b03b7280d726c1648f95b908fc25d0524c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_left_01.png",
+      "sha256": "e1bcde21db8cd0ff0b5e51b26f889b3f18b2d9a45d2df238e859e33212fafbd2",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_left_02.png",
+      "sha256": "2374d39c7b3814e92ca12611f2380419453719a410811773e89677b14da9201c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_left_03.png",
+      "sha256": "68c8a727db1eaed04fe4ccfb3daf6d6bd4d70967ce6eb32c77963370586910cd",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_left_04.png",
+      "sha256": "1d4eceed8f21c70d6c4ea1772ab9a6ce94c8debb577cf2212a28a481b8416076",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_left_05.png",
+      "sha256": "98473a9c7ad5d2197be6cb9a7c907ab4659ab5d8a78e77739648e3adac1999c4",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_right_00.png",
+      "sha256": "e6af7fa9d5ef7af9527b18bb00ad8ac07451f347314fa227ec07e8cddfdda967",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_right_01.png",
+      "sha256": "06d1dac80e91d1435f526cf5692cb7e59e4024c7fd0626e02806869f42bb1b54",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_right_02.png",
+      "sha256": "bf1085296d6789a4d60223a44d91a2f457122d32117f0aa95697760447cc37a7",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_right_03.png",
+      "sha256": "d68889714af68776cc83348f53e1afb3e02aba544cf8d7c822f568d3a5a81013",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_right_04.png",
+      "sha256": "22235dc3202cba193e5853c66b39ecedf186f3366312ae4471c772443abeea80",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_right_05.png",
+      "sha256": "4b68e759faa54d54e29ad7cde0fe1afde215aa0bd2726bda7a4f8cc44c08b0e3",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_up_00.png",
+      "sha256": "2371c97f5d8986614d27a0df4e1a4304f3798851624c3a714622e61e4280cc39",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_up_01.png",
+      "sha256": "d07146dd4ade5aacd1d22e931e9a6cf5d32de6828c39d93b612203266d4ec676",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_up_02.png",
+      "sha256": "f97925639350e439fb73850227664f04d182d8bdd13b4628f8712693d46625db",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_up_03.png",
+      "sha256": "cd945e42000701a17d952cfe61c83a8670b57aeff602c3e231a55b65a861db1c",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_up_04.png",
+      "sha256": "917efe01622ce82400a0cbbf9be321c3aa6275930d9fcef8ca39d4a2ce9ffd8b",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/phi_de/frames/walk_up_05.png",
+      "sha256": "19c829185aa6d5058d12de7ffdb00313ff34e6361be1817fd3715c5edca8575f",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu_atlas.png",
+      "sha256": "199a72094ac2d2862e7f469eb2aeef78c28c14f557b5f07f35f91d5a560ed1f8",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu_atlas.json",
+      "sha256": "95a68f20bfc75919e579a4d3b5f654cc316dc3c7036064633147d320537597e4",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_down_00.png",
+      "sha256": "65ac1a39b40c21e8d3a33b69c1882ad35e41cfd19583ca8ac04a002c0b8fece2",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_down_01.png",
+      "sha256": "4d2bd84bba0810c518fa1ee5ef5c6f7b031c50eb5a78002394569624ca6a1eed",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_down_02.png",
+      "sha256": "ac6a1facc9e97cd54ebf96567637c20ed0a1d8cfdad92064dbbbb58a89497528",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_down_03.png",
+      "sha256": "b2842a849a4f7bcd00562eca57984d835a5c408d77a6bfe3c1f0ec38c0aae6b3",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_left_00.png",
+      "sha256": "40c1a49df6e0119de716cf124594b0e95b686818e5b8ecbb2bab4941a8b62ddd",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_left_01.png",
+      "sha256": "28d2802e6909b4e8296e3187a7c7d92bf72cb10b917d4ed631a596999b4f506f",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_left_02.png",
+      "sha256": "3fd7702109313e19be8e06b851a0a317fa9c4a80c470056343e1c4a390ddf6b3",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_left_03.png",
+      "sha256": "bd70123ecbaa3963b77f24ee2750975ae814e13b142369d12b60d5bb546cca49",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_right_00.png",
+      "sha256": "b411ec30049c11a42b660fed1f0d0e6b51e6fe742a2073e3b96d025fa0d15c64",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_right_01.png",
+      "sha256": "fb3c1eaeff2c99af8b4e4286f7123d1a68aada5f3b541abcd1d82568892198d6",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_right_02.png",
+      "sha256": "c7545636e4b1c114ac4fc86bec3a9fced09aaa91ee1b30bef4f7dc97dff7a270",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_right_03.png",
+      "sha256": "ed0446519a48828322b00687f4cf68b0626366863f4b876ff8d40c1d5c80fc91",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_up_00.png",
+      "sha256": "3f1950a7593d0df8b2ff3c67cc0690c6a4b46971462e440d1685a5c8f8334079",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_up_01.png",
+      "sha256": "af881ba1b1b2ff6c01efa0aef8a1d7ef415a1090ba6e061b5156214f054edffc",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_up_02.png",
+      "sha256": "3b3b2e6f35d1f30bb40a574a18ed25662cadd48f87430eb304c5e3a9bb06d2ea",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/attack_up_03.png",
+      "sha256": "332c379534db8ae7691c15969e424243908ca6c6147a74a842eb160e26b3812b",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_down_00.png",
+      "sha256": "05a13a95b8c2d0b5e2256cbf9041c96ec433a03300b3f12977c1eca861f73593",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_down_01.png",
+      "sha256": "e4acf1d8c08d608bd68e6b03373bf9eb14f4e869020dc70819018395fcf697eb",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_down_02.png",
+      "sha256": "bf75569a815bac8fb0cdc69c236b5d70fb498e7a5e2a31b3e5b52b525cb06491",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_down_03.png",
+      "sha256": "b830d9189d8987ac8450c218116881e6ef4b1c2fd8706c52f28b4ce87f282548",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_left_00.png",
+      "sha256": "f27c247d52813dd3c9c96c315da514048579160fe64076530f1e6b22c7946504",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_left_01.png",
+      "sha256": "718c773894d83f950a48f1e939eae0e0ffb48fe5ca5c251d62ecaaba98a9f1be",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_left_02.png",
+      "sha256": "82404e1a4046721c5920a6bbd8d265c84802ba5f2f0d1cffc7e44b0a4ad65f3c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_left_03.png",
+      "sha256": "96be1a3be4c3e923e8061230b570deecc90e808a7d95164c71ee2e5dc9d695d2",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_right_00.png",
+      "sha256": "fa99031f1378affc58dafacc8cc07189d4ff1af5c85bf61defa1227013d06c18",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_right_01.png",
+      "sha256": "05a13a95b8c2d0b5e2256cbf9041c96ec433a03300b3f12977c1eca861f73593",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_right_02.png",
+      "sha256": "e4acf1d8c08d608bd68e6b03373bf9eb14f4e869020dc70819018395fcf697eb",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_right_03.png",
+      "sha256": "bf75569a815bac8fb0cdc69c236b5d70fb498e7a5e2a31b3e5b52b525cb06491",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_up_00.png",
+      "sha256": "3f1950a7593d0df8b2ff3c67cc0690c6a4b46971462e440d1685a5c8f8334079",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_up_01.png",
+      "sha256": "458280ff5040ec120fa5e609d9dab11dfdd14168d0a173d33b889d3c11441a98",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_up_02.png",
+      "sha256": "253569b6da31c2507afe8d0641a2db02e6aa0e93d64a581068a72217904e96b2",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/cast_up_03.png",
+      "sha256": "332c379534db8ae7691c15969e424243908ca6c6147a74a842eb160e26b3812b",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_down_00.png",
+      "sha256": "65ac1a39b40c21e8d3a33b69c1882ad35e41cfd19583ca8ac04a002c0b8fece2",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_down_01.png",
+      "sha256": "dd0a80ac4eea8b7a4502f672b89868a6350cc6fa78917be922554a125eb5528f",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_down_02.png",
+      "sha256": "a45aa1772d50e528b9b7fd37b16b843db0ccff8b267e6972ad9bd577d7e40976",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_down_03.png",
+      "sha256": "775f88edcda8a3d8a5da4fe7341fd82c8706989046baf4b6288cd41a1f8c222c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_left_00.png",
+      "sha256": "f27c247d52813dd3c9c96c315da514048579160fe64076530f1e6b22c7946504",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_left_01.png",
+      "sha256": "025f0bed314b5ade0ff86e48cde4bfb693b8c29e2f21bb237dc9254614e6d221",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_left_02.png",
+      "sha256": "85251b23dc52e681d11a24474bffcf7b46a092babe08568c5d6d998f9590da96",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_left_03.png",
+      "sha256": "34a1f6ba6c3d77bf1c76a59da566ed40feaa9857e2efa3895f8bc089ded17737",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_right_00.png",
+      "sha256": "fa99031f1378affc58dafacc8cc07189d4ff1af5c85bf61defa1227013d06c18",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_right_01.png",
+      "sha256": "dd0a80ac4eea8b7a4502f672b89868a6350cc6fa78917be922554a125eb5528f",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_right_02.png",
+      "sha256": "a45aa1772d50e528b9b7fd37b16b843db0ccff8b267e6972ad9bd577d7e40976",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_right_03.png",
+      "sha256": "3cf7e2c5a170e787b0ce98ca706e4c9521afaa56decc6e180270ef6710020cec",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_up_00.png",
+      "sha256": "3f1950a7593d0df8b2ff3c67cc0690c6a4b46971462e440d1685a5c8f8334079",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_up_01.png",
+      "sha256": "bfab489ae7bf93b3bf634b7d654e87890e3ca8fbd41835fdba2c197b7f85195c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_up_02.png",
+      "sha256": "e266c24cce6ea28d62c07ac78228feecffe7ba45f033efa223b32f891d00fa57",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/hurt_up_03.png",
+      "sha256": "332c379534db8ae7691c15969e424243908ca6c6147a74a842eb160e26b3812b",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_down_00.png",
+      "sha256": "612e0f2e18c45a36ccdc9373c0700e5d71b0086b9219ec999d5e58f818cd6c76",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_down_01.png",
+      "sha256": "775f88edcda8a3d8a5da4fe7341fd82c8706989046baf4b6288cd41a1f8c222c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_down_02.png",
+      "sha256": "3ab3a6afde11b19f5827b1c5fd14ec7b0180cdecdad0a60647fccb0f48230879",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_down_03.png",
+      "sha256": "53ce795492a6005ed745b5ad38dce6b7c9ad07192469e1f12e7dbe14b7570a13",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_left_00.png",
+      "sha256": "f27c247d52813dd3c9c96c315da514048579160fe64076530f1e6b22c7946504",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_left_01.png",
+      "sha256": "6ba9e46a70024a1c93a307874360db4dac3742bbcb5a6423d43d0a0a8bd4301f",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_left_02.png",
+      "sha256": "8f4e0dd83c44c1e8f00b7160f7539cee70bd16307e2ae13ee5abc84b8a2fbffc",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_left_03.png",
+      "sha256": "34a1f6ba6c3d77bf1c76a59da566ed40feaa9857e2efa3895f8bc089ded17737",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_right_00.png",
+      "sha256": "fa99031f1378affc58dafacc8cc07189d4ff1af5c85bf61defa1227013d06c18",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_right_01.png",
+      "sha256": "3cf7e2c5a170e787b0ce98ca706e4c9521afaa56decc6e180270ef6710020cec",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_right_02.png",
+      "sha256": "b7805c9154995d831e32ceea8786afa1e387caed5649df3f1d8f4ec15f612963",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_right_03.png",
+      "sha256": "000ada34c2715b875dc246e96d23a56443556df8afe4557d66d248207056f88c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_up_00.png",
+      "sha256": "3f1950a7593d0df8b2ff3c67cc0690c6a4b46971462e440d1685a5c8f8334079",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_up_01.png",
+      "sha256": "332c379534db8ae7691c15969e424243908ca6c6147a74a842eb160e26b3812b",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_up_02.png",
+      "sha256": "dbe98f8f6e52f5d69eb36720e89cbd72e3e27113b0377d10bb43992ec9ffab0d",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/idle_up_03.png",
+      "sha256": "d42c452bb9ff950a8bddf7c0ff028a42344fc447fbe930c63caa954f9771c289",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_down_00.png",
+      "sha256": "612e0f2e18c45a36ccdc9373c0700e5d71b0086b9219ec999d5e58f818cd6c76",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_down_01.png",
+      "sha256": "d23dd02b51ea913c1b3f864af42c2bc165a5925a3ed8e36228fa5961e5fe93ea",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_down_02.png",
+      "sha256": "3ecc8c7ef6f3219fa2c531f3652bab669b113f6de345256f3a14b9588b10b3d6",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_down_03.png",
+      "sha256": "775f88edcda8a3d8a5da4fe7341fd82c8706989046baf4b6288cd41a1f8c222c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_down_04.png",
+      "sha256": "0779ff44ffe2e020905347d1f602273b58b47081fb4228ccd68184c1b9162c98",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_down_05.png",
+      "sha256": "f7a6f979af945fd42f0dac53b7b8e62398a6bc06e7be7ce897a663f8d9d20a07",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_left_00.png",
+      "sha256": "f27c247d52813dd3c9c96c315da514048579160fe64076530f1e6b22c7946504",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_left_01.png",
+      "sha256": "a2136133f2149a1bf8e52f9ae5103e1b3605d79a93c7eefb79c6f809fcf162bf",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_left_02.png",
+      "sha256": "6ba9e46a70024a1c93a307874360db4dac3742bbcb5a6423d43d0a0a8bd4301f",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_left_03.png",
+      "sha256": "aa8eb7f69206b1d14ea348b5e641f50904304f4811c8fafea2e00f7b2ea1649f",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_left_04.png",
+      "sha256": "88960a99329193a11b96d091f7f4fd31968680a7bbf935ae61621b005ca3e61c",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_left_05.png",
+      "sha256": "0efb721882433fb1e0760021d1f2aff718cf717eb0805e6c86664cebc6e790a2",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_right_00.png",
+      "sha256": "fa99031f1378affc58dafacc8cc07189d4ff1af5c85bf61defa1227013d06c18",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_right_01.png",
+      "sha256": "f330458d61ea836da7a6c0188a1a514464248f5d685d4313e2ffc74b464f6c42",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_right_02.png",
+      "sha256": "3cf7e2c5a170e787b0ce98ca706e4c9521afaa56decc6e180270ef6710020cec",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_right_03.png",
+      "sha256": "9cb2f051fb4f3cbf189d387d46d23c77dbd4bb91d1d240584dabd730ecb3bfae",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_right_04.png",
+      "sha256": "d5412d6c9cfdec6914ae03b0e44a0ea2f755405249309e5debc8413e0dba84be",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_right_05.png",
+      "sha256": "3613c5a7b6069d1a26105efb5a958159ddc019a0252452ea2175ee4e9f4e4a76",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_up_00.png",
+      "sha256": "3f1950a7593d0df8b2ff3c67cc0690c6a4b46971462e440d1685a5c8f8334079",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_up_01.png",
+      "sha256": "dedc3e50ea23da2479584784fc61f900357d37c0e8b9f63293dc1af44bc468bd",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_up_02.png",
+      "sha256": "fbcb3cbd7a1c1766e5bf0bb7b222a26c5c6e98777bff411abd13df5b8dbfe875",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_up_03.png",
+      "sha256": "332c379534db8ae7691c15969e424243908ca6c6147a74a842eb160e26b3812b",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_up_04.png",
+      "sha256": "4346f5c45df3800a30cdf53f1d1cf4e3f433a36baac14b3cb0053dc27a466ef0",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/atlases/dam_lon_tien_tu/frames/walk_up_05.png",
+      "sha256": "31cdf135714782e74de61b78a13fa657b2cbd15cb1b5b2e9c1ee39c2b9434057",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/phi_de_all_states.gif",
+      "sha256": "83213e11e44fb5f793921a8ed8f5594dc204f9480147e255919700c0251698a1",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/phi_de_walk.gif",
+      "sha256": "9ec6057cdd5a86a18221d06547c557e4ee1d78e0e00feb7670176c0afd36116a",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/phi_de_attack.gif",
+      "sha256": "5733fcd53c9a1cd0782bd0df6128442b2ac565d4b667a93d170048b39486f4b7",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/phi_de_cast.gif",
+      "sha256": "d41bc13376ac374e4c446cc56493533983106bb76b967c08d56a35c910e0272d",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/phi_de_hurt.gif",
+      "sha256": "f135d5c7c258ab58b9306b0378ba3b8389c527a896e28f9fa3f88a2553db3b5a",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/phi_de_before_after.png",
+      "sha256": "c1fbf26975f432f5976ddc4b36fbaee1e2433486da19dd2a9cfccc8029f528c4",
+      "retainedCanonicalPath": "assets/sprites/phi_de.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/dam_lon_tien_tu_all_states.gif",
+      "sha256": "bea2802c2d65bc37c2fb3c6ff48b927679d3ff71c8ff809b53750ba13860813d",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/dam_lon_tien_tu_walk.gif",
+      "sha256": "1926017b56987892c0b643a0ad281fc6ceb39a74f484645d3a0ba4a50e851bd1",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/dam_lon_tien_tu_attack.gif",
+      "sha256": "f453992e6d794f19961f3d18ead58fadd24350e80de75042881a6d85246d9fe8",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/dam_lon_tien_tu_cast.gif",
+      "sha256": "66d54ca681cde2226bc17fe2da2b2b5e0ef744a11610802594aa3dc3caf3d626",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/dam_lon_tien_tu_hurt.gif",
+      "sha256": "5b8ffbae34c3bdf6d58cf599b6423fc6f7d9b5d03058a15b7535f92aa734ab12",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/previews/dam_lon_tien_tu_before_after.png",
+      "sha256": "72e6edc6368a899e0427fbc35767ebfec62716761c95867f255c858c17937f6a",
+      "retainedCanonicalPath": "assets/sprites/dam_lon_tien_tu.png",
+      "reason": "Obsolete pre-VISUAL-03-W 20-row 5-state atlas/preview superseded by stationary 4-frame V01-B NPC strip"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hero_kiem_tu_attack.gif",
+      "sha256": "906bdc6e68f0b37e140e5cd6b24d6ded1b56ea12ab56ea4162e89b2728eca3d3",
+      "retainedCanonicalPath": "assets/previews/hero_kiem_tu_attack.gif",
+      "reason": "Byte-identical duplicate of canonical Hero preview GIF in assets/previews/"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hero_kiem_tu_cast.gif",
+      "sha256": "04e29fabe796bfb0664a094a11ff4f09c90d432f37e9994a3f46289a34e3d283",
+      "retainedCanonicalPath": "assets/previews/hero_kiem_tu_cast.gif",
+      "reason": "Byte-identical duplicate of canonical Hero preview GIF in assets/previews/"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hero_kiem_tu_hurt.gif",
+      "sha256": "643cc7567fc106463ca8dc260deed11a9917d504d45eb9faacd66c2ecd1eda7a",
+      "retainedCanonicalPath": "assets/previews/hero_kiem_tu_hurt.gif",
+      "reason": "Byte-identical duplicate of canonical Hero preview GIF in assets/previews/"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hero_kiem_tu_idle.gif",
+      "sha256": "738632f034f1872d9186a2a485fb49cf9a678f4565ebc32dfd3b75f98aa1251c",
+      "retainedCanonicalPath": "assets/previews/hero_kiem_tu_idle.gif",
+      "reason": "Byte-identical duplicate of canonical Hero preview GIF in assets/previews/"
+    },
+    {
+      "oldPath": "assets/sprites/gifs/hero_kiem_tu_walk.gif",
+      "sha256": "fa08a5dcb7b6a42ef5452a516e6cf154f059f3651e76955fa101d6c0fe989d62",
+      "retainedCanonicalPath": "assets/previews/hero_kiem_tu_walk.gif",
+      "reason": "Byte-identical duplicate of canonical Hero preview GIF in assets/previews/"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/animation.json",
+      "sha256": "c07b9b04cc5b222f6542f131f83fc8bdf668a41bd3c945efea3258677bb4e7ce",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/animation.webp",
+      "sha256": "f5fbab1990d4ed67014e71b3e89a5cec78573e867ec9c6d42c8e95e52b75df83",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/atlas.png",
+      "sha256": "624d8653b9886c716fd8dcba413c0ab16b8b01e95a6bb98bb8a729cb79c250a9",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-00.png",
+      "sha256": "8dd8268d63c3ce256741f07ea2c9ab623eaa185372da2c7d72dfa8e359b64410",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-01.png",
+      "sha256": "d8ae64873a100c71cfd5a35fef9904120b86eb605799e16b51521841c4a8a4b3",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-02.png",
+      "sha256": "c8ae5f43b26509a6343fe7c822dbcba5242eed2ed708e1ff632bf1f6ca675967",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-03.png",
+      "sha256": "bc0cf9451d5e6f1ddffe75b4432b903fd234c02060b234d2dc18aafa04794650",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-04.png",
+      "sha256": "715a014f46a2b780f0086d4575b8be4de2bae5426f2c32cb19406cd582934a9a",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-05.png",
+      "sha256": "86ed29c01532fac42e74662d75919a0fdea376a25ad97f4d8e97ebce81417d3d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-06.png",
+      "sha256": "2f778b6871a1b88fb30195157cc2b9b117f2e00a3ac55dfb919d3729e87fab33",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-07.png",
+      "sha256": "d73dffed45247e911d843fbc4362ef9e16a3b7718275fdb7b723aa6d3e749a14",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-08.png",
+      "sha256": "bba48b860d1acd9a3eee74501ddc3c541c89e331356231c5357b9fc88492f725",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-09.png",
+      "sha256": "9ba255d56eea98448892bea743168eb6d55345949d7b70a25712ee5da1a07085",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-10.png",
+      "sha256": "3a0a892bfbda89db2b24aee63ea423901c3c87641423842d46982477f345ed8b",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-11.png",
+      "sha256": "fe42bdb3e3b8e48e94e17dd66ac13ea1533d2d1579066779fd66aa3da99fb8a4",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-12.png",
+      "sha256": "93c609790ea7f34366c1080cec74d675d5348135c43214885c799e2766b7612a",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-13.png",
+      "sha256": "3cfec072bba4730fd813a7b0f8ba9ba62f34a156f26c547412bbb855ba23b4ef",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-14.png",
+      "sha256": "0edcd4436912559fb34eadfa828ae81d79ec164868c4a7f376af9f5ca47bf90d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-15.png",
+      "sha256": "d703f4098cb3de30b91c1a80bc0b61d2d7397678eee04cd5a8df149b1f1e331e",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/animation.json",
+      "sha256": "5d6d7c0193e9768c2e56c038adda067b56c55eba4a0b12c850bfe884dc0b09ab",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/animation.webp",
+      "sha256": "ced13c645bca9ce000375c1f01b3442a4883e3c1c75493fa2c34d3720cad0a4f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/atlas.png",
+      "sha256": "cf17a4832b0ebab939bce052aa5d7c519f63e8ca5b6ebf1befb98600aba3022f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-00.png",
+      "sha256": "898e6de90161bbb5aa9b0603769adfe07c8c5573c959f42922448b57efc14044",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-01.png",
+      "sha256": "49a0eccf607157d3dfe925903b663229cfaac656ce5428c8cc09c9a71623a3d2",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-02.png",
+      "sha256": "e85e4dfb1232e869c91c912792db938f9a161d750e0c158c586faf3dd5663394",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-03.png",
+      "sha256": "19ac8474e5a9d111d85f972a5548e595374cb9d754f1e8b0b51ddb50cc3b33d8",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-04.png",
+      "sha256": "b592f4e03ea41831d892623d91a000b45a9fe69d9cb1ada19206d25a27a35880",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-05.png",
+      "sha256": "a39d2b19060e4ab28526378fcc7cb6b2bbf1144c73aa63325da87b40c1fb4f23",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-06.png",
+      "sha256": "2761c9581adad8dd13901db27ff17ec5aeb74f291f92ec38fbf99cd24870bdaa",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-07.png",
+      "sha256": "753fb8cad251114a3814798c60f4a65db0bd7b82e429729416286679fef218ad",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-08.png",
+      "sha256": "8bdb372e5f7d761d5da291eae513ecccc04a2b4094ec35f944fa604f0f1489b8",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-09.png",
+      "sha256": "2ea7e063ec29456e55d6a11be8b691e1c353355b4c8f527f78f73e5ca3e19989",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-10.png",
+      "sha256": "dc8299b67d7de7ea5acd0c01618938742a284509513f0ce9c3dd2fc4e54b4811",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-11.png",
+      "sha256": "ff826a25469f9048a2fc932a5cde8715bb839c9e2bb6ca9839517d3a10b5f412",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-12.png",
+      "sha256": "a851753619a6dab90eb4bc45a3f51249d910b2ff78567d196339a706cbe01a7f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-13.png",
+      "sha256": "055e1249dce3c335c2629fa89c8b890fbf09d177271c89decf4456c0d940c77f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-14.png",
+      "sha256": "6ec502c0a92bc94be76b86878eefd1acc5cdadd53c75bf227a00648e1d5b0fe8",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-15.png",
+      "sha256": "a990e0c7eb28cc1f04a36243f0071e9cdba7f21dfdb6fca10db094de5296f86e",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/animation.json",
+      "sha256": "e46787f0c0008f613a99ee4a7d7b843da030453c945977670c10e665cb51d0c5",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/animation.webp",
+      "sha256": "4a0720f9634de84a50edd4a442f5c3daf38c7721cd9777b6d86eb91414b70004",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/atlas.png",
+      "sha256": "66e923175f8460ff020b35fd1bb0e685109acb1317c8d42dfc7db8b26f95de80",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-00.png",
+      "sha256": "f7fd7b5d50d32ea8dbdca8a31c02a9e87fc8eef70788d0b889f4ac9cad869041",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-01.png",
+      "sha256": "3de26bd4e80afae3b260506d3b8eca50fe3f410aa18e1621181fbbe157e2615d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-02.png",
+      "sha256": "41c7f1bdab5350910bb4774aa0ce8d66b937a04e9da3deead415d09c8ee4357c",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-03.png",
+      "sha256": "0f8ecb9356525f5f7a89cd3d208a1c50007ebda1f177619f0fad105782d9b9f8",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-04.png",
+      "sha256": "a5f810787c72a16e5b54fc642e6e2781dfc3d6a8ff03d64ae42c60eb2873a905",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-05.png",
+      "sha256": "5f9b61e16e9f174a030016f0f90bc1b2ed8c725379a3ac4956708e9b077cb128",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-06.png",
+      "sha256": "f24a73eab96b723b56eda6bae459267996ed78be402d8a1543374f93ae9251cd",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-07.png",
+      "sha256": "3d2a58c4022fe5f474e72fe162ef3d70d62218572615d22e1e09af288eb7338d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-08.png",
+      "sha256": "e37ab5fe45b1f66e7c254b2f5a943f431c86e57c7c8903249727663de70474ed",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-09.png",
+      "sha256": "f87300e0dc43ff5456f264143b660990a4e8be9161c3c0d5aa90d5384178a778",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-10.png",
+      "sha256": "c1c278f080e8687c75295e954bfe910bad89e77853ef26a373ae83c6560a7e7e",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-11.png",
+      "sha256": "821f2e6415284b84770d90ea7e291c8f14d1ad98447ae6a35379ecd6c73e8b89",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-12.png",
+      "sha256": "07cec527f4b86f13b33cf828974dc185f717c2701082d6b951e7e3d81946a3fc",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-13.png",
+      "sha256": "fabdebb5cdd4602b4e677156068e9a2ea2cc143b7c0183a62f57b8b235e75f77",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-14.png",
+      "sha256": "ef39408346f1f3d6f2f08f6ebe64353205675bd0048e4b9d9f88baa687a271ca",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-15.png",
+      "sha256": "bc6949276e0dd0fc860c3a0b9b50b44809a147abe10aaa16f5205069e68bba7e",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/animation.json",
+      "sha256": "22908ecccfe7256c808668adb7d45d0d36783aa9a74f9a95ece91b73ca5ae4f2",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/animation.webp",
+      "sha256": "b24f3df36c48e8f0418de6d31a4dd6ca75119c0579a1e19e0a803b4b825c38a5",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/atlas.png",
+      "sha256": "8b7c495d4c4056f5ce4df7552df10ae71507002b16cae1bcb9db034db161a8e5",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-00.png",
+      "sha256": "91d2288801e1ecc49fe88a90dd596eac09a40df8e424753754528ee821433929",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-01.png",
+      "sha256": "889b5946cfeb7a78926f3874456276a27f8c0a70c999084ac07b372a754a40c7",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-02.png",
+      "sha256": "cf1fa0e02e8269f4e778837fdfbf5fb50283785be6dab367855e03e350eb2040",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-03.png",
+      "sha256": "a39b46656e3d8cff56f27b8248e8d83ebb0bff69613b812ff29d0466c69c1931",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-04.png",
+      "sha256": "0b78a561399e0cc82e806a4ec7358c83fc2fb6772ec7eade392e432f110eacc5",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-05.png",
+      "sha256": "c575ffe54a80ca7691293d92e1fae9c29a9c8998c7bcec96851da6fb282f31da",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-06.png",
+      "sha256": "91c37c76812aac5f328db9c20a3c3e035ba1ca81431a52f323f3ea47ed37397f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-07.png",
+      "sha256": "94afb86175d903c2345a8dd9966d76a5b0c0d6deec570dc5b0f28b5caf5808df",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-08.png",
+      "sha256": "74dd57695547fc575988eae3446a911a1f2b28b1c7025219c09ec3b49f0c4749",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-09.png",
+      "sha256": "684f1fabd9f12687d870dfa3343970702d482496f5e33af96ef8efb14afd9f51",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-10.png",
+      "sha256": "2f533443be23ff198f3a0670b1f6cd0bf5bb13e136bebaf4a55a33b892185dec",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-11.png",
+      "sha256": "820d746e2520929ca39cbdd9f8917c8caf37cb574e01ef011ed85b8fde4a888a",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-12.png",
+      "sha256": "4b1dc46754daddbe02999a8b872c48fd9be12479922e310034b8998d04581087",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-13.png",
+      "sha256": "533f3535fad9cb2f13451487d69ce042ecc9cad6ac2dc0f61faa174722e36ccf",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-14.png",
+      "sha256": "d6e43618b25309a16fb056a717aaed978cc5c736652c23fd81fb8781a35af270",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-15.png",
+      "sha256": "e72243ff83ed302804a8b58fb53652b33ff9ddb9dfc6435a349af6de1c38368d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/animation.json",
+      "sha256": "a389c9d043b367399ec496f07fd499a457e2e27a5c0b4b8a42a203794def0cd8",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/animation.webp",
+      "sha256": "77230f62f0d33390111d746170f7bbc77948287007074c0a8ad92fac0db3a277",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/atlas.png",
+      "sha256": "e64b5d82c95be3e514f34c9789c783e7e8f5e35f3f37fc86c547e9f7b810f830",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-00.png",
+      "sha256": "e33de8817670357f286cc6272f84447b90ff14d8fe2252f56ba56b5bb3cecdf0",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-01.png",
+      "sha256": "1260192ecf71f2b8e063881ce06e83ac59414cbf243b5f717644368ec50a97c7",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-02.png",
+      "sha256": "ed3b958da68fed5ff15a5758ce9a698e2df8eba4624f0c4cd715fa0677c64c81",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-03.png",
+      "sha256": "8e96f9dd992c0d544c3c5bf95562fbbce99ef2589ae86ee9dddee8c39141aebd",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-04.png",
+      "sha256": "bcc80663f1e10d08337886410336a1bb1b4b8e3dfdb5a675eb7794011f17831f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-05.png",
+      "sha256": "4fca4cd7935433a3d23d10e9bb706b10b0faf7c387b499214c272f639d64813c",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-06.png",
+      "sha256": "f92525c636d1df2994560e39c8423ca50ed51424b54f022bae11daa55fab86d0",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-07.png",
+      "sha256": "c52506376db58fe6563531b3066c10cdf2079bcdae2873af1b2713cee4600aba",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-08.png",
+      "sha256": "0954c67db507269a650e2da50b80f7c86dd473ba354151599281a782ba091ece",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-09.png",
+      "sha256": "5e89ab52d28bb1bb86bf1b1a2e12fa18a2bf04f6889dcc9cbeabaafdb2f59927",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-10.png",
+      "sha256": "61fd0f4a249b85594385e6e2f8d558af1880c841c29fc7a457722ad5a05bb7b3",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-11.png",
+      "sha256": "1be721bf6c35ca21bbc0e78bb9f15c6654dd5f97c3f1f502b4d9159569a30157",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-12.png",
+      "sha256": "9260f64b42bf0b310e80db237e15147313841d0fff9f19ff9e0985047f8cc881",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-13.png",
+      "sha256": "0bc9d0d5d8a6e78a6f83b94afd60a882f85f99776a34f90366001daa976060a0",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-14.png",
+      "sha256": "be434e783f516afbbfe68d9128bad2d1e0509d1cf67294bf542e4c740d9ec810",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-15.png",
+      "sha256": "42267282fdfa7e0e3e4a550853c3a362ff3741e5c98e91409247879407c77aca",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/animation.json",
+      "sha256": "2a0c84e8c6a6ff3e3fa981fd03e3ca74711d37a1af4ee358cdbce394092d3016",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/animation.webp",
+      "sha256": "bf4ced61521d2f4db64293280f2d48899fe7f42c46f64fefcb7b4597f13c04bd",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/atlas.png",
+      "sha256": "b64c4506253d9658c64ec39dcd06fbaac16e84b255f9a863eb11428691c6315f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-00.png",
+      "sha256": "f241cdaae51842deafa5319951c344cba0578925cd70fc7c6a19c004711bf059",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-01.png",
+      "sha256": "5974e67eec10f3059ab4be5ad743d511a6a1a79d040a0aef9ab7e989a49716e6",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-02.png",
+      "sha256": "70e85280efb125f53e6673c33bec0876d27fd14ef3263c8235edd81df9bdfa4f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-03.png",
+      "sha256": "591db1295852c4057f16c9a823f30f4d68193127046db715e3a8157253d6aa6b",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-04.png",
+      "sha256": "4eb3f26644adbc55bea0f01eae541aa672fc058dab5cf4e8d77dd63f6bad0618",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-05.png",
+      "sha256": "f46af5adae0e7436ef4c0fe1673b44b4f4a62af501b9ff0f5ad24695701da3ed",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-06.png",
+      "sha256": "f8e7cdaf233e734611b5974d374bd69ff8ebc995e9541cdcdc2254932048b9c9",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-07.png",
+      "sha256": "11ff8334ef6f4d0b90c7e1684ce025d6f4b2168aa34ef6d3a86a3735fbaaa0f8",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-08.png",
+      "sha256": "fa060db4692b46cd083a1f2e58ca1a501efc16dabaeac3721df35f7e9890d6ba",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-09.png",
+      "sha256": "147b03ac38e574d00761a5caffc43bbe5748bfcf6a6f695b111d0b3132bff6eb",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-10.png",
+      "sha256": "cbfe42d70af5c1473a89219611aa8ba744a1964d96b2a78bd915246f726ef81f",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-11.png",
+      "sha256": "2bbfe07250a62fb8c801f10d69a2dfc83cfe53bdd44ff26bdd69e2a75552024d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-12.png",
+      "sha256": "99773c79b6117323206ea9edb284be371fd41d518a3ef5a6300e9bb6d93f48dc",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-13.png",
+      "sha256": "894529bffe1a407df7aafdd76d66a89e3ad21925878194b59abbfc1166545bbb",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-14.png",
+      "sha256": "76a58d68b941b49307134e0f29483aa9b5ed898f054ed2f12fde83f06efc3196",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-15.png",
+      "sha256": "ef868d6d404697c2326425fb9e28c999ffe9d72386ca62dfcaebed77dca24284",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/animation.json",
+      "sha256": "46764860905149c01c02aab729bad0a8122d037b975e4ec80ef816728decdbaf",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/animation.webp",
+      "sha256": "7a2e38dd36e429db123317fb5ee05f366a293c73b3346476ffe08ecbb4c3c2b5",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/atlas.png",
+      "sha256": "50d0929c77919ccc64fbf700a10a2cfeca057d2218f36c246a6f14e88fb1939c",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-00.png",
+      "sha256": "470ecfc3e2cdaae0e4f1aac17654e96bfc40cdbee4c04f5af94b80b667446112",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-01.png",
+      "sha256": "e250394f3080bad1d40ca63e1b16bc4826800b7975a27a1efecc484481a68d49",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-02.png",
+      "sha256": "e682f6db36bd0c8d43c79ba5dd3eec30b394834fd6b62bdd682493189ffa95b6",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-03.png",
+      "sha256": "e4937ae8922d1e9ba91823b47e9031b65fe72d6a11904f30e12004b3991ba68d",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-04.png",
+      "sha256": "d9cf945392d5b3fb1745a96dde0a30b7849cf968b4b7c8e884d7df7debc2465b",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-05.png",
+      "sha256": "eeb0d1ff0269471f54c7a1b583a329069d544a03aaaf30c6cc5b6fea1d975327",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-06.png",
+      "sha256": "5650fed4141a05d8e3171b391ad06e2279980e4d28a2d640a2a36d983a64dfdf",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-07.png",
+      "sha256": "2ceec181c42ed47368e542d6939e7b2dafaf46a743e8c4cbe46b7f2e0eda70e9",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-08.png",
+      "sha256": "9f93f512c76ea144e0a095d7740aa7e566387f24f04c1d902d63e8e492b4e6c5",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-09.png",
+      "sha256": "e21720d88b80f1b98db15c969c412027a6d2b249f9a2cfee5987c2d6c1236f82",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-10.png",
+      "sha256": "b583b861de02de135d1bc6769d889cc84d59b32cb5ae8d90c460bd36336c1f51",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-11.png",
+      "sha256": "b829724301a6bc799294603cb8b9a76cba47cd728df41389fa6548260ae4fcfd",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-12.png",
+      "sha256": "a27b3eb1f7aeb57703c3bd7a0130867ca61e72d0a5fdda7a4cbfae8f885e1b8b",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-13.png",
+      "sha256": "8970b97bffd8a924e7686f84e3be70b8831a33d9a82278fb71422749a6d47def",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-14.png",
+      "sha256": "055038d8e4923398495630f23165e1249bb21eed3a5c068dbff3326fb15f37ba",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/source_ai/sliced/vfx_combat_4x4/frames/frame-15.png",
+      "sha256": "5de6804fa8a5d392dc3b08bf0eb80affe89d94f7d37ef6f93fa608df27b68590",
+      "retainedCanonicalPath": "assets/source_ai/",
+      "reason": "Intermediate assemble_frames.py output from retired 4x4 pipeline; raw source_ai sheets preserved"
+    },
+    {
+      "oldPath": "assets/props/building_tu_duong.png",
+      "sha256": "637725a8b954a0131b392a0761576046c7e8d16431862f05a9497e63e00b5750",
+      "retainedCanonicalPath": "assets/props/building_tan_thu_tu_duong.png",
+      "reason": "Byte-identical duplicate of building_tan_thu_tu_duong.png; migrated MapView.ts and RuntimeAssetBindings.ts to canonical key"
+    }
+  ],
+  "createdCorekitFiles": [
+    {
+      "path": "assets/corekit/v01b/catalog.json",
+      "sha256": "ec74f6ed8958693973f9793c1fcdd29d7af525725f2f32b81523bdd9893eedae",
+      "bytes": 53348
+    },
+    {
+      "path": "assets/corekit/v01b/COREKIT_INDEX.md",
+      "sha256": "e95ed3f30509a0af53367fa0b55d5e4ba294aba28d9d8de4491a8ea1232ec03b",
+      "bytes": 3637
+    },
+    {
+      "path": "assets/corekit/v01b/profiles/animation.json",
+      "sha256": "07434a8e34c3cfb2abcdda384ce09b5a8abd54b5a92186acf75b3bd13aca4ce9",
+      "bytes": 8626
+    },
+    {
+      "path": "assets/corekit/v01b/profiles/ui-tokens.json",
+      "sha256": "87eed4cf0fc0af2827e92e50d62648da270195bd5e4e177abd0ed40cbfbfce0c",
+      "bytes": 7747
+    },
+    {
+      "path": "assets/corekit/v01b/profiles/world-art.json",
+      "sha256": "a26af2fe303a021f872748fd6ef7e491ea3c8a9eaaa2f131ad2d49d5f552064e",
+      "bytes": 1960
+    },
+    {
+      "path": "assets/corekit/v01b/references/characters/character_references.json",
+      "sha256": "4b6ddc8e0a38015aed0e59cb888befd58415355dc4fb5097687e24c9c5696d79",
+      "bytes": 27328
+    },
+    {
+      "path": "assets/corekit/v01b/references/characters/v01b_approved_hero_phi_rmt_masters.png",
+      "sha256": "be787ee5d8322c48ed70f3e6ebb78e57b02a9355177de9462b2b1fa17619e7bf",
+      "bytes": 431784
+    },
+    {
+      "path": "assets/corekit/v01b/references/creatures/creature_references.json",
+      "sha256": "63cfeb4ec9bcace075eb95cafa0d361cfd698b75caa17adf400d48efb0a21e0e",
+      "bytes": 2692
+    },
+    {
+      "path": "assets/corekit/v01b/references/creatures/v01b_chatdvt_quadruped_reference.png",
+      "sha256": "a45e45c6f5e9276b641fae3b100fbcc8f861f9cc50fadcb768fc467ff9469936",
+      "bytes": 167934
+    },
+    {
+      "path": "assets/corekit/v01b/references/style/style_references.json",
+      "sha256": "82451b8997cde6b1545994621f1aeb8798fb4d316ba339eabd6c2649b9fd4952",
+      "bytes": 2297
+    },
+    {
+      "path": "assets/corekit/v01b/references/style/v01b_style_and_tier1_world_reference.png",
+      "sha256": "27d176152f8e62d52915b664a27e27349f7a6eb2912a517bf024dbd61c0ee45c",
+      "bytes": 962486
+    },
+    {
+      "path": "assets/corekit/v01b/references/ui/ui_references.json",
+      "sha256": "d91ddc12385d2b0c8a7bb457af006efcf12b262e306bc7faf91366ba6ab48492",
+      "bytes": 2837
+    },
+    {
+      "path": "assets/corekit/v01b/references/ui/v01b_batch_a_ui_core_reference.png",
+      "sha256": "bd3f5583c8f045e8b01292af2e10f840a9e63b9cdf5fb48f463a60c2a7d3072f",
+      "bytes": 512201
+    },
+    {
+      "path": "assets/corekit/v01b/references/vfx/v01b_vfx_strips_reference.png",
+      "sha256": "bef2eda42ede2aa8005dcfd8cc6723d3cd6bf7533597016509c39ac1e7051b77",
+      "bytes": 81241
+    },
+    {
+      "path": "assets/corekit/v01b/references/vfx/vfx_references.json",
+      "sha256": "89724f3147542c98638a97ece17cb1d7471c68ed1ac67d0fa476abf92dbd2755",
+      "bytes": 2270
+    },
+    {
+      "path": "assets/corekit/v01b/references/world/v01b_tan_thu_thon_tiles_and_buildings_reference.png",
+      "sha256": "fb90aa3e9c230f981892fd40660071d7c3bc81b8a568894f3a90fd35b6768b3f",
+      "bytes": 385407
+    },
+    {
+      "path": "assets/corekit/v01b/references/world/world_references.json",
+      "sha256": "84696436b5e0925ec96cecf11c01642c1da9f8f5fe02a808cdf37478ee2325f9",
+      "bytes": 3297
+    },
+    {
+      "path": "apps/client/src/game/assets/runtimeAnimationProjection.json",
+      "sha256": "bbe312c99885f5f8bc01d1c83eefa47edf1f3e08e5cfc119a9e1ce71d1b2f863",
+      "bytes": 7451
+    },
+    {
+      "path": "assets/archive/history/ARCHIVE_INDEX.md",
+      "sha256": "525e347a5f42ff9393c384d5323f548541239ca1d3deaf77af7fc2e9640dee07",
+      "bytes": 896
+    }
+  ],
+  "deduplicatedUiSlotAliases": [
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_tien_thien_slot_1.png",
+      "originalDuplicatePath": "assets/ui/character_creation_and_c_panel/socket_tien_thien_slot_1.png",
+      "canonicalSocketPath": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "sha256": "768626f6c6d0cc6d485addcf69542b459316863cbaf65c003caf5dfca287e268",
+      "reason": "Byte-identical slot duplicate mapped to canonical socket file in assets/ui/batch_a_ui_atlas_mapping.json"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_tien_thien_slot_2.png",
+      "originalDuplicatePath": "assets/ui/character_creation_and_c_panel/socket_tien_thien_slot_2.png",
+      "canonicalSocketPath": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "sha256": "768626f6c6d0cc6d485addcf69542b459316863cbaf65c003caf5dfca287e268",
+      "reason": "Byte-identical slot duplicate mapped to canonical socket file in assets/ui/batch_a_ui_atlas_mapping.json"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_tien_thien_slot_3.png",
+      "originalDuplicatePath": "assets/ui/character_creation_and_c_panel/socket_tien_thien_slot_3.png",
+      "canonicalSocketPath": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "sha256": "768626f6c6d0cc6d485addcf69542b459316863cbaf65c003caf5dfca287e268",
+      "reason": "Byte-identical slot duplicate mapped to canonical socket file in assets/ui/batch_a_ui_atlas_mapping.json"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_hau_thien_slot_1.png",
+      "originalDuplicatePath": "assets/ui/character_creation_and_c_panel/socket_hau_thien_slot_1.png",
+      "canonicalSocketPath": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_active.png",
+      "sha256": "a890b06804dbb07c979175b5aa8bf30bf281d349aa46e009ea49fba3c02995b6",
+      "reason": "Byte-identical slot duplicate mapped to canonical socket file in assets/ui/batch_a_ui_atlas_mapping.json"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_hau_thien_slot_2.png",
+      "originalDuplicatePath": "assets/ui/character_creation_and_c_panel/socket_hau_thien_slot_2.png",
+      "canonicalSocketPath": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "sha256": "2ccf1bd0068973a0d50609907ec43ed0c8143c1e786c41afe0f8c50d40187f4e",
+      "reason": "Byte-identical slot duplicate mapped to canonical socket file in assets/ui/batch_a_ui_atlas_mapping.json"
+    },
+    {
+      "fromKit": "batch_a_ui_core/character_creation_and_c_panel/socket_hau_thien_slot_3.png",
+      "originalDuplicatePath": "assets/ui/character_creation_and_c_panel/socket_hau_thien_slot_3.png",
+      "canonicalSocketPath": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "sha256": "2ccf1bd0068973a0d50609907ec43ed0c8143c1e786c41afe0f8c50d40187f4e",
+      "reason": "Byte-identical slot duplicate mapped to canonical socket file in assets/ui/batch_a_ui_atlas_mapping.json"
+    }
+  ],
+  "replacedInPlacePreviewGifs": [
+    {
+      "path": "assets/previews/phi_de_idle.gif",
+      "currentSha256": "fb82683053eef4c8bf394574a8a9139d7bb6f91f51d7b7195685a759996b9aa1",
+      "reason": "Pre-correction GIF bytes replaced in-place by current V01-B preview GIF"
+    },
+    {
+      "path": "assets/previews/rmt_de_idle.gif",
+      "currentSha256": "9dfe8132436ac695d9df77c17e8b71e17a84a00c734efbd7eb8bd5453f95dd6a",
+      "reason": "Pre-correction GIF bytes replaced in-place by current V01-B preview GIF"
+    }
+  ]
+}

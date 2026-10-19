@@ -1,78 +1,77 @@
 # Argon Native Asset Production Profile — Tông Môn 8D
 
-> Status: `COMMITTED` (`G0`: `39d71c0`; Updated in `DOC-CLEAN-01` after `PRE-S1F` `b82e20b148ad08544c3efd1003d1111364a45e51`) | Capability Status: `NATIVE_IMAGE_TOOL_DISCOVERED_AT_G0 — LIVE_VERIFICATION_AT_VISUAL_01` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
+> Status: `ACTIVE_COREKIT_ENFORCED` (`COREKIT-CANON-02` on `VISUAL-03-W` `7b386cea7ef075c6f358539ddea155cd1634db5b`) | Capability Status: `NATIVE_IMAGE_TOOL_VERIFIED_IN_HOST` | Freeze Baseline: `39c41a6ddb77b93284c56da7ec053f4309ee4943`
 
-## 1. Capability Status, Style Reference State & `VISUAL-01..03` Scope
+## 1. Capability Status, Core Kit `v01b` Registry & `VISUAL-01..03` State
 
-- **Current Verified Capability State**: `NATIVE_IMAGE_TOOL_DISCOVERED_AT_G0 — LIVE_VERIFICATION_AT_VISUAL_01`
-- **Dated `G0` Host Observation (`39d71c0`, 2026-10-16)**: During the `G0` audit, the Argon host's built-in `image-generator` subagent (`invoke_subagent` with `TypeName: "image-generator"`) and the local `.venv` Python post-processing environment (`Python 3.12.10`, `Pillow 12.3.0`, `numpy 2.5.4`, `scipy 1.18.1`) were observed on disk, while `ffmpeg` and `resvg-py` were absent. Those version strings are **dated `G0` audit records**, not a live host capability check during `DOC-CLEAN-01`.
-- **When Live Capability Verification Occurs**: Because `G0` and `DOC-CLEAN-01` are documentation/governance tasks, live end-to-end generator verification is **not** run during cleanup. Live host capability verification happens at the start of **`VISUAL-01`** when the owner dispatches that task.
-- **Historical `Candidate A` Status (`DEC-002` in `AGENTS.md`) vs. New `VISUAL-01` Concepts**: Historical `Candidate A` (`assets/concepts/candidate_a_classic_xianxia.jpg`) is a **`PROPOSED` / `TECHNICALLY_VERIFIED` historical reference**, **not** a `HUMAN_APPROVED` style lock, and historical `Candidate A/B/C` are **not** the three new concept sets for `VISUAL-01`.
-- **Owner-Chosen `S1` Visual Sequence (`VISUAL-01 -> VISUAL-02 -> VISUAL-03 -> S1-F`)**:
-  1. **`VISUAL-01`**: Generate three new coherent visual direction sets under fresh IDs/versions (each covering world view + compact HUD + Character Creation + `[C]` Character/Destiny panel + mobile readability at `390x844`) for owner direction selection.
-  2. **`VISUAL-02`**: Produce a scoped `S1` sample asset pack in the owner-selected direction (hero/appearance in scope, UI panels/buttons, stat/rarity/destiny icons, starter tiles/props, sample NPC/monster/VFX, continuous animation frames, raw AI sources + SHA-256 provenance) for owner sample approval before scaling.
-  3. **`VISUAL-03`**: Integrate the approved `S1` sample assets into Phaser 4 / Tiled (`WorldScene.ts`, `hud.ts`, `CharacterPanel.ts`, Tiled maps), verify real animations, responsive layout, and playfield readability (`>= 75%`), and record measured frame-time/FPS evidence for owner in-game experience sign-off prior to **`S1-F`**.
+- **Current Verified Capability State**: `NATIVE_IMAGE_TOOL_VERIFIED_IN_HOST` (the Argon host's built-in `image-generator` subagent has been verified end-to-end across `VISUAL-01`, `VISUAL-02A/B`, `VISUAL-02B-CORRECTION`, and `HERO-ANIMSET-01`).
+- **Canonical Reference Registry (`assets/corekit/v01b/catalog.json`)**:
+  - Active visual direction: **`V01-B — THIÊN MỆNH TIÊN CUNG (Three-Tier Progression Grandeur)`** (`DEC-006`).
+  - Active visual masters (`15` `HUMAN_APPROVED` entries) and `7` explicit `legacy_required` exceptions are registered in [`assets/corekit/v01b/catalog.json`](../../assets/corekit/v01b/catalog.json) with real reference crops/boards in `assets/corekit/v01b/references/**` and structured production profiles in `assets/corekit/v01b/profiles/{animation,ui-tokens,world-art}.json`.
+  - Historical `Candidate A/B/C`, `capability_proof_phi_de.jpg`, `archive_pre_correction`, and `OLD (REJECTED)` comparison panes are isolated in `assets/archive/history/` (`role: "archive_only"`, `cannotBeUsedAsActiveMaster: true`) and must never be used as active visual masters.
+- **Current `S1` Visual & Foundation Sequence**:
+  1. **`VISUAL-01` (`DEC-006`)**: Completed — owner selected `V01-B — THIÊN MỆNH TIÊN CUNG`.
+  2. **`VISUAL-02` & `VISUAL-02B-CORRECTION` (`DEC-007`, `DEC-008`)**: Completed — owner approved the `VISUAL_02B_S1_CORE_KIT.zip` sample pack and the corrected `phi_de` (chubby cream bear hood + `Đùi Gà Luộc`, no tea/broth cup) and `rmt_de` (`Thần Tài` winged hat + gold ingot/abacus) identities.
+  3. **`VISUAL-03-P` (`4679f49`) & `VISUAL-03-W` (`7b386ce`)**: Committed — integrated `96×72` `maps/tan_thu_thon.tmj`, `CameraView.ts`, `MinimapView.ts`, 11 `80×96` starter/NPC sprites, and 16 world props/bridges.
+  4. **`HERO-ANIMSET-01` (`DEC-009`)**: Completed — owner explicitly approved the rebuilt Desktop `hero_kiem_tu` (`v01b.char.hero_kiem_tu` @ `2.0.0-hero-animset-01`, `source_h04`..`source_h10` lineage; `MISSING_APPROVED_HERO_INPUT` remains open for the later owner-confirmed 8-walk-frame Hero artifact) as the active Hero master, superseding the old kit Hero and `source_h01`/`source_h02`.
+  5. **`ARCH-FOUNDATION-02`, `COREKIT-CANON-02`, `ARCH-COREKIT-R1`, `VISUAL-03-U/Q` & `S1-F`**: Implemented & verified (`NO_COMMIT` at base `7b386ce`) — modular source extraction, `assets/corekit/v01b/` installation, reusable Batch A UI import (`assets/ui/**`), pure Core Kit validator (`18/18` tests), disabled procedural entrypoints, dependency-backed cleanup, `VISUAL-03-U/Q` HUD/FPS/occlusion proof, and `S1-F` (`S1F_01`..`S1F_06` `PASS`) technical proof; awaiting owner `S1_EXPERIENCE_AND_ACCEPTANCE` sign-off.
 
 ---
 
-## 2. Non-Negotiable Generation & Routing Policy
+## 2. Non-Negotiable Generation, Master Lookup & Transformation Policy
 
-1. **Authorized Native Generation Only**:
-   - All new final visual artwork (`assets/source_ai/*.png` and `assets/concepts/*.png`) MUST originate from the Argon host's built-in `image-generator` subagent or owner-supplied approved generative source files (`AGENTS.md` Section 4.1, `RULES.md` Rule 6).
+1. **Catalog-Only Master Lookup & Host Native Generation Only**:
+   - Every new production asset task MUST resolve its active `referenceId@version` and `profileId` from `assets/corekit/v01b/catalog.json` and `assets/corekit/v01b/profiles/*.json`, and invoke ONLY the Argon host's built-in `image-generator` subagent (`TypeName: "image-generator"`) with exact Core Kit reference images attached.
+   - Never free-browse `assets/archive/history/`, `assets/archive/history/concepts/`, or arbitrary `assets/source_ai/` files as active masters.
 2. **Absolute Ban on External API & CLI Media Providers**:
-   - External paid API providers (`OpenAI`, `Google Gemini`, `xAI`, `BytePlus ModelArk`, `fal.ai`) and external CLI media tools (`codex`, `grok`) are **strictly forbidden** for production asset generation, **regardless of whether API keys or CLI credentials are configured** in the environment or `%APPDATA%\agent-sprite-forge\config.json`.
-   - The third-party skill rule *"A configured key is the owner's standing consent"* in `.agents/skills/generate2dmedia/SKILL.md` and `.agents/skills/generate2dsprite/SKILL.md` is **explicitly overridden and nullified** by `AGENTS.md` Section 4.4.
-3. **Prohibited Scripts, Legacy Monolithic Tooling & Skills**:
-   - Never invoke `.agents/skills/generate2dmedia/scripts/route_media.py`, `generate_media.py`, `cli_media.py`, `media_config.py`, or `media_providers.py`.
-   - Never invoke `.agents/skills/video2dsprite/SKILL.md` or any `.agents/skills/video2dsprite/scripts/*.py` script.
-   - Never invoke `.agents/skills/codeart2d/SKILL.md` or any `.agents/skills/codeart2d/scripts/*.py` script for final production artwork, and never allow automatic fallback to procedural/code-drawn art (`AGENTS.md` Section 4.2, `RULES.md` Rule 6).
-   - **Never execute `python packages/art-tools/build_assets.py` as a whole production asset generation/post-processing command, including with `--force` (`npm run generate:art` / `npm run generate:art:force`).** `packages/art-tools/build_assets.py` is **not** a post-processing-only script: its `main()` invokes `build_portraits_and_sprites()`, `build_tileset()`, `build_vfx_and_contact_sheet()`, and `build_tiled_maps()`, rewrites `assets/manifest.json` and `assets/provenance.json`, and contains procedural `PIL.ImageDraw` tileset/VFX generation (`make_tile`, ellipses). Treat `packages/art-tools/build_assets.py` as **legacy tooling requiring command-level audit/refactor before production execution**. Only explicitly audited, non-generative post-processing commands may be invoked for approved production art.
-4. **Fail-Closed `BLOCKED` Behavior**:
-   - When the Argon native `image-generator` subagent is unavailable, errors, or fails art-direction validation after bounded retries, the agent MUST immediately halt the art task and return `BLOCKED` rather than inventing procedural replacements or calling external media routes.
+   - External paid API providers (`OpenAI`, `Google Gemini`, `xAI`, `BytePlus ModelArk`, `fal.ai`) and external CLI media tools (`codex`, `grok`) are **strictly forbidden** for production asset generation, **regardless of whether API keys or CLI credentials are configured**.
+   - Never invoke `.agents/skills/generate2dmedia/scripts/route_media.py`, `generate_media.py`, `cli_media.py`, `media_config.py`, `media_providers.py`, or `.agents/skills/video2dsprite/**`.
+3. **Prohibition on Procedural Art & Fake Affine Motion**:
+   - Never invoke `.agents/skills/codeart2d/**` or Python/Pillow/SVG/Canvas procedural drawing (`ImageDraw`) to synthesize final production artwork (`AGENTS.md` Section 4.2, `RULES.md` Rule 6).
+   - Never fabricate multi-frame animation sequences by applying affine warps, stretches, flips, or shears to a single static frame.
+   - **Disabled Procedural Entrypoints**: Both `python packages/art-tools/build_assets.py` (with or without `--force`) and `npm run generate:art` / `npm run generate:art:force` are permanently disabled fail-closed entrypoints (`exit code 2` before any filesystem write). The historical Phase 0 script is archived at `packages/art-tools/legacy/build_assets.py` as non-executable provenance.
+4. **Permitted Deterministic Post-Processing & Packaging**:
+   - Audited non-generative post-processing scripts (`.agents/skills/generate2dsprite/scripts/*`, `.agents/skills/pixel-art/scripts/*`, `.agents/skills/generate2dmap/scripts/*`, `scripts/package-runtime-assets.mjs`) are permitted strictly for deterministic crop/slicing, chroma-key/alpha cleanup, nearest-neighbor scaling, palette normalization, foot-anchor registration, atlas/GIF packaging, and Tiled map assembly from approved generated sources.
+   - Ordinary DOM/CSS layout, text labels, progress bars, diagnostic geometry, and QA annotations are not new production illustration assets.
+5. **Fail-Closed `BLOCKED` Behavior**:
+   - When the Argon native `image-generator` subagent is unavailable or fails after bounded transient retries, halt immediately and return **`BLOCKED`** — never fall back to procedural drawing.
 
 ---
 
-## 3. Master Still + Native Directional Pose Sheets Workflow
+## 3. Core Kit Resolution → Native Pose Sheets → Modular Runtime Integration Workflow
 
-Because `video2dsprite` and external image-to-video APIs are disabled, Tông Môn 8D produces all character, creature, NPC, prop, tile, UI, and VFX assets through a deterministic **Master Still + Native Directional Pose Grid + Audited Non-Generative Post-Processing** pipeline:
-
-1. **Stage 1 — Art Brief & Visual Binding Contract (`TD-05`)**:
-   - Author the asset brief and `VisualBindingDef` following `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/CONTENT_ART_BRIEF_TEMPLATE.md`, `docs/ART_BIBLE.md`, and `docs/CHARACTER_VISUAL_BIBLE.md`.
-   - Record initial creative status as `PROPOSED`.
-2. **Stage 2 — Concept Set (`VISUAL-01`) & Master Still Generation (`VISUAL-02`)**:
-   - In `VISUAL-01`, invoke the Argon native `image-generator` subagent to produce three coherent visual direction sets under new IDs/versions (distinct from historical `Candidate A/B/C`) for owner selection.
-   - In `VISUAL-02`, generate master reference stills and UI/world sample assets aligned with the owner-selected `VISUAL-01` direction (`45°` top-left lighting, crisp pixel outlines, high-contrast solid chroma/ownership backing).
-3. **Stage 3 — Native Directional Pose Sheets & Creature-Specific Geometry**:
-   - Generate multi-pose directional locomotion (`down`, `left`, `right`, `up`) and combat/cast/hurt action grids with continuous frame-to-frame motion via the native `image-generator` subagent, saving unmodified raw outputs directly under `assets/source_ai/` with recorded SHA-256 checksums.
-   - **Humanoid Standard**: `80x96` logical frame canvas packed into `480x1920` runtime sheets (`6` columns × `20` rows, bottom-center foot anchor `(0.5, 0.9167)` / `(40, 88)`), while preserving legacy `48x64` (`288x1024`, `6` columns × `16` rows, anchor `(0.5, 0.90)` / `(24, 58)`) compatibility (`RULES.md` Rule 5).
-   - **Creature-Specific Geometry (`chatdvt` & Non-Humanoid Beasts)**: Creature-specific frame geometry, bounding boxes, and locomotion pose layouts are explicitly permitted where appropriate. In particular, **`chatdvt` (`Linh Thú Thanh Ngọc`) is a jade-cyan quadruped spirit beast** (`AGENTS.md` Section 3, `RULES.md` Rule 2) and MUST be generated and animated with authentic quadruped anatomy and gait—never forced into a humanoid bipedal template.
-4. **Stage 4 — Audited Non-Generative Local Post-Processing & Packaging**:
-   - Invoke **only** explicitly audited, non-generative local Python/Pillow post-processing and packaging commands (`AGENTS.md` Section 4.3):
-     - `.agents/skills/generate2dsprite/scripts/assemble_frames.py` (connected-component ownership slicing, chroma spill suppression, binary alpha thresholding, foot-anchor registration)
-     - `.agents/skills/generate2dsprite/scripts/scale_frames.py`, `palette_tool.py`, `pixel_reduce.py`, `sheet_qc.py`
-     - `.agents/skills/pixel-art/scripts/quality_audit.py`, `atlas_pack.py`, `gif_export.py`, `palette_extract.py`, `palette_remap.py`
-     - `.agents/skills/generate2dmap/scripts/extract_prop_pack.py`, `extract_terrain_tiles.py`, `map_nav.py`, `compose_layered_preview.py`, `export_tiled.py`
-   - Do **not** run `python packages/art-tools/build_assets.py` (with or without `--force`) as a whole command; any reuse of logic from `packages/art-tools/build_assets.py` requires a separately approved command-level audit/refactor that strips all procedural `ImageDraw` generation and full-manifest/map overwrites.
-5. **Stage 5 — In-World Phaser 4 / Tiled Integration (`VISUAL-03`) & Two-Tier Approval Gate**:
-   - Wire runtime sheets/tilesets/UI surfaces into `apps/client/src/WorldScene.ts`, `apps/client/src/hud.ts`, `apps/client/src/features/character/CharacterPanel.ts`, and `maps/tan_thu_thon.tmj` / `maps/thanh_truc_lam.tmj`.
-   - Validate technical integrity with `npm run verify:assets` (`packages/art-tools/verify_manifest.ts`), `.agents/skills/pixel-art/scripts/quality_audit.py`, and Playwright in-world captures (`tests/e2e/runPlaytest.ts` at `1280x720` desktop and `390x844` mobile in `artifacts/playtest/runs/<run-id>/`), recording measured frame-time/FPS on the tested scene/device.
-   - Passing automated checks confers **`TECHNICALLY_VERIFIED`** status only (`AGENTS.md` Section 5, `RULES.md` Rule 6). Promotion to **`HUMAN_APPROVED`** requires explicit sign-off by the human project owner after reviewing actual gameplay captures in `AGENTS.md` Section 5 and `docs/ART_BIBLE.md` (without mutating frozen `TD_FREEZE_APPROVALS.md`).
+1. **Stage 1 — Core Kit Resolution & Concrete Brief**:
+   - Resolve the exact active `referenceId@version` in `assets/corekit/v01b/catalog.json` and target `profileId` in `assets/corekit/v01b/profiles/{animation,ui-tokens,world-art}.json`.
+   - Record initial role as `production_candidate` and creative approval state as `PROPOSED`.
+2. **Stage 2 — Native `image-generator` Execution with Attached Master References**:
+   - Invoke `invoke_subagent` (`TypeName: "image-generator"`) with the resolved reference images from `assets/corekit/v01b/references/**` attached.
+   - Preserve unmodified raw generative outputs under `assets/source_ai/` with SHA-256 checksums.
+3. **Stage 3 — Profile-Driven Geometry & Creature Anatomy**:
+   - Single-sourced in `assets/corekit/v01b/profiles/animation.json` and compiled to `apps/client/src/game/assets/runtimeAnimationProjection.json`:
+     - `full_80x96_20row`: `480x1920` (`6x20` of `80x96` frames, foot anchor `(0.5, 0.9167)` / `(40, 88)`).
+     - `full_80x96_20row_8walk`: `640x1920` (`8x20` of `80x96` frames, `walk.framesPerRow = 8`, foot anchor `(0.5, 0.9167)` / `(40, 88)` for the later owner-approved 8-walk-frame Hero profile).
+     - `locomotion_80x96_8row`: `480x768` (`6x8` of `80x96` frames, foot anchor `(0.5, 0.9167)`).
+     - `stationary_npc_80x96_4f`: `320x96` (`4x1` of `80x96` frames, foot anchor `(0.5, 0.9167)`).
+     - `legacy_48x64_16row`: `288x1024` (`6x16` of `48x64` frames, foot anchor `(0.5, 0.90)` / `(24, 58)`, `role: "legacy_required"`).
+   - **`chatdvt` (`Linh Thú Thanh Ngọc`)** MUST always be generated and animated as a four-legged quadruped spirit beast (`v01b.creature.chatdvt` @ `1.0.0`), never human or bipedal.
+4. **Stage 4 — Deterministic Post-Processing & Provenance Recording**:
+   - Slice, chroma-clean, register, and pack frames using audited non-generative scripts.
+   - Record truthful `generationProvider: "argon_native_image_generator"`, `generationMethod: "native_image_generator_subagent"`, native tool trace/run evidence, referenced `referenceId@version`, `sourceFiles` SHA-256 digests, and transformation steps in `assets/provenance.json`. Never invent a fake native run ID for historical pre-trace assets (label historical entries truthfully).
+5. **Stage 5 — Modular Runtime Wiring, Validator Check & Owner Approval Gate**:
+   - Wire runtime assets through `apps/client/src/game/assets/RuntimeAssetBindings.ts`, `apps/client/src/game/assets/SpriteProfiles.ts`, and `apps/client/src/game/combat/AnimationRegistry.ts`.
+   - Run `npm run verify:assets` (`packages/art-tools/verify_manifest.ts` + `packages/art-tools/corekit/validateCorekit.ts`).
+   - Passing automated checks confers `TECHNICALLY_VERIFIED` status only; only the project owner can grant `HUMAN_APPROVED` status.
 
 ---
 
-## 4. Current Validator Scope vs. Future Technical Enforcement
+## 4. Pure Core Kit Validator Enforcement & Honest Limitations (`packages/art-tools/corekit/validateCorekit.ts`)
 
-Documentation rules alone are not a runtime security barrier. Furthermore, the current implementation of `packages/art-tools/verify_manifest.ts` has the following exact verification boundaries:
+### 4.1 Enforced by `npm run verify:assets` (`verify_manifest.ts` + `validateCorekit.ts`)
+- **Catalog & Active Master Governance**: Validates `assets/corekit/v01b/catalog.json` version, schema, unique `referenceId` / `version`, exactly one active version per `referenceId`, valid `role` (`master_reference`) and `creativeApprovalState` (`HUMAN_APPROVED` with `approvalRecordId`, `approvedBy`, `approvedDate`, `approvalScope`), portable relative paths, symlink/traversal containment, and exact file SHA-256 digests.
+- **Precedence & Rejection Boundaries**: Enforces that `v01b.char.hero_kiem_tu` (`major >= 2`, currently `2.0.0-hero-animset-01`) resolves to the accepted Desktop Hero (`ecf6604b...` / `1de6fc60...`), `v01b.npc.phi_de` (`2.0.0-bear-hood-chicken`) and `v01b.npc.rmt_de` (`2.0.0-than-tai`) resolve to the corrected `source_b11` / `source_b10` masters, and rejects any reference pointing into `assets/archive/history/**`, `archive_pre_correction`, or `OLD (REJECTED)` comparison panes.
+- **Single-Owned Profile Projection & Runtime Bindings**: Verifies that `apps/client/src/game/assets/runtimeAnimationProjection.json` matches `assets/corekit/v01b/profiles/animation.json` (`sourceAnimationProfileSha256` and deep content match), all `profiles/ui-tokens.json` and `assets/ui/batch_a_ui_atlas_mapping.json` paths exist, all runtime character sheets match their profile dimensions/frame counts, and all `manifest.json` / Tiled `.tmj` image dependencies resolve cleanly within the repository.
+- **Provider/Method Allowlist for New Production Records**: Enforces `generationProvider === "argon_native_image_generator"`, `generationMethod === "native_image_generator_subagent"`, valid `profileId`, and verified `sourceFiles` SHA-256 digests on new production entries in `assets/provenance.json`, while keeping explicit bounded exceptions for historical `legacy_required` entries.
 
-### 4.1 Current `packages/art-tools/verify_manifest.ts` Scope
-- **Existing character source SHA checks**: **Implemented** (verifies `sourceAiFiles` existence and SHA-256 digests for the character entries in `assets/provenance.json`).
-- **Asset dimensions/alpha/frame checks**: **Implemented to current validator scope** (verifies PNG dimensions, alpha transparency bounds, and distinct frame counts across rows `0, 4, 8, 12, 16` for `480x1920` sheets).
-- **All provenance paths portable**: **Not comprehensively enforced** (some historical provenance fields in `assets/provenance.json` still contain machine-specific paths and are not rejected by `verify_manifest.ts`).
-- **Provider/method allowlist**: **Not yet implemented** (`verify_manifest.ts` does not currently validate `generationProvider` or `generationMethod` against an allowlist).
-- **Future enforcement**: Remains a **separately approved tooling task** outside `G0`.
-
-### 4.2 Future Technical Enforcement Roadmap (Separately Approved Tooling Task)
-1. **Explicit Command & Tool Allowlists**: Restrict asset build tasks to the audited non-generative post-processing scripts listed in Section 3 Stage 4 and the Argon native `image-generator` subagent, while refactoring `packages/art-tools/build_assets.py` to separate non-generative packaging from legacy procedural `ImageDraw` code.
-2. **Denial of External Media Tool Routes**: Disable or stub `.agents/skills/generate2dmedia/scripts/route_media.py`, `generate_media.py`, `cli_media.py`, `.agents/skills/video2dsprite/scripts/*`, and `.agents/skills/codeart2d/scripts/*` so any attempted execution exits non-zero before reading credentials or spawning external processes.
-3. **Comprehensive Provenance & Provider Allowlist Validation**: Upgrade `packages/art-tools/verify_manifest.ts` (when authorized by the owner) to enforce portable relative paths across **all** provenance fields and validate `generationProvider` / `generationMethod` against an explicit native-only allowlist.
-4. **Safe Automated Test Coverage**: Add deterministic unit tests for provenance schema validation and command-route allowlisting without relying on brittle filesystem side-effect checks.
+### 4.2 Honest Structural Limitations
+- **Provenance Metadata vs. Cryptographic Pixel Proof**: A JSON `generationProvider` / `generationMethod` declaration and trace record provide structural governance and auditability, not cryptographic proof of what model synthesized raw pixels.
+- **Technical Validation vs. Aesthetic Judgment**: Automated dimension, alpha, hash, and frame-distinctness checks verify technical compliance (`TECHNICALLY_VERIFIED`) and cannot automatically judge artistic quality or replace `HUMAN_APPROVED` sign-off by the project owner.

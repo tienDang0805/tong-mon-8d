@@ -40,7 +40,7 @@ export function computeResponsiveCameraProfile(
   const safeH = Math.max(240, viewportH);
 
   let tier: ResponsiveCameraProfile["tier"] = "hd_720p";
-  let defaultZoom = 1.0;
+  let defaultZoom = 1.25;
   let minZoom = 1.0;
   let maxZoom = 2.0;
   let zoomSteps = [1.0, 1.25, 1.5, 2.0];
@@ -48,27 +48,27 @@ export function computeResponsiveCameraProfile(
   if (safeW <= 600) {
     tier = "mobile_handheld";
     defaultZoom = 1.0;
-    minZoom = 0.85;
+    minZoom = 1.0;
     maxZoom = 1.5;
-    zoomSteps = [0.85, 1.0, 1.25, 1.5];
+    zoomSteps = [1.0, 1.25, 1.5];
   } else if (safeW >= 3200 || safeH >= 1800) {
     tier = "4k_uhd";
-    defaultZoom = 2.0;
-    minZoom = 1.75;
-    maxZoom = 3.0;
-    zoomSteps = [1.75, 2.0, 2.5, 3.0];
+    defaultZoom = 4.0;
+    minZoom = 3.0;
+    maxZoom = 5.0;
+    zoomSteps = [3.0, 4.0, 5.0];
   } else if (safeW >= 2200 || safeH >= 1300) {
     tier = "qhd_2k";
-    defaultZoom = 1.5;
-    minZoom = 1.25;
-    maxZoom = 2.5;
-    zoomSteps = [1.25, 1.5, 2.0, 2.5];
+    defaultZoom = 3.0;
+    minZoom = 2.0;
+    maxZoom = 4.0;
+    zoomSteps = [2.0, 2.5, 3.0, 4.0];
   } else if (safeW >= 1600 || safeH >= 960) {
     tier = "fhd_1080p";
-    defaultZoom = 1.25;
-    minZoom = 1.0;
-    maxZoom = 2.0;
-    zoomSteps = [1.0, 1.25, 1.5, 2.0];
+    defaultZoom = 2.0;
+    minZoom = 1.5;
+    maxZoom = 3.0;
+    zoomSteps = [1.5, 2.0, 2.5, 3.0];
   }
 
   const ratioFloor =
@@ -126,7 +126,7 @@ export class CameraView {
     const cam = this.scene.cameras.main;
     cam.setBounds(0, 0, worldW, worldH);
     cam.setRoundPixels(true);
-    cam.startFollow(target, true, 0.14, 0.14);
+    cam.startFollow(target, true, 0.14, 0.14, 0, -24);
 
     this.applyResponsiveViewport(
       this.scene.scale.width || window.innerWidth || 1280,
@@ -152,6 +152,7 @@ export class CameraView {
     cam.setBounds(0, 0, this.worldW, this.worldH);
     cam.setZoom(clamped);
     cam.setRoundPixels(true);
+    this.syncCameraWorldView(cam);
     return this.profile;
   }
 
@@ -163,7 +164,9 @@ export class CameraView {
     if (isUserOverride) {
       this.userOverrideZoom = clamped;
     }
-    this.scene.cameras.main.setZoom(clamped);
+    const cam = this.scene.cameras.main;
+    cam.setZoom(clamped);
+    this.syncCameraWorldView(cam);
     return clamped;
   }
 
@@ -186,22 +189,33 @@ export class CameraView {
   snapToTarget(x?: number, y?: number): void {
     const cam = this.scene.cameras.main;
     if (typeof x === "number" && typeof y === "number") {
-      cam.centerOn(x, y);
+      cam.centerOn(x, y - 24);
+      this.syncCameraWorldView(cam);
       return;
     }
     const t = this.followTarget as { x?: number; y?: number } | null;
     if (t && typeof t.x === "number" && typeof t.y === "number") {
-      cam.centerOn(t.x, t.y);
+      cam.centerOn(t.x, t.y - 24);
+      this.syncCameraWorldView(cam);
+    }
+  }
+
+  private syncCameraWorldView(cam: Phaser.Cameras.Scene2D.Camera): void {
+    const internalCam = cam as unknown as { preRender?: () => void };
+    if (typeof internalCam.preRender === "function") {
+      internalCam.preRender();
     }
   }
 
   getTelemetry(): CameraTelemetry {
     const cam = this.scene.cameras.main;
+    this.syncCameraWorldView(cam);
+    const effZoom = Math.max(0.1, cam.zoom);
+    const vw = cam.width / effZoom;
+    const vh = cam.height / effZoom;
     const wv = cam.worldView;
-    const vw = wv && wv.width > 0 ? wv.width : cam.width / Math.max(0.1, cam.zoom);
-    const vh = wv && wv.height > 0 ? wv.height : cam.height / Math.max(0.1, cam.zoom);
-    const wx = wv ? wv.x : cam.scrollX;
-    const wy = wv ? wv.y : cam.scrollY;
+    const wx = wv && Number.isFinite(wv.x) ? wv.x : cam.scrollX;
+    const wy = wv && Number.isFinite(wv.y) ? wv.y : cam.scrollY;
     return {
       zoneId: this.zoneId,
       profileTier: this.profile.tier,

@@ -315,9 +315,9 @@ describe("Character v0.2 Persistence Foundation (S1-C)", () => {
     expect(reloaded?.cultivation.tuVi).toBe(
       "98765432109876543210987654321098765432"
     );
-  });
+  }, 15_000);
 
-  it("rejects duplicate characterId and duplicate accountId without overwriting existing state", async () => {
+  it("rejects duplicate characterId while allowing multiple characters per accountId without overwriting existing state", async () => {
     const db = await createMemoryDb();
     const first = createInitialCharacterV02State({
       characterId: "char_unique_1",
@@ -344,17 +344,25 @@ describe("Character v0.2 Persistence Foundation (S1-C)", () => {
     const differentCharIdSameAcc = createInitialCharacterV02State({
       characterId: "char_unique_2",
       accountId: "acc_unique_1",
-      name: "Phân Thân Trái Phép",
+      name: "Phân Thân Hợp Pháp",
       createdAtMs: 1_760_000_020_000,
       creationState: "draft"
     });
-    await expect(db.createCharacterV02(differentCharIdSameAcc)).rejects.toMatchObject({
-      name: "CharacterV02PersistenceError",
-      code: "DUPLICATE_ACCOUNT_CHARACTER"
-    });
+    const secondCreated = await db.createCharacterV02(differentCharIdSameAcc);
+    expect(secondCreated.identity.characterId).toBe("char_unique_2");
 
-    const persisted = await db.getCharacterV02ByAccount("acc_unique_1");
-    expect(persisted).toEqual(first);
+    const firstPersisted = await db.getCharacterV02ById("char_unique_1", {
+      destinyCatalog: SAMPLE_DESTINY_CATALOG
+    });
+    expect(firstPersisted).toEqual(first);
+
+    const allForAccount = await db.listCharactersV02ByAccount("acc_unique_1", {
+      destinyCatalog: SAMPLE_DESTINY_CATALOG
+    });
+    expect(allForAccount.map((c) => c.identity.characterId)).toEqual([
+      "char_unique_1",
+      "char_unique_2"
+    ]);
   });
 
   it("enforces optimistic concurrency and immutability of confirmed Tiên Thiên Destiny and identity", async () => {

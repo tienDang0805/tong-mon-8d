@@ -1,0 +1,98 @@
+[
+  {
+    "referenceId": "v01b.world.tan_thu_thon_modular_kit",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "world_environment_kit",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "v01b.profiles.world_art",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/world/v01b_tan_thu_thon_tiles_and_buildings_reference.png",
+        "sha256": "fb90aa3e9c230f981892fd40660071d7c3bc81b8a568894f3a90fd35b6768b3f",
+        "bytes": 385407,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png",
+        "sha256": "f08b15662eeee98aa4b616bc277fc22ee40a5d5e15f8d04734df84b06c987022",
+        "bytes": 112386,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/props/building_tan_thu_tu_duong.png",
+        "sha256": "637725a8b954a0131b392a0761576046c7e8d16431862f05a9497e63e00b5750",
+        "bytes": 268480,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/props/building_tu_bao_cac.png",
+        "sha256": "0d8a96b740edb873b6e3b09f55d80e4fec6d574c7e028f43c117ce93978cc727",
+        "bytes": 242819,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/props/building_hong_tran_cac.png",
+        "sha256": "6db062189976e4a9bbb482f7427af2098a10ac0747b88af24b067bf7c3d646e1",
+        "bytes": 183115,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_05_modular_terrain_tileset_v01b.png",
+        "sha256": "1e6d268fd78f56aa3c312647d3a4756535ecadef76c432016cef85d353eb0fec",
+        "bytes": 1714347,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_06_modular_village_props_v01b.png",
+        "sha256": "b2cbf0a8192f1a0c086bc58ce13bcf568043885d93a0b3de40e5f1ed90923cb6",
+        "bytes": 1480795,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b09_tan_thu_thon_transitions_and_props_v01b.png",
+        "sha256": "4752e93239e747e354e2f56eee895f472613b03b20e0b1cb16e6798295640c94",
+        "bytes": 1428442,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "tileset_tan_thu_thon_v01b",
+      "building_tan_thu_tu_duong",
+      "building_tu_bao_cac",
+      "building_hong_tran_cac",
+      "prop_noodle_stall",
+      "prop_than_dinh",
+      "prop_portal_arch",
+      "prop_bamboo_cluster",
+      "prop_peach_tree",
+      "prop_stone_lantern",
+      "prop_spirit_herb",
+      "prop_arched_bridge",
+      "prop_bridge_horizontal",
+      "prop_village_stele",
+      "prop_incense_brazier",
+      "prop_jade_rock",
+      "prop_wooden_fence"
+    ],
+    "identitySpec": {
+      "palette": [
+        "#40916C",
+        "#74C69D",
+        "#FAF6EE",
+        "#E5B85B",
+        "#8C6239"
+      ],
+      "proportions": "32x32 terrain tileset + modular transparent buildings and props",
+      "perspective": "Top-down 3/4 orthographic grounded starter village (Tier I)"
+    },
+    "supersedes": []
+  }
+]

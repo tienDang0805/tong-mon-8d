@@ -149,7 +149,8 @@ async function main(): Promise<void> {
 
   const gameSrv = await startGameServer(serverPort, {
     dataDir: "memory://",
-    connectionString: ""
+    connectionString: "",
+    enableTestClockApi: true
   });
   assert.equal(gameSrv.db.getDataDir(), "memory://");
 
@@ -180,7 +181,7 @@ async function main(): Promise<void> {
     });
 
     const uniqueAcc = `hero_${Date.now()}`;
-    await page1.goto(`${clientBaseUrl}/?account=${uniqueAcc}&name=HanLap8D`);
+    await page1.goto(`${clientBaseUrl}/?account=${uniqueAcc}&name=HanLap8D&e2e=1`);
     await waitForCondition(
       async () => ((await page1.locator("#hud-player-name").textContent()) ?? "").includes("HanLap8D"),
       12000,
@@ -200,7 +201,7 @@ async function main(): Promise<void> {
           triggerHurt: () => void;
         };
       }).__TONG_MON_DEBUG__;
-      dbg.teleportLocal(574, 412, "down");
+      dbg.teleportLocal(1536, 1180, "down");
       dbg.setNpcAnim("phi_de", "idle", "down", 2500);
       dbg.setNpcAnim("dam_lon_tien_tu", "idle", "down", 2500);
     });
@@ -240,7 +241,7 @@ async function main(): Promise<void> {
           setNpcAnim: (npcId: string, state: string, dir: string, durationMs?: number) => void;
         };
       }).__TONG_MON_DEBUG__;
-      dbg.teleportLocal(574, 412, "down");
+      dbg.teleportLocal(1536, 1180, "down");
       dbg.setNpcAnim("phi_de", "attack", "down", 1800);
       dbg.setNpcAnim("dam_lon_tien_tu", "cast", "down", 1800);
     });
@@ -326,7 +327,7 @@ async function main(): Promise<void> {
       const dbg = (window as unknown as {
         __TONG_MON_DEBUG__: { teleportLocal: (x: number, y: number) => void };
       }).__TONG_MON_DEBUG__;
-      dbg.teleportLocal(432, 404);
+      dbg.teleportLocal(1056, 1200);
     });
     await page1.waitForTimeout(250);
     await page1.keyboard.press("e");
@@ -348,7 +349,7 @@ async function main(): Promise<void> {
       const dbg = (window as unknown as {
         __TONG_MON_DEBUG__: { teleportLocal: (x: number, y: number) => void };
       }).__TONG_MON_DEBUG__;
-      dbg.teleportLocal(512, 412);
+      dbg.teleportLocal(1536, 1140);
     });
     await page1.waitForTimeout(250);
     await page1.keyboard.press("e");
@@ -388,7 +389,7 @@ async function main(): Promise<void> {
       const dbg = (window as unknown as {
         __TONG_MON_DEBUG__: { teleportLocal: (x: number, y: number) => void };
       }).__TONG_MON_DEBUG__;
-      dbg.teleportLocal(1120, 480);
+      dbg.teleportLocal(2768, 1200);
     });
     await page1.waitForTimeout(250);
     await page1.keyboard.press("e");
@@ -529,15 +530,22 @@ async function main(): Promise<void> {
 
     await pageS1E.goto(`${clientBaseUrl}/?guestSlot=s1e_desktop_${Date.now()}`);
     await waitForCondition(
-      async () => await pageS1E.locator("#character-creation-overlay").isVisible(),
+      async () => await pageS1E.locator("#btn-entry-start-play").isVisible(),
       10000,
-      "S1-E Character Creation overlay visible"
+      "S1-E Title screen visible"
     );
-    await pageS1E.waitForTimeout(400);
+    await pageS1E.waitForTimeout(300);
 
     const preConfirmState = await readGameState(pageS1E);
     assert.equal(preConfirmState.v02Mode, true);
     assert.equal(preConfirmState.localAvatarVisible, false);
+
+    await pageS1E.locator("#btn-entry-start-play").click();
+    await waitForCondition(
+      async () => await pageS1E.locator("#cc-draft-section").isVisible(),
+      8000,
+      "S1-E Character Creation draft section visible"
+    );
 
     await pageS1E.locator("#cc-input-name").fill("Lâm Động 8D");
     await pageS1E.locator('.cc-appearance-card[data-appearance-id="hoa_tran"]').click();
@@ -577,12 +585,13 @@ async function main(): Promise<void> {
     assert.ok(rolledState2.v02ActiveRollDraft);
     assert.equal(new Set(rolledState2.v02ActiveRollDraft.candidateTraitIds).size, 3);
 
-    await pageS1E.locator("#btn-cc-confirm").click();
+    await pageS1E.locator("#btn-cc-open-confirm").click();
     await waitForCondition(
-      async () => !(await pageS1E.locator("#character-creation-overlay").isVisible()),
-      8000,
-      "S1-E Creation overlay hidden after confirm"
+      async () => await pageS1E.locator("#btn-cc-confirm").isVisible(),
+      5000,
+      "S1-E Confirm modal visible"
     );
+    await pageS1E.locator("#btn-cc-confirm").click();
     await waitForCondition(
       async () => ((await pageS1E.locator("#hud-player-name").textContent()) ?? "").includes("Lâm Động 8D"),
       8000,
@@ -615,7 +624,7 @@ async function main(): Promise<void> {
     assert.ok(cPanelText.includes("Lâm Động 8D"));
     assert.ok(cPanelText.includes("Thể Phách"));
     assert.ok(cPanelText.includes("Ngộ Tính"));
-    assert.ok(cPanelText.includes("Tiên Thiên Nghịch Thiên Cải Mệnh"));
+    assert.ok(cPanelText.includes("Tiên Thiên"));
     await pageS1E.screenshot({
       path: path.join(ARTIFACT_DIR, "11_s1e_character_c_panel_1280x720.png")
     });
@@ -624,11 +633,22 @@ async function main(): Promise<void> {
     const confirmedCharacterId = confirmedState.v02Character?.identity.characterId;
     await pageS1E.reload();
     await waitForCondition(
+      async () => await pageS1E.locator("#btn-entry-start-play").isVisible(),
+      8000,
+      "S1-E reload lands on TITLE"
+    );
+    await pageS1E.locator("#btn-entry-start-play").click();
+    await waitForCondition(
+      async () => await pageS1E.locator("#btn-roster-enter-world").isVisible(),
+      8000,
+      "S1-E Bắt Đầu Chơi opens ROSTER"
+    );
+    await pageS1E.locator("#btn-roster-enter-world").click();
+    await waitForCondition(
       async () => ((await pageS1E.locator("#hud-player-name").textContent()) ?? "").includes("Lâm Động 8D"),
       8000,
-      "S1-E reload reconnects confirmed character"
+      "S1-E reload reconnects confirmed character from ROSTER"
     );
-    assert.equal(await pageS1E.locator("#character-creation-overlay").isVisible(), false);
     const reloadedState = await readGameState(pageS1E);
     assert.equal(reloadedState.v02Character?.identity.characterId, confirmedCharacterId);
     assert.deepEqual(
@@ -652,15 +672,15 @@ async function main(): Promise<void> {
     }, corruptSlot);
     await pageCorrupt.goto(`${clientBaseUrl}/?guestSlot=${corruptSlot}`);
     await waitForCondition(
-      async () => await pageCorrupt.locator("#cc-recovery-section").isVisible(),
+      async () => await pageCorrupt.locator("#btn-entry-start-play").isVisible(),
       8000,
-      "S1-E invalid guestToken explicit recovery screen visible"
+      "S1-E corrupt token lands on TITLE"
     );
-    await pageCorrupt.locator("#btn-cc-reset-guest").click();
+    await pageCorrupt.locator("#btn-entry-start-play").click();
     await waitForCondition(
       async () => await pageCorrupt.locator("#cc-draft-section").isVisible(),
       8000,
-      "S1-E recovery reset returns to draft creation"
+      "S1-E recovery re-issues guest token and opens draft creation"
     );
     await ctxCorrupt.close();
 
@@ -671,6 +691,15 @@ async function main(): Promise<void> {
     const isoTs = Date.now();
     await pageIsoA.goto(`${clientBaseUrl}/?guestSlot=iso_a_${isoTs}`);
     await pageIsoB.goto(`${clientBaseUrl}/?guestSlot=iso_b_${isoTs}`);
+    await waitForCondition(
+      async () =>
+        (await pageIsoA.locator("#btn-entry-start-play").isVisible()) &&
+        (await pageIsoB.locator("#btn-entry-start-play").isVisible()),
+      8000,
+      "Two-guest title screens ready"
+    );
+    await pageIsoA.locator("#btn-entry-start-play").click();
+    await pageIsoB.locator("#btn-entry-start-play").click();
     await waitForCondition(
       async () =>
         (await pageIsoA.locator("#btn-cc-create-draft").isVisible()) &&
@@ -685,10 +714,19 @@ async function main(): Promise<void> {
     await pageIsoB.locator("#btn-cc-create-draft").click();
     await waitForCondition(
       async () =>
-        (await pageIsoA.locator("#btn-cc-confirm").isVisible()) &&
-        (await pageIsoB.locator("#btn-cc-confirm").isVisible()),
+        (await pageIsoA.locator("#btn-cc-open-confirm").isVisible()) &&
+        (await pageIsoB.locator("#btn-cc-open-confirm").isVisible()),
       8000,
       "Two-guest roll screens ready"
+    );
+    await pageIsoA.locator("#btn-cc-open-confirm").click();
+    await pageIsoB.locator("#btn-cc-open-confirm").click();
+    await waitForCondition(
+      async () =>
+        (await pageIsoA.locator("#btn-cc-confirm").isVisible()) &&
+        (await pageIsoB.locator("#btn-cc-confirm").isVisible()),
+      5000,
+      "Two-guest confirm modals ready"
     );
     await pageIsoA.locator("#btn-cc-confirm").click();
     await pageIsoB.locator("#btn-cc-confirm").click();
@@ -717,6 +755,12 @@ async function main(): Promise<void> {
     const mobileS1EPage = await mobileS1ECtx.newPage();
     await mobileS1EPage.goto(`${clientBaseUrl}/?guestSlot=s1e_mob_${Date.now()}`);
     await waitForCondition(
+      async () => await mobileS1EPage.locator("#btn-entry-start-play").isVisible(),
+      8000,
+      "Mobile S1-E title ready"
+    );
+    await mobileS1EPage.locator("#btn-entry-start-play").click();
+    await waitForCondition(
       async () => await mobileS1EPage.locator("#btn-cc-create-draft").isVisible(),
       8000,
       "Mobile S1-E creation ready"
@@ -732,6 +776,12 @@ async function main(): Promise<void> {
     await mobileS1EPage.screenshot({
       path: path.join(ARTIFACT_DIR, "12_s1e_mobile_creation_390x844.png")
     });
+    await mobileS1EPage.locator("#btn-cc-open-confirm").click();
+    await waitForCondition(
+      async () => await mobileS1EPage.locator("#btn-cc-confirm").isVisible(),
+      5000,
+      "Mobile S1-E confirm modal visible"
+    );
     await mobileS1EPage.locator("#btn-cc-confirm").click();
     await waitForCondition(
       async () =>

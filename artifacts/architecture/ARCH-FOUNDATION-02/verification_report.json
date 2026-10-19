@@ -1,0 +1,83 @@
+{
+  "taskId": "ARCH-FOUNDATION-02",
+  "verifiedAt": "2026-10-18T20:37:35.716Z",
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "nodeVersion": "v22.16.0",
+    "cpus": 16
+  },
+  "databaseIsolation": {
+    "dataDir": "memory://",
+    "connectionString": "",
+    "testClockOptIn": true
+  },
+  "heroProfileAndBindingVerification": {
+    "activeHeroProfileId": "full_80x96_20row",
+    "activeHeroDims": {
+      "sheetWidth": 480,
+      "sheetHeight": 1920,
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "columns": 6,
+      "rows": 20
+    },
+    "ready8WalkProfileId": "full_80x96_20row_8walk",
+    "ready8WalkDims": {
+      "sheetWidth": 640,
+      "sheetHeight": 1920,
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "columns": 8,
+      "rows": 20
+    },
+    "walkDown6Range": {
+      "start": 24,
+      "end": 29,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    "walkDown8Range": {
+      "start": 32,
+      "end": 39,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    "heroSpriteSha256": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
+    "heroPortraitSha256": "1de6fc6029fd2efe1dfa855fd73d1931308290060a41071f6e19b856333f8823",
+    "eightFrameHeroInputState": "MISSING_APPROVED_HERO_INPUT"
+  },
+  "cleanDistSmoke": {
+    "distDir": "apps/client/dist",
+    "productionDebugHooksHiddenWithoutFlag": true,
+    "servedAssetCount": 321,
+    "notFoundCount": 0,
+    "consoleErrorCount": 0,
+    "failedAssetCount": 0,
+    "walkObserved": {
+      "d": "hero_kiem_tu_walk_right",
+      "a": "hero_kiem_tu_walk_left",
+      "w": "hero_kiem_tu_walk_up",
+      "s": "hero_kiem_tu_walk_down"
+    },
+    "cameraTelemetryVerified": true,
+    "minimapTelemetryVerified": true,
+    "twoZonePortalTraversalVerified": true,
+    "characterCreationAndCPanelVerified": true,
+    "reconnectVerified": true,
+    "twoClientsMutualVisibilityVerified": true
+  },
+  "twentySessionExercise": {
+    "sessionCount": 20,
+    "zoneMix": {
+      "tan_thu_thon": 12,
+      "thanh_truc_lam": 8
+    },
+    "durationMs": 1736,
+    "totalMovesSent": 240,
+    "totalSnapshotsReceived": 668,
+    "eventLoopLagMaxMs": 34.29,
+    "eventLoopLagAvgMs": 12.5,
+    "failures": []
+  }
+}

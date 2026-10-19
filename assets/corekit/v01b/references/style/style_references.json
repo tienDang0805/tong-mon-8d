@@ -1,0 +1,65 @@
+[
+  {
+    "referenceId": "v01b.style.thien_menh_tien_cung",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "style_direction",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-006",
+    "approvalScope": "direction_and_three_tier_grandeur",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner selection of V01-B (Thiên Mệnh Tiên Cung) with Three-Tier Progression Grandeur",
+    "profileId": "v01b.profiles.world_art",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/style/v01b_style_and_tier1_world_reference.png",
+        "sha256": "27d176152f8e62d52915b664a27e27349f7a6eb2912a517bf024dbd61c0ee45c",
+        "bytes": 962486,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_03_grounded_tan_thu_thon_world_proof.png",
+        "sha256": "63fd49bdb7203b13d78e61f4c303c9957f928a0535e251077f21073b5680e929",
+        "bytes": 2046475,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_01_ui_kit_v01b_textfree.png",
+        "sha256": "31095b0454e7cbe3f5625605b9c9cbc84937270bdb73da75d975b6606b8fbc9b",
+        "bytes": 1102141,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_03_grounded_tan_thu_thon_world_proof.png",
+        "sha256": "63fd49bdb7203b13d78e61f4c303c9957f928a0535e251077f21073b5680e929",
+        "bytes": 2046475,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_01_ui_kit_v01b_textfree.png",
+        "sha256": "31095b0454e7cbe3f5625605b9c9cbc84937270bdb73da75d975b6606b8fbc9b",
+        "bytes": 1102141,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [],
+    "identitySpec": {
+      "palette": [
+        "#FAF6EE",
+        "#96E6D1",
+        "#E5B85B",
+        "#101B33",
+        "#D92B2B"
+      ],
+      "proportions": "32x32 logical world grid, 80x96 humanoid character frames",
+      "perspective": "Top-down 3/4 orthographic xianxia pixel art",
+      "notes": "Replaces legacy Candidate A reference. Grounded Tier I Tân Thủ Thôn scales up to Tier III Celestial Palace."
+    },
+    "supersedes": [
+      "legacy.style.candidate_a"
+    ]
+  }
+]

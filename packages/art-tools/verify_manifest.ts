@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { validateCorekitRepository } from "./corekit/validateCorekit.js";
 
 const rootDir = path.resolve(import.meta.dirname, "../..");
 const manifestPath = path.join(rootDir, "assets/manifest.json");
@@ -13,6 +14,14 @@ if (!fs.existsSync(manifestPath)) {
 
 if (!fs.existsSync(provenancePath)) {
   throw new Error("Missing assets/provenance.json");
+}
+
+const corekitCheck = validateCorekitRepository({ rootDir });
+if (!corekitCheck.valid) {
+  throw new Error(
+    `Core Kit validation failed with ${corekitCheck.errors.length} error(s):\n` +
+      corekitCheck.errors.map((e) => `  - [${e.code}] ${e.message}`).join("\n")
+  );
 }
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
@@ -141,6 +150,8 @@ for (const m of manifest.maps) {
 console.log(
   JSON.stringify({
     verifiedAssets: manifest.assets.length,
+    verifiedCorekitActiveReferences: corekitCheck.summary.activeReferenceCount,
+    verifiedCorekitLegacyExceptions: corekitCheck.summary.legacyExceptionCount,
     verifiedProvenanceCharacters: (provenance.characters ?? []).length,
     verifiedVisual03wCharacters: Object.keys(provenance.visual03wPromotedAssets?.characters ?? {}).length,
     verifiedMaps: manifest.maps.length,

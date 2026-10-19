@@ -1,0 +1,720 @@
+[
+  {
+    "referenceId": "v01b.char.hero_kiem_tu",
+    "version": "2.0.0-hero-animset-01",
+    "active": true,
+    "kind": "character_identity",
+    "characterId": "hero_kiem_tu",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-009",
+    "approvalScope": "character_identity_and_runtime_animset",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Direct owner approval in HERO-ANIMSET-01 (OWNER_HERO_APPROVAL.json: 'Đã duyệt — dùng bản Hero hiện tại làm master')",
+    "profileId": "full_80x96_20row",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/characters/v01b_approved_hero_phi_rmt_masters.png",
+        "sha256": "be787ee5d8322c48ed70f3e6ebb78e57b02a9355177de9462b2b1fa17619e7bf",
+        "bytes": 431784,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/hero_kiem_tu.png",
+        "sha256": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
+        "bytes": 638788,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/portraits/portrait_hero_kiem_tu.png",
+        "sha256": "1de6fc6029fd2efe1dfa855fd73d1931308290060a41071f6e19b856333f8823",
+        "bytes": 27232,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png",
+        "sha256": "ca18e9e46de25a61e19ecf047ad844ada26f0624601df47a600293c4483de09b",
+        "bytes": 1124600,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png",
+        "sha256": "ca18e9e46de25a61e19ecf047ad844ada26f0624601df47a600293c4483de09b",
+        "bytes": 1124600,
+        "role": "canonical_identity_master"
+      },
+      {
+        "path": "assets/source_ai/source_h03_hero_source04_portrait_v01b.png",
+        "sha256": "73110fcf2206dbf086ef67cc822c1eac78612152bcce0c9d5e9d76fc01d03bdb",
+        "bytes": 711969,
+        "role": "raw_ai_portrait_source"
+      },
+      {
+        "path": "assets/source_ai/source_h04_native_down_idle_walk_v01b.png",
+        "sha256": "1e5b631a1b00f8855ac06000e4d7d82d13c978e33150190d3b6acfecf860ce68",
+        "bytes": 1172795,
+        "role": "raw_ai_down_locomotion_source"
+      },
+      {
+        "path": "assets/source_ai/source_h05_native_up_idle_walk_v01b.png",
+        "sha256": "65fdff2f76076392276ab1cb64cf343649c537a6116252060c42545fbacf4cad",
+        "bytes": 1081232,
+        "role": "raw_ai_up_locomotion_source"
+      },
+      {
+        "path": "assets/source_ai/source_h06_native_right_idle_walk_v01b.png",
+        "sha256": "55e2e61c5347841e5fa4284af11e5613e51d6286974e5d63a878564a9d8b31b9",
+        "bytes": 1203210,
+        "role": "raw_ai_right_locomotion_source"
+      },
+      {
+        "path": "assets/source_ai/source_h07_native_left_idle_walk_v01b.png",
+        "sha256": "91ba524dcc33fc41799412e2ee938608a944bf001dbc575086ab939e7bed274c",
+        "bytes": 1210777,
+        "role": "raw_ai_left_locomotion_source"
+      },
+      {
+        "path": "assets/source_ai/source_h08_native_4dir_attack_v01b.png",
+        "sha256": "01fcc604c7cb9f9b7ce86bbf1c8b7871108dd43c661b0a19184fa6714f4bc3d3",
+        "bytes": 1204595,
+        "role": "raw_ai_4dir_attack_source"
+      },
+      {
+        "path": "assets/source_ai/source_h09_native_4dir_cast_v01b.png",
+        "sha256": "c9cad59497258456742f1a363cbc06d5c62adc76835a4d6b33dd58e37bd77e90",
+        "bytes": 1165497,
+        "role": "raw_ai_4dir_cast_source"
+      },
+      {
+        "path": "assets/source_ai/source_h10_native_4dir_hurt_v01b.png",
+        "sha256": "fde6638b46e4fc36dd08d0d8b51ce1d524739470aa4e263d169aa377690acf0e",
+        "bytes": 1348979,
+        "role": "raw_ai_4dir_hurt_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_hero_kiem_tu",
+      "sprite_hero_kiem_tu"
+    ],
+    "identitySpec": {
+      "silhouette": "Agile young sword cultivator (~4.5 heads tall) with clean high ponytail and sleeveless teal surcoat over white sleeves",
+      "hair": "Warm dark-brown hair (#4A3528) in high ponytail with simple teal-jade tie (#5BC8AF); strictly no ornate crown and no long twin cyan ribbons",
+      "costume": "Crisp white inner collar and fitted white sleeves (#EEF5F8) under sleeveless teal-jade surcoat (#4CC9B8/#2E9B8E) with burnished gold trim (#E5B85B), dark navy sash (#1F3442) with double gold lines, white martial trousers, dark boots",
+      "props": "Dark ebony-slate scabbard (#232D3B) with gold fittings at hip; azure-gold spirit sword in combat states",
+      "palette": [
+        "#4A3528",
+        "#EEF5F8",
+        "#4CC9B8",
+        "#2E9B8E",
+        "#E5B85B",
+        "#1F3442",
+        "#1F2833"
+      ],
+      "proportions": "80x96 frame, standing height ~74px, foot anchor (40, 88)",
+      "perspective": "4-directional (down, left, right, up) across 5 states (idle 4f, walk 6f, attack 4f, cast 4f, hurt 4f)"
+    },
+    "supersedes": [
+      "v01b.char.hero_kiem_tu.v1_kit",
+      "v01b.char.hero_kiem_tu.v1_h01_h02"
+    ]
+  },
+  {
+    "referenceId": "v01b.npc.phi_de",
+    "version": "2.0.0-bear-hood-chicken",
+    "active": true,
+    "kind": "npc_identity",
+    "characterId": "phi_de",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "character_identity_and_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner Phì Đế / RMT Đế differentiation correction board (OWNER_PHI_RMT_CORRECTION.png + VISUAL_02B_S1_CORE_KIT.zip)",
+    "profileId": "stationary_npc_80x96_4f",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/characters/v01b_approved_hero_phi_rmt_masters.png",
+        "sha256": "be787ee5d8322c48ed70f3e6ebb78e57b02a9355177de9462b2b1fa17619e7bf",
+        "bytes": 431784,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/portraits/portrait_phi_de.png",
+        "sha256": "c9031f053a290224ab68291bddb4b175b7c3972fd01a8e6d9eef3c744e213004",
+        "bytes": 57108,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/phi_de.png",
+        "sha256": "29cee0f7c814ad41b9ead7c46998401044d5ca14f8b720fb8b6ca731d71153d5",
+        "bytes": 41053,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
+        "sha256": "5b290074dfd9ef9c05e82e525fa8a483b25e497bfe7a00f2cf328540791a3e28",
+        "bytes": 1462787,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/reference_mascot_tien_directions.png",
+        "sha256": "6c048f18f657b41ec4ed88689840074a0d7f03b88ca45324417d879b1b1610f3",
+        "bytes": 1596394,
+        "role": "owner_mascot_identity_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
+        "sha256": "5b290074dfd9ef9c05e82e525fa8a483b25e497bfe7a00f2cf328540791a3e28",
+        "bytes": 1462787,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_phi_de",
+      "sprite_phi_de"
+    ],
+    "identitySpec": {
+      "silhouette": "Chubby, round-bellied, jovial saint-cultivator wearing a fluffy cream bear-head hood with two round bear ears",
+      "faceAndHeadgear": "Clean-shaven friendly face with rectangular black-framed eyeglasses inside a cream-ivory bear-head hood (Mũ Gấu Tiên Thánh) with bear snout on collar and white jade-tipped cords; strictly NO imperial dragon crown and NO long beard",
+      "costume": "Luxurious layered ivory-white (#FAF6EE) and soft celadon-jade (#96E6D1) saint robes with imperial-gold cloud embroidery (#E5B85B), prayer beads, and celadon culinary gourd at waist",
+      "props": "Holding a golden boiled chicken drumstick (Đùi Gà Luộc Hoàng Kim) and spiritual broth cup",
+      "palette": [
+        "#FAF6EE",
+        "#96E6D1",
+        "#E5B85B",
+        "#8C6239",
+        "#2B2D42"
+      ],
+      "proportions": "80x96 frame, wide jovial silhouette, foot anchor (40, 88)",
+      "perspective": "Front/3-4 down stationary 4-frame idle strip + 160x160 portrait"
+    },
+    "supersedes": [
+      "v01b.npc.phi_de.v1_pre_correction"
+    ]
+  },
+  {
+    "referenceId": "v01b.npc.rmt_de",
+    "version": "2.0.0-than-tai",
+    "active": true,
+    "kind": "npc_identity",
+    "characterId": "rmt_de",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "character_identity_and_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner Phì Đế / RMT Đế differentiation correction board (OWNER_PHI_RMT_CORRECTION.png + VISUAL_02B_S1_CORE_KIT.zip)",
+    "profileId": "stationary_npc_80x96_4f",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/characters/v01b_approved_hero_phi_rmt_masters.png",
+        "sha256": "be787ee5d8322c48ed70f3e6ebb78e57b02a9355177de9462b2b1fa17619e7bf",
+        "bytes": 431784,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/portraits/portrait_rmt_de.png",
+        "sha256": "3824f89193ed724775b23b72060bdb4dd4470268a9da53c0d824f9599f3d82f3",
+        "bytes": 56877,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/rmt_de.png",
+        "sha256": "426a2e387686f1c57e481f3bcfe699a608d42778a96827841b39e85dfcaa67a9",
+        "bytes": 30488,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
+        "sha256": "16edf62e406f6920e90fcc2c6b1d0a9d10a3d5f9468e47e67ab719c60d63ae9a",
+        "bytes": 1259753,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
+        "sha256": "16edf62e406f6920e90fcc2c6b1d0a9d10a3d5f9468e47e67ab719c60d63ae9a",
+        "bytes": 1259753,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_rmt_de",
+      "sprite_rmt_de"
+    ],
+    "identitySpec": {
+      "silhouette": "Wide-shouldered, prosperous God-of-Wealth (Thần Tài) sovereign with horizontal winged official hat",
+      "faceAndHeadgear": "Festive crimson-red and imperial-gold Thần Tài winged official hat (Mão Thần Tài Cánh Chuồn) with horizontal golden side-fins; beaming merchant-lord face with neat lucky mustache/goatee",
+      "costume": "Vermilion-red (#D92B2B) and burnished imperial-gold (#FFD43B) brocade robe (Đại Hồng Kim Bào) with golden coin-and-cloud embroidery and jade wealth belt",
+      "props": "Large boat-shaped gold sycee ingot (Kim Nguyên Bảo) and golden abacus (Bàn Tính Hoàng Kim)",
+      "palette": [
+        "#D92B2B",
+        "#FFD43B",
+        "#E5B85B",
+        "#FAF6EE",
+        "#1F2833"
+      ],
+      "proportions": "80x96 frame, foot anchor (40, 86)",
+      "perspective": "Front/3-4 down stationary 4-frame idle strip + 160x160 portrait"
+    },
+    "supersedes": [
+      "v01b.npc.rmt_de.v1_pre_correction"
+    ]
+  },
+  {
+    "referenceId": "v01b.char.hoa_tran",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "character_identity",
+    "characterId": "hoa_tran",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "locomotion_80x96_8row",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_hoa_tran.png",
+        "sha256": "c279e1ed88f83f81bb9b4697d4e82e551fd79a61b82eb2e6c5156c8ad7800994",
+        "bytes": 42298,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/hoa_tran.png",
+        "sha256": "886e1ee9b6b9090968ac17144609f2d414baadd1c1d520267ab0394a2a7fd75f",
+        "bytes": 223383,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
+        "sha256": "5be1e1848d7355a7243d429f61ab8ce62f6da153b06fd91877c44a1418aed476",
+        "bytes": 1462123,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
+        "sha256": "5be1e1848d7355a7243d429f61ab8ce62f6da153b06fd91877c44a1418aed476",
+        "bytes": 1462123,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_hoa_tran",
+      "sprite_hoa_tran"
+    ],
+    "identitySpec": {
+      "silhouette": "Graceful wandering cultivator (Thanh Phong Hành Giả) in layered sage-green and celadon-white robes",
+      "hair": "Dark hair tied with carved green-bamboo hairpin",
+      "costume": "Sage-green (#51CF66/#2B8A3E) and pale celadon-white robes with gold cloud-leaf trim",
+      "props": "Jade wine-gourd and bamboo flute at waist",
+      "palette": [
+        "#51CF66",
+        "#2B8A3E",
+        "#FAF6EE",
+        "#E5B85B"
+      ],
+      "proportions": "80x96 frame, 8-row 4-direction idle/walk",
+      "perspective": "4-directional top-down 3/4"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.char.ngoc_tam",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "character_identity",
+    "characterId": "ngoc_tam",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "locomotion_80x96_8row",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_ngoc_tam.png",
+        "sha256": "cf1a13d6a5bf5b89557d0fa6a9a9b3c63da821e0b468dbaed4a71115a5f71117",
+        "bytes": 43585,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/ngoc_tam.png",
+        "sha256": "27ebdd509805affcfbe7aba43ee6661df8d00502cb3321cee1ec6b9fe3577edc",
+        "bytes": 221254,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
+        "sha256": "4629bf47a50153ef9cf9dc1946f1dc7bb300d4aec98684669ec821958b5ec77d",
+        "bytes": 1609695,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
+        "sha256": "4629bf47a50153ef9cf9dc1946f1dc7bb300d4aec98684669ec821958b5ec77d",
+        "bytes": 1609695,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_ngoc_tam",
+      "sprite_ngoc_tam"
+    ],
+    "identitySpec": {
+      "silhouette": "Refined spiritual cultivator (Thanh Ngọc Linh Tu) in pearl-white and mystic-violet/celadon scholar robes",
+      "hair": "Long dark hair with silver-jade crown headband",
+      "costume": "Pearl-white (#F8F9FA) and mystic-violet/celadon (#7048E8/#63E6BE) robes with gold filigree",
+      "props": "Luminous jade pendant (ngọc bội) at waist",
+      "palette": [
+        "#F8F9FA",
+        "#7048E8",
+        "#63E6BE",
+        "#E5B85B"
+      ],
+      "proportions": "80x96 frame, 8-row 4-direction idle/walk",
+      "perspective": "4-directional top-down 3/4"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.char.anh_7",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "character_identity",
+    "characterId": "anh_7",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "locomotion_80x96_8row",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_anh_7.png",
+        "sha256": "2f215c3e23a5b3af8e8200673b8b16a2cb01bc0f9d34ad436cb2eaf80fc2ff36",
+        "bytes": 47280,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/anh_7.png",
+        "sha256": "413112cf96f8bac1df76a1f5073104e92daf5b68aeee7a31ddce9252990da89b",
+        "bytes": 231505,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
+        "sha256": "8a5bcad415bf2e8f20f2fd119425654d72d8920cd738431b511d0e0906c1097c",
+        "bytes": 1437766,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
+        "sha256": "8a5bcad415bf2e8f20f2fd119425654d72d8920cd738431b511d0e0906c1097c",
+        "bytes": 1437766,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_anh_7",
+      "sprite_anh_7"
+    ],
+    "identitySpec": {
+      "silhouette": "Lone sword ranger (Huyền Kiếm Du Hiệp) in obsidian-black, steel-blue, and crimson-gold martial tunic",
+      "hair": "High warrior ponytail with crimson-gold clasp",
+      "costume": "Obsidian-black (#1C1F2B), steel-blue (#3B8EEA), and crimson-gold (#E03131/#F5C542) battle tunic and gauntlets",
+      "props": "Twin spirit swords strapped across back",
+      "palette": [
+        "#1C1F2B",
+        "#3B8EEA",
+        "#E03131",
+        "#F5C542"
+      ],
+      "proportions": "80x96 frame, 8-row 4-direction idle/walk",
+      "perspective": "4-directional top-down 3/4"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.npc.merchant_truong",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "npc_identity",
+    "characterId": "merchant_truong",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "stationary_npc_80x96_4f",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_merchant_truong.png",
+        "sha256": "e4105eee4354dc3e8c018c98415f19f5d4bdc0b3c073421ee2d776c33ca80747",
+        "bytes": 51448,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/merchant_truong.png",
+        "sha256": "f4bf6b9e913e366ca5c38073c65604defe7b51978486a693b2abb4f0f97f3f28",
+        "bytes": 12794,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_merchant_truong",
+      "sprite_merchant_truong"
+    ],
+    "identitySpec": {
+      "silhouette": "Warm elderly village spiritual chef (Lão Trù Trương) in brown-and-cream linen chef robes and apron",
+      "props": "Wooden ladle and steaming bowl of spiritual noodles",
+      "palette": [
+        "#8C6239",
+        "#FAF6EE",
+        "#E5B85B"
+      ],
+      "proportions": "80x96 stationary 4-frame strip",
+      "perspective": "Front/3-4 down"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.npc.dam_lon_tien_tu",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "npc_identity",
+    "characterId": "dam_lon_tien_tu",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "stationary_npc_80x96_4f",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_dam_lon_tien_tu.png",
+        "sha256": "040a2de27d57a7eb8bfa1951d9648fdff9e9a2beb6a099aa2212a6f724587abe",
+        "bytes": 52495,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/dam_lon_tien_tu.png",
+        "sha256": "80758718fd668d56ac497161813044e758503359504fe544de22db1ac4c7cdda",
+        "bytes": 18095,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_dam_lon_tien_tu",
+      "sprite_dam_lon_tien_tu"
+    ],
+    "identitySpec": {
+      "silhouette": "Ethereal immortal fairy (Dẩm Lồn Tiên Tử, canonical realm UNKNOWN / Bất Minh) in flowing lotus-pink and pearl-white silk robes",
+      "props": "Floating lotus-petal ribbons and nine-petal pink heart lotus aura",
+      "palette": [
+        "#FAA2C1",
+        "#FAF6EE",
+        "#E5B85B"
+      ],
+      "proportions": "80x96 stationary 4-frame strip",
+      "perspective": "Front/3-4 down"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.npc.npc_ngoc_tam",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "npc_identity",
+    "characterId": "npc_ngoc_tam",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "stationary_npc_80x96_4f",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_npc_ngoc_tam.png",
+        "sha256": "cf1a13d6a5bf5b89557d0fa6a9a9b3c63da821e0b468dbaed4a71115a5f71117",
+        "bytes": 43585,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/npc_ngoc_tam.png",
+        "sha256": "4b1fdf8a0c8fe3d39c3543e41097e9218ff0f9414f12a9c790ebbdaf686c28a9",
+        "bytes": 11663,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_npc_ngoc_tam",
+      "sprite_npc_ngoc_tam"
+    ],
+    "identitySpec": {
+      "silhouette": "Comically jinxed Bán Thánh cultivator (Xui Xẻo Chân Quân Ngọc Tâm) in teal-and-grey robes with tiny dark rain-cloud overhead",
+      "props": "Cracked jade talisman",
+      "palette": [
+        "#63E6BE",
+        "#868E96",
+        "#FAF6EE"
+      ],
+      "proportions": "80x96 stationary 4-frame strip",
+      "perspective": "Front/3-4 down"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.npc.thai_tai",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "npc_identity",
+    "characterId": "thai_tai",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "stationary_npc_80x96_4f",
+    "masterFiles": [
+      {
+        "path": "assets/portraits/portrait_thai_tai.png",
+        "sha256": "c0431835eb1b574031eb02cc139354ed853aa0e21b7719f3a09ac55d7aadabbc",
+        "bytes": 51934,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/thai_tai.png",
+        "sha256": "43dd0968c215d1f9f28dc5770b77994117f3d9a6edde8aeb5e12159173123b6a",
+        "bytes": 13387,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+        "sha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
+        "bytes": 1477271,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_thai_tai",
+      "sprite_thai_tai"
+    ],
+    "identitySpec": {
+      "silhouette": "Wise white-bearded treasure appraiser (Thái Tài Thiên Nhãn Giám Bảo) in scholar-blue and bronze-gold robes",
+      "props": "Ancient jade appraisal mirror / monocle (Thiên Nhãn Cổ Kính)",
+      "palette": [
+        "#3B8EEA",
+        "#E5B85B",
+        "#FAF6EE"
+      ],
+      "proportions": "80x96 stationary 4-frame strip",
+      "perspective": "Front/3-4 down"
+    },
+    "supersedes": []
+  }
+]

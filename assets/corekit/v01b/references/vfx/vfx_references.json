@@ -1,0 +1,71 @@
+[
+  {
+    "referenceId": "v01b.vfx.s1_core_vfx",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "vfx_kit",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "vfx_strip_64x64_4f",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/vfx/v01b_vfx_strips_reference.png",
+        "sha256": "bef2eda42ede2aa8005dcfd8cc6723d3cd6bf7533597016509c39ac1e7051b77",
+        "bytes": 81241,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/vfx/portal_ring.png",
+        "sha256": "5a349df1a79b9c62686931192c9a286a85c1d8486c32d82301779cbeb9cdd74f",
+        "bytes": 21600,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/vfx/phi_de_blessing.png",
+        "sha256": "d84b495d236dc9ef82cec99891a239cc47424133520c1e2670f4bea6842799d4",
+        "bytes": 18837,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/vfx/combat_vfx.png",
+        "sha256": "46f53b4b026dee8400f566b36c5be651a82c737651fb5aa3c0cb7d6510665e92",
+        "bytes": 33624,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/vfx_combat_4x4.png",
+        "sha256": "d2e9f01f3d82a0f0ce38e04bff254fb143e1c876b51a49e18aeb07533ad8c2a7",
+        "bytes": 1420885,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "vfx_portal_ring",
+      "vfx_phi_de_blessing",
+      "vfx_combat_sheet"
+    ],
+    "identitySpec": {
+      "palette": [
+        "#63E6BE",
+        "#FFD43B",
+        "#3B8EEA",
+        "#FAF6EE"
+      ],
+      "proportions": "64x64 frames (256x64 4-frame strips and 256x256 4x4 combat sheet)",
+      "perspective": "Top-down 3/4 additive/alpha xianxia spell and sword-qi effects"
+    },
+    "supersedes": []
+  }
+]

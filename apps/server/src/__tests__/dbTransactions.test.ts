@@ -2119,4 +2119,56 @@ describe("S1-B2 Database Transaction Infrastructure", () => {
     },
     15000
   );
+
+  it(
+    "T10: does not delete _fsm/_vm files or execute hidden WAL/VACUUM/CHECKPOINT recovery queries on file-backed open, query, or transaction",
+    async () => {
+      const tmpDir = fs.mkdtempSync(
+        path.join(os.tmpdir(), "tm8d-pglite-no-autorepair-")
+      );
+      try {
+        fs.mkdirSync(path.join(tmpDir, "base", "1"), { recursive: true });
+        fs.mkdirSync(path.join(tmpDir, "global"), { recursive: true });
+        fs.writeFileSync(path.join(tmpDir, "PG_VERSION"), "16\n", "utf-8");
+        const fsmFile = path.join(tmpDir, "base", "1", "12345_fsm");
+        const vmFile = path.join(tmpDir, "global", "1262_vm");
+        fs.writeFileSync(fsmFile, Buffer.alloc(16, 1));
+        fs.writeFileSync(vmFile, Buffer.alloc(16, 2));
+
+        const executedQueries: string[] = [];
+        const mockDriver: PGliteDriverLike = {
+          waitReady: Promise.resolve(),
+          async query<T = Record<string, unknown>>(sql: string) {
+            executedQueries.push(sql);
+            return { rows: [] as T[] };
+          },
+          async transaction<T>(
+            cb: (tx: PGliteTransactionDriverLike) => Promise<T>
+          ): Promise<T> {
+            return cb({
+              async query<R = Record<string, unknown>>(sql: string) {
+                executedQueries.push(`tx:${sql}`);
+                return { rows: [] as R[] };
+              }
+            });
+          },
+          async close() {}
+        };
+
+        const adapter = new PGliteAdapter(tmpDir, mockDriver);
+        await adapter.query("SELECT 1");
+        await adapter.withTransaction(async (tx) => {
+          await tx.query("SELECT 2");
+        });
+        await adapter.close();
+
+        expect(fs.existsSync(fsmFile)).toBe(true);
+        expect(fs.existsSync(vmFile)).toBe(true);
+        expect(executedQueries).toEqual(["SELECT 1", "tx:SELECT 2"]);
+      } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true });
+      }
+    },
+    15000
+  );
 });

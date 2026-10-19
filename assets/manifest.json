@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "styleDirection": "Candidate A — Classic Crisp 16/32-bit Xianxia Top-Down RPG (AI Multi-Pose Pipeline)",
+  "version": "2.1.0",
+  "styleDirection": "V01-B — THIÊN MỆNH TIÊN CUNG (Three-Tier Progression Grandeur)",
   "logicalTileGrid": 32,
   "characterFrameSize": {
     "width": 80,
@@ -25,19 +25,25 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.phi_de"
     },
     {
       "assetId": "portrait_hero_kiem_tu",
       "file": "assets/portraits/portrait_hero_kiem_tu.png",
       "category": "portrait",
       "characterId": "hero_kiem_tu",
-      "source": "Antigravity image-generator subagent + packages/art-tools/build_assets.py chroma-key normalization",
+      "source": "assets/source_ai/source_h03_hero_source04_portrait_v01b.png (anchored on source_04_hero_and_chatdvt_multipose_sprite_proof.png)",
       "license": "Original AI-Assisted Project Asset",
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "HUMAN_APPROVED",
+      "corekitReferenceId": "v01b.char.hero_kiem_tu"
     },
     {
       "assetId": "portrait_chatdvt",
@@ -49,7 +55,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.creature.chatdvt"
     },
     {
       "assetId": "portrait_merchant_truong",
@@ -61,7 +70,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.merchant_truong"
     },
     {
       "assetId": "portrait_hoa_tran",
@@ -73,7 +85,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.char.hoa_tran"
     },
     {
       "assetId": "portrait_dam_lon_tien_tu",
@@ -85,7 +100,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.dam_lon_tien_tu"
     },
     {
       "assetId": "portrait_rmt_de",
@@ -97,7 +115,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.rmt_de"
     },
     {
       "assetId": "portrait_vaal_de",
@@ -109,7 +130,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.portrait.vaal_de"
     },
     {
       "assetId": "portrait_anh_7",
@@ -121,7 +145,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.char.anh_7"
     },
     {
       "assetId": "portrait_ngoc_tam",
@@ -133,7 +160,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.char.ngoc_tam"
     },
     {
       "assetId": "sprite_hero_kiem_tu",
@@ -141,7 +171,7 @@
       "category": "character_spritesheet",
       "characterId": "hero_kiem_tu",
       "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
-      "source": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png + assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
+      "source": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png + assets/source_ai/source_h04_native_down_idle_walk_v01b.png..source_h10_native_4dir_hurt_v01b.png",
       "license": "Original AI-Generated & Post-Processed Project Asset",
       "status": "approved",
       "width": 480,
@@ -198,7 +228,10 @@
           ],
           "framesPerRow": 4
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "HUMAN_APPROVED",
+      "corekitReferenceId": "v01b.char.hero_kiem_tu"
     },
     {
       "assetId": "sprite_phi_de",
@@ -224,9 +257,12 @@
           ],
           "framesPerRow": 4,
           "fps": 5,
-          "gif": "assets/sprites/gifs/phi_de_idle.gif"
+          "gif": "assets/previews/phi_de_idle.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.phi_de"
     },
     {
       "assetId": "sprite_chatdvt",
@@ -255,7 +291,7 @@
           ],
           "framesPerRow": 6,
           "fps": 6,
-          "gif": "assets/sprites/gifs/chatdvt_idle.gif"
+          "gif": "assets/previews/chatdvt_idle.gif"
         },
         "walk": {
           "rows": [
@@ -266,9 +302,12 @@
           ],
           "framesPerRow": 6,
           "fps": 8,
-          "gif": "assets/sprites/gifs/chatdvt_walk.gif"
+          "gif": "assets/previews/chatdvt_walk.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.creature.chatdvt"
     },
     {
       "assetId": "sprite_merchant_truong",
@@ -294,9 +333,12 @@
           ],
           "framesPerRow": 4,
           "fps": 5,
-          "gif": "assets/sprites/gifs/merchant_truong_idle.gif"
+          "gif": "assets/previews/merchant_truong_idle.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.merchant_truong"
     },
     {
       "assetId": "sprite_hoa_tran",
@@ -325,7 +367,7 @@
           ],
           "framesPerRow": 6,
           "fps": 6,
-          "gif": "assets/sprites/gifs/hoa_tran_idle.gif"
+          "gif": "assets/previews/hoa_tran_idle.gif"
         },
         "walk": {
           "rows": [
@@ -336,9 +378,12 @@
           ],
           "framesPerRow": 6,
           "fps": 8,
-          "gif": "assets/sprites/gifs/hoa_tran_walk.gif"
+          "gif": "assets/previews/hoa_tran_walk.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.char.hoa_tran"
     },
     {
       "assetId": "sprite_dam_lon_tien_tu",
@@ -364,9 +409,12 @@
           ],
           "framesPerRow": 4,
           "fps": 5,
-          "gif": "assets/sprites/gifs/dam_lon_tien_tu_idle.gif"
+          "gif": "assets/previews/dam_lon_tien_tu_idle.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.dam_lon_tien_tu"
     },
     {
       "assetId": "sprite_truc_lang",
@@ -422,7 +470,10 @@
           ],
           "framesPerRow": 4
         }
-      }
+      },
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.creature.truc_lang"
     },
     {
       "assetId": "sprite_thanh_lan_xa",
@@ -478,7 +529,10 @@
           ],
           "framesPerRow": 4
         }
-      }
+      },
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.creature.thanh_lan_xa"
     },
     {
       "assetId": "sprite_rmt_de",
@@ -504,9 +558,12 @@
           ],
           "framesPerRow": 4,
           "fps": 5,
-          "gif": "assets/sprites/gifs/rmt_de_idle.gif"
+          "gif": "assets/previews/rmt_de_idle.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.rmt_de"
     },
     {
       "assetId": "sprite_vaal_de",
@@ -562,7 +619,10 @@
           ],
           "framesPerRow": 4
         }
-      }
+      },
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.npc.vaal_de"
     },
     {
       "assetId": "sprite_anh_7",
@@ -591,7 +651,7 @@
           ],
           "framesPerRow": 6,
           "fps": 6,
-          "gif": "assets/sprites/gifs/anh_7_idle.gif"
+          "gif": "assets/previews/anh_7_idle.gif"
         },
         "walk": {
           "rows": [
@@ -602,9 +662,12 @@
           ],
           "framesPerRow": 6,
           "fps": 8,
-          "gif": "assets/sprites/gifs/anh_7_walk.gif"
+          "gif": "assets/previews/anh_7_walk.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.char.anh_7"
     },
     {
       "assetId": "sprite_ngoc_tam",
@@ -633,7 +696,7 @@
           ],
           "framesPerRow": 6,
           "fps": 6,
-          "gif": "assets/sprites/gifs/ngoc_tam_idle.gif"
+          "gif": "assets/previews/ngoc_tam_idle.gif"
         },
         "walk": {
           "rows": [
@@ -644,9 +707,12 @@
           ],
           "framesPerRow": 6,
           "fps": 8,
-          "gif": "assets/sprites/gifs/ngoc_tam_walk.gif"
+          "gif": "assets/previews/ngoc_tam_walk.gif"
         }
-      }
+      },
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.char.ngoc_tam"
     },
     {
       "assetId": "prop_noodle_stall",
@@ -657,7 +723,10 @@
       "status": "approved",
       "width": 244,
       "height": 249,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_than_dinh",
@@ -668,7 +737,10 @@
       "status": "approved",
       "width": 128,
       "height": 233,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_portal_arch",
@@ -679,7 +751,10 @@
       "status": "approved",
       "width": 176,
       "height": 251,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_bamboo_cluster",
@@ -690,7 +765,10 @@
       "status": "approved",
       "width": 129,
       "height": 240,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_temple_pavilion",
@@ -701,7 +779,10 @@
       "status": "approved",
       "width": 160,
       "height": 128,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.prop.temple_pavilion"
     },
     {
       "assetId": "prop_peach_tree",
@@ -712,7 +793,10 @@
       "status": "approved",
       "width": 217,
       "height": 249,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_stone_lantern",
@@ -723,7 +807,10 @@
       "status": "approved",
       "width": 62,
       "height": 120,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_spirit_herb",
@@ -734,7 +821,10 @@
       "status": "approved",
       "width": 183,
       "height": 180,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "tileset_bat_hoang",
@@ -747,7 +837,10 @@
       "height": 256,
       "tileWidth": 32,
       "tileHeight": 32,
-      "tileCount": 128
+      "tileCount": 128,
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.tileset.bat_hoang"
     },
     {
       "assetId": "vfx_portal_ring",
@@ -760,7 +853,10 @@
       "width": 256,
       "height": 64,
       "frameWidth": 64,
-      "frameHeight": 64
+      "frameHeight": 64,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.vfx.s1_core_vfx"
     },
     {
       "assetId": "vfx_phi_de_blessing",
@@ -773,7 +869,10 @@
       "width": 256,
       "height": 64,
       "frameWidth": 64,
-      "frameHeight": 64
+      "frameHeight": 64,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.vfx.s1_core_vfx"
     },
     {
       "assetId": "vfx_combat_sheet",
@@ -786,7 +885,10 @@
       "width": 256,
       "height": 256,
       "frameWidth": 64,
-      "frameHeight": 64
+      "frameHeight": 64,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.vfx.s1_core_vfx"
     },
     {
       "assetId": "contact_sheet_preview",
@@ -796,7 +898,10 @@
       "license": "Original Project Asset (MIT/Proprietary)",
       "status": "approved",
       "width": 960,
-      "height": 560
+      "height": 560,
+      "role": "legacy_required",
+      "creativeApprovalState": "PLACEHOLDER",
+      "corekitReferenceId": "legacy.preview.contact_sheet"
     },
     {
       "assetId": "portrait_npc_ngoc_tam",
@@ -808,7 +913,10 @@
       "status": "approved",
       "width": 160,
       "height": 160,
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.npc_ngoc_tam"
     },
     {
       "assetId": "sprite_npc_ngoc_tam",
@@ -834,10 +942,13 @@
           ],
           "framesPerRow": 4,
           "fps": 5,
-          "gif": "assets/sprites/gifs/npc_ngoc_tam_idle.gif"
+          "gif": "assets/previews/npc_ngoc_tam_idle.gif"
         }
       },
-      "requiresTransparency": true
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.npc_ngoc_tam"
     },
     {
       "assetId": "tileset_tan_thu_thon_v01b",
@@ -851,7 +962,10 @@
       "height": 192,
       "tileWidth": 32,
       "tileHeight": 32,
-      "tileCount": 48
+      "tileCount": 48,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "ui_hud_minimap_astrolabe_ring",
@@ -863,7 +977,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 180,
-      "height": 180
+      "height": 180,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.ui.batch_a_core_kit"
     },
     {
       "assetId": "building_tan_thu_tu_duong",
@@ -875,7 +992,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 405,
-      "height": 389
+      "height": 389,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "building_tu_bao_cac",
@@ -887,7 +1007,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 343,
-      "height": 384
+      "height": 384,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "building_hong_tran_cac",
@@ -899,7 +1022,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 291,
-      "height": 324
+      "height": 324,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_arched_bridge",
@@ -911,7 +1037,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 235,
-      "height": 183
+      "height": 183,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_bridge_horizontal",
@@ -923,7 +1052,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 281,
-      "height": 209
+      "height": 209,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_village_stele",
@@ -935,7 +1067,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 110,
-      "height": 210
+      "height": 210,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_incense_brazier",
@@ -947,7 +1082,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 114,
-      "height": 223
+      "height": 223,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_jade_rock",
@@ -959,7 +1097,10 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 186,
-      "height": 198
+      "height": 198,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
     },
     {
       "assetId": "prop_wooden_fence",
@@ -971,7 +1112,132 @@
       "status": "approved",
       "requiresTransparency": true,
       "width": 271,
-      "height": 148
+      "height": 148,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.world.tan_thu_thon_modular_kit"
+    },
+    {
+      "assetId": "portrait_thai_tai",
+      "file": "assets/portraits/portrait_thai_tai.png",
+      "category": "portrait",
+      "characterId": "thai_tai",
+      "source": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+      "license": "Original AI-Assisted Project Asset",
+      "status": "approved",
+      "width": 160,
+      "height": 160,
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.thai_tai"
+    },
+    {
+      "assetId": "sprite_thai_tai",
+      "file": "assets/sprites/thai_tai.png",
+      "category": "character_spritesheet",
+      "characterId": "thai_tai",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "width": 320,
+      "height": 96,
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9167
+      },
+      "animations": {
+        "idle": {
+          "rows": [
+            0
+          ],
+          "framesPerRow": 4,
+          "fps": 5,
+          "gif": "assets/previews/thai_tai_idle.gif"
+        }
+      },
+      "requiresTransparency": true,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.npc.thai_tai"
+    },
+    {
+      "assetId": "ui_entry_title_and_creation_terrace_backdrop",
+      "file": "assets/ui/entry/bg_title_and_creation_terrace_v01b.png",
+      "category": "ui_chrome",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e01_title_and_creation_terrace_backdrop_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": false,
+      "width": 1376,
+      "height": 768,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.ui.approved_screen_concepts"
+    },
+    {
+      "assetId": "ui_entry_destiny_astrolabe_chamber_backdrop",
+      "file": "assets/ui/entry/bg_destiny_astrolabe_chamber_v01b.png",
+      "category": "ui_chrome",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e02_destiny_astrolabe_chamber_backdrop_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": false,
+      "width": 1376,
+      "height": 768,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.ui.approved_screen_concepts"
+    },
+    {
+      "assetId": "ui_presentation_header_banner_crest",
+      "file": "assets/ui/presentation/header_banner_crest_v01b.png",
+      "category": "ui_chrome",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 1275,
+      "height": 177,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.ui.approved_screen_concepts"
+    },
+    {
+      "assetId": "ui_presentation_cultivation_meditation_star_wheel",
+      "file": "assets/ui/presentation/cultivation_meditation_star_wheel_v01b.png",
+      "category": "ui_chrome",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 523,
+      "height": 497,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.ui.approved_screen_concepts"
+    },
+    {
+      "assetId": "ui_presentation_cultivation_meridian_hexagram_plate",
+      "file": "assets/ui/presentation/cultivation_meridian_hexagram_plate_v01b.png",
+      "category": "ui_chrome",
+      "artClassification": "POST-PROCESSED ART (from AI-GENERATED SOURCE ART)",
+      "source": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png",
+      "license": "Original AI-Generated & Post-Processed Project Asset",
+      "status": "approved",
+      "requiresTransparency": true,
+      "width": 498,
+      "height": 494,
+      "role": "runtime",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "corekitReferenceId": "v01b.ui.approved_screen_concepts"
     }
   ],
   "maps": [
@@ -987,5 +1253,6 @@
       "widthTiles": 44,
       "heightTiles": 32
     }
-  ]
+  ],
+  "corekitCatalog": "assets/corekit/v01b/catalog.json"
 }

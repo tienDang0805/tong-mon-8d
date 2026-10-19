@@ -25,14 +25,14 @@ When resolving conflicts between documents, prompts, or historical reports, agen
 
 ## 2. Project Boundaries & Monorepo Architecture
 
-Route source organization, domain feature directories, and dependency rules through **`docs/technical/SOURCE_ARCHITECTURE.md`**:
+Route source organization, domain feature directories, and dependency rules through **`docs/technical/SOURCE_ARCHITECTURE.md`** (verified by `npm run verify:architecture` / `scripts/verify-architecture.mjs`):
 
-- `packages/shared/`: Shared TypeScript protocol contracts, message payloads, and deterministic constants.
-- `packages/game-data/`: Canonical source of truth for `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries, 10 legendary NPCs, zones, portals, enemies, items, culinary recipes, quests, and balance simulation models (`src/catalogs/*`, `src/rules/*`, `src/td01Numeric.ts`, `src/index.ts`).
-- `packages/art-tools/`: Legacy monolithic prototype asset script (`build_assets.py` — contains procedural `ImageDraw` tileset/VFX generation and full manifest/map rewrites; **never execute as a whole production command**, with or without `--force`, pending separately approved command-level audit/refactor) and `assets/manifest.json` + `assets/provenance.json` verifier (`verify_manifest.ts` — implements character source SHA checks and asset dimensions/alpha/frame checks to current validator scope; portable provenance paths across all fields are not comprehensively enforced and provider/method allowlists are not yet implemented).
-- `apps/server/`: Authoritative Node.js + Colyseus (`0.18.x`) multiplayer server (`src/index.ts`, `src/zoneRoom.ts`, `src/worldEngine.ts`, `src/features/**`) with embedded/external PostgreSQL (`@electric-sql/pglite` / `pg` in `src/db.ts`) persistence, spatial collision validation, monster AI simulation, combat, culinary/shop, quest, party, and offline cultivation services.
-- `apps/client/`: Phaser `4.2.1` + TypeScript + Vite browser client (`src/main.ts`, `src/WorldScene.ts`, `src/hud.ts`, `src/network.ts`, `src/audio.ts`, `src/features/**`) with Tiled JSON map rendering, Y-sorted depth occlusion, dual-resolution 4-directional sprite animations (`80x96` multi-pose in `480x1920` sheets + preserved legacy `48x64` in `288x1024` sheets), client interpolation, synthesized WebAudio sound effects, and compact xianxia HUD.
-- `assets/` & `maps/`: Source AI grids (`assets/source_ai/`), concept sheets (`assets/concepts/`), runtime sprites/portraits/props/tilesets/VFX, `manifest.json`, `provenance.json`, and Tiled JSON maps (`maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`).
+- `packages/shared/`: Shared TypeScript protocol contracts, message payloads, and deterministic constants (`src/protocols/*`, `src/ids/*`, `src/snapshots/*`, compatibility barrel `src/index.ts`).
+- `packages/game-data/`: Canonical source of truth for `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries, 10 legendary NPCs, zones, portals, enemies, items, culinary recipes, quests, techniques, and balance simulation models (`src/catalogs/*`, `src/rules/*`, `src/td01Numeric.ts`, compatibility barrel `src/index.ts`).
+- `packages/art-tools/`: Pure Core Kit & manifest/provenance/map validator (`packages/art-tools/corekit/validateCorekit.ts` + `packages/art-tools/verify_manifest.ts`) enforcing `assets/corekit/v01b/catalog.json`, active master uniqueness, SHA-256 digests, portable repository paths, symlink containment, profile geometry (`apps/client/src/game/assets/runtimeAnimationProjection.json`), Tiled `.tmj` image dependency closure, and native provider/method allowlists for new production entries. `packages/art-tools/build_assets.py` and `npm run generate:art*` are permanently disabled fail-closed entrypoints (`exit code 2` before any write; original Phase 0 script archived at `packages/art-tools/legacy/build_assets.py` as non-executable historical provenance).
+- `apps/server/`: Authoritative Node.js + Colyseus (`0.18.x`) multiplayer server (`src/index.ts`, `src/app/createGameServer.ts`, `src/transport/colyseus/ZoneRoom.ts`, `src/transport/http/registerHttpRoutes.ts`, `src/runtime/world/WorldRuntime.ts`, `src/infrastructure/database/{DbPorts,PgAdapter,LegacyWorldPorts}.ts`, `src/features/{character,destiny,combat,economy,quests}/*`, plus compatibility locators `src/zoneRoom.ts`, `src/worldEngine.ts`, `src/db.ts`, `src/characterV02*.ts`, `src/guestIdentity.ts`) with embedded/external PostgreSQL (`@electric-sql/pglite` / `pg`) persistence and explicit test-clock route opt-in (`enableTestClockApi: true` / `ENABLE_TEST_CLOCK_API=true`; route unregistered `404` by default) for `/api/test/advance-clock`.
+- `apps/client/`: Phaser `4.2.1` + TypeScript + Vite browser client (`src/main.ts`, `src/app/GameBootstrap.ts`, `src/game/WorldScene.ts`, `src/game/assets/{RuntimeAssetBindings,SpriteProfiles,runtimeAnimationProjection.json}`, `src/game/combat/{AnimationRegistry,CombatVisuals}.ts`, `src/game/world/{MapView,ActorViewSystem,CameraView,MinimapView}.ts`, `src/game/input/PlayerInput.ts`, `src/game/debug/WorldDebugController.ts`, `src/ui/{HudShell,ports}.ts`, `src/features/character/{CharacterCreationView,CharacterPanel}.ts`, `src/features/shops/HudShell.ts`, `src/network/GameNetworkClient.ts`, `src/audio/audio.ts`, `src/styles.css`, plus compatibility re-exports `src/WorldScene.ts`, `src/hud.ts`, `src/characterCreation.ts`, `src/network.ts`, `src/audio.ts`) and deterministic static runtime asset packager (`scripts/package-runtime-assets.mjs`).
+- `assets/` & `maps/`: Canonical `V01-B` Core Kit (`assets/corekit/v01b/catalog.json`, `COREKIT_INDEX.md`, `profiles/{animation,ui-tokens,world-art}.json`, `references/{style,characters,creatures,world,ui,vfx}/`), immutable raw AI sources (`assets/source_ai/`), reusable Batch A UI kit (`assets/ui/**`), runtime sprites/portraits/props/tilesets/VFX, historical archive (`assets/archive/history/**` with `role: "archive_only"`), `manifest.json`, `provenance.json`, and Tiled JSON maps (`maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`).
 
 ---
 
@@ -60,8 +60,8 @@ Route source organization, domain feature directories, and dependency rules thro
 
 ## 4. Non-Negotiable AI Art Production Policy
 
-1. **Genuine Generative Origin Required**:
-   ALL NEW FINAL VISUAL ARTWORK must originate from genuine generative image model output or from approved AI-generated source artwork. This includes:
+1. **Genuine Generative Origin & Core Kit Resolution Required**:
+   ALL NEW FINAL VISUAL ARTWORK must originate from the Argon host's built-in `image-generator` subagent (`TypeName: "image-generator"`) with exact master reference images resolved from `assets/corekit/v01b/catalog.json` attached, or from owner-supplied approved AI-generated source artwork. Never free-browse `assets/archive/history/`, `assets/archive/history/concepts/`, or `archive_pre_correction` as active masters. This applies to:
    - Character sprites
    - NPCs and monsters
    - Buildings and architecture
@@ -72,36 +72,35 @@ Route source organization, domain feature directories, and dependency rules thro
    - UI decorative artwork
    - VFX source images
    - Backgrounds
-2. **Prohibition on Procedural / Code-Drawn Production Art**:
-   - Python, Pillow, Node.js, SVG, or Canvas drawing scripts may **NOT** replace genuine generated artwork with geometric or procedural production art.
-   - The installed `codeart2d` skill must **NOT** be used to generate final production artwork without explicit project-owner authorization.
-   - There is **NO automatic fallback** to procedural art when image generation is unavailable.
+2. **Prohibition on Procedural / Code-Drawn Production Art & Fake Motion**:
+   - Python, Pillow, Node.js, SVG, or Canvas drawing scripts (`ImageDraw`, `codeart2d`) may **NOT** replace genuine generated artwork with geometric or procedural production art, and affine warps/flips/shears of a single static frame may **NOT** be used to fake multi-frame animation sequences.
+   - Never invoke external paid APIs or external CLI media routers (`route_media.py`, `video2dsprite`).
+   - When the host's native `image-generator` tool is unavailable or fails after bounded transient retries, return **`BLOCKED`** immediately — there is **NO automatic fallback** to procedural art.
 3. **Permitted Script Usage (Explicitly Audited Non-Generative Post-Processing & Packaging Only)**:
-   Only explicitly audited, non-generative post-processing commands (`.agents/skills/generate2dsprite/scripts/assemble_frames.py`, `.agents/skills/pixel-art/scripts/*`, `.agents/skills/generate2dmap/scripts/*`, `packages/art-tools/verify_manifest.ts`) remain permitted strictly for:
-   - Post-processing and scaling
+   Only explicitly audited, non-generative post-processing commands (`.agents/skills/generate2dsprite/scripts/*`, `.agents/skills/pixel-art/scripts/*`, `.agents/skills/generate2dmap/scripts/*`, `packages/art-tools/verify_manifest.ts`, `scripts/package-runtime-assets.mjs`) remain permitted strictly for:
+   - Post-processing and nearest-neighbor scaling
    - Chroma-key / transparency cleanup
    - Palette quantization and corrections
    - Frame alignment, slicing, and extraction
    - Animation atlas packing and GIF preview generation
    - Tileset assembly from generated tile/prop sources
    - Tiled map placement and collision layer authoring
-   - Asset manifest/provenance validation (`verify_manifest.ts`)
-   - Technical gameplay rendering
-   - **Prohibition on Whole-Command `packages/art-tools/build_assets.py` Execution**: Never execute `python packages/art-tools/build_assets.py` as a whole production asset generation/post-processing command, including with `--force` (`npm run generate:art` / `npm run generate:art:force`), because its `main()` invokes `build_portraits_and_sprites()`, `build_tileset()`, `build_vfx_and_contact_sheet()`, `build_tiled_maps()`, rewrites manifest/provenance, and contains procedural `ImageDraw` tileset/VFX generation. Treat existing `packages/art-tools/build_assets.py` as legacy tooling requiring command-level audit/refactor before production execution.
-4. **Placeholder & Legacy Asset Preservation**:
-   - Preserve existing placeholders and legacy `48x64` assets until `HUMAN_APPROVED` generative replacements have been produced and approved.
-   - Never run destructive asset regeneration (`npm run generate:art:force` / `python packages/art-tools/build_assets.py`) or paid external image/video APIs without explicit project-owner authorization (`docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`).
+   - Core Kit + asset manifest/provenance validation (`verify_manifest.ts` + `packages/art-tools/corekit/validateCorekit.ts`)
+   - Deterministic static runtime packaging (`scripts/package-runtime-assets.mjs`)
+   - **Disabled Procedural Generator Entrypoints**: Both `python packages/art-tools/build_assets.py` (with or without `--force`) and `npm run generate:art` / `npm run generate:art:force` are permanently disabled fail-closed entrypoints (`exit code 2` before any filesystem write). The historical Phase 0 script is archived at `packages/art-tools/legacy/build_assets.py` as non-executable historical provenance.
+4. **Explicit `legacy_required` & Approved Asset Preservation**:
+   - Preserve explicit `legacy_required` assets (`bat_hoang_tileset.png`, `truc_lang.png`, `thanh_lan_xa.png`, `vaal_de.png`, `combat_vfx.png`, `portrait_vaal_de.png`, `portrait_gia_bao.png`) until `HUMAN_APPROVED` V01-B replacements exist, and preserve the owner-approved Desktop `HERO-ANIMSET-01` master (`v01b.char.hero_kiem_tu@2.0.0-hero-animset-01`) and corrected `phi_de` / `rmt_de` masters (`DEC-008`, `DEC-009`).
 
 ---
 
 ## 5. Creative Approval States & Human Decisions Ledger
 
-All visual directions and individual assets must be tracked using five distinct lifecycle states:
+Asset `role` (`master_reference`, `production_candidate`, `runtime`, `legacy_required`, `archive_only`) is tracked separately from `creativeApprovalState` using five distinct lifecycle states:
 - `PROPOSED`: Generated or designed, awaiting human review.
-- `TECHNICALLY_VERIFIED`: Passes automated dimensions, transparency, frame count, and SHA-256 checks (`verify_manifest.ts` / `quality_audit.py`), but has **not** received human creative approval. *(Current `packages/art-tools/verify_manifest.ts` enforcement scope: existing character source SHA checks and asset dimensions/alpha/frame checks are implemented to current validator scope; portable provenance paths across all fields are not comprehensively enforced and provider/method allowlists are not yet implemented — future enforcement remains a separately approved tooling task.)*
-- `HUMAN_APPROVED`: Explicitly reviewed and approved by the human project owner at actual gameplay zoom.
-- `REJECTED`: Rejected for style, readability, or lore reasons.
-- `PLACEHOLDER`: Temporary/legacy asset retained solely to keep the build playable until a `HUMAN_APPROVED` asset replaces it.
+- `TECHNICALLY_VERIFIED`: Passes automated Core Kit catalog, dimension, transparency, frame distinctness, Tiled dependency closure, and SHA-256 checks (`verify_manifest.ts` + `validateCorekit.ts`), but has **not** received final in-engine human creative approval. *(Note: a JSON provider declaration in `provenance.json` is structural provenance metadata, not cryptographic proof of pixel origin or automated aesthetic judgment.)*
+- `HUMAN_APPROVED`: Explicitly reviewed and approved by the human project owner (with `approvalScope` distinguishing `direction_and_s1_core_kit_sample` reference approval from `runtime_character_master` in-engine approval).
+- `REJECTED`: Rejected for style, readability, or lore reasons (`assets/archive/history/**`, `cannotBeUsedAsActiveMaster: true`).
+- `PLACEHOLDER`: Temporary/legacy asset (`role: "legacy_required"`) retained solely to keep the build playable until a `HUMAN_APPROVED` asset replaces it.
 
 **Mechanism for Recording Human-Approved Creative Decisions**:
 - Never promote `TECHNICALLY_VERIFIED` (`status: "approved"` in `manifest.json` or `status: "pass"` in `provenance.json`) to `HUMAN_APPROVED` autonomously (`RULES.md` Rule 6).
@@ -110,10 +109,15 @@ All visual directions and individual assets must be tracked using five distinct 
 | Decision ID | Date | Scope / Asset / Doc | State | Approved By | Notes |
 |---|---|---|---|---|---|
 | `DEC-001` | 2026-10-16 | Canonical `Phàm Nhân` + 17 Major Realms (= 18 Ordered Entries) & 10 Legends Lore Baseline | `HUMAN_APPROVED` | Project Owner | Locked via `MASTER_PROMPT.md` & Phase 1A instructions |
-| `DEC-002` | 2026-10-16 | Candidate A Visual Direction (`candidate_a_classic_xianxia.jpg`) | `PROPOSED` / `TECHNICALLY_VERIFIED` | Pending Human Owner | Currently a `PROPOSED` visual reference (not a fully `HUMAN_APPROVED` style lock); an art production proof must receive owner creative approval (`HUMAN_APPROVED`) before scaling asset production |
-| `DEC-003` | 2026-10-16 | Phase 0 Multi-Pose PoC Sprites (`hero_kiem_tu`, `phi_de`, `dam_lon_tien_tu`, `combat_vfx`) | `TECHNICALLY_VERIFIED` | Pending Human Owner | `480x1920` (`80x96` frames) verified in engine; awaiting Phase 1–2 human visual sign-off |
+| `DEC-002` | 2026-10-16 | Candidate A Visual Direction (`candidate_a_classic_xianxia.jpg`) | `PROPOSED` / `TECHNICALLY_VERIFIED` *(Historical)* | Superseded by `DEC-006` | Archived in `assets/archive/history/concepts/candidate_a_classic_xianxia.jpg`; superseded as active style direction by `V01-B` (`DEC-006`) |
+| `DEC-003` | 2026-10-16 | Phase 0 Multi-Pose PoC Sprites (`hero_kiem_tu`, `phi_de`, `dam_lon_tien_tu`, `combat_vfx`) | `TECHNICALLY_VERIFIED` *(Historical)* | Superseded by `DEC-007`–`DEC-009` | Superseded for `hero_kiem_tu`, `phi_de`, and `dam_lon_tien_tu`; `combat_vfx` remains `legacy_required` (`PLACEHOLDER`) |
 | `DEC-004` | 2026-10-16 | Game Design Baseline v0.2 (`docs/DECISIONS.md` & 10 Phase 1B.0 docs) | `HUMAN_APPROVED` / `DESIGN_BASELINE` / `PROPOSED` (per `DECISIONS.md`) | Project Owner | `GD-001`–`GD-006`, `GD-010`–`GD-016`, `GD-020`–`GD-027`, `GD-030`–`GD-036`, `GD-040`–`GD-045` are `APPROVED`; `GD-017`, `GD-018`, `GD-028`, `GD-037` are `DESIGN_BASELINE`; `GD-046` (era/plane/villain names & 7 macro arcs) and Dao stage 1–10 names remain `PROPOSED` |
-| `DEC-005` | 2026-10-16 | Technical Design Freeze v1.0 (`TD-01` v0.3, `TD-02` v0.4, `TD-03` v0.5, `TD-04` v0.6 + `NPC_SHOPS.md`, `TD-05` v0.7 — 40 `docs/` files) | `TECHNICAL_DESIGN_ACCEPTED` (`DESIGN APPROVED / NOT IMPLEMENTED`; per `TD_FREEZE_APPROVALS.md`) | Project Owner | Component files preserve historical `REVIEW_REQUIRED` headers for SHA-256 integrity; sample numbers, `GD-046` names/arcs, Food Catalog threshold, shop prices, and `Candidate A` / PoC art remain `DESIGN_BASELINE` / `PROPOSED` / `UNRESOLVED` / `TECHNICALLY_VERIFIED` (not final balance or `HUMAN_APPROVED` art) |
+| `DEC-005` | 2026-10-16 | Technical Design Freeze v1.0 (`TD-01` v0.3, `TD-02` v0.4, `TD-03` v0.5, `TD-04` v0.6 + `NPC_SHOPS.md`, `TD-05` v0.7 — 40 `docs/` files) | `TECHNICAL_DESIGN_ACCEPTED` (`DESIGN APPROVED / NOT IMPLEMENTED`; per `TD_FREEZE_APPROVALS.md`) | Project Owner | Component files preserve historical `REVIEW_REQUIRED` headers for SHA-256 integrity |
+| `DEC-006` | 2026-10-18 | `VISUAL-01` Art Direction Lock: **`V01-B — THIÊN MỆNH TIÊN CUNG`** with Three-Tier Progression Grandeur (`Tân Thủ Thôn` = Tier I Grounded Starter Village) | `HUMAN_APPROVED` (`direction_and_three_tier_grandeur`) | Project Owner | Registered as `v01b.style.thien_menh_tien_cung` (`1.0.0`) in `assets/corekit/v01b/catalog.json` |
+| `DEC-007` | 2026-10-18 | `VISUAL-02B` Scoped `S1` Core Asset Kit (`VISUAL_02B_S1_CORE_KIT.zip`, SHA-256 `f09fec0d5acce19a296874e81475b866ade67905ed997a620848dfd43559abd2`): Batch A UI Kit, Starters #2–#4, Quadruped `chatdvt`, `Tân Thủ Thôn` World/NPCs/VFX | `HUMAN_APPROVED` (`direction_and_s1_core_kit_sample`) | Project Owner | Reference sample approval in `assets/corekit/v01b/catalog.json`; distinct from final integrated runtime sign-off (`VISUAL-03-U`/`Q`) |
+| `DEC-008` | 2026-10-18 | `VISUAL-02B-CORRECTION` Identity Lock for **`phi_de`** (chubby cream bear hood `Mũ Gấu Tiên Thánh`, glasses, white-jade/celadon luxury saint robes with gold trim, holding `Đùi Gà Luộc` without tea/broth cup) and **`rmt_de`** (crimson/gold winged `Thần Tài` hat, wealth-god face/robes, gold sycee ingot & abacus) | `HUMAN_APPROVED` (`character_identity_and_kit_sample`) | Project Owner | Registered as `v01b.npc.phi_de` (`2.0.0-bear-hood-chicken`, `source_b11`) and `v01b.npc.rmt_de` (`2.0.0-than-tai`, `source_b10`). `OLD (REJECTED)` panes and `archive_pre_correction` files are archived in `assets/archive/history/` (`cannotBeUsedAsActiveMaster: true`) |
+| `DEC-009` | 2026-10-18 | `HERO-ANIMSET-01` Desktop Hero Master Lock (`v01b.char.hero_kiem_tu` @ `2.0.0-hero-animset-01`): `assets/sprites/hero_kiem_tu.png` (`ecf6604b...`), `assets/portraits/portrait_hero_kiem_tu.png` (`1de6fc60...`), `assets/atlases/hero_kiem_tu_atlas.json` (`cb31f1ea...`), and `source_h04`..`source_h10` lineage (`MISSING_APPROVED_HERO_INPUT` remains open for the later owner-confirmed 8-walk-frame Hero artifact) | `HUMAN_APPROVED` (`character_identity_and_runtime_animset`) | Project Owner | Supersedes the old Hero in `VISUAL_02B_S1_CORE_KIT.zip` and historical `source_h01`/`source_h02` variants |
+
 
 ---
 

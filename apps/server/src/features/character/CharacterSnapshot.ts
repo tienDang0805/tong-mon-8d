@@ -3,7 +3,7 @@ import type {
   DestinyDefinitionMetadata
 } from "@tong-mon-8d/shared";
 import { computeCandidateBaselineStatSnapshot } from "@tong-mon-8d/game-data";
-import type { CharacterV02PersistedState } from "../../characterV02Repository.js";
+import type { CharacterV02PersistedState } from "./CharacterValidation.js";
 import { APPROVED_PRODUCTION_DESTINY_CATALOG } from "../destiny/DestinyRoller.js";
 
 export function toCharacterV02Snapshot(

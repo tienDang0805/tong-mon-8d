@@ -1,0 +1,98 @@
+{
+  "taskId": "S1-ENTRY-VISUAL-REBUILD-01",
+  "mode": "EXECUTE_PHASE",
+  "commitPolicy": "NO_COMMIT / NO_PUSH / NO_DEPLOYMENT",
+  "coordinator": "Main Argon",
+  "allocations": [
+    {
+      "workerId": "main-argon-contract-and-integration",
+      "typeName": "main",
+      "role": "Architecture Integrator, Art Post-Processing, Manifest/CoreKit Registration, E2E & Doc Sync",
+      "ownedPaths": [
+        "packages/shared/src/protocols/character.ts",
+        "packages/shared/src/protocols/entry/index.ts",
+        "packages/shared/src/index.ts",
+        "assets/corekit/v01b/references/ui/screens/**",
+        "assets/corekit/v01b/references/ui/ui_references.json",
+        "assets/corekit/v01b/catalog.json",
+        "assets/corekit/v01b/COREKIT_INDEX.md",
+        "assets/ui/entry/**",
+        "assets/ui/presentation/**",
+        "assets/manifest.json",
+        "assets/provenance.json",
+        "apps/client/src/game/assets/RuntimeAssetBindings.ts",
+        "scripts/package-runtime-assets.mjs",
+        "tests/e2e/**",
+        "artifacts/S1-ENTRY-VISUAL-REBUILD-01/**",
+        "docs/**"
+      ]
+    },
+    {
+      "workerId": "subagent-native-art-v01b",
+      "typeName": "image-generator",
+      "role": "V01-B Entry & Presentation Native Art Generator",
+      "ownedPaths": [
+        "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e01_title_and_creation_terrace_backdrop_v01b.png",
+        "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e02_destiny_astrolabe_chamber_backdrop_v01b.png",
+        "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png"
+      ]
+    },
+    {
+      "workerId": "subagent-server-multi-character",
+      "typeName": "self",
+      "role": "Server Multi-Character Persistence, Idempotent Migration & HTTP/Colyseus Authority Engineer",
+      "ownedPaths": [
+        "apps/server/src/infrastructure/database/DbPorts.ts",
+        "apps/server/src/infrastructure/database/LegacyWorldPorts.ts",
+        "apps/server/src/infrastructure/database/migrations/**",
+        "apps/server/src/infrastructure/auth/GuestIdentity.ts",
+        "apps/server/src/infrastructure/idempotency/RequestReceiptStore.ts",
+        "apps/server/src/features/character/CharacterValidation.ts",
+        "apps/server/src/features/character/CharacterRepository.ts",
+        "apps/server/src/features/character/CharacterCreationCommands.ts",
+        "apps/server/src/features/character/CharacterProgressionCommands.ts",
+        "apps/server/src/features/character/CharacterService.ts",
+        "apps/server/src/features/character/CharacterSnapshot.ts",
+        "apps/server/src/db.ts",
+        "apps/server/src/app/createGameServer.ts",
+        "apps/server/src/transport/http/registerHttpRoutes.ts",
+        "apps/server/src/transport/http/character/**",
+        "apps/server/src/transport/colyseus/ZoneRoom.ts",
+        "apps/server/src/runtime/world/WorldRuntime.ts",
+        "apps/server/src/runtime/world/MonsterRuntime.ts",
+        "apps/server/src/__tests__/characterRoster.test.ts",
+        "apps/server/src/__tests__/characterV02Persistence.test.ts",
+        "apps/server/src/__tests__/characterV02Actions.test.ts",
+        "apps/server/src/__tests__/server.test.ts"
+      ],
+      "protectedReadOnlyPaths": [
+        "apps/server/src/infrastructure/database/PgAdapter.ts",
+        "apps/server/apps/server/data/pgdata/**"
+      ]
+    },
+    {
+      "workerId": "subagent-client-entry-and-v01b-ui",
+      "typeName": "self",
+      "role": "Client Entry Lifecycle, Phaser Presentation Scenes & V01-B Surface Rebuild Engineer",
+      "ownedPaths": [
+        "apps/client/index.html",
+        "apps/client/src/style.css",
+        "apps/client/src/app/GameBootstrap.ts",
+        "apps/client/src/app/entry/**",
+        "apps/client/src/features/entry/**",
+        "apps/client/src/features/character/CharacterCreationView.ts",
+        "apps/client/src/features/character/CharacterPanel.ts",
+        "apps/client/src/features/shops/HudShell.ts",
+        "apps/client/src/ui/ports.ts",
+        "apps/client/src/ui/HudShell.ts",
+        "apps/client/src/ui/presentation/**",
+        "apps/client/src/game/WorldScene.ts",
+        "apps/client/src/game/presentation/**",
+        "apps/client/src/game/world/ActorViewSystem.ts",
+        "apps/client/src/game/world/MinimapView.ts",
+        "apps/client/src/game/input/PlayerInput.ts",
+        "apps/client/src/network/GameNetworkClient.ts"
+      ]
+    }
+  ]
+}

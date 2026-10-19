@@ -1,0 +1,208 @@
+{
+  "archiveId": "tong-mon-8d-historical-art-archive",
+  "version": "1.0.0",
+  "role": "archive_only",
+  "cannotBeUsedAsActiveMaster": true,
+  "files": [
+    {
+      "path": "assets/archive/history/concepts/candidate_a_classic_xianxia.jpg",
+      "previousPath": "assets/concepts/candidate_a_classic_xianxia.jpg",
+      "sha256": "3fec4368db3d20b99ec3cf23524a14ef6fef8a8959781f90a9617c3732177c91",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/candidate_b_dark_inkwash.jpg",
+      "previousPath": "assets/concepts/candidate_b_dark_inkwash.jpg",
+      "sha256": "d9bb24f932521163ade82a21ac9fbb0494264ce7320ad994f046af5cb6002bd0",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/candidate_c_pastel_chibi.jpg",
+      "previousPath": "assets/concepts/candidate_c_pastel_chibi.jpg",
+      "sha256": "d1d1cdc2cd3de93a59f95517b1951c2733069c9b20ef85d2d78e6d68a0ba96dc",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/capability_proof_phi_de.jpg",
+      "previousPath": "assets/concepts/capability_proof_phi_de.jpg",
+      "sha256": "d88b828de228197703794e5808b1e812c8c75d0bccff0c9c4422b1a5b3cdad28",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/overworld_cast_grid_1.jpg",
+      "previousPath": "assets/concepts/overworld_cast_grid_1.jpg",
+      "sha256": "6b1475bffb425697520e3a6038753d800faff570a753786fa1c8d6bc2a1378a1",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/overworld_cast_grid_2.jpg",
+      "previousPath": "assets/concepts/overworld_cast_grid_2.jpg",
+      "sha256": "c35008fc2704f9ac08cc637e25fad98226aca9c5f67ce4eedae3a0bd7363f0fa",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/overworld_cast_grid_3.jpg",
+      "previousPath": "assets/concepts/overworld_cast_grid_3.jpg",
+      "sha256": "c43e4520599dd3bbd24afba0067b0294370f656faa52438ba0e3bd4f2da44bda",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/portraits_hero_chatdvt_raw.jpg",
+      "previousPath": "assets/concepts/portraits_hero_chatdvt_raw.jpg",
+      "sha256": "d1f1b43e858503e49037c9a7f46721d1e6efa4e4a5b5903d0599e7684feb7023",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/portraits_merchant_hoatran_raw.jpg",
+      "previousPath": "assets/concepts/portraits_merchant_hoatran_raw.jpg",
+      "sha256": "7c92116e64f7d89a5de56a8296ce22a033a419baa9bb2dd9a36631f2c4d088a2",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/xianxia_env_grid.jpg",
+      "previousPath": "assets/concepts/xianxia_env_grid.jpg",
+      "sha256": "a6c84e4da58c43b09b1452bbcfe1a937f7db161dcec1d9c729993c50a861b69d",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/concepts/xianxia_landmarks_grid.jpg",
+      "previousPath": "assets/concepts/xianxia_landmarks_grid.jpg",
+      "sha256": "30e4f947fa7080faa112ce96bd78db44ff8305e5921d97668916222badb3cd84",
+      "role": "archive_only",
+      "creativeApprovalState": "PROPOSED",
+      "reason": "Move historical Phase 0 concept sheet out of active master routing into archive-only history"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/anh_7.png",
+      "previousPath": "assets/sprites/legacy_v1/anh_7.png",
+      "sha256": "d88764cd278cbf46b4a867a192ed69d464e60586dc513eae6f0e6f914d3c0386",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/chatdvt.png",
+      "previousPath": "assets/sprites/legacy_v1/chatdvt.png",
+      "sha256": "513a9586540ed7c203e4f9588a81403f1306841d9623e331487e745b4daf197d",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/dam_lon_tien_tu.png",
+      "previousPath": "assets/sprites/legacy_v1/dam_lon_tien_tu.png",
+      "sha256": "012447ea208a7a809c74fac1c11e7ddc5ebd145a0430251f92c237a2a987d81c",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/hero_kiem_tu.png",
+      "previousPath": "assets/sprites/legacy_v1/hero_kiem_tu.png",
+      "sha256": "b147cd3f32e0d97d8e7229f00f5801844b7d9a4124d5f846d5eb3bbf0dfbe826",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/hoa_tran.png",
+      "previousPath": "assets/sprites/legacy_v1/hoa_tran.png",
+      "sha256": "46ee37f8ca27bd037c22ca93ef16f4f96d0e4e113019c356491544617de07bbb",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/merchant_truong.png",
+      "previousPath": "assets/sprites/legacy_v1/merchant_truong.png",
+      "sha256": "6925290561ce9a1da25e29222039e4e3e3abeb878981ca2b3f176bb55ad7f3c1",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/ngoc_tam.png",
+      "previousPath": "assets/sprites/legacy_v1/ngoc_tam.png",
+      "sha256": "e546997a26235e865a7e9706ead269c80656830b949dc3deb2e40e840bbdde98",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/phi_de.png",
+      "previousPath": "assets/sprites/legacy_v1/phi_de.png",
+      "sha256": "67197376ffb22cae5e0d53e805de92757a3bf60c2c71e7669d7ee8af72236a48",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/legacy_v1/rmt_de.png",
+      "previousPath": "assets/sprites/legacy_v1/rmt_de.png",
+      "sha256": "f12c578cb33b036c2ef7a3f9a7e6c3ae3c3922ef74bdf6d8b64e75df258f1f36",
+      "role": "archive_only",
+      "creativeApprovalState": "SUPERSEDED",
+      "reason": "Preserve unique historical 48x64 v1 prototype spritesheet in archive-only storage"
+    },
+    {
+      "path": "assets/archive/history/comparison_boards/owner_phi_de_rmt_de_correction_board.png",
+      "previousPath": "C:/Users/admin/AppData/Local/Temp/codex-clipboard-e255030a-16a7-4e82-8e58-b6501c76c95e.png",
+      "sha256": "13d1f2bb2fa59dec7d231b68b74dcef5b9f419ff0b492c0d053b6950bd907d3a",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED_OLD_PANES_REFERENCE_EVIDENCE",
+      "reason": "Store owner Phì Đế / RMT Đế comparison board with OLD (REJECTED) panes in archive-only storage so it is never used as an unrestricted master"
+    },
+    {
+      "path": "assets/archive/history/pre_correction_npcs/npc_phi_de_idle_4f.png",
+      "previousPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/npc_phi_de_idle_4f.png",
+      "sha256": "b49eee3a02f1b8ae6daafc5134a7ba862679562e18468ac3bc3d17e011007091",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    },
+    {
+      "path": "assets/archive/history/pre_correction_npcs/npc_rmt_de_idle_4f.png",
+      "previousPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/npc_rmt_de_idle_4f.png",
+      "sha256": "cc1b1c55e9ca74c0519562a32ef2a8e2c295601e07ef31aafc4add37a34dd3fd",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    },
+    {
+      "path": "assets/archive/history/pre_correction_npcs/portrait_phi_de.png",
+      "previousPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/portrait_phi_de.png",
+      "sha256": "09b1827c94482fc2c669d747ff436e58f0adfc69aca7ea6e4d3b47c812f6941b",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    },
+    {
+      "path": "assets/archive/history/pre_correction_npcs/portrait_rmt_de.png",
+      "previousPath": "VISUAL_02B_S1_CORE_KIT/batch_c_tan_thu_thon_modular_world/npcs_tan_thu_thon/archive_pre_correction/portrait_rmt_de.png",
+      "sha256": "d045a8d43e15d91922864c1a54c0d004a3d3b19cc7d4084039154f445f8642db",
+      "role": "archive_only",
+      "creativeApprovalState": "REJECTED",
+      "reason": "Archive rejected pre-correction Phì Đế / RMT Đế sprite and portrait for negative-validator enforcement"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "taskId": "ARCH-FOUNDATION-02",
+  "status": "TECHNICAL_ACCEPTANCE_COMPLETE",
+  "completedAt": "2026-10-18T14:15:54.915Z",
+  "zeroAssetMapChangesVerified": true,
+  "assetCount": 560,
+  "mapCount": 2,
+  "tdFrozen40FilesUnchanged": true,
+  "heroMasterHashesPreserved": {
+    "assets/sprites/hero_kiem_tu.png": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
+    "assets/portraits/portrait_hero_kiem_tu.png": "1de6fc6029fd2efe1dfa855fd73d1931308290060a41071f6e19b856333f8823"
+  },
+  "verificationSummary": {
+    "taskId": "ARCH-FOUNDATION-02",
+    "verifiedAt": "2026-10-18T14:12:21.424Z",
+    "environment": {
+      "platform": "win32",
+      "arch": "x64",
+      "nodeVersion": "v22.16.0",
+      "cpus": 16
+    },
+    "databaseIsolation": {
+      "dataDir": "memory://",
+      "connectionString": "",
+      "testClockOptIn": true
+    },
+    "cleanDistSmoke": {
+      "distDir": "apps/client/dist",
+      "productionDebugHooksHiddenWithoutFlag": true,
+      "servedAssetCount": 184,
+      "notFoundCount": 0,
+      "consoleErrorCount": 0,
+      "failedAssetCount": 0,
+      "walkObserved": {
+        "d": "hero_kiem_tu_walk_right",
+        "a": "hero_kiem_tu_walk_left",
+        "w": "hero_kiem_tu_walk_up",
+        "s": "hero_kiem_tu_walk_down"
+      },
+      "cameraTelemetryVerified": true,
+      "minimapTelemetryVerified": true,
+      "twoZonePortalTraversalVerified": true,
+      "characterCreationAndCPanelVerified": true,
+      "reconnectVerified": true,
+      "twoClientsMutualVisibilityVerified": true
+    },
+    "twentySessionExercise": {
+      "sessionCount": 20,
+      "zoneMix": {
+        "tan_thu_thon": 12,
+        "thanh_truc_lam": 8
+      },
+      "durationMs": 2062,
+      "totalMovesSent": 240,
+      "totalSnapshotsReceived": 680,
+      "eventLoopLagMaxMs": 143.09,
+      "eventLoopLagAvgMs": 20.45,
+      "failures": []
+    }
+  }
+}

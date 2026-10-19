@@ -1,0 +1,712 @@
+﻿ M .agents/skills/ai-art-production/SKILL.md
+ M .agents/skills/pixel-art-director/SKILL.md
+ M AGENTS.md
+ M RULES.md
+ M START_HERE.md
+ M apps/client/index.html
+ M apps/client/src/WorldScene.ts
+ M apps/client/src/characterCreation.ts
+ M apps/client/src/features/character/CharacterPanel.ts
+ M apps/client/src/game/world/CameraView.ts
+ M apps/client/src/game/world/MinimapView.ts
+ M apps/client/src/hud.ts
+ M apps/client/src/main.ts
+ M apps/client/src/network.ts
+ M apps/client/src/style.css
+ M apps/client/tsconfig.json
+ M apps/client/vite.config.ts
+ M apps/server/src/__tests__/dbTransactions.test.ts
+ M apps/server/src/characterV02Actions.ts
+ M apps/server/src/characterV02Repository.ts
+ M apps/server/src/db.ts
+ M apps/server/src/features/character/CharacterSnapshot.ts
+ M apps/server/src/guestIdentity.ts
+ M apps/server/src/index.ts
+ M apps/server/src/worldEngine.ts
+ M apps/server/src/zoneRoom.ts
+ D assets/atlases/dam_lon_tien_tu/frames/attack_down_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_down_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_down_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_down_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_left_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_left_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_left_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_left_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_right_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_right_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_right_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_right_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_up_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_up_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_up_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/attack_up_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_down_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_down_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_down_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_down_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_left_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_left_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_left_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_left_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_right_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_right_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_right_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_right_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_up_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_up_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_up_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/cast_up_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_down_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_down_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_down_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_down_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_left_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_left_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_left_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_left_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_right_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_right_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_right_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_right_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_up_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_up_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_up_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/hurt_up_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_down_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_down_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_down_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_down_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_left_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_left_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_left_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_left_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_right_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_right_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_right_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_right_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_up_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_up_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_up_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/idle_up_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_down_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_down_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_down_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_down_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_down_04.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_down_05.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_left_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_left_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_left_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_left_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_left_04.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_left_05.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_right_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_right_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_right_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_right_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_right_04.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_right_05.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_up_00.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_up_01.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_up_02.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_up_03.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_up_04.png
+ D assets/atlases/dam_lon_tien_tu/frames/walk_up_05.png
+ D assets/atlases/dam_lon_tien_tu_atlas.json
+ D assets/atlases/dam_lon_tien_tu_atlas.png
+ D assets/atlases/hero_kiem_tu/frames/attack_down_00.png
+ D assets/atlases/hero_kiem_tu/frames/attack_down_01.png
+ D assets/atlases/hero_kiem_tu/frames/attack_down_02.png
+ D assets/atlases/hero_kiem_tu/frames/attack_down_03.png
+ D assets/atlases/hero_kiem_tu/frames/attack_left_00.png
+ D assets/atlases/hero_kiem_tu/frames/attack_left_01.png
+ D assets/atlases/hero_kiem_tu/frames/attack_left_02.png
+ D assets/atlases/hero_kiem_tu/frames/attack_left_03.png
+ D assets/atlases/hero_kiem_tu/frames/attack_right_00.png
+ D assets/atlases/hero_kiem_tu/frames/attack_right_01.png
+ D assets/atlases/hero_kiem_tu/frames/attack_right_02.png
+ D assets/atlases/hero_kiem_tu/frames/attack_right_03.png
+ D assets/atlases/hero_kiem_tu/frames/attack_up_00.png
+ D assets/atlases/hero_kiem_tu/frames/attack_up_01.png
+ D assets/atlases/hero_kiem_tu/frames/attack_up_02.png
+ D assets/atlases/hero_kiem_tu/frames/attack_up_03.png
+ D assets/atlases/hero_kiem_tu/frames/cast_down_00.png
+ D assets/atlases/hero_kiem_tu/frames/cast_down_01.png
+ D assets/atlases/hero_kiem_tu/frames/cast_down_02.png
+ D assets/atlases/hero_kiem_tu/frames/cast_down_03.png
+ D assets/atlases/hero_kiem_tu/frames/cast_left_00.png
+ D assets/atlases/hero_kiem_tu/frames/cast_left_01.png
+ D assets/atlases/hero_kiem_tu/frames/cast_left_02.png
+ D assets/atlases/hero_kiem_tu/frames/cast_left_03.png
+ D assets/atlases/hero_kiem_tu/frames/cast_right_00.png
+ D assets/atlases/hero_kiem_tu/frames/cast_right_01.png
+ D assets/atlases/hero_kiem_tu/frames/cast_right_02.png
+ D assets/atlases/hero_kiem_tu/frames/cast_right_03.png
+ D assets/atlases/hero_kiem_tu/frames/cast_up_00.png
+ D assets/atlases/hero_kiem_tu/frames/cast_up_01.png
+ D assets/atlases/hero_kiem_tu/frames/cast_up_02.png
+ D assets/atlases/hero_kiem_tu/frames/cast_up_03.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_down_00.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_down_01.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_down_02.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_down_03.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_left_00.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_left_01.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_left_02.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_left_03.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_right_00.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_right_01.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_right_02.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_right_03.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_up_00.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_up_01.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_up_02.png
+ D assets/atlases/hero_kiem_tu/frames/hurt_up_03.png
+ D assets/atlases/hero_kiem_tu/frames/idle_down_00.png
+ D assets/atlases/hero_kiem_tu/frames/idle_down_01.png
+ D assets/atlases/hero_kiem_tu/frames/idle_down_02.png
+ D assets/atlases/hero_kiem_tu/frames/idle_down_03.png
+ D assets/atlases/hero_kiem_tu/frames/idle_left_00.png
+ D assets/atlases/hero_kiem_tu/frames/idle_left_01.png
+ D assets/atlases/hero_kiem_tu/frames/idle_left_02.png
+ D assets/atlases/hero_kiem_tu/frames/idle_left_03.png
+ D assets/atlases/hero_kiem_tu/frames/idle_right_00.png
+ D assets/atlases/hero_kiem_tu/frames/idle_right_01.png
+ D assets/atlases/hero_kiem_tu/frames/idle_right_02.png
+ D assets/atlases/hero_kiem_tu/frames/idle_right_03.png
+ D assets/atlases/hero_kiem_tu/frames/idle_up_00.png
+ D assets/atlases/hero_kiem_tu/frames/idle_up_01.png
+ D assets/atlases/hero_kiem_tu/frames/idle_up_02.png
+ D assets/atlases/hero_kiem_tu/frames/idle_up_03.png
+ D assets/atlases/hero_kiem_tu/frames/walk_down_00.png
+ D assets/atlases/hero_kiem_tu/frames/walk_down_01.png
+ D assets/atlases/hero_kiem_tu/frames/walk_down_02.png
+ D assets/atlases/hero_kiem_tu/frames/walk_down_03.png
+ D assets/atlases/hero_kiem_tu/frames/walk_down_04.png
+ D assets/atlases/hero_kiem_tu/frames/walk_down_05.png
+ D assets/atlases/hero_kiem_tu/frames/walk_left_00.png
+ D assets/atlases/hero_kiem_tu/frames/walk_left_01.png
+ D assets/atlases/hero_kiem_tu/frames/walk_left_02.png
+ D assets/atlases/hero_kiem_tu/frames/walk_left_03.png
+ D assets/atlases/hero_kiem_tu/frames/walk_left_04.png
+ D assets/atlases/hero_kiem_tu/frames/walk_left_05.png
+ D assets/atlases/hero_kiem_tu/frames/walk_right_00.png
+ D assets/atlases/hero_kiem_tu/frames/walk_right_01.png
+ D assets/atlases/hero_kiem_tu/frames/walk_right_02.png
+ D assets/atlases/hero_kiem_tu/frames/walk_right_03.png
+ D assets/atlases/hero_kiem_tu/frames/walk_right_04.png
+ D assets/atlases/hero_kiem_tu/frames/walk_right_05.png
+ D assets/atlases/hero_kiem_tu/frames/walk_up_00.png
+ D assets/atlases/hero_kiem_tu/frames/walk_up_01.png
+ D assets/atlases/hero_kiem_tu/frames/walk_up_02.png
+ D assets/atlases/hero_kiem_tu/frames/walk_up_03.png
+ D assets/atlases/hero_kiem_tu/frames/walk_up_04.png
+ D assets/atlases/hero_kiem_tu/frames/walk_up_05.png
+ M assets/atlases/hero_kiem_tu_atlas.json
+ M assets/atlases/hero_kiem_tu_atlas.png
+ D assets/atlases/phi_de/frames/attack_down_00.png
+ D assets/atlases/phi_de/frames/attack_down_01.png
+ D assets/atlases/phi_de/frames/attack_down_02.png
+ D assets/atlases/phi_de/frames/attack_down_03.png
+ D assets/atlases/phi_de/frames/attack_left_00.png
+ D assets/atlases/phi_de/frames/attack_left_01.png
+ D assets/atlases/phi_de/frames/attack_left_02.png
+ D assets/atlases/phi_de/frames/attack_left_03.png
+ D assets/atlases/phi_de/frames/attack_right_00.png
+ D assets/atlases/phi_de/frames/attack_right_01.png
+ D assets/atlases/phi_de/frames/attack_right_02.png
+ D assets/atlases/phi_de/frames/attack_right_03.png
+ D assets/atlases/phi_de/frames/attack_up_00.png
+ D assets/atlases/phi_de/frames/attack_up_01.png
+ D assets/atlases/phi_de/frames/attack_up_02.png
+ D assets/atlases/phi_de/frames/attack_up_03.png
+ D assets/atlases/phi_de/frames/cast_down_00.png
+ D assets/atlases/phi_de/frames/cast_down_01.png
+ D assets/atlases/phi_de/frames/cast_down_02.png
+ D assets/atlases/phi_de/frames/cast_down_03.png
+ D assets/atlases/phi_de/frames/cast_left_00.png
+ D assets/atlases/phi_de/frames/cast_left_01.png
+ D assets/atlases/phi_de/frames/cast_left_02.png
+ D assets/atlases/phi_de/frames/cast_left_03.png
+ D assets/atlases/phi_de/frames/cast_right_00.png
+ D assets/atlases/phi_de/frames/cast_right_01.png
+ D assets/atlases/phi_de/frames/cast_right_02.png
+ D assets/atlases/phi_de/frames/cast_right_03.png
+ D assets/atlases/phi_de/frames/cast_up_00.png
+ D assets/atlases/phi_de/frames/cast_up_01.png
+ D assets/atlases/phi_de/frames/cast_up_02.png
+ D assets/atlases/phi_de/frames/cast_up_03.png
+ D assets/atlases/phi_de/frames/hurt_down_00.png
+ D assets/atlases/phi_de/frames/hurt_down_01.png
+ D assets/atlases/phi_de/frames/hurt_down_02.png
+ D assets/atlases/phi_de/frames/hurt_down_03.png
+ D assets/atlases/phi_de/frames/hurt_left_00.png
+ D assets/atlases/phi_de/frames/hurt_left_01.png
+ D assets/atlases/phi_de/frames/hurt_left_02.png
+ D assets/atlases/phi_de/frames/hurt_left_03.png
+ D assets/atlases/phi_de/frames/hurt_right_00.png
+ D assets/atlases/phi_de/frames/hurt_right_01.png
+ D assets/atlases/phi_de/frames/hurt_right_02.png
+ D assets/atlases/phi_de/frames/hurt_right_03.png
+ D assets/atlases/phi_de/frames/hurt_up_00.png
+ D assets/atlases/phi_de/frames/hurt_up_01.png
+ D assets/atlases/phi_de/frames/hurt_up_02.png
+ D assets/atlases/phi_de/frames/hurt_up_03.png
+ D assets/atlases/phi_de/frames/idle_down_00.png
+ D assets/atlases/phi_de/frames/idle_down_01.png
+ D assets/atlases/phi_de/frames/idle_down_02.png
+ D assets/atlases/phi_de/frames/idle_down_03.png
+ D assets/atlases/phi_de/frames/idle_left_00.png
+ D assets/atlases/phi_de/frames/idle_left_01.png
+ D assets/atlases/phi_de/frames/idle_left_02.png
+ D assets/atlases/phi_de/frames/idle_left_03.png
+ D assets/atlases/phi_de/frames/idle_right_00.png
+ D assets/atlases/phi_de/frames/idle_right_01.png
+ D assets/atlases/phi_de/frames/idle_right_02.png
+ D assets/atlases/phi_de/frames/idle_right_03.png
+ D assets/atlases/phi_de/frames/idle_up_00.png
+ D assets/atlases/phi_de/frames/idle_up_01.png
+ D assets/atlases/phi_de/frames/idle_up_02.png
+ D assets/atlases/phi_de/frames/idle_up_03.png
+ D assets/atlases/phi_de/frames/walk_down_00.png
+ D assets/atlases/phi_de/frames/walk_down_01.png
+ D assets/atlases/phi_de/frames/walk_down_02.png
+ D assets/atlases/phi_de/frames/walk_down_03.png
+ D assets/atlases/phi_de/frames/walk_down_04.png
+ D assets/atlases/phi_de/frames/walk_down_05.png
+ D assets/atlases/phi_de/frames/walk_left_00.png
+ D assets/atlases/phi_de/frames/walk_left_01.png
+ D assets/atlases/phi_de/frames/walk_left_02.png
+ D assets/atlases/phi_de/frames/walk_left_03.png
+ D assets/atlases/phi_de/frames/walk_left_04.png
+ D assets/atlases/phi_de/frames/walk_left_05.png
+ D assets/atlases/phi_de/frames/walk_right_00.png
+ D assets/atlases/phi_de/frames/walk_right_01.png
+ D assets/atlases/phi_de/frames/walk_right_02.png
+ D assets/atlases/phi_de/frames/walk_right_03.png
+ D assets/atlases/phi_de/frames/walk_right_04.png
+ D assets/atlases/phi_de/frames/walk_right_05.png
+ D assets/atlases/phi_de/frames/walk_up_00.png
+ D assets/atlases/phi_de/frames/walk_up_01.png
+ D assets/atlases/phi_de/frames/walk_up_02.png
+ D assets/atlases/phi_de/frames/walk_up_03.png
+ D assets/atlases/phi_de/frames/walk_up_04.png
+ D assets/atlases/phi_de/frames/walk_up_05.png
+ D assets/atlases/phi_de_atlas.json
+ D assets/atlases/phi_de_atlas.png
+ D assets/concepts/candidate_a_classic_xianxia.jpg
+ D assets/concepts/candidate_b_dark_inkwash.jpg
+ D assets/concepts/candidate_c_pastel_chibi.jpg
+ D assets/concepts/capability_proof_phi_de.jpg
+ D assets/concepts/overworld_cast_grid_1.jpg
+ D assets/concepts/overworld_cast_grid_2.jpg
+ D assets/concepts/overworld_cast_grid_3.jpg
+ D assets/concepts/portraits_hero_chatdvt_raw.jpg
+ D assets/concepts/portraits_merchant_hoatran_raw.jpg
+ D assets/concepts/xianxia_env_grid.jpg
+ D assets/concepts/xianxia_landmarks_grid.jpg
+ M assets/manifest.json
+ M assets/portraits/portrait_hero_kiem_tu.png
+ D assets/previews/dam_lon_tien_tu_all_states.gif
+ D assets/previews/dam_lon_tien_tu_attack.gif
+ D assets/previews/dam_lon_tien_tu_before_after.png
+ D assets/previews/dam_lon_tien_tu_cast.gif
+ D assets/previews/dam_lon_tien_tu_hurt.gif
+ M assets/previews/dam_lon_tien_tu_idle.gif
+ D assets/previews/dam_lon_tien_tu_walk.gif
+ M assets/previews/hero_kiem_tu_all_states.gif
+ M assets/previews/hero_kiem_tu_attack.gif
+ M assets/previews/hero_kiem_tu_before_after.png
+ M assets/previews/hero_kiem_tu_cast.gif
+ M assets/previews/hero_kiem_tu_hurt.gif
+ M assets/previews/hero_kiem_tu_idle.gif
+ M assets/previews/hero_kiem_tu_walk.gif
+ D assets/previews/phi_de_all_states.gif
+ D assets/previews/phi_de_attack.gif
+ D assets/previews/phi_de_before_after.png
+ D assets/previews/phi_de_cast.gif
+ D assets/previews/phi_de_hurt.gif
+ M assets/previews/phi_de_idle.gif
+ D assets/previews/phi_de_walk.gif
+ D assets/props/building_tu_duong.png
+ M assets/provenance.json
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/animation.json
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/animation.webp
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/atlas.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_combat_4x4/frames/frame-15.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/animation.json
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/animation.webp
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/atlas.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/dam_lon_tien_tu_locomotion_4x4/frames/frame-15.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/animation.json
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/animation.webp
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/atlas.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/hero_kiem_tu_combat_4x4/frames/frame-15.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/animation.json
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/animation.webp
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/atlas.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/hero_kiem_tu_locomotion_4x4/frames/frame-15.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/animation.json
+ D assets/source_ai/sliced/phi_de_combat_4x4/animation.webp
+ D assets/source_ai/sliced/phi_de_combat_4x4/atlas.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/phi_de_combat_4x4/frames/frame-15.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/animation.json
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/animation.webp
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/atlas.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/phi_de_locomotion_4x4/frames/frame-15.png
+ D assets/source_ai/sliced/vfx_combat_4x4/animation.json
+ D assets/source_ai/sliced/vfx_combat_4x4/animation.webp
+ D assets/source_ai/sliced/vfx_combat_4x4/atlas.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-00.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-01.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-02.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-03.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-04.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-05.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-06.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-07.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-08.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-09.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-10.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-11.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-12.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-13.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-14.png
+ D assets/source_ai/sliced/vfx_combat_4x4/frames/frame-15.png
+ M assets/sprites/anh_7.png
+ M assets/sprites/chatdvt.png
+ M assets/sprites/dam_lon_tien_tu.png
+ D assets/sprites/gifs/anh_7_idle.gif
+ D assets/sprites/gifs/anh_7_walk.gif
+ D assets/sprites/gifs/chatdvt_idle.gif
+ D assets/sprites/gifs/chatdvt_walk.gif
+ D assets/sprites/gifs/dam_lon_tien_tu_idle.gif
+ D assets/sprites/gifs/hero_kiem_tu_attack.gif
+ D assets/sprites/gifs/hero_kiem_tu_cast.gif
+ D assets/sprites/gifs/hero_kiem_tu_hurt.gif
+ D assets/sprites/gifs/hero_kiem_tu_idle.gif
+ D assets/sprites/gifs/hero_kiem_tu_walk.gif
+ D assets/sprites/gifs/hoa_tran_idle.gif
+ D assets/sprites/gifs/hoa_tran_walk.gif
+ D assets/sprites/gifs/merchant_truong_idle.gif
+ D assets/sprites/gifs/ngoc_tam_idle.gif
+ D assets/sprites/gifs/ngoc_tam_walk.gif
+ D assets/sprites/gifs/npc_ngoc_tam_idle.gif
+ D assets/sprites/gifs/phi_de_idle.gif
+ D assets/sprites/gifs/rmt_de_idle.gif
+ D assets/sprites/gifs/thai_tai_idle.gif
+ M assets/sprites/hero_kiem_tu.png
+ M assets/sprites/hoa_tran.png
+ D assets/sprites/legacy_v1/anh_7.png
+ D assets/sprites/legacy_v1/chatdvt.png
+ D assets/sprites/legacy_v1/dam_lon_tien_tu.png
+ D assets/sprites/legacy_v1/hero_kiem_tu.png
+ D assets/sprites/legacy_v1/hoa_tran.png
+ D assets/sprites/legacy_v1/merchant_truong.png
+ D assets/sprites/legacy_v1/ngoc_tam.png
+ D assets/sprites/legacy_v1/phi_de.png
+ D assets/sprites/legacy_v1/rmt_de.png
+ D assets/sprites/legacy_v1/thanh_lan_xa.png
+ D assets/sprites/legacy_v1/truc_lang.png
+ D assets/sprites/legacy_v1/vaal_de.png
+ M assets/sprites/merchant_truong.png
+ M assets/sprites/ngoc_tam.png
+ M assets/sprites/npc_ngoc_tam.png
+ M assets/sprites/phi_de.png
+ M assets/sprites/rmt_de.png
+ M assets/sprites/thai_tai.png
+ M assets/vfx/phi_de_blessing.png
+ M assets/vfx/portal_ring.png
+ M docs/ART_BIBLE.md
+ M docs/CHARACTER_VISUAL_BIBLE.md
+ M docs/CONTENT_PIPELINE.md
+ M docs/CONTEXT_INDEX.md
+ M docs/DEVELOPMENT_SETUP.md
+ M docs/MASTER_PROJECT_PLAN.md
+ M docs/NEXT_ACTIONS.md
+ M docs/PROJECT_STATUS.md
+ M docs/ROADMAP.md
+ M docs/implementation/FEATURE_LEDGER.md
+ M docs/implementation/VISUAL_03_INTEGRATION_PLAN.md
+ M docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md
+ M docs/technical/AGENT_EXECUTION_CONTRACT.md
+ M docs/technical/AGENT_SKILL_ROUTER.md
+ M docs/technical/SOURCE_ARCHITECTURE.md
+ M docs/tong-mon-8d-project-atlas.html
+ M package.json
+ M packages/art-tools/build_assets.py
+ M packages/art-tools/verify_manifest.ts
+ M packages/game-data/src/index.ts
+ M packages/game-data/src/runSimulation.ts
+ M packages/game-data/src/td01Numeric.ts
+ M packages/shared/src/index.ts
+ M tests/e2e/runPlaytest.ts
+?? apps/client/src/app/
+?? apps/client/src/features/character/CharacterCreationView.ts
+?? apps/client/src/game/WorldScene.ts
+?? apps/client/src/game/assets/
+?? apps/client/src/game/combat/
+?? apps/client/src/game/debug/
+?? apps/client/src/game/input/
+?? apps/client/src/game/world/ActorViewSystem.ts
+?? apps/client/src/game/world/MapView.ts
+?? apps/client/src/network/
+?? apps/client/src/ui/
+?? apps/server/src/__tests__/testClockRouteGuard.test.ts
+?? apps/server/src/app/
+?? apps/server/src/features/character/CharacterCreationCommands.ts
+?? apps/server/src/features/character/CharacterProgressionCommands.ts
+?? apps/server/src/features/character/CharacterRepository.ts
+?? apps/server/src/features/character/CharacterService.ts
+?? apps/server/src/features/character/CharacterValidation.ts
+?? apps/server/src/features/combat/
+?? apps/server/src/features/cultivation/
+?? apps/server/src/features/destiny/DestinyOwnership.ts
+?? apps/server/src/features/economy/
+?? apps/server/src/features/quests/
+?? apps/server/src/infrastructure/
+?? apps/server/src/runtime/
+?? apps/server/src/transport/
+?? artifacts/S1-ENTRY-VISUAL-REBUILD-01/
+?? artifacts/architecture/
+?? artifacts/corekit/
+?? assets/archive/
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_down_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_left_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_right_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_attack_up_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_down_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_left_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_right_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_cast_up_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_down_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_left_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_right_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_hurt_up_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_down_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_left_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_right_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_idle_up_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_04.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_down_05.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_04.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_left_05.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_04.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_right_05.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_00.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_01.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_02.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_03.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_04.png
+?? assets/atlases/hero_kiem_tu/frames/hero_kiem_tu_walk_up_05.png
+?? assets/corekit/
+?? assets/previews/anh_7_idle.gif
+?? assets/previews/anh_7_walk.gif
+?? assets/previews/chatdvt_idle.gif
+?? assets/previews/chatdvt_walk.gif
+?? assets/previews/hoa_tran_idle.gif
+?? assets/previews/hoa_tran_walk.gif
+?? assets/previews/merchant_truong_idle.gif
+?? assets/previews/ngoc_tam_idle.gif
+?? assets/previews/ngoc_tam_walk.gif
+?? assets/previews/npc_ngoc_tam_idle.gif
+?? assets/previews/rmt_de_idle.gif
+?? assets/previews/thai_tai_idle.gif
+?? assets/source_ai/reference_mascot_tien_directions.png
+?? assets/source_ai/source_01_ui_kit_v01b_textfree.png
+?? assets/source_ai/source_02_icons_v01b_s1_proof.png
+?? assets/source_ai/source_03_grounded_tan_thu_thon_world_proof.png
+?? assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png
+?? assets/source_ai/source_b02_s1_items_and_destiny_sockets_v01b.png
+?? assets/source_ai/source_h01_hero_source04_4dir_locomotion_v01b.png
+?? assets/source_ai/source_h01b_hero_source04_4dir_locomotion_alt_v01b.png
+?? assets/source_ai/source_h02_hero_source04_4dir_combat_cast_hurt_v01b.png
+?? assets/source_ai/source_h02b_hero_source04_4dir_combat_cast_hurt_alt_v01b.png
+?? assets/source_ai/source_h03_hero_source04_portrait_v01b.png
+?? assets/source_ai/source_h04_native_down_idle_walk_v01b.png
+?? assets/source_ai/source_h05_native_up_idle_walk_v01b.png
+?? assets/source_ai/source_h06_native_right_idle_walk_v01b.png
+?? assets/source_ai/source_h07_native_left_idle_walk_v01b.png
+?? assets/source_ai/source_h08_native_4dir_attack_v01b.png
+?? assets/source_ai/source_h09_native_4dir_cast_v01b.png
+?? assets/source_ai/source_h10_native_4dir_hurt_v01b.png
+?? assets/ui/batch_a_ui_atlas_mapping.json
+?? assets/ui/buttons_and_tabs/
+?? assets/ui/character_creation_and_c_panel/
+?? assets/ui/frames_9slice/
+?? assets/ui/hud_chrome/
+?? assets/ui/icons_32x32/
+?? assets/ui/icons_64x64/
+?? assets/ui/quest_and_prompts/
+?? assets/ui/slots_and_rarity_frames/
+?? packages/art-tools/corekit/
+?? packages/art-tools/legacy/
+?? packages/game-data/src/catalogs/items.ts
+?? packages/game-data/src/catalogs/monsters.ts
+?? packages/game-data/src/catalogs/npcs.ts
+?? packages/game-data/src/catalogs/quests.ts
+?? packages/game-data/src/catalogs/recipes.ts
+?? packages/game-data/src/catalogs/techniques.ts
+?? packages/game-data/src/catalogs/zones.ts
+?? packages/game-data/src/rules/legacyProgression.ts
+?? packages/game-data/src/rules/legacySimulator.ts
+?? packages/game-data/src/rules/td01Numeric.ts
+?? packages/shared/src/ids/
+?? packages/shared/src/protocols/
+?? packages/shared/src/snapshots/
+?? scripts/package-runtime-assets.mjs
+?? scripts/tests/package-runtime-assets.test.mjs
+?? scripts/tests/verify-architecture.test.mjs
+?? scripts/tests/verify-corekit.test.mjs
+?? scripts/verify-architecture.mjs
+?? tests/e2e/runArchFoundationVerification.ts

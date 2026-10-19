@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "pipeline": "Antigravity Native AI Image Generation + Agent Sprite Forge + Pixel Art Skill QA",
   "characters": [
     {
@@ -11,17 +11,52 @@
       },
       "generationProvider": "Antigravity native image-generator subagent",
       "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
-      "sourceReferenceImage": "assets/portraits/portrait_hero_kiem_tu.png",
+      "sourceReferenceImage": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png",
       "sourceAiFiles": [
         {
-          "path": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png",
-          "sha256": "7908805c5823302bf65cd169f948748bbd47d415e9852fa6b1d83e5824be2a5b",
-          "role": "locomotion_4dir_sheet_v01b"
+          "path": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png",
+          "sha256": "ca18e9e46de25a61e19ecf047ad844ada26f0624601df47a600293c4483de09b",
+          "role": "canonical_hero_master_reference_and_locomotion_attack_proof"
         },
         {
-          "path": "assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
-          "sha256": "eb5c41732d263c945eccb8894f2f445880f91235852bcbe39fb695862640e9c3",
-          "role": "combat_cast_hurt_4dir_sheet_v01b"
+          "path": "assets/source_ai/source_h04_native_down_idle_walk_v01b.png",
+          "sha256": "1e5b631a1b00f8855ac06000e4d7d82d13c978e33150190d3b6acfecf860ce68",
+          "role": "hero_source04_native_down_idle_walk_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h05_native_up_idle_walk_v01b.png",
+          "sha256": "65fdff2f76076392276ab1cb64cf343649c537a6116252060c42545fbacf4cad",
+          "role": "hero_source04_native_up_idle_walk_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h06_native_right_idle_walk_v01b.png",
+          "sha256": "55e2e61c5347841e5fa4284af11e5613e51d6286974e5d63a878564a9d8b31b9",
+          "role": "hero_source04_native_right_idle_walk_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h07_native_left_idle_walk_v01b.png",
+          "sha256": "91ba524dcc33fc41799412e2ee938608a944bf001dbc575086ab939e7bed274c",
+          "role": "hero_source04_native_left_idle_walk_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h08_native_4dir_attack_v01b.png",
+          "sha256": "01fcc604c7cb9f9b7ce86bbf1c8b7871108dd43c661b0a19184fa6714f4bc3d3",
+          "role": "hero_source04_native_4dir_attack_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h09_native_4dir_cast_v01b.png",
+          "sha256": "c9cad59497258456742f1a363cbc06d5c62adc76835a4d6b33dd58e37bd77e90",
+          "role": "hero_source04_native_4dir_cast_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h10_native_4dir_hurt_v01b.png",
+          "sha256": "fde6638b46e4fc36dd08d0d8b51ce1d524739470aa4e263d169aa377690acf0e",
+          "role": "hero_source04_native_4dir_hurt_sheet_v01b"
+        },
+        {
+          "path": "assets/source_ai/source_h03_hero_source04_portrait_v01b.png",
+          "sha256": "73110fcf2206dbf086ef67cc822c1eac78612152bcce0c9d5e9d76fc01d03bdb",
+          "role": "hero_source04_canonical_portrait_v01b"
         }
       ],
       "generatedDirectionalViews": [
@@ -62,7 +97,6 @@
         "qualityAudit": {
           "status": "pass",
           "file": "assets/sprites/hero_kiem_tu.png",
-          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/hero_kiem_tu.png",
           "antialiasing": {
             "semi_transparent_pixels": 0,
             "total_pixels": 921600,
@@ -73,9 +107,9 @@
             "clean": true
           },
           "palette": {
-            "unique_colors": 64,
+            "unique_colors": 100039,
             "max_allowed": 256,
-            "clean": true
+            "clean": false
           },
           "grid_alignment": {
             "width": 480,
@@ -84,7 +118,32 @@
             "aligned": true
           }
         }
-      }
+      },
+      "supersededHistoricalSources": [
+        {
+          "path": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png",
+          "sha256": "7908805c5823302bf65cd169f948748bbd47d415e9852fa6b1d83e5824be2a5b",
+          "status": "SUPERSEDED_BY_HERO_ANIMSET_01"
+        },
+        {
+          "path": "assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
+          "sha256": "eb5c41732d263c945eccb8894f2f445880f91235852bcbe39fb695862640e9c3",
+          "status": "SUPERSEDED_BY_HERO_ANIMSET_01"
+        },
+        {
+          "path": "assets/source_ai/source_h01_hero_source04_4dir_locomotion_v01b.png",
+          "sha256": "5168e72c0332492c53e08abd7c3b45475e24341e32a67f29419dc1cb56adba72",
+          "status": "SUPERSEDED_BY_HERO_H04_H10"
+        },
+        {
+          "path": "assets/source_ai/source_h02_hero_source04_4dir_combat_cast_hurt_v01b.png",
+          "sha256": "00b9efbd279154d047b17d810f2ba51e70900fa5fd67a55ae9314a1d7bdffecc",
+          "status": "SUPERSEDED_BY_HERO_H04_H10"
+        }
+      ],
+      "corekitReferenceId": "v01b.char.hero_kiem_tu",
+      "creativeApprovalState": "HUMAN_APPROVED",
+      "approvalRecordId": "DEC-009"
     },
     {
       "characterId": "phi_de",
@@ -94,7 +153,7 @@
         "proceduralPlaceholderUsed": false
       },
       "generationProvider": "Antigravity native image-generator subagent",
-      "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
+      "generationMethod": "Stationary 4-frame V01-B NPC idle strip + 160x160 bust portrait (bear-hood + boiled chicken drumstick correction)",
       "sourceReferenceImage": "assets/portraits/portrait_phi_de.png",
       "sourceAiFiles": [
         {
@@ -104,17 +163,10 @@
         }
       ],
       "generatedDirectionalViews": [
-        "down (front)",
-        "left (profile)",
-        "right (profile)",
-        "up (back/rear)"
+        "down (front)"
       ],
       "animationStates": [
-        "idle (4f)",
-        "walk (6f)",
-        "attack (4f)",
-        "cast (4f)",
-        "hurt (4f)"
+        "idle (4f)"
       ],
       "animationGenerationMethod": "AI 4x4 multi-pose keyframe generation + Agent Sprite Forge connected-component ownership slicing + foot-anchor registration",
       "postProcessingSteps": [
@@ -125,45 +177,24 @@
         "Pixel-Art skill atlas_pack.py and gif_export.py packaging"
       ],
       "exportedSpritesheet": "assets/sprites/phi_de.png",
-      "exportedAtlas": "assets/atlases/phi_de_atlas.png",
-      "exportedAtlasMetadata": "assets/atlases/phi_de_atlas.json",
-      "exportedFramesDir": "assets/atlases/phi_de/frames",
       "previewGifs": {
-        "all_states": "assets/previews/phi_de_all_states.gif",
-        "idle": "assets/previews/phi_de_idle.gif",
-        "walk": "assets/previews/phi_de_walk.gif",
-        "attack": "assets/previews/phi_de_attack.gif",
-        "cast": "assets/previews/phi_de_cast.gif",
-        "hurt": "assets/previews/phi_de_hurt.gif"
+        "idle": "assets/previews/phi_de_idle.gif"
       },
-      "beforeAfterSheet": "assets/previews/phi_de_before_after.png",
       "validationResults": {
         "qualityAudit": {
           "status": "pass",
           "file": "assets/sprites/phi_de.png",
-          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/phi_de.png",
-          "antialiasing": {
-            "semi_transparent_pixels": 0,
-            "total_pixels": 921600,
-            "clean": true
-          },
-          "orphan_pixels": {
-            "orphan_pixels": 0,
-            "clean": true
-          },
-          "palette": {
-            "unique_colors": 64,
-            "max_allowed": 256,
-            "clean": true
-          },
           "grid_alignment": {
-            "width": 480,
-            "height": 1920,
+            "width": 320,
+            "height": 96,
             "grid_size": 8,
             "aligned": true
           }
         }
-      }
+      },
+      "corekitReferenceId": "v01b.npc.phi_de",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "masterReferenceApprovalId": "DEC-008"
     },
     {
       "characterId": "dam_lon_tien_tu",
@@ -173,7 +204,7 @@
         "proceduralPlaceholderUsed": false
       },
       "generationProvider": "Antigravity native image-generator subagent",
-      "generationMethod": "Multi-pose 4x4 directional locomotion sheet + 4x4 combat/invocation/hurt action sheet",
+      "generationMethod": "Stationary 4-frame V01-B NPC idle strip + 160x160 bust portrait",
       "sourceReferenceImage": "assets/portraits/portrait_dam_lon_tien_tu.png",
       "sourceAiFiles": [
         {
@@ -183,17 +214,10 @@
         }
       ],
       "generatedDirectionalViews": [
-        "down (front)",
-        "left (profile)",
-        "right (profile)",
-        "up (back/rear)"
+        "down (front)"
       ],
       "animationStates": [
-        "idle (4f)",
-        "walk (6f)",
-        "attack (4f)",
-        "cast (4f)",
-        "hurt (4f)"
+        "idle (4f)"
       ],
       "animationGenerationMethod": "AI 4x4 multi-pose keyframe generation + Agent Sprite Forge connected-component ownership slicing + foot-anchor registration",
       "postProcessingSteps": [
@@ -204,45 +228,24 @@
         "Pixel-Art skill atlas_pack.py and gif_export.py packaging"
       ],
       "exportedSpritesheet": "assets/sprites/dam_lon_tien_tu.png",
-      "exportedAtlas": "assets/atlases/dam_lon_tien_tu_atlas.png",
-      "exportedAtlasMetadata": "assets/atlases/dam_lon_tien_tu_atlas.json",
-      "exportedFramesDir": "assets/atlases/dam_lon_tien_tu/frames",
       "previewGifs": {
-        "all_states": "assets/previews/dam_lon_tien_tu_all_states.gif",
-        "idle": "assets/previews/dam_lon_tien_tu_idle.gif",
-        "walk": "assets/previews/dam_lon_tien_tu_walk.gif",
-        "attack": "assets/previews/dam_lon_tien_tu_attack.gif",
-        "cast": "assets/previews/dam_lon_tien_tu_cast.gif",
-        "hurt": "assets/previews/dam_lon_tien_tu_hurt.gif"
+        "idle": "assets/previews/dam_lon_tien_tu_idle.gif"
       },
-      "beforeAfterSheet": "assets/previews/dam_lon_tien_tu_before_after.png",
       "validationResults": {
         "qualityAudit": {
           "status": "pass",
           "file": "assets/sprites/dam_lon_tien_tu.png",
-          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/sprites/dam_lon_tien_tu.png",
-          "antialiasing": {
-            "semi_transparent_pixels": 0,
-            "total_pixels": 921600,
-            "clean": true
-          },
-          "orphan_pixels": {
-            "orphan_pixels": 0,
-            "clean": true
-          },
-          "palette": {
-            "unique_colors": 64,
-            "max_allowed": 256,
-            "clean": true
-          },
           "grid_alignment": {
-            "width": 480,
-            "height": 1920,
+            "width": 320,
+            "height": 96,
             "grid_size": 8,
             "aligned": true
           }
         }
-      }
+      },
+      "corekitReferenceId": "v01b.npc.dam_lon_tien_tu",
+      "creativeApprovalState": "TECHNICALLY_VERIFIED",
+      "masterReferenceApprovalId": "DEC-008"
     }
   ],
   "vfx": [
@@ -266,7 +269,6 @@
         "qualityAudit": {
           "status": "pass",
           "file": "assets/vfx/combat_vfx.png",
-          "historicalOriginPath": "/Users/qmacstore/Desktop/tong-mon-8d/assets/vfx/combat_vfx.png",
           "antialiasing": {
             "semi_transparent_pixels": 0,
             "total_pixels": 65536,
@@ -294,15 +296,21 @@
   "visual03wPromotedAssets": {
     "stage": "VISUAL-03-W",
     "direction": "V01-B — THIÊN MỆNH TIÊN CUNG",
-    "creativeApprovalState": "HUMAN_APPROVED",
+    "creativeApprovalState": "TECHNICALLY_VERIFIED_RUNTIME_FROM_APPROVED_KIT_MASTERS",
     "characters": {
       "hero_kiem_tu": {
-        "sourceLocomotionGrid": "assets/source_ai/source_08_hero_4dir_idle_walk_sheet_v01b.png",
-        "sourceLocomotionSha256": "7908805c5823302bf65cd169f948748bbd47d415e9852fa6b1d83e5824be2a5b",
-        "sourceCombatGrid": "assets/source_ai/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
-        "sourceCombatSha256": "eb5c41732d263c945eccb8894f2f445880f91235852bcbe39fb695862640e9c3",
+        "sourceLocomotionGrid": "assets/source_ai/source_h04_native_down_idle_walk_v01b.png",
+        "sourceLocomotionSha256": "1e5b631a1b00f8855ac06000e4d7d82d13c978e33150190d3b6acfecf860ce68",
+        "sourceCombatGrid": "assets/source_ai/source_h08_native_4dir_attack_v01b.png",
+        "sourceCombatSha256": "01fcc604c7cb9f9b7ce86bbf1c8b7871108dd43c661b0a19184fa6714f4bc3d3",
         "runtimeSpritesheet": "assets/sprites/hero_kiem_tu.png",
-        "runtimeSpritesheetSha256": "8d8c9125c7757c92d7e9b5ec851910366a368daebb8f5eb1befd1f2bce808764"
+        "runtimeSpritesheetSha256": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
+        "canonicalMasterGrid": "assets/source_ai/source_04_hero_and_chatdvt_multipose_sprite_proof.png",
+        "canonicalMasterSha256": "ca18e9e46de25a61e19ecf047ad844ada26f0624601df47a600293c4483de09b",
+        "sourcePortrait": "assets/source_ai/source_h03_hero_source04_portrait_v01b.png",
+        "sourcePortraitSha256": "73110fcf2206dbf086ef67cc822c1eac78612152bcce0c9d5e9d76fc01d03bdb",
+        "runtimePortrait": "assets/portraits/portrait_hero_kiem_tu.png",
+        "runtimePortraitSha256": "1de6fc6029fd2efe1dfa855fd73d1931308290060a41071f6e19b856333f8823"
       },
       "hoa_tran": {
         "sourceLocomotionGrid": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
@@ -310,7 +318,7 @@
         "sourceCombatGrid": "assets/source_ai/source_b03_starter_hoa_tran_4dir_sheet_v01b.png",
         "sourceCombatSha256": "5be1e1848d7355a7243d429f61ab8ce62f6da153b06fd91877c44a1418aed476",
         "runtimeSpritesheet": "assets/sprites/hoa_tran.png",
-        "runtimeSpritesheetSha256": "5519398772e8b83f627b66740660cbcf12066e27fc21ff76eb169e7030af183c"
+        "runtimeSpritesheetSha256": "886e1ee9b6b9090968ac17144609f2d414baadd1c1d520267ab0394a2a7fd75f"
       },
       "ngoc_tam": {
         "sourceLocomotionGrid": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
@@ -318,7 +326,7 @@
         "sourceCombatGrid": "assets/source_ai/source_b04_starter_ngoc_tam_4dir_sheet_v01b.png",
         "sourceCombatSha256": "4629bf47a50153ef9cf9dc1946f1dc7bb300d4aec98684669ec821958b5ec77d",
         "runtimeSpritesheet": "assets/sprites/ngoc_tam.png",
-        "runtimeSpritesheetSha256": "c5ca06e3af62e17c7fd4f42168a8f514458cf333e3a7e66fb6656a3b556262ee"
+        "runtimeSpritesheetSha256": "27ebdd509805affcfbe7aba43ee6661df8d00502cb3321cee1ec6b9fe3577edc"
       },
       "anh_7": {
         "sourceLocomotionGrid": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
@@ -326,7 +334,7 @@
         "sourceCombatGrid": "assets/source_ai/source_b05_starter_anh_7_4dir_sheet_v01b.png",
         "sourceCombatSha256": "8a5bcad415bf2e8f20f2fd119425654d72d8920cd738431b511d0e0906c1097c",
         "runtimeSpritesheet": "assets/sprites/anh_7.png",
-        "runtimeSpritesheetSha256": "f6c3439e72a1c239f60e7e1970889a6962c041470e40d46e26bbdd7efb205c9d"
+        "runtimeSpritesheetSha256": "413112cf96f8bac1df76a1f5073104e92daf5b68aeee7a31ddce9252990da89b"
       },
       "chatdvt": {
         "sourceLocomotionGrid": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
@@ -334,7 +342,7 @@
         "sourceCombatGrid": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
         "sourceCombatSha256": "cb8530770357835af5b66dd5d5b3cbe1ea2d09bd7cd7ffc1f67bb47703de69aa",
         "runtimeSpritesheet": "assets/sprites/chatdvt.png",
-        "runtimeSpritesheetSha256": "24ab92f78867a97760262ee77d39e21998c5f1f0d5d4a9fd6dc5e3d762b6b47c"
+        "runtimeSpritesheetSha256": "376d507d251bfb79588d0ce4d7c0eae4c98c8573519081ee3bee15c06ad51e54"
       },
       "phi_de": {
         "sourceLocomotionGrid": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
@@ -342,7 +350,7 @@
         "sourceCombatGrid": "assets/source_ai/source_b11_phi_de_chubby_luxury_chicken_v01b.png",
         "sourceCombatSha256": "5b290074dfd9ef9c05e82e525fa8a483b25e497bfe7a00f2cf328540791a3e28",
         "runtimeSpritesheet": "assets/sprites/phi_de.png",
-        "runtimeSpritesheetSha256": "fe06e0994172ef40944c32cbe88d971a93403ff290991014992f40ed77fb8704"
+        "runtimeSpritesheetSha256": "29cee0f7c814ad41b9ead7c46998401044d5ca14f8b720fb8b6ca731d71153d5"
       },
       "rmt_de": {
         "sourceLocomotionGrid": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
@@ -350,7 +358,7 @@
         "sourceCombatGrid": "assets/source_ai/source_b10_phi_de_and_rmt_de_differentiation_v01b.png",
         "sourceCombatSha256": "16edf62e406f6920e90fcc2c6b1d0a9d10a3d5f9468e47e67ab719c60d63ae9a",
         "runtimeSpritesheet": "assets/sprites/rmt_de.png",
-        "runtimeSpritesheetSha256": "7b4cfea19c364f715ddbc5435d9b71a7e12e813015c691af1aaf3b5000b89adf"
+        "runtimeSpritesheetSha256": "426a2e387686f1c57e481f3bcfe699a608d42778a96827841b39e85dfcaa67a9"
       },
       "merchant_truong": {
         "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
@@ -358,7 +366,7 @@
         "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
         "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
         "runtimeSpritesheet": "assets/sprites/merchant_truong.png",
-        "runtimeSpritesheetSha256": "1ba8625894b19d422fe37f7265728c8c62843700cba3633db2459196dfa85318"
+        "runtimeSpritesheetSha256": "f4bf6b9e913e366ca5c38073c65604defe7b51978486a693b2abb4f0f97f3f28"
       },
       "dam_lon_tien_tu": {
         "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
@@ -366,7 +374,7 @@
         "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
         "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
         "runtimeSpritesheet": "assets/sprites/dam_lon_tien_tu.png",
-        "runtimeSpritesheetSha256": "7aff71ff45b61f4536fc3bd2e347e9f10c1eeb0139a700270e000aa4e62a3fcb"
+        "runtimeSpritesheetSha256": "80758718fd668d56ac497161813044e758503359504fe544de22db1ac4c7cdda"
       },
       "thai_tai": {
         "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
@@ -374,7 +382,7 @@
         "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
         "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
         "runtimeSpritesheet": "assets/sprites/thai_tai.png",
-        "runtimeSpritesheetSha256": "3258840dc51632b6ad5874d2fb92deffdd1ab26e60548a2b1eea55b512636e70"
+        "runtimeSpritesheetSha256": "43dd0968c215d1f9f28dc5770b77994117f3d9a6edde8aeb5e12159173123b6a"
       },
       "npc_ngoc_tam": {
         "sourceLocomotionGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
@@ -382,7 +390,7 @@
         "sourceCombatGrid": "assets/source_ai/source_07_tan_thu_thon_npcs_sprite_proof_v01b.png",
         "sourceCombatSha256": "67d35cda6c9230464f45c457f1955659b52a829f62e1cb6c35a65d2561f99c98",
         "runtimeSpritesheet": "assets/sprites/npc_ngoc_tam.png",
-        "runtimeSpritesheetSha256": "a30a9f99c840dda09590648ea9e8714f8d19c18bc3173a824bb0c205233c8696"
+        "runtimeSpritesheetSha256": "4b1fdf8a0c8fe3d39c3543e41097e9218ff0f9414f12a9c790ebbdaf686c28a9"
       }
     },
     "tileset": {
@@ -396,6 +404,62 @@
       "heightTiles": 72,
       "walkableTiles": 5357,
       "blockedTiles": 1555
+    },
+    "heroOverrideApprovalState": "HUMAN_APPROVED (DEC-009 / HERO-ANIMSET-01)"
+  },
+  "corekitCatalog": "assets/corekit/v01b/catalog.json",
+  "newProductionJobs": [
+    {
+      "jobId": "s1_entry_visual_rebuild_01_ui_presentation",
+      "referenceId": "v01b.ui.approved_screen_concepts",
+      "profileId": "v01b.profiles.ui_tokens",
+      "generationProvider": "Antigravity native image-generator subagent",
+      "generationMethod": "Native V01-B text-free celestial terrace, astrolabe chamber, and cultivation diagram generation",
+      "postProcessingSteps": [
+        "Deterministic crop and exterior background alpha extraction into assets/ui/entry and assets/ui/presentation"
+      ],
+      "sourceFiles": [
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e01_title_and_creation_terrace_backdrop_v01b.png",
+          "sha256": "4be9c819a16216e183a9ecf46fa36297a0baac0f222a85d0c77a67e9811673e1"
+        },
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e02_destiny_astrolabe_chamber_backdrop_v01b.png",
+          "sha256": "1b88f9a47f93da8cb3a5f21539685c0f04eecb4ec96fc3225e39a3c8e8c11cbc"
+        },
+        {
+          "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png",
+          "sha256": "43330cc7fad0cdd5f5744a785c9191ff81fd92945c47c5ccc0a65f340e980746"
+        }
+      ],
+      "runtimeOutputs": [
+        {
+          "path": "assets/ui/entry/bg_title_and_creation_terrace_v01b.png",
+          "sha256": "4be9c819a16216e183a9ecf46fa36297a0baac0f222a85d0c77a67e9811673e1",
+          "bytes": 1646618
+        },
+        {
+          "path": "assets/ui/entry/bg_destiny_astrolabe_chamber_v01b.png",
+          "sha256": "1b88f9a47f93da8cb3a5f21539685c0f04eecb4ec96fc3225e39a3c8e8c11cbc",
+          "bytes": 1969072
+        },
+        {
+          "path": "assets/ui/presentation/header_banner_crest_v01b.png",
+          "sha256": "a222e0e59a81b60708d588c03236b4af3fa71977043fbe50c20b124d129eeda7",
+          "bytes": 264364
+        },
+        {
+          "path": "assets/ui/presentation/cultivation_meditation_star_wheel_v01b.png",
+          "sha256": "0eccfad56ccb2e18632dabb900a78a24880c683b0317ce5679b5f8b5844ec20a",
+          "bytes": 378604
+        },
+        {
+          "path": "assets/ui/presentation/cultivation_meridian_hexagram_plate_v01b.png",
+          "sha256": "0e026f832fde8619ff7df159d2ef20bde3f978ee68ab410f4abe0c63a396d13c",
+          "bytes": 322093
+        }
+      ],
+      "creativeApprovalState": "TECHNICALLY_VERIFIED"
     }
-  }
+  ]
 }

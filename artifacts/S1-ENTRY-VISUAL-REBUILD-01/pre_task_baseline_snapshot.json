@@ -1,0 +1,135 @@
+{
+  "recordedAtUtc": "2026-10-18T18:51:25.7438943Z",
+  "userDate": "2026-10-19 Asia/Bangkok",
+  "repoRoot": "C:\\Users\\admin\\Desktop\\tong-mon-8d",
+  "localHead": "7b386cea7ef075c6f358539ddea155cd1634db5b",
+  "remoteMaster": "7b386cea7ef075c6f358539ddea155cd1634db5b\trefs/heads/master",
+  "dirtyPathCount": 711,
+  "reviewType": "READ_ONLY_TARGETED_SOURCE_AND_VISUAL_REVIEW",
+  "gameTestsRun": false,
+  "gameSourceModifiedByPlanner": false,
+  "playerDatabaseOpened": false,
+  "argonReportPath": "C:/Users/admin/.codex/attachments/3a6dedd1-4b20-4511-8850-dcb3b7d9d1d6/Pasted text.txt",
+  "files": [
+    {
+      "path": "apps/client/src/app/GameBootstrap.ts",
+      "sha256": "a12a030ee5af56001ac04ffaac85f6fce2535ca17674c483724aa2f589f4484f",
+      "bytes": 2442,
+      "lastWriteTimeUtc": "2026-10-18T13:04:49.4899423Z"
+    },
+    {
+      "path": "apps/client/src/features/character/CharacterCreationView.ts",
+      "sha256": "2415f43e2488abbd8b872a7aa626b556655d8bd3affd4cf9d7e5dcac12a41355",
+      "bytes": 19308,
+      "lastWriteTimeUtc": "2026-10-18T17:14:04.6134702Z"
+    },
+    {
+      "path": "apps/client/src/features/character/CharacterPanel.ts",
+      "sha256": "e07668076f41a58471a505b0a81b2f79112a3497beff68d7c054013b6a144853",
+      "bytes": 15599,
+      "lastWriteTimeUtc": "2026-10-18T17:57:25.0543554Z"
+    },
+    {
+      "path": "apps/client/src/ui/HudShell.ts",
+      "sha256": "9d95eec052199d818a9607d7c56ce56b83b514f6bf08453736bdea13cc3ecb03",
+      "bytes": 33352,
+      "lastWriteTimeUtc": "2026-10-18T17:49:40.1851638Z"
+    },
+    {
+      "path": "apps/client/src/style.css",
+      "sha256": "47cf2890840942a63c0908efe7a5c386bb463d64de76cd867cb604355e957876",
+      "bytes": 31974,
+      "lastWriteTimeUtc": "2026-10-18T18:02:48.3907730Z"
+    },
+    {
+      "path": "apps/client/src/network/GameNetworkClient.ts",
+      "sha256": "7819a2bef27b4b6fe40b2079ec71b8a872679e142e2f022c17d1fc8f36da4d01",
+      "bytes": 14772,
+      "lastWriteTimeUtc": "2026-10-18T13:00:15.4132767Z"
+    },
+    {
+      "path": "apps/client/src/game/input/PlayerInput.ts",
+      "sha256": "5293d77e26e38a6c61db92a25f248184726bf49ab6b8b53f0e3d13cd7aa302ea",
+      "bytes": 6117,
+      "lastWriteTimeUtc": "2026-10-18T13:07:45.2212914Z"
+    },
+    {
+      "path": "apps/server/src/db.ts",
+      "sha256": "cdde12f25ba1fd712caddaf0c0868777ac8e218b3676e93c41602566106af3ee",
+      "bytes": 16888,
+      "lastWriteTimeUtc": "2026-10-18T13:07:39.1809914Z"
+    },
+    {
+      "path": "apps/server/src/features/character/CharacterRepository.ts",
+      "sha256": "b834b21b71de02204fae05da46ab99f719b8aeb4a898d325ecea5a390afc03fd",
+      "bytes": 21603,
+      "lastWriteTimeUtc": "2026-10-18T12:41:05.4749839Z"
+    },
+    {
+      "path": "apps/server/src/features/character/CharacterCreationCommands.ts",
+      "sha256": "c35f5e9eff11d049460e0f1eb23b69c1d8354acca546cf7b22a60a5b404e1403",
+      "bytes": 18082,
+      "lastWriteTimeUtc": "2026-10-18T12:44:10.9760353Z"
+    },
+    {
+      "path": "apps/server/src/features/character/CharacterProgressionCommands.ts",
+      "sha256": "762cd938ad9d8c81917a8a99ef88eefbbf0a14f12962139cd779869bdba691e1",
+      "bytes": 28576,
+      "lastWriteTimeUtc": "2026-10-18T12:44:13.3636308Z"
+    },
+    {
+      "path": "apps/server/src/features/character/CharacterService.ts",
+      "sha256": "8f400f0ec324c1b2c00d484c26ce67704d137e41a5c86d99de985254207b9835",
+      "bytes": 7613,
+      "lastWriteTimeUtc": "2026-10-18T12:44:15.4870179Z"
+    },
+    {
+      "path": "apps/server/src/infrastructure/auth/GuestIdentity.ts",
+      "sha256": "68357f36f21098fc604aaeef8b930580c4bee39ee2d87e44c831fb3f7d6cb0c7",
+      "bytes": 10023,
+      "lastWriteTimeUtc": "2026-10-18T12:38:53.0168763Z"
+    },
+    {
+      "path": "apps/server/src/infrastructure/idempotency/RequestReceiptStore.ts",
+      "sha256": "aae19ade9892a4efbed196d4d07f5ebaac61408c0dcf71a00627445395666c55",
+      "bytes": 3608,
+      "lastWriteTimeUtc": "2026-10-18T13:07:37.1744482Z"
+    },
+    {
+      "path": "apps/server/src/transport/colyseus/ZoneRoom.ts",
+      "sha256": "1ebffa2cdbb4dfc1df3308d4c4f784fc2c325861de730077aa9f7725f1473cce",
+      "bytes": 29555,
+      "lastWriteTimeUtc": "2026-10-18T12:52:21.6217060Z"
+    },
+    {
+      "path": "apps/server/src/transport/http/registerHttpRoutes.ts",
+      "sha256": "61fa731c44d613fd4a7fcefc779844c2a757e4a3b015b062a27a5b85b37c080c",
+      "bytes": 3392,
+      "lastWriteTimeUtc": "2026-10-18T13:07:43.4200211Z"
+    },
+    {
+      "path": "apps/server/src/runtime/world/WorldRuntime.ts",
+      "sha256": "8d1522c3eec03068cfaf8d16cb2ba6e035be05d1e55a58dcb668343a3c034557",
+      "bytes": 9462,
+      "lastWriteTimeUtc": "2026-10-18T13:08:41.0806196Z"
+    },
+    {
+      "path": "apps/server/src/infrastructure/database/PgAdapter.ts",
+      "sha256": "05400e8ff0d2ff33d80eef60bc32c606299187e288ef84a9415a90a954cb5a51",
+      "bytes": 20238,
+      "lastWriteTimeUtc": "2026-10-18T16:17:06.8494341Z"
+    },
+    {
+      "path": "packages/shared/src/protocols/character.ts",
+      "sha256": "fab8d8d56d2b251967541553a8cf781a4a2f174f7b4d339006fe0aa5473e0863",
+      "bytes": 4199,
+      "lastWriteTimeUtc": "2026-10-18T12:31:48.0255848Z"
+    },
+    {
+      "path": "assets/corekit/v01b/catalog.json",
+      "sha256": "ec74f6ed8958693973f9793c1fcdd29d7af525725f2f32b81523bdd9893eedae",
+      "bytes": 53348,
+      "lastWriteTimeUtc": "2026-10-18T16:29:09.9501644Z"
+    }
+  ]
+}

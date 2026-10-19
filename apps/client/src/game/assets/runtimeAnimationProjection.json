@@ -1,0 +1,323 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceCatalog": "assets/corekit/v01b/catalog.json",
+  "sourceAnimationProfile": "assets/corekit/v01b/profiles/animation.json",
+  "sourceAnimationProfileSha256": "07434a8e34c3cfb2abcdda384ce09b5a8abd54b5a92186acf75b3bd13aca4ce9",
+  "profiles": {
+    "full_80x96_20row": {
+      "kind": "full_80x96_20row",
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "supportedStates": [
+        "idle",
+        "walk",
+        "attack",
+        "cast",
+        "hurt"
+      ],
+      "supportedDirections": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "sheetWidth": 480,
+      "sheetHeight": 1920,
+      "columns": 6,
+      "rows": 20,
+      "stateLayout": {
+        "idle": {
+          "startRow": 0,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 5,
+          "repeat": -1
+        },
+        "walk": {
+          "startRow": 4,
+          "rowCount": 4,
+          "framesPerRow": 6,
+          "fps": 10,
+          "repeat": -1
+        },
+        "attack": {
+          "startRow": 8,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        },
+        "cast": {
+          "startRow": 12,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        },
+        "hurt": {
+          "startRow": 16,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        }
+      }
+    },
+    "full_80x96_20row_8walk": {
+      "kind": "full_80x96_20row_8walk",
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "supportedStates": [
+        "idle",
+        "walk",
+        "attack",
+        "cast",
+        "hurt"
+      ],
+      "supportedDirections": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "sheetWidth": 640,
+      "sheetHeight": 1920,
+      "columns": 8,
+      "rows": 20,
+      "stateLayout": {
+        "idle": {
+          "startRow": 0,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 5,
+          "repeat": -1
+        },
+        "walk": {
+          "startRow": 4,
+          "rowCount": 4,
+          "framesPerRow": 8,
+          "fps": 10,
+          "repeat": -1
+        },
+        "attack": {
+          "startRow": 8,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        },
+        "cast": {
+          "startRow": 12,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        },
+        "hurt": {
+          "startRow": 16,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        }
+      }
+    },
+    "locomotion_80x96_8row": {
+      "kind": "locomotion_80x96_8row",
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "supportedStates": [
+        "idle",
+        "walk"
+      ],
+      "supportedDirections": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "sheetWidth": 480,
+      "sheetHeight": 768,
+      "columns": 6,
+      "rows": 8,
+      "stateLayout": {
+        "idle": {
+          "startRow": 0,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 5,
+          "repeat": -1
+        },
+        "walk": {
+          "startRow": 4,
+          "rowCount": 4,
+          "framesPerRow": 6,
+          "fps": 10,
+          "repeat": -1
+        }
+      },
+      "fallbackPolicy": {
+        "unsupportedCombatStatesTo": "idle",
+        "fallbackReason": "S3_COMBAT_ACTION_SHEET_DEFERRED"
+      }
+    },
+    "stationary_npc_80x96_4f": {
+      "kind": "stationary_npc_80x96_4f",
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "supportedStates": [
+        "idle"
+      ],
+      "supportedDirections": [
+        "down"
+      ],
+      "sheetWidth": 320,
+      "sheetHeight": 96,
+      "columns": 4,
+      "rows": 1,
+      "stateLayout": {
+        "idle": {
+          "startRow": 0,
+          "rowCount": 1,
+          "framesPerRow": 4,
+          "fps": 5,
+          "repeat": -1
+        }
+      },
+      "fallbackPolicy": {
+        "unsupportedStatesOrDirsTo": {
+          "state": "idle",
+          "dir": "down"
+        },
+        "fallbackReason": "STATIONARY_NPC_SINGLE_IDLE_DOWN_STRIP"
+      }
+    },
+    "legacy_48x64_16row": {
+      "kind": "legacy_48x64_16row",
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "supportedStates": [
+        "idle",
+        "walk",
+        "attack",
+        "cast"
+      ],
+      "supportedDirections": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "sheetWidth": 288,
+      "sheetHeight": 1024,
+      "columns": 6,
+      "rows": 16,
+      "stateLayout": {
+        "idle": {
+          "startRow": 0,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 5,
+          "repeat": -1
+        },
+        "walk": {
+          "startRow": 4,
+          "rowCount": 4,
+          "framesPerRow": 6,
+          "fps": 10,
+          "repeat": -1
+        },
+        "attack": {
+          "startRow": 8,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        },
+        "cast": {
+          "startRow": 12,
+          "rowCount": 4,
+          "framesPerRow": 4,
+          "fps": 10,
+          "repeat": 0
+        }
+      },
+      "fallbackPolicy": {
+        "hurtTo": "idle",
+        "fallbackReason": "LEGACY_16ROW_NO_HURT_ROW"
+      }
+    }
+  },
+  "spriteBindings": {
+    "hero_kiem_tu": {
+      "profileId": "full_80x96_20row",
+      "referenceId": "v01b.char.hero_kiem_tu",
+      "role": "runtime"
+    },
+    "hoa_tran": {
+      "profileId": "locomotion_80x96_8row",
+      "referenceId": "v01b.char.hoa_tran",
+      "role": "runtime"
+    },
+    "ngoc_tam": {
+      "profileId": "locomotion_80x96_8row",
+      "referenceId": "v01b.char.ngoc_tam",
+      "role": "runtime"
+    },
+    "anh_7": {
+      "profileId": "locomotion_80x96_8row",
+      "referenceId": "v01b.char.anh_7",
+      "role": "runtime"
+    },
+    "chatdvt": {
+      "profileId": "locomotion_80x96_8row",
+      "referenceId": "v01b.creature.chatdvt",
+      "role": "runtime"
+    },
+    "phi_de": {
+      "profileId": "stationary_npc_80x96_4f",
+      "referenceId": "v01b.npc.phi_de",
+      "role": "runtime"
+    },
+    "rmt_de": {
+      "profileId": "stationary_npc_80x96_4f",
+      "referenceId": "v01b.npc.rmt_de",
+      "role": "runtime"
+    },
+    "merchant_truong": {
+      "profileId": "stationary_npc_80x96_4f",
+      "referenceId": "v01b.npc.merchant_truong",
+      "role": "runtime"
+    },
+    "dam_lon_tien_tu": {
+      "profileId": "stationary_npc_80x96_4f",
+      "referenceId": "v01b.npc.dam_lon_tien_tu",
+      "role": "runtime"
+    },
+    "npc_ngoc_tam": {
+      "profileId": "stationary_npc_80x96_4f",
+      "referenceId": "v01b.npc.npc_ngoc_tam",
+      "role": "runtime"
+    },
+    "thai_tai": {
+      "profileId": "stationary_npc_80x96_4f",
+      "referenceId": "v01b.npc.thai_tai",
+      "role": "runtime"
+    },
+    "vaal_de": {
+      "profileId": "legacy_48x64_16row",
+      "referenceId": "legacy.npc.vaal_de",
+      "role": "legacy_required"
+    },
+    "truc_lang": {
+      "profileId": "legacy_48x64_16row",
+      "referenceId": "legacy.creature.truc_lang",
+      "role": "legacy_required"
+    },
+    "thanh_lan_xa": {
+      "profileId": "legacy_48x64_16row",
+      "referenceId": "legacy.creature.thanh_lan_xa",
+      "role": "legacy_required"
+    }
+  }
+}

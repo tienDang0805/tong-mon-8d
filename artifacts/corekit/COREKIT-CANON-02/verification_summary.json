@@ -1,0 +1,101 @@
+{
+  "taskId": "ARCH-COREKIT-R1",
+  "supersedesReport": "artifacts/corekit/COREKIT-CANON-02/verification_summary_checkpoint_20261018_pre_r1.json",
+  "verifiedAt": "2026-10-18T17:00:00.000Z",
+  "remoteBase": "7b386cea7ef075c6f358539ddea155cd1634db5b",
+  "commitPolicy": "NO_COMMIT",
+  "status": "TECHNICAL_CORRECTIONS_VERIFIED_MISSING_APPROVED_HERO_8FRAME_INPUT",
+  "missingApprovedHeroInput": {
+    "status": "MISSING_APPROVED_HERO_INPUT",
+    "reason": "Owner confirmed a later 8-walk-frame Hero beyond the 6-walk-frame snapshot on disk; exhaustive workspace and brain artifact search confirmed no 8-walk-frame Hero source or runtime sheet exists locally. Per ARCH-COREKIT-R1 instructions, existing 6-walk-frame bytes are preserved untouched without fabricating or duplicating frames, and full_80x96_20row_8walk (640x1920) profile support is wired for drop-in installation when supplied."
+  },
+  "corekitLibrary": {
+    "catalogPath": "assets/corekit/v01b/catalog.json",
+    "indexPath": "assets/corekit/v01b/COREKIT_INDEX.md",
+    "profiles": [
+      "assets/corekit/v01b/profiles/animation.json",
+      "assets/corekit/v01b/profiles/ui-tokens.json",
+      "assets/corekit/v01b/profiles/world-art.json"
+    ],
+    "runtimeAnimationProjection": "apps/client/src/game/assets/runtimeAnimationProjection.json",
+    "activeReferenceCount": 15,
+    "legacyPlaceholderExceptions": 7
+  },
+  "ownerApprovalsEnforced": {
+    "DEC-006": "VISUAL-01 Art Direction Lock: V01-B — THIÊN MỆNH TIÊN CUNG with Three-Tier Progression Grandeur (direction_and_s1_core_kit_sample)",
+    "DEC-007": "VISUAL-02B Scoped S1 Core Asset Kit (direction_and_s1_core_kit_sample)",
+    "DEC-008": "VISUAL-02B-CORRECTION Identity Lock for phi_de (Chubby Bear-Hood Saint holding Đùi Gà Luộc, strictly no tea cup) and rmt_de (Thần Tài Sovereign) (direction_and_s1_core_kit_sample)",
+    "DEC-009": "HERO-ANIMSET-01 Desktop Hero Master Lock (ref.character.hero_kiem_tu@2.0.0-hero-animset-01, runtime_character_master; 8-walk-frame input tracked as MISSING_APPROVED_HERO_INPUT)"
+  },
+  "heroLineageIntegrity": {
+    "referenceId": "ref.character.hero_kiem_tu",
+    "version": "2.0.0-hero-animset-01",
+    "currentOnDiskProfileId": "full_80x96_20row",
+    "ready8WalkProfileId": "full_80x96_20row_8walk",
+    "spritePath": "assets/sprites/hero_kiem_tu.png",
+    "spriteSha256": "ecf6604b5a820c9edf073ddf2bceadfb0356c92c635b925b091dcf5faedc2128",
+    "spriteDimensions": "480x1920 (6 cols x 20 rows, 6 walk frames)",
+    "portraitPath": "assets/portraits/portrait_hero_kiem_tu.png",
+    "portraitSha256": "1de6fc6029fd2efe1dfa855fd73d1931308290060a41071f6e19b856333f8823",
+    "atlasJsonPath": "assets/atlases/hero_kiem_tu_atlas.json",
+    "atlasJsonSha256": "cb31f1eab516336fd291a04279fa3bdbf5ef0d1061547ac942ebbf051d47ca61",
+    "rawSources": [
+      "assets/source_ai/source_h04_hero_strict_locomotion_down_up_v01b.png",
+      "assets/source_ai/source_h05_hero_strict_locomotion_left_right_v01b.png",
+      "assets/source_ai/source_h06_hero_strict_combat_cast_hurt_down_up_v01b.png",
+      "assets/source_ai/source_h07_hero_strict_combat_cast_hurt_left_right_v01b.png",
+      "assets/source_ai/source_h08_hero_strict_portrait_v01b.png",
+      "assets/source_ai/source_h09_hero_strict_walk_up_dedicated_v01b.png",
+      "assets/source_ai/source_h10_hero_strict_walk_down_dedicated_v01b.png"
+    ],
+    "supersededHistoricalVariantsArchived": [
+      "assets/archive/history/rejected/hero/source_08_hero_4dir_idle_walk_sheet_v01b.png",
+      "assets/archive/history/rejected/hero/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
+      "assets/archive/history/rejected/hero/source_h01_hero_source04_4dir_locomotion_v01b.png",
+      "assets/archive/history/rejected/hero/source_h02_hero_source04_4dir_combat_cast_hurt_v01b.png",
+      "assets/archive/history/rejected/hero/source_h03_hero_source04_portrait_v01b.png"
+    ]
+  },
+  "cleanupSummary": {
+    "importedRawSources": 5,
+    "importedUiAssets": 120,
+    "deduplicatedUiSlotAliases": 6,
+    "archivedUniqueHistoricalFiles": 25,
+    "consolidatedPreviewGifs": 14,
+    "deletedDuplicateAndObsoleteFiles": 334,
+    "replacedInPlacePreviewGifs": 2,
+    "createdCorekitFiles": 19,
+    "archiveManifest": "assets/archive/history/archive_manifest.json",
+    "migrationLog": "artifacts/corekit/COREKIT-CANON-02/cleanup_migration_log.json"
+  },
+  "verificationResults": {
+    "pgAdapterReviewedB2Sha256": "05400e8ff0d2ff33d80eef60bc32c606299187e288ef84a9415a90a954cb5a51",
+    "verifyAssets": {
+      "status": "OK",
+      "verifiedAssets": 50,
+      "verifiedCorekitActiveReferences": 15,
+      "verifiedCorekitLegacyExceptions": 7,
+      "verifiedProvenanceCharacters": 3,
+      "verifiedVisual03wCharacters": 11,
+      "verifiedMaps": 2
+    },
+    "verifyArchitecture": {
+      "status": "OK",
+      "cycles": 0,
+      "violations": 0
+    },
+    "verifyDocSync": {
+      "status": "OK",
+      "frozenTdFilesIntact": 40
+    },
+    "disabledProceduralGenerator": {
+      "script": "packages/art-tools/build_assets.py",
+      "archivedLegacyPath": "packages/art-tools/legacy/build_assets.py",
+      "exitCodeWithoutForce": 2,
+      "exitCodeWithForce": 2,
+      "zeroFilesMutated": true
+    },
+    "corekitCounterexampleTests": "6/6 PASS (scripts/tests/verify-corekit.test.mjs)",
+    "dbTransactionsTests": "10/10 PASS (apps/server/src/__tests__/dbTransactions.test.ts)"
+  }
+}

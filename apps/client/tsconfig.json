@@ -5,7 +5,7 @@
     "rootDir": "./src",
     "noEmit": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.json"],
   "references": [
     { "path": "../../packages/shared" },
     { "path": "../../packages/game-data" }

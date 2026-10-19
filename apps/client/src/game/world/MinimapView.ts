@@ -50,7 +50,6 @@ export class MinimapView {
   private stageEl: HTMLDivElement;
   private staticCanvas: HTMLCanvasElement;
   private dynamicCanvas: HTMLCanvasElement;
-  private ringFrameEl: HTMLImageElement;
   private legendEl: HTMLDivElement;
 
   private mountCount = 0;
@@ -86,8 +85,8 @@ export class MinimapView {
     this.toggleBtnEl.type = "button";
     this.toggleBtnEl.className = "hud-minimap-toggle-btn";
     this.toggleBtnEl.id = "btn-toggle-minimap-size";
-    this.toggleBtnEl.title = "Phóng to / Thu nhỏ Bản đồ [M]";
-    this.toggleBtnEl.textContent = "M";
+    this.toggleBtnEl.title = "Phóng to / Thu nhỏ Bản đồ";
+    this.toggleBtnEl.textContent = "⤢";
     this.toggleBtnEl.addEventListener("click", (ev) => {
       ev.stopPropagation();
       this.toggleExpanded();
@@ -111,14 +110,8 @@ export class MinimapView {
     this.dynamicCanvas.width = 288;
     this.dynamicCanvas.height = 216;
 
-    this.ringFrameEl = document.createElement("img");
-    this.ringFrameEl.className = "hud-minimap-ring-frame";
-    this.ringFrameEl.src = "/assets/ui/hud_minimap_astrolabe_ring.png";
-    this.ringFrameEl.alt = "";
-
     this.stageEl.appendChild(this.staticCanvas);
     this.stageEl.appendChild(this.dynamicCanvas);
-    this.stageEl.appendChild(this.ringFrameEl);
 
     this.legendEl = document.createElement("div");
     this.legendEl.className = "hud-minimap-legend";

@@ -257,16 +257,19 @@ describe("S1-D Character v0.2 Authoritative Server Actions & Guest Identity", ()
     expect(draftRes.character?.identity.creationState).toBe("draft");
     expect(draftRes.character?.levelProgress.level).toBe(1);
 
-    const dupDraftRes = await db.characterV02Actions.createCharacterDraft(
+    const replayDraftRes = await db.characterV02Actions.createCharacterDraft(
       issued.accountId,
       {
-        requestId: "req_create_2",
-        name: "Bạch Tiểu Thuần 2"
+        requestId: "req_create_1",
+        name: "Bạch Tiểu Thuần",
+        appearanceId: "hero_kiem_tu"
       },
-      { ...SYNTHETIC_ACTION_OPTIONS, nowMs: 1_700_000_010_200 }
+      { ...SYNTHETIC_ACTION_OPTIONS, nowMs: 1_700_000_010_150 }
     );
-    expect(dupDraftRes.ok).toBe(false);
-    expect(dupDraftRes.code).toBe("DUPLICATE_ACCOUNT_CHARACTER");
+    expect(replayDraftRes.ok).toBe(true);
+    expect(replayDraftRes.character?.identity.characterId).toBe(
+      draftRes.character?.identity.characterId
+    );
 
     const roll1 = await db.characterV02Actions.rollInnateDestiny(
       issued.accountId,

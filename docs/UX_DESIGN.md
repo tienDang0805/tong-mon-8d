@@ -39,11 +39,19 @@ Separate visually: `Character Level + EXP + available point(s)`, `Realm / stage 
 
 The **Phàm Nhân→Luyện Khí** breakthrough screen must explicitly indicate that the masked immortal's **Main Quest**, starter công pháp and breakthrough pill prerequisites have been met. Never offer ordinary EXP-only bypass.
 
-## Character creation
+## Entry lifecycle, multi-character roster & character creation (`GD-047`, `S1-ENTRY-VISUAL-REBUILD-01`)
 
-- Name/appearance → roll **three Tiên Thiên** → read quality/effect and any protected Legendary signature → **reroll whole trio infinitely, no per-slot lock** → explicit confirm with irreversible warning.
-- Ten signature ID mutual-exclusion applies to displayed combinations and confirmed server result; do not show two different Legendary signatures in same trio.
-- Three fixed innate foundations are separate from later collected Hậu Thiên; display exactly **3 Hậu Thiên active slots**.
+- **Explicit Pre-World Entry State Machine (`TITLE → ROSTER/CREATE → DESTINY_ROLL → ENTERING_WORLD → IN_WORLD`)**:
+  - Normal page load lands on the fullscreen illustrated **`TITLE`** screen (`TÔNG MÔN 8D: TU TIÊN CHI LỘ — THIÊN MỆNH TIÊN CUNG`) with `0` world actors and no automatic world spawn on reload.
+  - Clicking **`Bắt Đầu Chơi`** authenticates/reuses the existing account credential (`GuestIdentity`), loads the account's character roster via server-authoritative HTTP (`/api/v02/characters`), and routes an empty account directly to **`CREATE`** (`Thiên Mệnh Khởi Nguyên Đài`) or a populated account to **`ROSTER`** (`Danh Sách Đạo Thân`).
+  - **`ROSTER`** displays all saved characters on the same account with portrait, name, Level, realm, persisted zone/coordinates, and `"confirmed"` vs `"draft"` status. Selecting a `"confirmed"` character enters its persisted `zoneId` and `(x, y)` coordinates (`Tân Thủ Thôn` on initial confirmation; never resetting a progressed character back to the starter village). Selecting an unconfirmed `"draft"` character resumes **`DESTINY_ROLL`** (unconfirmed drafts cannot enter the playable world).
+- **Character Creation (`CREATE`) & Destiny Roll (`DESTINY_ROLL`)**:
+  - **`CREATE`**: Left white-jade & gold plaque with scroll name input (`Đạo Danh`) and `2×2` arched starter appearance cards; right lotus dais (`Đài Sen Khởi Nguyên`) with live 4-directional sprite preview (`Nam/Bắc/Tây/Đông` + `Thử Bộ Hành`). Submitting creates/updates the server-owned draft and transitions to **`DESTINY_ROLL`**.
+  - **`DESTINY_ROLL`**: Fullscreen astral astrolabe chamber (`Tiên Thiên Nghịch Thiên Cải Mệnh`) with 3 vertical rarity-framed destiny cards (`Phàm`, `Hoàng`, `Tiên`, `Thần`), whole-trio reroll (`Xoay Chuyển Tinh Bàn — Gieo Lại Cả 3`, no per-slot lock), save-draft-and-return-to-roster (`Lưu Bản Nháp & Về Danh Sách`), and explicit irreversible confirmation modal (`Ấn Định Thiên Mệnh — Vĩnh Viễn`) before entering `Tân Thủ Thôn`.
+  - Ten signature ID mutual-exclusion applies to displayed combinations and confirmed server result; do not show two different Legendary signatures in same trio.
+  - Three fixed innate foundations are separate from later collected Hậu Thiên; display exactly **3 Hậu Thiên active slots** in the `[C]` `Thiên Cung Nội Thị Đồ` triptych panel.
+- **In-Game `[ESC]` System Menu (`Thiên Mệnh Hệ Thống`)**:
+  - Pressing `ESC` (when no sub-modal is open) or clicking `Hệ Thống [ESC]` opens the in-game system menu with **Resume (`Tiếp Tục Hành Trình`)**, **Switch / Manage Character (`Đổi Nhân Vật / Quản Lý Đạo Thân` → disconnects world room cleanly and opens `ROSTER`)**, **Audio & UI Settings**, and **Return to Title (`Về Màn Hình Chính`)** without erasing the account credential.
 
 ## Story dialog and approval
 

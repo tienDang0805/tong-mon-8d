@@ -1,0 +1,182 @@
+{
+  "profileGroupId": "v01b.profiles.ui_tokens",
+  "version": "1.0.0",
+  "direction": "V01-B — THIÊN MỆNH TIÊN CUNG",
+  "colorPalette": {
+    "celestialWhiteJade": "#FAF6EE",
+    "paleCeladonJade": "#96E6D1",
+    "imperialGold": "#E5B85B",
+    "burnishedGoldHighlight": "#FFD43B",
+    "astralNavyGlass": "#101B33",
+    "deepSlateBackdrop": "#141821",
+    "ivorySilkScroll": "#F5EFE0",
+    "cinnabarSealRed": "#D92B2B",
+    "mortalWoodTrim": "#8C6239"
+  },
+  "typography": {
+    "displayFont": "'Noto Serif', 'Palatino Linotype', Georgia, serif",
+    "bodyFont": "'Inter', 'Segoe UI', system-ui, sans-serif",
+    "numericMono": "'JetBrains Mono', monospace",
+    "textFreeRasterRule": "All UI raster plates, buttons, tabs, and sockets must remain 100% text-free so localization and crisp font rendering happen in DOM/Phaser text layers."
+  },
+  "nineSliceFrames": {
+    "panel_tier1_grounded_wood_jade_9slice": {
+      "imagePath": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png",
+      "sizeVariants": {
+        "s320x200": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_320x200.png",
+        "s520x340": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_520x340.png",
+        "s840x520": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_840x520.png"
+      },
+      "tierUsage": "Tier I Grounded Phàm Nhân / Starter Village panels",
+      "insets": {
+        "left": 40,
+        "right": 40,
+        "top": 36,
+        "bottom": 36
+      }
+    },
+    "panel_tier2_celestial_navy_jade_9slice": {
+      "imagePath": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png",
+      "sizeVariants": {
+        "s320x200": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_320x200.png",
+        "s520x340": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_520x340.png",
+        "s840x520": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_840x520.png"
+      },
+      "tierUsage": "Ascended Cultivation / Destiny / HUD modal panels",
+      "insets": {
+        "left": 42,
+        "right": 42,
+        "top": 38,
+        "bottom": 38
+      }
+    },
+    "panel_tier2_celestial_ivory_scroll_9slice": {
+      "imagePath": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png",
+      "sizeVariants": {
+        "s320x200": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_320x200.png",
+        "s520x340": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_520x340.png",
+        "s840x520": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_840x520.png"
+      },
+      "tierUsage": "NPC Dialogue / Lore Decree / Item Inspection scrolls",
+      "insets": {
+        "left": 40,
+        "right": 40,
+        "top": 36,
+        "bottom": 36
+      }
+    },
+    "panel_tier3_supreme_dragon_gold_9slice": {
+      "imagePath": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png",
+      "sizeVariants": {
+        "s320x200": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_320x200.png",
+        "s520x340": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_520x340.png",
+        "s840x520": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_840x520.png"
+      },
+      "tierUsage": "Tier III Supreme Celestial / Thần Phẩm ceremony panels",
+      "insets": {
+        "left": 44,
+        "right": 44,
+        "top": 40,
+        "bottom": 40
+      }
+    },
+    "panel_quest_tracker_scroll_9slice": {
+      "imagePath": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice.png",
+      "sizeVariants": {
+        "s320x200": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_320x200.png",
+        "s520x340": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_520x340.png",
+        "s840x520": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_840x520.png"
+      },
+      "tierUsage": "Compact right-hand Quest Tracker [Q] dock",
+      "insets": {
+        "left": 28,
+        "right": 28,
+        "top": 28,
+        "bottom": 28
+      }
+    },
+    "panel_tooltip_callout_9slice": {
+      "imagePath": "assets/ui/frames_9slice/panel_tooltip_callout_9slice.png",
+      "sizeVariants": {
+        "s320x200": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_320x200.png",
+        "s520x340": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_520x340.png",
+        "s840x520": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_840x520.png"
+      },
+      "tierUsage": "Item / Skill / Destiny hover callout frames",
+      "insets": {
+        "left": 24,
+        "right": 24,
+        "top": 24,
+        "bottom": 24
+      }
+    }
+  },
+  "buttonFamilies": {
+    "jadeGoldSecondary": {
+      "default": "assets/ui/buttons_and_tabs/btn_jade_gold_default.png",
+      "hover": "assets/ui/buttons_and_tabs/btn_jade_gold_hover.png",
+      "pressed": "assets/ui/buttons_and_tabs/btn_jade_gold_pressed.png",
+      "disabled": "assets/ui/buttons_and_tabs/btn_jade_gold_disabled.png"
+    },
+    "cinnabarPrimary": {
+      "default": "assets/ui/buttons_and_tabs/btn_cinnabar_default.png",
+      "hover": "assets/ui/buttons_and_tabs/btn_cinnabar_hover.png",
+      "pressed": "assets/ui/buttons_and_tabs/btn_cinnabar_pressed.png",
+      "disabled": "assets/ui/buttons_and_tabs/btn_cinnabar_disabled.png"
+    },
+    "daoSeals": {
+      "goldLotus": "assets/ui/buttons_and_tabs/seal_dao_gold_lotus.png",
+      "cinnabar": "assets/ui/buttons_and_tabs/seal_dao_cinnabar.png"
+    },
+    "tabs": {
+      "active": "assets/ui/buttons_and_tabs/tab_header_active_gold_jade.png",
+      "hover": "assets/ui/buttons_and_tabs/tab_header_hover_azure_jade.png",
+      "inactive": "assets/ui/buttons_and_tabs/tab_header_inactive_wood_jade.png"
+    },
+    "statAllocatePlus": {
+      "ready": "assets/ui/buttons_and_tabs/btn_plus_alloc_ready.png",
+      "disabled": "assets/ui/buttons_and_tabs/btn_plus_alloc_disabled.png"
+    }
+  },
+  "destinyAndItemRarityFrames": {
+    "destinyCardFrames": {
+      "pham": "assets/ui/character_creation_and_c_panel/destiny_card_pham.png",
+      "hoang": "assets/ui/character_creation_and_c_panel/destiny_card_hoang.png",
+      "tien": "assets/ui/character_creation_and_c_panel/destiny_card_tien.png",
+      "than": "assets/ui/character_creation_and_c_panel/destiny_card_than.png"
+    },
+    "destinySockets": {
+      "tienThienLocked": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "hauThienEmpty": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "hauThienActive": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_active.png",
+      "dantianOrb": "assets/ui/hud_chrome/orb_dantian_star_core.png"
+    },
+    "itemSlotFrames64": {
+      "pham": "assets/ui/slots_and_rarity_frames/slot_item_pham_64.png",
+      "linh": "assets/ui/slots_and_rarity_frames/slot_item_linh_64.png",
+      "hoang": "assets/ui/slots_and_rarity_frames/slot_item_hoang_64.png",
+      "dia": "assets/ui/slots_and_rarity_frames/slot_item_dia_64.png",
+      "thien": "assets/ui/slots_and_rarity_frames/slot_item_thien_64.png",
+      "than": "assets/ui/slots_and_rarity_frames/slot_item_than_64.png"
+    }
+  },
+  "iconSizes": {
+    "standard64": {
+      "width": 64,
+      "height": 64,
+      "directory": "assets/ui/icons_64x64",
+      "role": "canonical_64x64_icon"
+    },
+    "compact32": {
+      "width": 32,
+      "height": 32,
+      "directory": "assets/ui/icons_32x32",
+      "role": "downscaled_32x32_badge_variant"
+    }
+  },
+  "playfieldBudgetRules": {
+    "desktopUnobstructedPlayfieldMinRatio": 0.78,
+    "mobileUnobstructedPlayfieldMinRatio": 0.72,
+    "singleModalExclusivity": true
+  }
+}

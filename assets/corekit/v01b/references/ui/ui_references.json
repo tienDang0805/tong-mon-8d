@@ -1,0 +1,184 @@
+[
+  {
+    "referenceId": "v01b.ui.batch_a_core_kit",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "ui_kit",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "v01b.profiles.ui_tokens",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/ui/v01b_batch_a_ui_core_reference.png",
+        "sha256": "bd3f5583c8f045e8b01292af2e10f840a9e63b9cdf5fb48f463a60c2a7d3072f",
+        "bytes": 512201,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/ui/hud_minimap_astrolabe_ring.png",
+        "sha256": "6b2df22e7402448dcb65d62e56410290ff79879608843fb3491921638cdc889f",
+        "bytes": 60636,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png",
+        "sha256": "a636848da66b11db18e41040b1a8085408971eda0b51bc0af428aae1f2b83038",
+        "bytes": 91488,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png",
+        "sha256": "2638a682e234e440c6ae929bf3a20e682adb78e540b539ad0a5a481b8803f37a",
+        "bytes": 73325,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_01_ui_kit_v01b_textfree.png",
+        "sha256": "31095b0454e7cbe3f5625605b9c9cbc84937270bdb73da75d975b6606b8fbc9b",
+        "bytes": 1102141,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_02_icons_v01b_s1_proof.png",
+        "sha256": "ebc6d1d626d2ba9e0a287c3ed11cb2921fd41523947e2d5e15bd0c8aaff6d065",
+        "bytes": 1562142,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b01_ui_expansion_v01b_textfree.png",
+        "sha256": "0dc3e5915489c8ca54fb41aa366102318d513f541989a7252f6fedb6aeca807a",
+        "bytes": 1020974,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b02_s1_items_and_destiny_sockets_v01b.png",
+        "sha256": "df15642f224df0d956194920142dfd925b5154c23ff72ecd1b637f531d30701f",
+        "bytes": 1218135,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "ui_hud_minimap_astrolabe_ring"
+    ],
+    "identitySpec": {
+      "palette": [
+        "#FAF6EE",
+        "#E5B85B",
+        "#101B33",
+        "#D92B2B",
+        "#8C6239"
+      ],
+      "proportions": "9-slice frames, text-free buttons/tabs, 64x64 canonical icons + 32x32 compact variants",
+      "perspective": "2D orthographic xianxia UI chrome"
+    },
+    "supersedes": []
+  },
+  {
+    "referenceId": "v01b.ui.approved_screen_concepts",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "ui_screen_concepts",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-006",
+    "approvalScope": "direction_and_s1_screen_composition_concepts",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner-approved VISUAL_01_REVIEW/V01_B_THIEN_MENH 8 screen compositions (01..08)",
+    "profileId": "v01b.profiles.ui_tokens",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/01_main_world_hud.png",
+        "sha256": "59d475feea4a75e38d9a0861136ffc0bc3b9230e5d368e11608b68063c3c6df6",
+        "bytes": 1963696,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/02_character_creation.png",
+        "sha256": "8017505b5b87bf42cbf1b07ac2b3c6882163b9db6e70b8bfe4eba5d846f5cee7",
+        "bytes": 1541826,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/03_tien_thien_destiny_roll.png",
+        "sha256": "4654ec274fda91055b94dda8b51c77e42a6ea6a921c977b444b13f1d91ebefcc",
+        "bytes": 1600940,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/04_character_cultivation_panel.png",
+        "sha256": "f840766583e5b41608d40d9df92f68cfd1af6f6d206224eb5ca9b07d57373f8b",
+        "bytes": 1542162,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/05_inventory_equipment.png",
+        "sha256": "b78f9255e740fee281e8558ae9a505a00cca5d906d41f5ac1c000efbde8d0ba7",
+        "bytes": 1582317,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/06_npc_shop_quest_combat.png",
+        "sha256": "e44e7f819fea34632eb0ef53d404a0fae4b35bccb53d94b0b2d65742598496eb",
+        "bytes": 1689154,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/07_reusable_ui_design_system.png",
+        "sha256": "340f4b03850547978c80f23280973abde1cd94d074fe31e43e12b2bea277898f",
+        "bytes": 1540812,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/corekit/v01b/references/ui/screens/08_mobile_gameplay_layout.png",
+        "sha256": "e911cbe6f1d9a935be74ec1650000c7c783d762db0a51bfa90d21c614948c6da",
+        "bytes": 1617746,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e01_title_and_creation_terrace_backdrop_v01b.png",
+        "sha256": "4be9c819a16216e183a9ecf46fa36297a0baac0f222a85d0c77a67e9811673e1",
+        "bytes": 1646618,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e02_destiny_astrolabe_chamber_backdrop_v01b.png",
+        "sha256": "1b88f9a47f93da8cb3a5f21539685c0f04eecb4ec96fc3225e39a3c8e8c11cbc",
+        "bytes": 1969072,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/S1_ENTRY_VISUAL_REBUILD_01/source_e03_cultivation_panel_plates_and_emblems_v01b.png",
+        "sha256": "43330cc7fad0cdd5f5744a785c9191ff81fd92945c47c5ccc0a65f340e980746",
+        "bytes": 1301231,
+        "role": "raw_ai_source"
+      }
+    ],
+    "runtimeBindings": [
+      "ui_entry_title_and_creation_terrace_backdrop",
+      "ui_entry_destiny_astrolabe_chamber_backdrop",
+      "ui_presentation_header_banner_crest",
+      "ui_presentation_cultivation_meditation_star_wheel",
+      "ui_presentation_cultivation_meridian_hexagram_plate"
+    ],
+    "identitySpec": {
+      "palette": [
+        "#FAF6EE",
+        "#E5B85B",
+        "#101B33",
+        "#D92B2B",
+        "#63E6BE"
+      ],
+      "proportions": "16:9 widescreen desktop compositions (01..07) and 9:16 mobile ergonomic showcase (08)",
+      "perspective": "V01-B Thiên Mệnh Tiên Cung spatial screen compositions and celestial presentation stages"
+    },
+    "supersedes": []
+  }
+]

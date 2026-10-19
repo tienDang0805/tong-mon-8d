@@ -1,0 +1,58 @@
+{
+  "taskId": "COREKIT-CANON-02",
+  "checkpointedFrom": "2026-10-18T15:28:00.000Z",
+  "note": "Historical pre-ARCH-COREKIT-R1 report preserved as dated checkpoint per ARCH-COREKIT-R1 evidence policy.",
+  "originalReport": {
+    "taskId": "COREKIT-CANON-02",
+    "verifiedAt": "2026-10-18T15:28:00.000Z",
+    "remoteBase": "7b386cea7ef075c6f358539ddea155cd1634db5b",
+    "commitPolicy": "NO_COMMIT",
+    "corekitLibrary": {
+      "catalogPath": "assets/corekit/v01b/catalog.json",
+      "indexPath": "assets/corekit/v01b/COREKIT_INDEX.md",
+      "profiles": [
+        "assets/corekit/v01b/profiles/animation.json",
+        "assets/corekit/v01b/profiles/ui-tokens.json",
+        "assets/corekit/v01b/profiles/world-art.json"
+      ],
+      "runtimeAnimationProjection": "apps/client/src/game/assets/runtimeAnimationProjection.json",
+      "activeReferenceCount": 15,
+      "legacyPlaceholderExceptions": 7
+    },
+    "ownerApprovalsEnforced": {
+      "DEC-006": "V01-B (Thiên Mệnh Tiên Cung) Visual Direction Lock",
+      "DEC-007": "VISUAL-02B S1 Core Kit (Phì Đế bear-hood mascot, RMT Đế Thần Tài, ChatDVT quadruped)",
+      "DEC-008": "VISUAL-03 + Camera & Minimap Fix S1 Runtime Integration",
+      "DEC-009": "HERO-ANIMSET-01 Desktop Hero Kiếm Tu 4-dir 8-frame (source_h04..h10, superseding old kit Hero)"
+    },
+    "heroLineageIntegrity": {
+      "spritePath": "assets/sprites/hero_kiem_tu.png",
+      "spriteSha256": "116395186787918477c5f4bbfe9d414b45796e90588be9647a93681e6cc464a7",
+      "portraitPath": "assets/portraits/portrait_hero_kiem_tu.png",
+      "portraitSha256": "542bc95f11b7e9ca45163a74903152336401f2aa4864071d87f5a306e906db2d",
+      "rawSources": [
+        "assets/source_ai/source_h04_hero_kiem_tu_8frame_walk_down_up_v01b.png",
+        "assets/source_ai/source_h05_hero_kiem_tu_8frame_walk_left_right_v01b.png",
+        "assets/source_ai/source_h06_hero_kiem_tu_idle_4dir_v01b.png",
+        "assets/source_ai/source_h07_hero_kiem_tu_attack_cast_hurt_down_up_v01b.png",
+        "assets/source_ai/source_h08_hero_kiem_tu_attack_cast_hurt_left_right_v01b.png",
+        "assets/source_ai/source_h09_hero_kiem_tu_walk_up_8frame_dedicated_v01b.png",
+        "assets/source_ai/source_h10_hero_kiem_tu_portrait_dedicated_v01b.png"
+      ],
+      "supersededHistoricalVariantsArchived": [
+        "assets/archive/history/rejected/hero/source_08_hero_4dir_idle_walk_sheet_v01b.png",
+        "assets/archive/history/rejected/hero/source_b07_hero_combat_cast_hurt_4dir_v01b.png",
+        "assets/archive/history/rejected/hero/source_h01_hero_source04_4dir_locomotion_v01b.png",
+        "assets/archive/history/rejected/hero/source_h02_hero_source04_4dir_combat_cast_hurt_v01b.png",
+        "assets/archive/history/rejected/hero/source_h03_hero_source04_portrait_v01b.png"
+      ]
+    },
+    "cleanupSummary": {
+      "archivedUniqueHistoricalFiles": 25,
+      "consolidatedPreviewGifs": 14,
+      "deletedDuplicateAndObsoleteFiles": 336,
+      "archiveManifest": "assets/archive/history/archive_manifest.json",
+      "migrationLog": "artifacts/corekit/COREKIT-CANON-02/cleanup_migration_log.json"
+    }
+  }
+}

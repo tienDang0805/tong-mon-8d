@@ -1,0 +1,73 @@
+[
+  {
+    "referenceId": "v01b.creature.chatdvt",
+    "version": "1.0.0",
+    "active": true,
+    "kind": "creature_identity",
+    "characterId": "chatdvt",
+    "role": "master_reference",
+    "creativeApprovalState": "HUMAN_APPROVED",
+    "approvalRecordId": "DEC-008",
+    "approvalScope": "direction_and_s1_core_kit_sample",
+    "approvedDate": "2026-10-18",
+    "approvalSource": "Owner approval of VISUAL_02B_S1_CORE_KIT.zip sample kit",
+    "profileId": "locomotion_80x96_8row",
+    "masterFiles": [
+      {
+        "path": "assets/corekit/v01b/references/creatures/v01b_chatdvt_quadruped_reference.png",
+        "sha256": "a45e45c6f5e9276b641fae3b100fbcc8f861f9cc50fadcb768fc467ff9469936",
+        "bytes": 167934,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/portraits/portrait_chatdvt.png",
+        "sha256": "ddc5b9b96accaa5ca8c3ee2a47142544459e670cf09dde1557cba472d5c862f9",
+        "bytes": 54102,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/sprites/chatdvt.png",
+        "sha256": "376d507d251bfb79588d0ce4d7c0eae4c98c8573519081ee3bee15c06ad51e54",
+        "bytes": 249561,
+        "role": "master_reference"
+      },
+      {
+        "path": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
+        "sha256": "cb8530770357835af5b66dd5d5b3cbe1ea2d09bd7cd7ffc1f67bb47703de69aa",
+        "bytes": 1386935,
+        "role": "master_reference"
+      }
+    ],
+    "sourceLineage": [
+      {
+        "path": "assets/source_ai/source_b06_chatdvt_quadruped_4dir_sheet_v01b.png",
+        "sha256": "cb8530770357835af5b66dd5d5b3cbe1ea2d09bd7cd7ffc1f67bb47703de69aa",
+        "bytes": 1386935,
+        "role": "raw_ai_source"
+      },
+      {
+        "path": "assets/source_ai/source_b08_s1_portraits_and_vfx_v01b.png",
+        "sha256": "d802316b56b8616d5cc9a32ec8773a4c8ff3e779cfd83b6183e917a996731b43",
+        "bytes": 1537817,
+        "role": "raw_ai_portrait_source"
+      }
+    ],
+    "runtimeBindings": [
+      "portrait_chatdvt",
+      "sprite_chatdvt"
+    ],
+    "identitySpec": {
+      "silhouette": "Strictly four-legged (quadruped) jade-cyan mythical spirit beast (Linh Thú Thanh Ngọc); never human or bipedal",
+      "anatomyAndProps": "Jade-cyan fur (#63E6BE), white spirit-cloud chest ruff (#E6FCF5), glowing emerald-gold antlers, golden collar bell, 2 floating jade rings beside shoulders, swirling cyan cloud tail",
+      "palette": [
+        "#63E6BE",
+        "#E6FCF5",
+        "#E5B85B",
+        "#2B8A3E"
+      ],
+      "proportions": "80x96 frame, 8-row 4-direction quadruped idle/trot",
+      "perspective": "4-directional quadruped top-down 3/4"
+    },
+    "supersedes": []
+  }
+]

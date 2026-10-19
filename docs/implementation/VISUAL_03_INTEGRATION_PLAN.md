@@ -1,66 +1,66 @@
-# VISUAL-03 INTEGRATION PLAN — S1 Core Asset Kit, 96×72 Tân Thủ Thôn & V01-B UI/HUD (`VISUAL-03-P` / `VISUAL-03-W`)
+# VISUAL-03 INTEGRATION PLAN — S1 Core Asset Kit, 96×72 Tân Thủ Thôn & V01-B UI/HUD (`VISUAL-03-P` / `VISUAL-03-W` / `VISUAL-03-U` / `VISUAL-03-Q`)
 
 - **Document ID**: `IMPL-VISUAL-03-PLAN`
-- **Task**: `VISUAL-03-W` (`VERIFIED_READY_FOR_COMMIT` / `SELF_COMMIT` at base `4679f49`; `VISUAL-03-U` & `VISUAL-03-Q` pending next)
-- **Status**: `STAGE_1_VISUAL_03_W_COMMITTED` (`SELF_COMMIT`)
-- **Visual Direction**: `V01-B — THIÊN MỆNH TIÊN CUNG` (Three-Tier Grandeur System; `Tân Thủ Thôn` = Tier I Grounded Starter Village)
-- **Companion Technical Contract**: `docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md`
+- **Task**: `VISUAL-03-W` (`COMMITTED` at `7b386cea7ef075c6f358539ddea155cd1634db5b` on base `4679f49a6f14f410de4dc38910e5979aa51e4359`; followed by `HERO-ANIMSET-01` `DEC-009`, `ARCH-FOUNDATION-02`, `COREKIT-CANON-02`, `ARCH-COREKIT-R1`, and **`S1-ENTRY-VISUAL-REBUILD-01`** in the working tree `NO_COMMIT` — see [`docs/implementation/S1_ENTRY_VISUAL_REBUILD_01.md`](./S1_ENTRY_VISUAL_REBUILD_01.md), which superseded the earlier modal-over-map entry and generic stacked panel layout after owner visual review)
+- **Status**: `IMPLEMENTED_TECHNICALLY_VERIFIED_PENDING_OWNER_VISUAL_REVIEW (S1-ENTRY-VISUAL-REBUILD-01)`
+- **Visual Direction**: `V01-B — THIÊN MỆNH TIÊN CUNG` (Three-Tier Grandeur System; `Tân Thủ Thôn` = Tier I Grounded Starter Village; `assets/corekit/v01b/catalog.json`)
+- **Companion Technical Contract**: `docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md`, `docs/implementation/S1_ENTRY_VISUAL_REBUILD_01.md`
 - **Governing Contracts**: `AGENTS.md`, `RULES.md` (Rule 1–6), `docs/ART_BIBLE.md`, `docs/CHARACTER_VISUAL_BIBLE.md`, `docs/WORLD_DESIGN.md`, `docs/UX_DESIGN.md`, `docs/technical/SOURCE_ARCHITECTURE.md`, `docs/technical/AGENT_EXECUTION_CONTRACT.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`
 
 ---
 
 ## 1. Creative Approval Reconciliation, Evidence Matrix & Guardrails
 
-### 1.1 Reconciliation of `VISUAL-02B` + `VISUAL-02B-CORRECTION` Status with Owner Creative Decision
-1. **Owner Production Direction Decision (`VISUAL-01` → `VISUAL-02A` → `VISUAL-02B-CORRECTION` → `VISUAL-03-P`)**:
-   - The project owner selected **`V01-B — Thiên Mệnh Tiên Cung`** (`VISUAL-01`), accepted the **`96 × 72` (`3072 × 2304 px`) `Tân Thủ Thôn` blueprint** and **technical production proof** (`VISUAL-02A` / `VISUAL-02A-R1-CLOSE`), and explicitly confirmed in `VISUAL-03-P` Plan Review:
-     > *"The VISUAL-02B NPC differentiation is visually acceptable as a production direction."*
-   - This includes the differentiated identities for **`phi_de`** (Chubby Bear-Hat Saint Mascot in Luxury White-Jade & Imperial-Gold Robes holding a Boiled Chicken Drumstick `Đùi Gà Luộc`) and **`rmt_de`** (Wealthy `Thần Tài` Merchant Lord in Vermilion-Red & Imperial-Gold Brocade holding `Kim Nguyên Bảo` and `Bàn Tính Hoàng Kim`).
+### 1.1 Reconciliation of `VISUAL-02B`, `VISUAL-02B-CORRECTION`, `HERO-ANIMSET-01` & `COREKIT-CANON-02`
+1. **Owner Production Direction & Identity Decisions (`DEC-006`..`DEC-009`)**:
+   - The project owner selected **`V01-B — Thiên Mệnh Tiên Cung`** (`VISUAL-01`, `DEC-006`), accepted the **`96 × 72` (`3072 × 2304 px`) `Tân Thủ Thôn` blueprint** and `VISUAL_02B_S1_CORE_KIT.zip` sample kit (`DEC-007`), and approved the corrected identities (`DEC-008`) for **`phi_de`** (`ref.character.phi_de@1.1.0`: Chubby Bear-Hat Saint Mascot in Luxury White-Jade & Imperial-Gold Robes holding a Boiled Chicken Drumstick `Đùi Gà Luộc`) and **`rmt_de`** (`ref.character.rmt_de@1.1.0`: Wealthy `Thần Tài` Merchant Lord in Vermilion-Red & Imperial-Gold Brocade holding `Kim Nguyên Bảo` and `Bàn Tính Hoàng Kim`).
+   - In **`HERO-ANIMSET-01` (`DEC-009`)**, the project owner explicitly approved the rebuilt Desktop `hero_kiem_tu` (`ref.character.hero_kiem_tu@1.1.0`, `assets/sprites/hero_kiem_tu.png` `ecf6604b...`, `assets/portraits/portrait_hero_kiem_tu.png` `1de6fc60...`, `source_h04`..`source_h10` lineage) as the `runtime_character_master`, superseding the old Hero inside `VISUAL_02B_S1_CORE_KIT.zip` and historical `source_h01`/`source_h02` variants.
 2. **Lifecycle State Reconciliation (`AGENTS.md` §5 & `RULES.md` Rule 6)**:
-   - All `307` files (`19` raw AI source sheets) in `VISUAL_02B_S1_CORE_KIT` have passed automated technical verification (`TECHNICALLY_VERIFIED`, `overallTechnicalQa: "PASS"`) and are **Owner-Accepted as the Production Visual Direction** for `VISUAL-03` integration planning.
-   - Per `AGENTS.md` Section 5 and `RULES.md` Rule 6, Argon **never autonomously promotes `TECHNICALLY_VERIFIED` candidates to `HUMAN_APPROVED`**. During `VISUAL-03-W` and `VISUAL-03-U`, these assets are integrated into the runtime (`assets/manifest.json` / `assets/provenance.json` tracked as `TECHNICALLY_VERIFIED` production candidates under the accepted direction), and final promotion to **`HUMAN_APPROVED` (`DEC-006` in `AGENTS.md` and `docs/ART_BIBLE.md`)** is recorded only after the owner reviews the live in-engine Phaser 4 screenshots at actual gameplay zoom in `VISUAL-03-Q`.
+   - In **`COREKIT-CANON-02`**, the canonical `V01-B` reference library (`assets/corekit/v01b/catalog.json`, `profiles/*.json`, `references/**`) and reusable Batch A UI families (`assets/ui/{buttons_and_tabs,character_creation_and_c_panel,frames_9slice,hud_chrome,icons_32x32,icons_64x64,quest_and_prompts,slots_and_rarity_frames}/`) are installed in the repository.
+   - Only `hero_kiem_tu` (`DEC-009`) carries `creativeApprovalState: "HUMAN_APPROVED"` at runtime in `assets/manifest.json`; the other `VISUAL-03-W` runtime assets remain `creativeApprovalState: "TECHNICALLY_VERIFIED"` (backed by `HUMAN_APPROVED` `direction_and_s1_core_kit_sample` references in `assets/corekit/v01b/catalog.json`) until the owner reviews the complete integrated experience in `VISUAL-03-U` and `VISUAL-03-Q`.
 
 ### 1.2 Proven Existing Source Behavior vs. Proposed `VISUAL-03` Additions vs. Deferred Future APIs
 
-| Subsystem / Feature | Status Classification | Proven Repository Evidence (`HEAD = 51d4caf2ae4ae101e41b0f31192a77feb65`) | `VISUAL-03` Action |
+| Subsystem / Feature | Status Classification | Proven Repository Evidence (`VISUAL-03-P` Base `51d4caf` / `4679f49a6f14f410de4dc38910e5979aa51e4359`; `VISUAL-03-W` Committed at `7b386cea7ef075c6f358539ddea155cd1634db5b`) | `VISUAL-03` & `ARCH-FOUNDATION-02` Status |
 |---|---|---|---|
-| **Phaser Canvas & Scaling** | **EXISTING (Proven)** | `apps/client/src/main.ts` lines 61–74: `Phaser.Scale.RESIZE`, `pixelArt: true`, `roundPixels: true`. | Keep `Scale.RESIZE`, `pixelArt: true`, `roundPixels: true`; add `CameraView.computeResponsiveCameraProfile` so `720p`/`1080p`/`4K` viewports never expose the whole map. |
-| **Camera Bounds & Follow** | **EXISTING (Proven)** | `apps/client/src/WorldScene.ts` lines 547–550 & 721: `cameras.main.setBounds(0, 0, worldW, worldH)` and `startFollow(this.localVisual.sprite, true, 0.14, 0.14)`. | Encapsulate in `CameraView.ts` with torso offset `(0, -24)`, immediate `centerOn` snap on spawn/zone switch, and adaptive zoom on resize. |
-| **Direct Ground Click-to-Move** | **EXISTING (Proven)** | `apps/client/src/WorldScene.ts` lines 302–307 & 1029–1048: `this.pointerTarget = { x: worldPt.x, y: worldPt.y }` steps linearly toward cursor click. | Keep existing `pointerTarget` ground walk; isolate HUD/minimap pointer events via `e.stopPropagation()`. |
+| **Phaser Canvas & Scaling** | **IMPLEMENTED (`VISUAL-03-W` / `ARCH-FOUNDATION-02`)** | `apps/client/src/app/GameBootstrap.ts` & `apps/client/src/game/world/CameraView.ts`: `Phaser.Scale.RESIZE`, `pixelArt: true`, `roundPixels: true`, `CameraView.computeResponsiveCameraProfile`. | Delivered in `CameraView.ts` and delegated via `WorldScene.ts`. |
+| **Camera Bounds & Follow** | **IMPLEMENTED (`VISUAL-03-W` / `ARCH-FOUNDATION-02`)** | `apps/client/src/game/world/CameraView.ts`: `setBounds`, `startFollow` with torso offset `(0, -24)`, immediate `centerOn` snap on spawn/zone switch, and adaptive zoom on resize. | Delivered in `CameraView.ts`. |
+| **Direct Ground Click-to-Move** | **IMPLEMENTED (`ARCH-FOUNDATION-02`)** | `apps/client/src/game/input/PlayerInput.ts`: `pointerTarget` ground walk; HUD/minimap pointer events isolated via `e.stopPropagation()`. | Extracted to `PlayerInput.ts`. |
 | **Auto-Navigation (`startAutoNav`, `autoNavTarget`)** | **DEFERRED (`S4` — NOT in Repo)** | Specified in `docs/systems/QUEST_ENGINE.md` (`TD-03`) for Slice 4 (`S4`). **Does NOT exist** anywhere in `apps/client/src/**` or `apps/server/src/**`. | **Do NOT assume `startAutoNav` exists and do NOT implement S4 auto-navigation or auto-questing in `VISUAL-03`.** |
-| **Minimap (`MinimapView`)** | **PROPOSED (`VISUAL-03-W`)** | Currently absent from `apps/client/src/hud.ts` (`#hud-top-right` only holds `.hud-pill` buttons on lines 59–65). | Implement essential S1 read-only `MinimapView.ts` with static cached zone geography + dynamic player, viewport bounds & canonical NPC/portal/cauldron markers. |
-| **Global Keyboard Shortcuts** | **EXISTING (Proven)** | `WorldScene.ts` lines 169–300 (`WASD`/Arrows, `J`, `K`, `L`, `E`, `F`); `hud.ts` lines 173–197 (`Escape`, `I`, `C`, `M` = `sendClaimMeditation()`, `B` = `sendBreakthrough()`). | **Preserve 100% of existing shortcuts unchanged.** Do not remap `M` or prohibit a future optional map UI. |
-| **Tilemap & Prop Depth / Y-Sort** | **EXISTING (With Proven Defects on `96×72`)** | `WorldScene.ts` line 473 (`AbovePlayer` depth `2200` < southern `y = 2304`), lines 569–572 (`prop_peach_tree` `depthOffset = 40`), lines 644–668 (`nameLabel` `depth = y + 121`). | Enforce 12-stratum depth budget (`CAMERA_AND_MINIMAP_CONTRACT.md` §4.2): bridges at `depth = 6`, vertical props anchored at southern collision base $Y_{\text{base}}$ with `depthOffset = 0`, `AbovePlayer = 4000`, nameplates at `4100+`. |
-| **Persisted Coordinate Load on Join** | **EXISTING (Partial Guard Proven)** | `apps/server/src/zoneRoom.ts` lines 488–494 (v0.1) & lines 643–659 (v0.2 `spawnOrSyncConfirmedCharacterV02`) check `!this.engine.isWalkable(this.zoneId, x, y)` and fall back to `zoneDef.defaultSpawn`. | Upgrade to non-destructive `resolveSafeZoneCoordinates` (`Section 3.4`): map exact legacy `40×30` spawn constants, nudge blocked coordinates via nearest-walkable-tile ring search (`1..6` tiles) before falling back to `defaultSpawn`, and emit a non-silent system notice. |
-| **Debug Teleport (`teleportLocal`)** | **EXISTING (Linear Stepper Proven)** | `WorldScene.ts` lines 1178–1192 steps in a straight line of `<= 28 px` increments, which gets blocked by streams on `96×72`. | Upgrade `teleportLocal(x, y)` to step along the 4-neighbor BFS shortest path over `this.collisionGrid`. |
-| **NPC Shop & Culinary Rules** | **EXISTING (Proven)** | `apps/server/src/worldEngine.ts` lines 513–640 (`handleShopBuy` checks `dist <= 160` to `merchant_truong` on line 526; `handleCookRecipe` validates recipe ingredients). | Keep server rules 100% untouched; separate client UI so `Lão Trù Trương` shop opens via world-anchored NPC interaction while `[I]` holds Inventory & Culinary tabs. |
+| **Minimap (`MinimapView`)** | **IMPLEMENTED (`VISUAL-03-W`)** | `apps/client/src/game/world/MinimapView.ts`: read-only S1 minimap with static cached zone geography + dynamic player, viewport bounds & canonical NPC/portal/cauldron markers. | Delivered in `MinimapView.ts`. |
+| **Global Keyboard Shortcuts** | **IMPLEMENTED (`ARCH-FOUNDATION-02`)** | `apps/client/src/game/input/PlayerInput.ts` (`WASD`/Arrows, `J`, `K`, `L`, `E`, `F`); `apps/client/src/ui/HudShell.ts` (`Escape`, `I`, `C`, `M` = `sendClaimMeditation()`, `B` = `sendBreakthrough()`). | **Preserved 100% unchanged.** |
+| **Tilemap & Prop Depth / Y-Sort** | **IMPLEMENTED (`VISUAL-03-W` / `ARCH-FOUNDATION-02`)** | `apps/client/src/game/world/MapView.ts` & `ActorViewSystem.ts`: 12-stratum depth budget (`CAMERA_AND_MINIMAP_CONTRACT.md` §4.2): bridges at `depth = 6`, vertical props anchored at southern collision base $Y_{\text{base}}$ (`building_tan_thu_tu_duong`, etc.), `AbovePlayer = 4000`, nameplates at `4100+`. | Delivered and extracted into `MapView.ts` and `ActorViewSystem.ts`. |
+| **Persisted Coordinate Load on Join** | **IMPLEMENTED (`VISUAL-03-W` / `ARCH-FOUNDATION-02`)** | `apps/server/src/runtime/world/WorldRuntime.ts` (`resolveSafeZoneCoordinates`) & `apps/server/src/transport/colyseus/ZoneRoom.ts`: maps legacy `40×30` spawn constants, nudges blocked coordinates via nearest-walkable-tile ring search (`1..6` tiles), and emits a non-silent system notice. | Delivered in `WorldRuntime.ts` and `ZoneRoom.ts`. |
+| **Debug Teleport (`teleportLocal`)** | **IMPLEMENTED (`VISUAL-03-W` / `ARCH-FOUNDATION-02`)** | `apps/client/src/game/debug/WorldDebugController.ts`: steps along the 4-neighbor BFS shortest path over `collisionGrid` (gated behind dev/isolated-test mode). | Extracted into `WorldDebugController.ts`. |
+| **NPC Shop & Culinary Rules** | **EXISTING (Proven)** | `apps/server/src/features/economy/LegacyCommerceService.ts` (`handleShopBuy` checks `dist <= 160` to `merchant_truong`; `handleCookRecipe` validates recipe ingredients). | Server rules untouched; `VISUAL-03-U` will wire `assets/ui/**` Batch A components into `HudShell.ts` / `CharacterCreationView.ts` / `CharacterPanel.ts`. |
 
 ---
 
 ## 2. Source-Grounded Asset Readiness & Canonical Sprite Identity Mapping
 
-### 2.1 Batch A — `V01-B` UI Core System (`batch_a_ui_core/` → `assets/ui/v01b/` & `assets/icons/v01b/`)
+### 2.1 Batch A — `V01-B` UI Core System (Imported in `COREKIT-CANON-02` under `assets/ui/**`)
 
-All Batch A UI frames, buttons, sockets, gauges, and icons are 100% text-free RGBA PNGs (`textFreeRasterVerified: true`, `maxCornerPixelDiffAcrossAllTestedSizes: 0`).
+All Batch A UI frames, buttons, sockets, gauges, and icons have been imported into `assets/ui/{buttons_and_tabs,character_creation_and_c_panel,frames_9slice,hud_chrome,icons_32x32,icons_64x64,quest_and_prompts,slots_and_rarity_frames}/` (with metadata in `assets/corekit/v01b/profiles/ui-tokens.json`) as 100% text-free RGBA PNGs (`textFreeRasterVerified: true`, `maxCornerPixelDiffAcrossAllTestedSizes: 0`), ready for `VISUAL-03-U` DOM/CSS integration:
 
-| Asset Family | Source Kit Path (`VISUAL_02B_S1_CORE_KIT/batch_a_ui_core/...`) | Target Runtime Path (`assets/...` & `apps/client/public/assets/...`) | Canonical Consumer / Binding |
+
+| Asset Family | Source Kit Path (`VISUAL_02B_S1_CORE_KIT/batch_a_ui_core/...`) | Target Runtime Path (`assets/...` & `apps/client/dist/assets/...`) | Canonical Consumer / Binding |
 |---|---|---|---|
-| **9-Slice Frames (6)** | `frames_9slice/panel_tier1_grounded_wood_jade_9slice.png` (`312×180`, border `28px`) | `/assets/ui/v01b/frames/panel_tier1_grounded_wood_jade_9slice.png` | Grounded `Phàm Nhân` starter village modals (`#inventory-modal`, `#npc-dialogue-modal` for `merchant_truong`) |
-| | `frames_9slice/panel_tier2_celestial_navy_jade_9slice.png` (`312×180`, border `28px`) | `/assets/ui/v01b/frames/panel_tier2_celestial_navy_jade_9slice.png` | Character Creation (`#cc-draft-section`, `#cc-rolled-section`) & `[C]` Character/Cultivation Panel (`#cultivation-modal`) |
-| | `frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png` (`312×180`, border `28px`) | `/assets/ui/v01b/frames/panel_tier2_celestial_ivory_scroll_9slice.png` | NPC Dialogue speech scroll & item inspection sub-panel |
-| | `frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png` (`312×180`, border `28px`) | `/assets/ui/v01b/frames/panel_tier3_supreme_dragon_gold_9slice.png` | `Thần Phẩm` Destiny highlight / Legendary Elder (`Tam Đế`) decree header & ceremony banner |
-| | `frames_9slice/panel_quest_tracker_scroll_9slice.png` (`240×310`, border `24px`) | `/assets/ui/v01b/frames/panel_quest_tracker_scroll_9slice.png` | Compact right-side Quest Tracker scroll |
-| | `frames_9slice/panel_tooltip_callout_9slice.png` (`240×150`, border `20px`) | `/assets/ui/v01b/frames/panel_tooltip_callout_9slice.png` | Item, Destiny, and Attribute hover/tap tooltips |
-| **HUD Chrome (8)** | `hud_chrome/hud_top_left_crest_frame.png` (`420×160`) | `/assets/ui/v01b/hud/hud_top_left_crest_frame.png` | `#hud-top-left` player status crest & portrait socket |
-| | `hud_chrome/hud_minimap_astrolabe_ring.png` (`240×240`) | `/assets/ui/v01b/hud/hud_minimap_astrolabe_ring.png` | `#hud-top-right` `MinimapView` astrolabe frame (`CAMERA_AND_MINIMAP_CONTRACT.md` §5) |
-| | `hud_chrome/hud_skillbar_lotus_dock.png` (`560×110`) | `/assets/ui/v01b/hud/hud_skillbar_lotus_dock.png` | `#hud-bottom-center` 6-slot action/skill dock |
-| | `hud_chrome/bar_hp_ruby.png`, `bar_linh_luc_azure.png`, `bar_tu_vi_cyan_gold.png`, `bar_exp_silver_gold.png`, `orb_dantian_star_core.png` | `/assets/ui/v01b/hud/bar_*.png`, `orb_dantian_star_core.png` | Separate HP (`Khí Huyết`), MP (`Linh Lực`), `Tu Vi`, and Character `EXP` bars (`GD-020`–`GD-022`) |
-| **Buttons, Tabs & Seals (15)** | `buttons_and_tabs/btn_jade_gold_{default,hover,pressed,disabled}.png`, `btn_cinnabar_{default,hover,pressed,disabled}.png`, `btn_plus_alloc_{ready,disabled}.png`, `seal_dao_{gold_lotus,cinnabar}.png`, `tab_header_{active_gold_jade,inactive_wood_jade,hover_azure_jade}.png` | `/assets/ui/v01b/controls/*.png` | All `.hud-btn`, `.btn-allocate-attr`, `.cc-btn-lg`, and modal filter tabs |
-| **Character Creation & `[C]` Panel Chrome (15)** | `character_creation_and_c_panel/cc_appearance_card_{selected,unselected}.png`, `cc_name_scroll_input_frame.png`, `cc_pedestal_lotus_dais.png`, `destiny_card_{pham,hoang,tien,than}.png`, `socket_destiny_tien_thien_locked.png`, `socket_destiny_hau_thien_{equippable,active}.png` | `/assets/ui/v01b/character/*.png` | `CharacterCreationOverlayController` (`apps/client/src/characterCreation.ts`) & `CharacterPanel` (`apps/client/src/features/character/CharacterPanel.ts`) |
-| **Item Rarity Slots (6)** | `slots_and_rarity_frames/slot_item_{pham,linh,hoang,dia,thien,than}_64.png` | `/assets/ui/v01b/slots/slot_item_*_64.png` | 6 canonical item/technique rarity borders (`GD-032`: `Phàm`, `Linh`, `Hoàng`, `Địa`, `Thiên`, `Thần`) |
-| **Quest & Prompt Markers (6)** | `quest_and_prompts/interact_prompt_pill_{gold_jade,azure_jade}.png`, `quest_marker_{available_excl,active_question,turnin_seal}.png`, `quest_nav_waypoint_star.png` | `/assets/ui/v01b/prompts/*.png` | In-world contextual `[E]`/`[F]` prompt & NPC quest markers (`quest_nav_waypoint_star.png` staged for future `S4`) |
-| **6 Origin Attribute Icons (`32×32` & `64×64`)** | `icons_{32x32,64x64}/attr_{the_phach,luc_dao,linh_tinh,than_phap,than_thuc,ngo_tinh}_{32,64}.png` | `/assets/icons/v01b/attr_*_{32,64}.png` | Exact `BASE_ATTRIBUTE_KEYS` (`the_phach`, `luc_dao`, `linh_tinh`, `than_phap`, `than_thuc`, `ngo_tinh`) in `[C]` panel |
-| **11 Canonical `ITEMS_REGISTRY` Icons (`32×32` & `64×64`)** | `icons_{32x32,64x64}/item_{mi_linh_thach_thanh_truc,banh_bao_linh_thu,canh_truc_lang_linh_thao,tra_thanh_tam_tinh_khi,tu_khi_dan_so_cap,bot_linh_mach,thanh_tam_thao,thit_truc_lang,nanh_truc_lang,vay_thanh_lan,thanh_van_kiem_so_cap}_{32,64}.png` | `/assets/icons/v01b/item_*_{32,64}.png` | 1:1 coverage of all 11 items in `ITEMS_REGISTRY` (`packages/game-data/src/index.ts` lines 282–423) |
+| **9-Slice Frames (6)** | `frames_9slice/panel_tier1_grounded_wood_jade_9slice.png` (`312×180`, border `28px`) | `/assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png` | Grounded `Phàm Nhân` starter village modals (`#inventory-modal`, `#npc-dialogue-modal` for `merchant_truong`) |
+| | `frames_9slice/panel_tier2_celestial_navy_jade_9slice.png` (`312×180`, border `28px`) | `/assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png` | Character Creation (`#cc-draft-section`, `#cc-rolled-section`) & `[C]` Character/Cultivation Panel (`#cultivation-modal`) |
+| | `frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png` (`312×180`, border `28px`) | `/assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png` | NPC Dialogue speech scroll & item inspection sub-panel |
+| | `frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png` (`312×180`, border `28px`) | `/assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png` | `Thần Phẩm` Destiny highlight / Legendary Elder (`Tam Đế`) decree header & ceremony banner |
+| | `frames_9slice/panel_quest_tracker_scroll_9slice.png` (`240×310`, border `24px`) | `/assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice.png` | Compact right-side Quest Tracker scroll |
+| | `frames_9slice/panel_tooltip_callout_9slice.png` (`240×150`, border `20px`) | `/assets/ui/frames_9slice/panel_tooltip_callout_9slice.png` | Item, Destiny, and Attribute hover/tap tooltips |
+| **HUD Chrome (8)** | `hud_chrome/hud_top_left_crest_frame.png` (`420×160`) | `/assets/ui/hud_chrome/hud_top_left_crest_frame.png` | `#hud-top-left` player status crest & portrait socket |
+| | `hud_chrome/hud_minimap_astrolabe_ring.png` (`240×240`) | `/assets/ui/hud_minimap_astrolabe_ring.png` | `#hud-top-right` `MinimapView` astrolabe frame (`CAMERA_AND_MINIMAP_CONTRACT.md` §5) |
+| | `hud_chrome/hud_skillbar_lotus_dock.png` (`560×110`) | `/assets/ui/hud_chrome/hud_skillbar_lotus_dock.png` | `#hud-bottom-center` 6-slot action/skill dock |
+| | `hud_chrome/bar_hp_ruby.png`, `bar_linh_luc_azure.png`, `bar_tu_vi_cyan_gold.png`, `bar_exp_silver_gold.png`, `orb_dantian_star_core.png` | `/assets/ui/hud_chrome/bar_*.png`, `/assets/ui/hud_chrome/orb_dantian_star_core.png` | Separate HP (`Khí Huyết`), MP (`Linh Lực`), `Tu Vi`, and Character `EXP` bars (`GD-020`–`GD-022`) |
+| **Buttons, Tabs & Seals (15)** | `buttons_and_tabs/btn_jade_gold_{default,hover,pressed,disabled}.png`, `btn_cinnabar_{default,hover,pressed,disabled}.png`, `btn_plus_alloc_{ready,disabled}.png`, `seal_dao_{gold_lotus,cinnabar}.png`, `tab_header_{active_gold_jade,inactive_wood_jade,hover_azure_jade}.png` | `/assets/ui/buttons_and_tabs/*.png` | All `.hud-btn`, `.btn-allocate-attr`, `.cc-btn-lg`, and modal filter tabs |
+| **Character Creation & `[C]` Panel Chrome (15)** | `character_creation_and_c_panel/cc_appearance_card_{selected,unselected}.png`, `cc_name_scroll_input_frame.png`, `cc_pedestal_lotus_dais.png`, `destiny_card_{pham,hoang,tien,than}.png`, `socket_destiny_tien_thien_locked.png`, `socket_destiny_hau_thien_{equippable,active}.png` | `/assets/ui/character_creation_and_c_panel/*.png` | `CharacterCreationOverlayController` (`apps/client/src/characterCreation.ts`) & `CharacterPanel` (`apps/client/src/features/character/CharacterPanel.ts`) |
+| **Item Rarity Slots (6)** | `slots_and_rarity_frames/slot_item_{pham,linh,hoang,dia,thien,than}_64.png` | `/assets/ui/slots_and_rarity_frames/slot_item_*_64.png` | 6 canonical item/technique rarity borders (`GD-032`: `Phàm`, `Linh`, `Hoàng`, `Địa`, `Thiên`, `Thần`) |
+| **Quest & Prompt Markers (6)** | `quest_and_prompts/interact_prompt_pill_{gold_jade,azure_jade}.png`, `quest_marker_{available_excl,active_question,turnin_seal}.png`, `quest_nav_waypoint_star.png` | `/assets/ui/quest_and_prompts/*.png` | In-world contextual `[E]`/`[F]` prompt & NPC quest markers (`quest_nav_waypoint_star.png` staged for future `S4`) |
+| **6 Origin Attribute Icons (`32×32` & `64×64`)** | `icons_{32x32,64x64}/attr_{the_phach,luc_dao,linh_tinh,than_phap,than_thuc,ngo_tinh}_{32,64}.png` | `/assets/ui/icons_{32x32,64x64}/attr_*_{32,64}.png` | Exact `BASE_ATTRIBUTE_KEYS` (`the_phach`, `luc_dao`, `linh_tinh`, `than_phap`, `than_thuc`, `ngo_tinh`) in `[C]` panel |
+| **11 Canonical `ITEMS_REGISTRY` Icons (`32×32` & `64×64`)** | `icons_{32x32,64x64}/item_{mi_linh_thach_thanh_truc,banh_bao_linh_thu,canh_truc_lang_linh_thao,tra_thanh_tam_tinh_khi,tu_khi_dan_so_cap,bot_linh_mach,thanh_tam_thao,thit_truc_lang,nanh_truc_lang,vay_thanh_lan,thanh_van_kiem_so_cap}_{32,64}.png` | `/assets/ui/icons_{32x32,64x64}/item_*_{32,64}.png` | 1:1 coverage of all 11 items in `ITEMS_REGISTRY` (`packages/game-data/src/index.ts` lines 282–423) |
 
 #### Deterministic Icon Resolution for All 16 Traits in `S1E_STARTER_DESTINY_CATALOG`
 In `packages/game-data/src/catalogs/destinies.ts` (lines 98–316), `S1E_STARTER_DESTINY_CATALOG` defines 16 starter destiny traits across the 4 canonical rarities (`pham`, `hoang`, `tien`, `than`). Each trait card is framed by its rarity border (`destiny_card_{pham,hoang,tien,than}.png`) and resolves its `64×64` emblem icon deterministically:
@@ -92,8 +92,8 @@ In `packages/game-data/src/catalogs/destinies.ts` (lines 98–316), `S1E_STARTER
    - **Non-Breaking Visual Separation**:
      - **Canonical Gameplay IDs Preserved**: `APPROVED_CHARACTER_V02_APPEARANCES` keeps `"ngoc_tam"`, and `LEGENDARY_NPCS[5]` keeps `id: "ngoc_tam"`. Zero database rows, quest references, or shared protocol types change.
      - **Distinct Visual Keys**:
-       - **Starter Appearance #3 (`Thanh Ngọc Linh Tu`)**: Keeps `spriteKey: "ngoc_tam"` → `assets/sprites/ngoc_tam.png` (`480×768` 4-direction `locomotion_80x96_8row` scholar sheet) and uses `portrait_starter_ngoc_tam.png` (`assets/portraits/portrait_starter_ngoc_tam.png`, `160×160`) in Character Creation and HUD player portrait.
-       - **Legendary NPC #6 (`Xui Xẻo Chân Quân — Ngọc Tâm`)**: Updates `LEGENDARY_NPCS[5].spriteKey` in `packages/game-data/src/index.ts` to **`"npc_ngoc_tam"`** → `assets/sprites/npc_ngoc_tam.png` (`320×96` 4-frame `stationary_npc_80x96_4f` jinxed-cultivator strip) and `portraitKey: "portrait_ngoc_tam"` → `assets/portraits/portrait_ngoc_tam.png` (`160×160`).
+       - **Starter Appearance #3 (`Thanh Ngọc Linh Tu`)**: Keeps `spriteKey: "ngoc_tam"` → `assets/sprites/ngoc_tam.png` (`480×768` 4-direction `locomotion_80x96_8row` scholar sheet) and uses `portrait_ngoc_tam.png` (`assets/portraits/portrait_ngoc_tam.png`, `160×160`) in Character Creation and HUD player portrait.
+       - **Legendary NPC #6 (`Xui Xẻo Chân Quân — Ngọc Tâm`)**: Updates `LEGENDARY_NPCS[5].spriteKey` in `packages/game-data/src/index.ts` to **`"npc_ngoc_tam"`** → `assets/sprites/npc_ngoc_tam.png` (`320×96` 4-frame `stationary_npc_80x96_4f` jinxed-cultivator strip) and `portraitKey: "portrait_npc_ngoc_tam"` → `assets/portraits/portrait_npc_ngoc_tam.png` (`160×160`).
      - **Debug Hook Compatibility (`WorldScene.ts` lines 1193–1204)**:
        - `setNpcAnim(npcId, state, dir)` looks up `const npc = LEGENDARY_NPCS.find(n => n.id === npcId)` and plays `${npc.spriteKey}_${state}_${dir}`. Thus `setNpcAnim("ngoc_tam", "idle", "down")` plays `npc_ngoc_tam_idle_down` on the town NPC without affecting any player whose `appearanceId` is `"ngoc_tam"`.
 2. **De-Aliasing Legendary NPC #7 (`thai_tai` — `Thái Tài • Thiên Nhãn Giám Bảo`)**:
@@ -106,14 +106,14 @@ In `packages/game-data/src/catalogs/destinies.ts` (lines 98–316), `S1E_STARTER
 |---|---|---|---|---|---|---|
 | `hero_kiem_tu` | Starter Appearance #1 (`Thanh Vân Đạo Đồ`) & `gia_bao` fallback | `"hero_kiem_tu"` | `assets/sprites/hero_kiem_tu.png` | `480×1920` (`6×20`: full 4-dir `idle`, `walk`, `attack`, `cast`, `hurt`) | `portrait_hero_kiem_tu.png` | Full 20-row humanoid contract (`FootDeltaY = 0` at `Y = 87`) |
 | `hoa_tran` | Starter Appearance #2 (`Thanh Phong Hành Giả`) & `Thanh Trúc Lâm` NPC `Hòa Trần` | `"hoa_tran"` | `assets/sprites/hoa_tran.png` | `480×768` (`6×8`: 4-dir `idle` rows `0..3` + `walk` rows `4..7`) | `portrait_hoa_tran.png` | `locomotion_80x96_8row` profile |
-| `ngoc_tam` (Starter #3) | Starter Appearance #3 (`Thanh Ngọc Linh Tu`) | `"ngoc_tam"` | `assets/sprites/ngoc_tam.png` | `480×768` (`6×8`: 4-dir `idle` rows `0..3` + `walk` rows `4..7`) | `portrait_starter_ngoc_tam.png` | `locomotion_80x96_8row` profile for players with `appearanceId === "ngoc_tam"` |
+| `ngoc_tam` (Starter #3) | Starter Appearance #3 (`Thanh Ngọc Linh Tu`) | `"ngoc_tam"` | `assets/sprites/ngoc_tam.png` | `480×768` (`6×8`: 4-dir `idle` rows `0..3` + `walk` rows `4..7`) | `portrait_ngoc_tam.png` | `locomotion_80x96_8row` profile for players with `appearanceId === "ngoc_tam"` |
 | `anh_7` | Starter Appearance #4 (`Huyền Kiếm Du Hiệp`) & `Thanh Trúc Lâm` NPC `Anh 7` | `"anh_7"` | `assets/sprites/anh_7.png` | `480×768` (`6×8`: 4-dir `idle` rows `0..3` + `walk` rows `4..7`) | `portrait_anh_7.png` | `locomotion_80x96_8row` profile |
 | `chatdvt` | Legendary NPC #4 (`Hộ Pháp Linh Thú • Linh Thú Thanh Ngọc`) | `"chatdvt"` | `assets/sprites/chatdvt.png` | `480×768` (`6×8`: 4-dir quadruped `idle` + `walk`) | `portrait_chatdvt.png` | **Strictly four-legged quadruped beast** (`RULES.md` Rule 2) |
 | `phi_de` | Legendary NPC #1 (`Phì Đế — Đặng Văn Tiến`, `Tân Thủ Thôn`) | `"phi_de"` | `assets/sprites/phi_de.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_phi_de.png` | **Chubby bear-hat saint mascot in luxury white-jade/gold robes holding `Đùi Gà Luộc`** |
 | `rmt_de` | Legendary NPC #2 (`RMT Đế — Phạm Phan Trọng Khải`, `Tân Thủ Thôn`) | `"rmt_de"` | `assets/sprites/rmt_de.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_rmt_de.png` | **Wealthy `Thần Tài` merchant lord in winged red-gold hat & crimson-gold brocade** |
 | `merchant_truong` | Specialist Culinary NPC (`Lão Trù Trương`, `Tân Thủ Thôn`) | `"merchant_truong"` | `assets/sprites/merchant_truong.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_merchant_truong.png` | Elderly spiritual noodle chef (`Trúc Cơ Hậu Kỳ`) |
 | `dam_lon_tien_tu` | Legendary NPC #5 (`Dẩm Lồn Tiên Tử`, `Tân Thủ Thôn`, `realmId: "UNKNOWN"`) | `"dam_lon_tien_tu"` | `assets/sprites/dam_lon_tien_tu.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_dam_lon_tien_tu.png` | Realm badge remains `"UNKNOWN"` (`Bất Minh`) |
-| `ngoc_tam` (Town NPC #6) | Legendary NPC #6 (`Xui Xẻo Chân Quân — Ngọc Tâm`, `Tân Thủ Thôn`) | **`"npc_ngoc_tam"`** | `assets/sprites/npc_ngoc_tam.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_ngoc_tam.png` | Distinct `spriteKey: "npc_ngoc_tam"` on `LEGENDARY_NPCS[5]`; canonical `id: "ngoc_tam"` preserved |
+| `ngoc_tam` (Town NPC #6) | Legendary NPC #6 (`Xui Xẻo Chân Quân — Ngọc Tâm`, `Tân Thủ Thôn`) | **`"npc_ngoc_tam"`** | `assets/sprites/npc_ngoc_tam.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_npc_ngoc_tam.png` | Distinct `spriteKey: "npc_ngoc_tam"` & `portraitKey: "portrait_npc_ngoc_tam"` on `LEGENDARY_NPCS[5]`; canonical `id: "ngoc_tam"` preserved |
 | `thai_tai` | Legendary NPC #7 (`Thái Tài — Thiên Nhãn Giám Bảo`, `Tân Thủ Thôn`) | **`"thai_tai"`** | `assets/sprites/thai_tai.png` | `320×96` (`4×1`: 4-frame `80×96` idle strip) | `portrait_thai_tai.png` | Dedicated `spriteKey: "thai_tai"` & `portraitKey: "portrait_thai_tai"` on `LEGENDARY_NPCS[6]` |
 
 #### C. Multi-Format Spritesheet Registration in `WorldScene.ts` and `verify_manifest.ts`
@@ -130,7 +130,7 @@ In `VISUAL-03-W`, `WorldScene.ts` and `packages/art-tools/verify_manifest.ts` cl
 ### 3.1 Tiled Map Contract (`maps/tan_thu_thon.tmj`)
 - **Grid Dimensions**: `width: 96`, `height: 72`, `tilewidth: 32`, `tileheight: 32` (`3072 × 2304` logical world pixels).
 - **Tileset Binding**:
-  - Runtime tileset copied from `batch_c_tan_thu_thon_modular_world/tilesets/tan_thu_thon_v01b_tileset_32x32.png` (`256 × 192 px`, `8 columns × 6 rows = 48 tiles` of `32 × 32 px`) to `assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png` (and mirrored to `apps/client/public/assets/tilesets/`).
+  - Runtime tileset copied from `batch_c_tan_thu_thon_modular_world/tilesets/tan_thu_thon_v01b_tileset_32x32.png` (`256 × 192 px`, `8 columns × 6 rows = 48 tiles` of `32 × 32 px`) to `assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png` (and mirrored to `apps/client/dist/assets/tilesets/`).
   - Legacy `assets/tilesets/bat_hoang_tileset.png` (`512 × 256 px`) is **preserved untouched** for `maps/thanh_truc_lam.tmj`.
 - **Required Tiled Layers (Preserving `verify_manifest.ts` Line 93 Contract)**:
   1. `Ground` (`tilelayer`, `96×72`, depth `1`): Base meadow grass (`GID 1..4`), water channels (`GID 9..10`), perimeter cliff base (`GID 13..14`).
@@ -220,9 +220,9 @@ In `VISUAL-03-U`, we separate these into world-grounded `V01-B` interfaces while
    - When interacting with **`phi_de` (`Phì Đế`)** at `(1488, 1072)`, renders the `Vạn Vị Thành Đạo` quest acceptance/submission scroll (`.btn-quest-submit`, `#btn-quest-accept`).
 3. **`[C]` Character, Attributes, Destiny & Party Compendium (`#cultivation-modal`)**:
    - Framed with `panel_tier2_celestial_navy_jade_9slice.png`.
-   - Displays the `160×160` starter portrait (`portrait_hero_kiem_tu`, `portrait_hoa_tran`, `portrait_starter_ngoc_tam`, `portrait_anh_7`), `orb_dantian_star_core.png`, separate Character Level (`EXP`) and Cultivation Realm (`Tu Vi`) bars (`bar_exp_silver_gold.png`, `bar_tu_vi_cyan_gold.png`), the 6 Origin Attributes with `attr_*_32.png` medallions and `btn_plus_alloc_{ready,disabled}.png` buttons, the 3 immutable `Tiên Thiên` sockets (`socket_destiny_tien_thien_locked.png` + `destiny_card_{pham..than}.png` + trait emblem icons), the 3 active `Hậu Thiên` sockets (`socket_destiny_hau_thien_{active,equippable}.png`), and a dedicated **Tổ Đội (`Party`)** sub-tab/drawer (`#btn-party-create`, `#btn-party-join`, `#btn-party-leave`).
+   - Displays the `160×160` starter portrait (`portrait_hero_kiem_tu`, `portrait_hoa_tran`, `portrait_ngoc_tam`, `portrait_anh_7`), `orb_dantian_star_core.png`, separate Character Level (`EXP`) and Cultivation Realm (`Tu Vi`) bars (`bar_exp_silver_gold.png`, `bar_tu_vi_cyan_gold.png`), the 6 Origin Attributes with `attr_*_32.png` medallions and `btn_plus_alloc_{ready,disabled}.png` buttons, the 3 immutable `Tiên Thiên` sockets (`socket_destiny_tien_thien_locked.png` + `destiny_card_{pham..than}.png` + trait emblem icons), the 3 active `Hậu Thiên` sockets (`socket_destiny_hau_thien_{active,equippable}.png`), and a dedicated **Tổ Đội (`Party`)** sub-tab/drawer (`#btn-party-create`, `#btn-party-join`, `#btn-party-leave`).
 4. **Two-Step `S1-E` Character Creation & `Tiên Thiên` Roll (`#character-creation-overlay`)**:
-   - Step 1 (`#cc-draft-section`): Uses `cc_name_scroll_input_frame.png`, `cc_appearance_card_{selected,unselected}.png`, `cc_pedestal_lotus_dais.png`, and the 4 upgraded `160×160` starter portraits (`portrait_hero_kiem_tu`, `portrait_hoa_tran`, `portrait_starter_ngoc_tam`, `portrait_anh_7`).
+   - Step 1 (`#cc-draft-section`): Uses `cc_name_scroll_input_frame.png`, `cc_appearance_card_{selected,unselected}.png`, `cc_pedestal_lotus_dais.png`, and the 4 upgraded `160×160` starter portraits (`portrait_hero_kiem_tu`, `portrait_hoa_tran`, `portrait_ngoc_tam`, `portrait_anh_7`).
    - Step 2 (`#cc-rolled-section`): Uses the 4 rarity-scaled destiny card frames (`destiny_card_pham.png`, `destiny_card_hoang.png`, `destiny_card_tien.png`, `destiny_card_than.png`) and trait emblem icons, with whole-trio reroll (`#btn-cc-reroll`, `btn_jade_gold_default.png`) and irreversible confirm (`#btn-cc-confirm`, `btn_cinnabar_default.png` + `seal_dao_cinnabar.png`), strictly with **zero lock icons**.
 
 ---
@@ -236,13 +236,13 @@ To keep diffs clean, verifiable, and strictly within `docs/technical/SOURCE_ARCH
 ### Task 1: `VISUAL-03-W` — World, Map (`96×72`), Adaptive Camera, Essential S1 Minimap & Sprite Runtime Integration
 
 - **Intent**: Import Batch B & Batch C world/sprite/tileset/VFX assets (plus the minimap ring), upgrade `maps/tan_thu_thon.tmj` to the BFS-verified `96×72` layout, migrate `ZONES_REGISTRY` and `LEGENDARY_NPCS` coordinates (including `thai_tai` and `npc_ngoc_tam` visual key separation and `portal_forest_to_town` return target), implement `CameraView` (`computeResponsiveCameraProfile` for `720p`/`1080p`/`4K`/mobile) and essential S1 `MinimapView` (static geography cache + dynamic player/viewport/NPC/portal markers, no S4 auto-nav), enforce the 12-stratum Y-sort occlusion budget (`OCC-01`..`OCC-06`), implement non-destructive `resolveSafeZoneCoordinates` on join, and update server/unit test coordinate fixtures.
-- **Asset Imports (`assets/` & `apps/client/public/assets/`)**:
+- **Asset Imports (`assets/` & `apps/client/dist/assets/`)**:
   - `assets/tilesets/tan_thu_thon_v01b_tileset_32x32.png`
   - `assets/props/` (`building_tan_thu_tu_duong.png`, `building_tu_bao_cac.png`, `building_hong_tran_cac.png`, `prop_noodle_stall.png`, `prop_than_dinh.png`, `prop_portal_arch.png`, `prop_peach_tree.png`, `prop_bamboo_cluster.png`, `prop_stone_lantern.png`, `prop_arched_bridge.png`, `prop_bridge_horizontal.png`, `prop_village_stele.png`, `prop_spirit_herb.png`, `prop_incense_brazier.png`, `prop_jade_rock.png`, `prop_wooden_fence.png`)
   - `assets/sprites/` (`hero_kiem_tu.png` `480×1920`, `hoa_tran.png` `480×768`, `ngoc_tam.png` `480×768`, `anh_7.png` `480×768`, `chatdvt.png` `480×768`, `phi_de.png` `320×96` chubby bear-hat + `đùi gà luộc`, `rmt_de.png` `320×96` `Thần Tài`, `merchant_truong.png` `320×96`, `dam_lon_tien_tu.png` `320×96`, `npc_ngoc_tam.png` `320×96`, `thai_tai.png` `320×96`)
-  - `assets/portraits/` (`portrait_hero_kiem_tu.png`, `portrait_hoa_tran.png`, `portrait_starter_ngoc_tam.png`, `portrait_ngoc_tam.png`, `portrait_anh_7.png`, `portrait_phi_de.png`, `portrait_rmt_de.png`, `portrait_chatdvt.png`, `portrait_merchant_truong.png`, `portrait_dam_lon_tien_tu.png`, `portrait_thai_tai.png`)
+  - `assets/portraits/` (`portrait_hero_kiem_tu.png`, `portrait_hoa_tran.png`, `portrait_ngoc_tam.png`, `portrait_npc_ngoc_tam.png`, `portrait_anh_7.png`, `portrait_phi_de.png`, `portrait_rmt_de.png`, `portrait_chatdvt.png`, `portrait_merchant_truong.png`, `portrait_dam_lon_tien_tu.png`, `portrait_thai_tai.png`)
   - `assets/vfx/` (`portal_ring.png` `256×64`, `phi_de_blessing.png` `256×64` from `than_dinh_blessing_fire_64x64_4f.png`)
-  - `assets/ui/v01b/hud/hud_minimap_astrolabe_ring.png`
+  - `assets/ui/hud_minimap_astrolabe_ring.png`
   - `assets/source_ai/` (archival of raw generator sheets `source_01`..`source_08`, `source_b01`..`source_b11` for `provenance.json` SHA-256 verification)
 - **File Allowlist**:
   - `edit_existing`:
@@ -261,7 +261,7 @@ To keep diffs clean, verifiable, and strictly within `docs/technical/SOURCE_ARCH
     - `apps/client/src/game/world/CameraView.ts`
     - `apps/client/src/game/world/MinimapView.ts`
     - `assets/**`
-    - `apps/client/public/assets/**`
+    - `apps/client/dist/assets/**`
   - `protect` (Must NOT Modify):
     - `maps/thanh_truc_lam.tmj`
     - `apps/server/src/characterV02Actions.ts`
@@ -278,28 +278,27 @@ To keep diffs clean, verifiable, and strictly within `docs/technical/SOURCE_ARCH
 ### Task 2: `VISUAL-03-U` — `V01-B` HUD, Character Creation, `[C]` Panel, `[I]` Bag & World-Anchored Shop UI Integration
 
 - **Intent**: Import all Batch A `V01-B` UI frames, buttons, sockets, gauges, and `32×32`/`64×64` icons; upgrade the top-left HUD crest, bottom-center skill dock, Quest Tracker scroll, 2-step Character Creation (`DRAFT` + `ROLLED`), `[C]` Character/Cultivation/Destiny panel, separated `[I]` Inventory/Culinary modal, and world-anchored NPC Dialogue/Shop modal (`Lão Trù Trương` & `Phì Đế`) while preserving all DOM IDs, all keyboard shortcuts (`I`, `C`, `M`, `B`, `Escape`), and `>= 70%` unobstructed playfield.
-- **Asset Imports (`assets/` & `apps/client/public/assets/`)**:
-  - `assets/ui/v01b/frames/*.png` (6 nine-slice frames)
-  - `assets/ui/v01b/hud/*.png` (crest, skillbar dock, 4 bars, dantian orb)
-  - `assets/ui/v01b/controls/*.png` (15 buttons, seals, tabs)
-  - `assets/ui/v01b/character/*.png` (appearance cards, scroll input, lotus dais, 4 destiny rarity cards, `Tiên Thiên` & `Hậu Thiên` sockets)
-  - `assets/ui/v01b/slots/*.png` (6 item rarity slot frames)
-  - `assets/ui/v01b/prompts/*.png` (6 interaction pills & quest markers)
-  - `assets/icons/v01b/*.png` (6 attribute icons, 11 `ITEMS_REGISTRY` icons, 5 destiny emblem icons, `Linh Thạch` & `Tu Vi` orbs in `32×32` and `64×64`)
+- **Asset Imports (`assets/` & `apps/client/dist/assets/`)**:
+  - `assets/ui/frames_9slice/*.png` (6 nine-slice frames)
+  - `assets/ui/hud_chrome/*.png` (crest, skillbar dock, 4 bars, dantian orb)
+  - `assets/ui/buttons_and_tabs/*.png` (15 buttons, seals, tabs)
+  - `assets/ui/character_creation_and_c_panel/*.png` (appearance cards, scroll input, lotus dais, 4 destiny rarity cards, `Tiên Thiên` & `Hậu Thiên` sockets)
+  - `assets/ui/slots_and_rarity_frames/*.png` (6 item rarity slot frames)
+  - `assets/ui/quest_and_prompts/*.png` (6 interaction pills & quest markers)
+  - `assets/ui/icons_32x32/*.png`, `assets/ui/icons_64x64/*.png` (6 attribute icons, 11 `ITEMS_REGISTRY` icons, 5 destiny emblem icons, `Linh Thạch` & `Tu Vi` orbs in `32×32` and `64×64`)
 - **File Allowlist**:
   - `edit_existing`:
-    - `apps/client/src/hud.ts`
-    - `apps/client/src/characterCreation.ts`
+    - `apps/client/src/ui/HudShell.ts`
+    - `apps/client/src/features/character/CharacterCreationView.ts`
     - `apps/client/src/features/character/CharacterPanel.ts`
     - `apps/client/src/style.css`
     - `assets/manifest.json`
     - `assets/provenance.json`
   - `create_within`:
-    - `apps/client/src/ui/v01bAssets.ts`
-    - `assets/ui/v01b/**`
-    - `assets/icons/v01b/**`
-    - `apps/client/public/assets/ui/v01b/**`
-    - `apps/client/public/assets/icons/v01b/**`
+    - `assets/ui/**`
+    - `assets/ui/icons_32x32/**`, `assets/ui/icons_64x64/**`
+    - `apps/client/dist/assets/ui/**`
+    - `apps/client/dist/assets/ui/icons_32x32/**`, `apps/client/dist/assets/ui/icons_64x64/**`
   - `protect` (Must NOT Modify):
     - `apps/server/**`
     - `packages/game-data/**`
@@ -366,5 +365,5 @@ Per task instructions, the following existing repository documents are **not** m
 | 3 | **Y-Sort & World Occlusion Rules + Multi-District Tests** | `CAMERA_AND_MINIMAP_CONTRACT.md` §4.2 & §6.2 (`OCC-01`..`OCC-06`); `VISUAL_03_INTEGRATION_PLAN.md` §3.3 (Walkable bridges at surface `depth = 6`; vertical buildings/trees anchored at southern collision footprint $Y_{\text{base}}$ with `depthOffset = 0`; `AbovePlayer = 4000`; nameplates at `4100+`) | **RESOLVED** |
 | 4 | **Safe, Non-Destructive Persisted Coordinate Strategy (`40×30` → `96×72`)** | `VISUAL_03_INTEGRATION_PLAN.md` §3.4 (Zero bulk/destructive DB operations; per-character on-join `resolveSafeZoneCoordinates`: semantic mapping for exact legacy `(640, 512)` & `(1036, 480)` constants, 100% preservation of walkable coordinates, `1..6` tile ring nudge for blocked coordinates before `defaultSpawn` fallback, plus explicit Vietnamese system notice) | **RESOLVED** |
 | 5 | **Full-Map UI vs. Normal Gameplay Viewport & Preserved Keyboard Shortcuts** | `CAMERA_AND_MINIMAP_CONTRACT.md` §1.1 & §4.4; `VISUAL_03_INTEGRATION_PLAN.md` §1.2 & §4.1 (Prohibits fitting whole world into live gameplay viewport; does NOT permanently prohibit a separate optional map UI in future slices; preserves all existing shortcuts including `M` = `sendClaimMeditation()`) | **RESOLVED** |
-| 6 | **Distinct Sprite Identity Mapping (`ngoc_tam` vs `npc_ngoc_tam`, and `thai_tai`)** | `VISUAL_03_INTEGRATION_PLAN.md` §2.2.A & §2.2.B (Starter #3 keeps `appearanceId: "ngoc_tam"` / `spriteKey: "ngoc_tam"` + `portrait_starter_ngoc_tam.png`; Town NPC #6 keeps `id: "ngoc_tam"` with `spriteKey: "npc_ngoc_tam"` + `portrait_ngoc_tam.png`; Town NPC #7 `thai_tai` uses dedicated `spriteKey: "thai_tai"` + `portrait_thai_tai.png`) | **RESOLVED** |
+| 6 | **Distinct Sprite Identity Mapping (`ngoc_tam` vs `npc_ngoc_tam`, and `thai_tai`)** | `VISUAL_03_INTEGRATION_PLAN.md` §2.2.A & §2.2.B (Starter #3 keeps `appearanceId: "ngoc_tam"` / `spriteKey: "ngoc_tam"` + `portrait_ngoc_tam.png`; Town NPC #6 keeps `id: "ngoc_tam"` with `spriteKey: "npc_ngoc_tam"` + `portrait_npc_ngoc_tam.png`; Town NPC #7 `thai_tai` uses dedicated `spriteKey: "thai_tai"` + `portrait_thai_tai.png`) | **RESOLVED** |
 | 7 | **Proven Source Evidence vs. Proposed APIs & `VISUAL-02B` Approval Reconciliation** | `CAMERA_AND_MINIMAP_CONTRACT.md` §1.2; `VISUAL_03_INTEGRATION_PLAN.md` §1.1 & §1.2 (Line-referenced table separating proven repo behavior from proposed `VISUAL-03` modules and deferred `S4` APIs; reconciles owner production-direction acceptance of `VISUAL-02B` NPC differentiation with live gameplay `HUMAN_APPROVED` gate in `VISUAL-03-Q`) | **RESOLVED** |

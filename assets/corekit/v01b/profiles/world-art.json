@@ -1,0 +1,64 @@
+{
+  "profileGroupId": "v01b.profiles.world_art",
+  "version": "1.0.0",
+  "logicalTileGrid": {
+    "tileWidth": 32,
+    "tileHeight": 32
+  },
+  "projection": "Top-down 3/4 orthographic pixel art",
+  "threeTierProgressionGrandeur": {
+    "tier1_mortal_starter": {
+      "realms": [
+        "Phàm Nhân",
+        "Luyện Khí",
+        "Trúc Cơ"
+      ],
+      "exampleZones": [
+        "tan_thu_thon",
+        "thanh_truc_lam"
+      ],
+      "visualTone": "Grounded mountain-foot village, mossy flagstone paths, warm timber & glazed green roof tiles, bamboo groves, clear streams, and one modest white-jade/brass central plaza dais holding Cửu Long Thần Đỉnh."
+    },
+    "tier2_sect_sanctuary": {
+      "realms": [
+        "Kim Đan",
+        "Nguyên Anh",
+        "Hóa Thần",
+        "Luyện Hư",
+        "Hợp Thể",
+        "Đại Thừa"
+      ],
+      "visualTone": "Grand carved white-jade terraces, sect array plazas, luminous spirit formations, gilded pavilion roofs."
+    },
+    "tier3_celestial_palace": {
+      "realms": [
+        "Độ Kiếp",
+        "Chân Tiên",
+        "Kim Tiên",
+        "Thái Ất Ngọc Tiên",
+        "Đại La Kim Tiên",
+        "Hỗn Nguyên Đại La",
+        "Bán Thánh",
+        "Thánh Cảnh"
+      ],
+      "visualTone": "Full Thiên Mệnh Tiên Cung astral clouds, floating immortal jade palaces, imperial dragon-gold filigree, sacred constellation arrays."
+    }
+  },
+  "requiredTiledLayers": [
+    "Ground",
+    "Paths",
+    "GroundDetails",
+    "Collision",
+    "Interactables",
+    "AbovePlayer",
+    "Portals"
+  ],
+  "cameraContract": {
+    "contractDoc": "docs/technical/CAMERA_AND_MINIMAP_CONTRACT.md",
+    "desktopDefaultZoom": 1.85,
+    "mobilePortraitDefaultZoom": 1.45,
+    "minZoom": 1.35,
+    "maxZoom": 2.25
+  },
+  "depthSortingRule": "Dynamic Y-sorting by foot-ground contact anchor (y + bodyFootOffset); AbovePlayer canopy layer rendered above dynamic entities."
+}

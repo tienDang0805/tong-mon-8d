@@ -1,0 +1,621 @@
+{
+  "batch": "Batch A — UI Core System",
+  "direction": "V01-B — THIÊN MỆNH TIÊN CUNG",
+  "textFreeRasterCompliance": true,
+  "nineSliceFrames": [
+    {
+      "id": "panel_tier1_grounded_wood_jade_9slice",
+      "tier": "Tier I (Grounded Phàm Nhân Wood & Pale Jade)",
+      "path": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice.png",
+      "sourceDimensions": "242x325",
+      "sliceInsets": {
+        "left": 48,
+        "right": 48,
+        "top": 48,
+        "bottom": 48
+      },
+      "testedSizes": {
+        "320x200": {
+          "path": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_320x200.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "520x340": {
+          "path": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_520x340.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "840x520": {
+          "path": "assets/ui/frames_9slice/panel_tier1_grounded_wood_jade_9slice_840x520.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "panel_tier2_celestial_navy_jade_9slice",
+      "tier": "Tier II (Cultivator White Jade & Astral Navy)",
+      "path": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice.png",
+      "sourceDimensions": "255x347",
+      "sliceInsets": {
+        "left": 48,
+        "right": 48,
+        "top": 48,
+        "bottom": 48
+      },
+      "testedSizes": {
+        "320x200": {
+          "path": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_320x200.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "520x340": {
+          "path": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_520x340.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "840x520": {
+          "path": "assets/ui/frames_9slice/panel_tier2_celestial_navy_jade_9slice_840x520.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "panel_tier2_celestial_ivory_scroll_9slice",
+      "tier": "Tier II (Cultivator White Jade & Ivory Scroll)",
+      "path": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice.png",
+      "sourceDimensions": "223x319",
+      "sliceInsets": {
+        "left": 48,
+        "right": 48,
+        "top": 48,
+        "bottom": 48
+      },
+      "testedSizes": {
+        "320x200": {
+          "path": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_320x200.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "520x340": {
+          "path": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_520x340.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "840x520": {
+          "path": "assets/ui/frames_9slice/panel_tier2_celestial_ivory_scroll_9slice_840x520.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "panel_tier3_supreme_dragon_gold_9slice",
+      "tier": "Tier III (Supreme Dragon-Gold & Crimson Jade)",
+      "path": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice.png",
+      "sourceDimensions": "196x311",
+      "sliceInsets": {
+        "left": 48,
+        "right": 48,
+        "top": 48,
+        "bottom": 48
+      },
+      "testedSizes": {
+        "320x200": {
+          "path": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_320x200.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "520x340": {
+          "path": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_520x340.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "840x520": {
+          "path": "assets/ui/frames_9slice/panel_tier3_supreme_dragon_gold_9slice_840x520.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "panel_quest_tracker_scroll_9slice",
+      "tier": "Tier II (Quest Tracker Vertical Jade Scroll)",
+      "path": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice.png",
+      "sourceDimensions": "240x292",
+      "sliceInsets": {
+        "left": 48,
+        "right": 48,
+        "top": 48,
+        "bottom": 48
+      },
+      "testedSizes": {
+        "320x200": {
+          "path": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_320x200.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "520x340": {
+          "path": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_520x340.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "840x520": {
+          "path": "assets/ui/frames_9slice/panel_quest_tracker_scroll_9slice_840x520.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "panel_tooltip_callout_9slice",
+      "tier": "Tier II (Tooltip / Scroll Input Frame)",
+      "path": "assets/ui/frames_9slice/panel_tooltip_callout_9slice.png",
+      "sourceDimensions": "303x138",
+      "sliceInsets": {
+        "left": 48,
+        "right": 48,
+        "top": 48,
+        "bottom": 48
+      },
+      "testedSizes": {
+        "320x200": {
+          "path": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_320x200.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "520x340": {
+          "path": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_520x340.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        },
+        "840x520": {
+          "path": "assets/ui/frames_9slice/panel_tooltip_callout_9slice_840x520.png",
+          "maxCornerPixelDiff": 0,
+          "cornerLock1to1": true
+        }
+      },
+      "status": "PASS"
+    }
+  ],
+  "hudChrome": [
+    {
+      "id": "hud_top_left_crest_frame",
+      "path": "assets/ui/hud_chrome/hud_top_left_crest_frame.png",
+      "dimensions": "565x187"
+    },
+    {
+      "id": "hud_minimap_astrolabe_ring",
+      "path": "assets/ui/hud_minimap_astrolabe_ring.png",
+      "dimensions": "180x180"
+    },
+    {
+      "id": "hud_skillbar_lotus_dock",
+      "path": "assets/ui/hud_chrome/hud_skillbar_lotus_dock.png",
+      "dimensions": "438x106"
+    },
+    {
+      "id": "bar_hp_ruby",
+      "path": "assets/ui/hud_chrome/bar_hp_ruby.png",
+      "dimensions": "241x33"
+    },
+    {
+      "id": "bar_linh_luc_azure",
+      "path": "assets/ui/hud_chrome/bar_linh_luc_azure.png",
+      "dimensions": "240x34"
+    },
+    {
+      "id": "bar_exp_silver_gold",
+      "path": "assets/ui/hud_chrome/bar_exp_silver_gold.png",
+      "dimensions": "240x34"
+    },
+    {
+      "id": "bar_tu_vi_cyan_gold",
+      "path": "assets/ui/hud_chrome/bar_tu_vi_cyan_gold.png",
+      "dimensions": "240x34"
+    },
+    {
+      "id": "orb_dantian_star_core",
+      "path": "assets/ui/hud_chrome/orb_dantian_star_core.png",
+      "dimensions": "87x87"
+    }
+  ],
+  "characterCreationAndCPanel": [
+    {
+      "id": "cc_appearance_card_unselected",
+      "path": "assets/ui/character_creation_and_c_panel/cc_appearance_card_unselected.png",
+      "dimensions": "141x288"
+    },
+    {
+      "id": "cc_appearance_card_selected",
+      "path": "assets/ui/character_creation_and_c_panel/cc_appearance_card_selected.png",
+      "dimensions": "154x313"
+    },
+    {
+      "id": "cc_pedestal_lotus_dais",
+      "path": "assets/ui/character_creation_and_c_panel/cc_pedestal_lotus_dais.png",
+      "dimensions": "256x162"
+    },
+    {
+      "id": "cc_name_scroll_input_frame",
+      "path": "assets/ui/character_creation_and_c_panel/cc_name_scroll_input_frame.png",
+      "dimensions": "297x132"
+    },
+    {
+      "id": "destiny_card_pham",
+      "path": "assets/ui/character_creation_and_c_panel/destiny_card_pham.png",
+      "dimensions": "158x233"
+    },
+    {
+      "id": "destiny_card_hoang",
+      "path": "assets/ui/character_creation_and_c_panel/destiny_card_hoang.png",
+      "dimensions": "155x231"
+    },
+    {
+      "id": "destiny_card_tien",
+      "path": "assets/ui/character_creation_and_c_panel/destiny_card_tien.png",
+      "dimensions": "187x261"
+    },
+    {
+      "id": "destiny_card_than",
+      "path": "assets/ui/character_creation_and_c_panel/destiny_card_than.png",
+      "dimensions": "190x305"
+    },
+    {
+      "id": "socket_destiny_tien_thien_locked",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "dimensions": "96x96"
+    },
+    {
+      "id": "socket_tien_thien_slot_1",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "dimensions": "96x96",
+      "aliasOf": "socket_destiny_tien_thien_locked"
+    },
+    {
+      "id": "socket_tien_thien_slot_2",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "dimensions": "96x96",
+      "aliasOf": "socket_destiny_tien_thien_locked"
+    },
+    {
+      "id": "socket_tien_thien_slot_3",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_tien_thien_locked.png",
+      "dimensions": "96x96",
+      "aliasOf": "socket_destiny_tien_thien_locked"
+    },
+    {
+      "id": "socket_destiny_hau_thien_equippable",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "dimensions": "96x96"
+    },
+    {
+      "id": "socket_destiny_hau_thien_active",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_active.png",
+      "dimensions": "96x96"
+    },
+    {
+      "id": "socket_hau_thien_slot_1",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_active.png",
+      "dimensions": "96x96",
+      "aliasOf": "socket_destiny_hau_thien_active"
+    },
+    {
+      "id": "socket_hau_thien_slot_2",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "dimensions": "96x96",
+      "aliasOf": "socket_destiny_hau_thien_equippable"
+    },
+    {
+      "id": "socket_hau_thien_slot_3",
+      "path": "assets/ui/character_creation_and_c_panel/socket_destiny_hau_thien_equippable.png",
+      "dimensions": "96x96",
+      "aliasOf": "socket_destiny_hau_thien_equippable"
+    }
+  ],
+  "buttonsAndTabs": [
+    {
+      "id": "btn_jade_gold_default",
+      "path": "assets/ui/buttons_and_tabs/btn_jade_gold_default.png",
+      "dimensions": "281x67"
+    },
+    {
+      "id": "btn_jade_gold_hover",
+      "path": "assets/ui/buttons_and_tabs/btn_jade_gold_hover.png",
+      "dimensions": "297x86"
+    },
+    {
+      "id": "btn_jade_gold_pressed",
+      "path": "assets/ui/buttons_and_tabs/btn_jade_gold_pressed.png",
+      "dimensions": "281x70"
+    },
+    {
+      "id": "btn_jade_gold_disabled",
+      "path": "assets/ui/buttons_and_tabs/btn_jade_gold_disabled.png",
+      "dimensions": "281x71"
+    },
+    {
+      "id": "seal_dao_gold_lotus",
+      "path": "assets/ui/buttons_and_tabs/seal_dao_gold_lotus.png",
+      "dimensions": "151x155"
+    },
+    {
+      "id": "seal_dao_cinnabar",
+      "path": "assets/ui/buttons_and_tabs/seal_dao_cinnabar.png",
+      "dimensions": "152x156"
+    },
+    {
+      "id": "btn_cinnabar_default",
+      "path": "assets/ui/buttons_and_tabs/btn_cinnabar_default.png",
+      "dimensions": "192x60"
+    },
+    {
+      "id": "btn_cinnabar_hover",
+      "path": "assets/ui/buttons_and_tabs/btn_cinnabar_hover.png",
+      "dimensions": "222x90"
+    },
+    {
+      "id": "btn_cinnabar_pressed",
+      "path": "assets/ui/buttons_and_tabs/btn_cinnabar_pressed.png",
+      "dimensions": "192x60"
+    },
+    {
+      "id": "btn_cinnabar_disabled",
+      "path": "assets/ui/buttons_and_tabs/btn_cinnabar_disabled.png",
+      "dimensions": "192x59"
+    },
+    {
+      "id": "tab_header_active_gold_jade",
+      "path": "assets/ui/buttons_and_tabs/tab_header_active_gold_jade.png",
+      "dimensions": "189x51"
+    },
+    {
+      "id": "tab_header_inactive_wood_jade",
+      "path": "assets/ui/buttons_and_tabs/tab_header_inactive_wood_jade.png",
+      "dimensions": "189x44"
+    },
+    {
+      "id": "tab_header_hover_azure_jade",
+      "path": "assets/ui/buttons_and_tabs/tab_header_hover_azure_jade.png",
+      "dimensions": "189x51"
+    },
+    {
+      "id": "btn_plus_alloc_ready",
+      "path": "assets/ui/buttons_and_tabs/btn_plus_alloc_ready.png",
+      "dimensions": "61x63"
+    },
+    {
+      "id": "btn_plus_alloc_disabled",
+      "path": "assets/ui/buttons_and_tabs/btn_plus_alloc_disabled.png",
+      "dimensions": "62x63"
+    }
+  ],
+  "itemRaritySlotFrames": [
+    {
+      "id": "slot_item_pham_64",
+      "rarityTier": "pham",
+      "path": "assets/ui/slots_and_rarity_frames/slot_item_pham_64.png",
+      "dimensions": "64x64"
+    },
+    {
+      "id": "slot_item_linh_64",
+      "rarityTier": "linh",
+      "path": "assets/ui/slots_and_rarity_frames/slot_item_linh_64.png",
+      "dimensions": "64x64"
+    },
+    {
+      "id": "slot_item_hoang_64",
+      "rarityTier": "hoang",
+      "path": "assets/ui/slots_and_rarity_frames/slot_item_hoang_64.png",
+      "dimensions": "64x64"
+    },
+    {
+      "id": "slot_item_dia_64",
+      "rarityTier": "dia",
+      "path": "assets/ui/slots_and_rarity_frames/slot_item_dia_64.png",
+      "dimensions": "64x64"
+    },
+    {
+      "id": "slot_item_thien_64",
+      "rarityTier": "thien",
+      "path": "assets/ui/slots_and_rarity_frames/slot_item_thien_64.png",
+      "dimensions": "64x64"
+    },
+    {
+      "id": "slot_item_than_64",
+      "rarityTier": "than",
+      "path": "assets/ui/slots_and_rarity_frames/slot_item_than_64.png",
+      "dimensions": "64x64"
+    }
+  ],
+  "icons": [
+    {
+      "id": "destiny_van_vi_dao_thai",
+      "category": "destiny_emblem",
+      "path64": "assets/ui/icons_64x64/destiny_van_vi_dao_thai_64.png",
+      "path32": "assets/ui/icons_32x32/destiny_van_vi_dao_thai_32.png"
+    },
+    {
+      "id": "destiny_thai_hu_than_niem",
+      "category": "destiny_emblem",
+      "path64": "assets/ui/icons_64x64/destiny_thai_hu_than_niem_64.png",
+      "path32": "assets/ui/icons_32x32/destiny_thai_hu_than_niem_32.png"
+    },
+    {
+      "id": "destiny_kim_cang_can_cot",
+      "category": "destiny_emblem",
+      "path64": "assets/ui/icons_64x64/destiny_kim_cang_can_cot_64.png",
+      "path32": "assets/ui/icons_32x32/destiny_kim_cang_can_cot_32.png"
+    },
+    {
+      "id": "destiny_thach_cot_so_sinh",
+      "category": "destiny_emblem",
+      "path64": "assets/ui/icons_64x64/destiny_thach_cot_so_sinh_64.png",
+      "path32": "assets/ui/icons_32x32/destiny_thach_cot_so_sinh_32.png"
+    },
+    {
+      "id": "attr_the_phach",
+      "category": "origin_attribute",
+      "path64": "assets/ui/icons_64x64/attr_the_phach_64.png",
+      "path32": "assets/ui/icons_32x32/attr_the_phach_32.png"
+    },
+    {
+      "id": "attr_luc_dao",
+      "category": "origin_attribute",
+      "path64": "assets/ui/icons_64x64/attr_luc_dao_64.png",
+      "path32": "assets/ui/icons_32x32/attr_luc_dao_32.png"
+    },
+    {
+      "id": "attr_linh_tinh",
+      "category": "origin_attribute",
+      "path64": "assets/ui/icons_64x64/attr_linh_tinh_64.png",
+      "path32": "assets/ui/icons_32x32/attr_linh_tinh_32.png"
+    },
+    {
+      "id": "attr_than_phap",
+      "category": "origin_attribute",
+      "path64": "assets/ui/icons_64x64/attr_than_phap_64.png",
+      "path32": "assets/ui/icons_32x32/attr_than_phap_32.png"
+    },
+    {
+      "id": "attr_than_thuc",
+      "category": "origin_attribute",
+      "path64": "assets/ui/icons_64x64/attr_than_thuc_64.png",
+      "path32": "assets/ui/icons_32x32/attr_than_thuc_32.png"
+    },
+    {
+      "id": "attr_ngo_tinh",
+      "category": "origin_attribute",
+      "path64": "assets/ui/icons_64x64/attr_ngo_tinh_64.png",
+      "path32": "assets/ui/icons_32x32/attr_ngo_tinh_32.png"
+    },
+    {
+      "id": "orb_tu_vi_core",
+      "category": "cultivation_orb",
+      "path64": "assets/ui/icons_64x64/orb_tu_vi_core_64.png",
+      "path32": "assets/ui/icons_32x32/orb_tu_vi_core_32.png"
+    },
+    {
+      "id": "currency_linh_thach",
+      "category": "currency",
+      "path64": "assets/ui/icons_64x64/currency_linh_thach_64.png",
+      "path32": "assets/ui/icons_32x32/currency_linh_thach_32.png"
+    },
+    {
+      "id": "item_mi_linh_thach_thanh_truc",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_mi_linh_thach_thanh_truc_64.png",
+      "path32": "assets/ui/icons_32x32/item_mi_linh_thach_thanh_truc_32.png"
+    },
+    {
+      "id": "item_banh_bao_linh_thu",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_banh_bao_linh_thu_64.png",
+      "path32": "assets/ui/icons_32x32/item_banh_bao_linh_thu_32.png"
+    },
+    {
+      "id": "item_tra_thanh_tam_tinh_khi",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_tra_thanh_tam_tinh_khi_64.png",
+      "path32": "assets/ui/icons_32x32/item_tra_thanh_tam_tinh_khi_32.png"
+    },
+    {
+      "id": "item_tu_khi_dan_so_cap_gourd",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_tu_khi_dan_so_cap_gourd_64.png",
+      "path32": "assets/ui/icons_32x32/item_tu_khi_dan_so_cap_gourd_32.png"
+    },
+    {
+      "id": "destiny_minh_khong_ngo_dao",
+      "category": "destiny_emblem",
+      "path64": "assets/ui/icons_64x64/destiny_minh_khong_ngo_dao_64.png",
+      "path32": "assets/ui/icons_32x32/destiny_minh_khong_ngo_dao_32.png"
+    },
+    {
+      "id": "item_canh_truc_lang_linh_thao",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_canh_truc_lang_linh_thao_64.png",
+      "path32": "assets/ui/icons_32x32/item_canh_truc_lang_linh_thao_32.png"
+    },
+    {
+      "id": "item_bot_linh_mach",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_bot_linh_mach_64.png",
+      "path32": "assets/ui/icons_32x32/item_bot_linh_mach_32.png"
+    },
+    {
+      "id": "item_thanh_tam_thao",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_thanh_tam_thao_64.png",
+      "path32": "assets/ui/icons_32x32/item_thanh_tam_thao_32.png"
+    },
+    {
+      "id": "item_thit_truc_lang",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_thit_truc_lang_64.png",
+      "path32": "assets/ui/icons_32x32/item_thit_truc_lang_32.png"
+    },
+    {
+      "id": "item_nanh_truc_lang",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_nanh_truc_lang_64.png",
+      "path32": "assets/ui/icons_32x32/item_nanh_truc_lang_32.png"
+    },
+    {
+      "id": "item_vay_thanh_lan",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_vay_thanh_lan_64.png",
+      "path32": "assets/ui/icons_32x32/item_vay_thanh_lan_32.png"
+    },
+    {
+      "id": "item_thanh_van_kiem_so_cap",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_thanh_van_kiem_so_cap_64.png",
+      "path32": "assets/ui/icons_32x32/item_thanh_van_kiem_so_cap_32.png"
+    },
+    {
+      "id": "item_tu_khi_dan_so_cap",
+      "category": "canonical_item",
+      "path64": "assets/ui/icons_64x64/item_tu_khi_dan_so_cap_64.png",
+      "path32": "assets/ui/icons_32x32/item_tu_khi_dan_so_cap_32.png"
+    }
+  ],
+  "questTrackerAndPrompts": [
+    {
+      "id": "interact_prompt_pill_gold_jade",
+      "path": "assets/ui/quest_and_prompts/interact_prompt_pill_gold_jade.png",
+      "dimensions": "327x61"
+    },
+    {
+      "id": "interact_prompt_pill_azure_jade",
+      "path": "assets/ui/quest_and_prompts/interact_prompt_pill_azure_jade.png",
+      "dimensions": "327x61"
+    },
+    {
+      "id": "quest_marker_available_excl",
+      "path": "assets/ui/quest_and_prompts/quest_marker_available_excl.png",
+      "dimensions": "48x94"
+    },
+    {
+      "id": "quest_marker_active_question",
+      "path": "assets/ui/quest_and_prompts/quest_marker_active_question.png",
+      "dimensions": "74x83"
+    },
+    {
+      "id": "quest_marker_turnin_seal",
+      "path": "assets/ui/quest_and_prompts/quest_marker_turnin_seal.png",
+      "dimensions": "74x81"
+    },
+    {
+      "id": "quest_nav_waypoint_star",
+      "path": "assets/ui/quest_and_prompts/quest_nav_waypoint_star.png",
+      "dimensions": "77x81"
+    }
+  ]
+}

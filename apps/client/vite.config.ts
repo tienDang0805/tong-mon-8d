@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig, type Plugin } from "vite";
+import { packageRuntimeAssets } from "../../scripts/package-runtime-assets.mjs";
 
 const clientDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(clientDir, "../..");
@@ -30,7 +31,11 @@ function serveWorkspaceAssetsPlugin(): Plugin {
       return;
     }
     const targetPath = path.join(rootDir, rawUrl);
-    if (!targetPath.startsWith(rootDir) || !fs.existsSync(targetPath) || fs.statSync(targetPath).isDirectory()) {
+    if (
+      !targetPath.startsWith(rootDir) ||
+      !fs.existsSync(targetPath) ||
+      fs.statSync(targetPath).isDirectory()
+    ) {
       next();
       return;
     }
@@ -45,16 +50,26 @@ function serveWorkspaceAssetsPlugin(): Plugin {
     name: "serve-workspace-assets",
     configureServer(server) {
       server.middlewares.use(handler);
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use(handler);
+    }
+  };
+}
+
+function packageRuntimeAssetsBundlePlugin(): Plugin {
+  return {
+    name: "package-runtime-assets-bundle",
+    apply: "build",
+    closeBundle() {
+      packageRuntimeAssets({
+        rootDir,
+        outDir: path.resolve(clientDir, "dist")
+      });
     }
   };
 }
 
 export default defineConfig({
   root: clientDir,
-  plugins: [serveWorkspaceAssetsPlugin()],
+  plugins: [serveWorkspaceAssetsPlugin(), packageRuntimeAssetsBundlePlugin()],
   resolve: {
     alias: {
       "@tong-mon-8d/shared": path.resolve(rootDir, "packages/shared/src/index.ts"),

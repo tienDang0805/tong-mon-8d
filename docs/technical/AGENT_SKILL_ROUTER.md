@@ -37,31 +37,31 @@ All 30 installed workspace skills are classified into five operational tiers:
 
 | # | Skill Path | Declared `name` | Classification | Permitted Scope & Approved Scripts | Disabled / Overridden Portions & Known Advisories |
 |---|---|---|---|---|---|
-| 1 | `.agents/skills/ai-art-production/SKILL.md` | `ai-art-production` | `ACTIVE (CORE)` | Primary art workflow orchestrator bound to `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, audited non-generative post-processing scripts, and `packages/art-tools/verify_manifest.ts` (character source SHA checks and asset dimensions/alpha/frame checks implemented to current validator scope; all provenance paths portable not comprehensively enforced; provider/method allowlist not yet implemented; future enforcement is a separately approved tooling task). | **Never execute `python packages/art-tools/build_assets.py` as a whole production asset generation/post-processing command, including with `--force`**; treat existing `build_assets.py` as legacy tooling requiring command-level audit/refactor before production execution. External API/CLI generation (`route_media.py`) and `video2dsprite` routes are disabled; native `image-generator` is status `NATIVE_IMAGE_TOOL_DISCOVERED — END_TO_END_NOT_YET_VERIFIED`. |
-| 2 | `.agents/skills/pixel-art-director/SKILL.md` | `pixel-art-director` | `ACTIVE (CORE)` | Visual direction, `Candidate A` xianxia reference direction (`assets/concepts/candidate_a_classic_xianxia.jpg`, `DEC-002`: currently a `PROPOSED` visual reference, not a `HUMAN_APPROVED` style lock; an art production proof must receive owner creative approval before scaling asset production), 10 Legends silhouettes (`chatdvt` jade-cyan quadruped beast, `dam_lon_tien_tu` `UNKNOWN` realm). | Ignore line 16 mention of `generate2dmedia` and video-derived clips; all runtime sheets are static grid spritesheets (`480x1920` / `288x1024`). |
-| 3 | `.agents/skills/cultivation-balance/SKILL.md` | `cultivation-balance` | `ACTIVE (CORE)` | Quantitative progression modeling (`packages/game-data/src/index.ts`, `packages/game-data/src/runSimulation.ts`). | Subordinate to `docs/DECISIONS.md` and `TD-01`..`TD-04` (`docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/COMBAT.md`); overrides legacy v0.1 15-minute/3-dish note. |
-| 4 | `.agents/skills/mmorpg-server-integrity/SKILL.md` | `mmorpg-server-integrity` | `ACTIVE (CORE)` | Authoritative Colyseus `0.18.x` server validation, movement, portals, shared mobs, combat, quests, shop, idempotency, and PGlite/PG persistence (`apps/server/src/*`). | Mandatory for all `S1`–`S8` server, protocol, and database tasks (`RULES.md` Rule 3). |
-| 5 | `.agents/skills/world-and-map-qa/SKILL.md` | `world-and-map-qa` | `ACTIVE (CORE)` | Tiled JSON (`maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`), collision layers, portals, Y-sorted depth occlusion, and two-browser traversal QA. | Mandatory for all map, zone, portal, NPC placement, and `S2`/`S4`/`S5`/`S6`/`S7`/`S8` tasks (`RULES.md` Rule 5). |
+| 1 | `.agents/skills/ai-art-production/SKILL.md` | `ai-art-production` | `ACTIVE (CORE)` | Primary art workflow orchestrator bound to `assets/corekit/v01b/catalog.json`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`, native `image-generator` (`LIVE_VERIFIED_END_TO_END`), audited non-generative post-processing scripts, and `packages/art-tools/verify_manifest.ts` + `packages/art-tools/corekit/validateCorekit.ts` (enforcing Core Kit `v01b` schema, SHA-256 integrity, repo-relative provenance paths, `native_argon_image_generator` provider/method allowlists, `HERO-ANIMSET-01` lock, and archive isolation). | **`packages/art-tools/build_assets.py` (`npm run generate:art` / `npm run generate:art:force`) is a disabled fail-closed guard (`exit code 2`)**, with the historical generator quarantined at `packages/art-tools/legacy/build_assets.py`. External API/CLI generation (`route_media.py`), `video2dsprite`, and `codeart2d` routes are disabled. |
+| 2 | `.agents/skills/pixel-art-director/SKILL.md` | `pixel-art-director` | `ACTIVE (CORE)` | Visual direction locked to `V01-B — Thiên Mệnh Tiên Cung` (`DEC-006`) + Grounded Tier I `Tân Thủ Thôn` Core Kit (`DEC-007`/`DEC-008`, `assets/corekit/v01b/catalog.json`) + `HERO-ANIMSET-01` (`DEC-009`) canonical `hero_kiem_tu` (`source_h04..h10`), 10 Legends silhouettes (`chatdvt` jade-cyan quadruped beast, `dam_lon_tien_tu` `UNKNOWN` realm, `phi_de` bear-hood mascot vs `rmt_de` Thần Tài). Historical `Candidate A` is archived at `assets/archive/history/concepts/candidate_a_classic_xianxia.jpg`. | Ignore line 16 mention of `generate2dmedia` and video-derived clips; all runtime sheets are static grid spritesheets (`480x1920` / `288x1024`). |
+| 3 | `.agents/skills/cultivation-balance/SKILL.md` | `cultivation-balance` | `ACTIVE (CORE)` | Quantitative progression modeling (`packages/game-data/src/index.ts`, `packages/game-data/src/rules/*`, `packages/game-data/src/runSimulation.ts`). | Subordinate to `docs/DECISIONS.md` and `TD-01`..`TD-04` (`docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`, `docs/systems/COMBAT.md`); overrides legacy v0.1 15-minute/3-dish note. |
+| 4 | `.agents/skills/mmorpg-server-integrity/SKILL.md` | `mmorpg-server-integrity` | `ACTIVE (CORE)` | Authoritative Colyseus `0.18.x` server validation, movement, portals, shared mobs, combat, quests, shop, idempotency, and PGlite/PG persistence (`apps/server/src/transport/**`, `apps/server/src/runtime/**`, `apps/server/src/features/**`, `apps/server/src/infrastructure/**`). | Mandatory for all `S1`–`S8` server, protocol, and database tasks (`RULES.md` Rule 3). |
+| 5 | `.agents/skills/world-and-map-qa/SKILL.md` | `world-and-map-qa` | `ACTIVE (CORE)` | Tiled JSON (`maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`), collision layers, portals, Y-sorted depth occlusion, and two-browser traversal QA (`apps/client/src/game/world/**`). | Mandatory for all map, zone, portal, NPC placement, and `S2`/`S4`/`S5`/`S6`/`S7`/`S8` tasks (`RULES.md` Rule 5). |
 | 6 | `.agents/skills/pixel-art/SKILL.md` | `pixel-art` | `ACTIVE (POST-PROCESSING SCRIPTS ONLY)` | Permitted scripts: `.agents/skills/pixel-art/scripts/quality_audit.py`, `atlas_pack.py`, `gif_export.py`, `palette_extract.py`, `palette_remap.py`, `outline_generator.py`, `sprite_resize.py`, `batch_audit.py`, `export_indexed.py`. | Do not use `noise_generator.py`, `dither.py`, or `sprite_mirror.py` to procedurally synthesize missing character/environment art or horizontally flip asymmetric canonical props. |
 | 7 | `.agents/skills/generate2dsprite/SKILL.md` | `generate2dsprite` | `ACTIVE (POST-PROCESSING SCRIPTS ONLY)` | Permitted scripts: `.agents/skills/generate2dsprite/scripts/assemble_frames.py`, `generate2dsprite.py` (`process` mode only), `sheet_qc.py`, `scale_frames.py`, `palette_tool.py`, `pixel_reduce.py`, `plan_guide.py`, `make_anchor_layout.py`, `make_layout_guide.py`. | **Disabled**: `master_still.py` (`generate`/`edit`), `route_media.py` calls, `"configured key is owner's consent"` rule, mandatory `video2dsprite` handoff, `HD finish by default`, `codeart2d` fallback, and `export_engine.py` (Godot). |
 | 8 | `.agents/skills/generate2dmap/SKILL.md` | `generate2dmap` | `ACTIVE (POST-PROCESSING SCRIPTS ONLY)` | Permitted scripts: `.agents/skills/generate2dmap/scripts/extract_prop_pack.py`, `extract_terrain_tiles.py`, `compose_layered_preview.py`, `map_bundle.py`, `map_nav.py`, `build_scene_preview.py`, `validate_layout.py`, `export_tiled.py` (`--embedded-variant`). | **Disabled**: `route_media.py` calls, `codeart2d` fallback, `export_godot.py`, `export_ldtk.py`, and side-scrolling/HD-2D plate workflows. |
 | 9 | `.agents/skills/generate2dmedia/SKILL.md` | `generate2dmedia` | `DISABLED FOR PRODUCTION` | Only `.agents/skills/generate2dmedia/scripts/forge_doctor.py` (`--host-tools image_gen --no-exec --json`) may be run as a read-only local Python environment check. | **BLOCKED**: Never run `route_media.py`, `generate_media.py`, `cli_media.py`, `media_config.py`, or `media_providers.py`. External paid APIs and external CLIs (`codex`, `grok`) are forbidden (`AGENTS.md` Section 4). |
 | 10 | `.agents/skills/video2dsprite/SKILL.md` | `video2dsprite` | `DISABLED FOR PRODUCTION` | None. | **BLOCKED**: Calls external video APIs/CLIs (`route_media.py video`), requires `ffmpeg` (not installed on host), and outputs WebM/MP4 instead of Tông Môn 8D Phaser spritesheets. |
 | 11 | `.agents/skills/codeart2d/SKILL.md` | `codeart2d` | `DISABLED FOR PRODUCTION` | None (unless explicitly authorized in writing by the project owner for a non-production test). | **BLOCKED**: Procedural/code-drawn production art is strictly prohibited by `AGENTS.md` Section 4.2 and `RULES.md` Rule 6. |
-| 12 | `.agents/skills/phaser4-game-setup-and-config/SKILL.md` | `game-setup-and-config` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `GameConfig`, `pixelArt: true`, renderer, and scaling (`apps/client/src/main.ts`). | None. |
-| 13 | `.agents/skills/phaser4-loading-assets/SKILL.md` | `loading-assets` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `LoaderPlugin` (`this.load.spritesheet`, `image`, `tilemapTiledJSON`, `audio` in `apps/client/src/WorldScene.ts`). | Advisory: internal skill text mentions a relative `references/REFERENCE.md` file that is not bundled in `.agents/skills/phaser4-loading-assets/`; do not attempt to open it. |
-| 14 | `.agents/skills/phaser4-scenes/SKILL.md` | `scenes` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `Scene` lifecycle (`init`, `preload`, `create`, `update`) and transitions (`apps/client/src/WorldScene.ts`). | Advisory: internal skill text mentions an unbundled `references/REFERENCE.md`; do not attempt to open it. |
-| 15 | `.agents/skills/phaser4-sprites-and-images/SKILL.md` | `sprites-and-images` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `Sprite`/`Image` creation, origin `(0.5, 0.9167)` / `(0.5, 0.90)`, Y-sorted depth, tint, and alpha (`apps/client/src/WorldScene.ts`). | Advisory: internal skill text contains a malformed relative link on line 416; do not attempt to open it. |
-| 16 | `.agents/skills/phaser4-animations/SKILL.md` | `animations` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `AnimationManager`, directional row registration, `play`/`chain`, and animation events (`apps/client/src/WorldScene.ts`). | Governed by `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`. |
-| 17 | `.agents/skills/phaser4-tilemaps/SKILL.md` | `tilemaps` | `ACTIVE (TASK-SCOPED)` | Phaser 4 Tiled JSON map loading, layers, GIDs, and tile properties (`apps/client/src/WorldScene.ts`, `maps/*.tmj`). | Use together with `.agents/skills/world-and-map-qa/SKILL.md`. |
-| 18 | `.agents/skills/phaser4-physics-arcade/SKILL.md` | `physics-arcade` | `REFERENCE-ONLY` | Reference only for Phaser 4 Arcade API syntax if ever needed. | Tông Môn 8D uses server-authoritative tile collision (`apps/server/src/worldEngine.ts` + `apps/client/src/WorldScene.ts`), not client-authoritative Arcade physics. Internal `references/REFERENCE.md` is unbundled. |
+| 12 | `.agents/skills/phaser4-game-setup-and-config/SKILL.md` | `game-setup-and-config` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `GameConfig`, `pixelArt: true`, renderer, and scaling (`apps/client/src/app/GameBootstrap.ts`, `apps/client/src/main.ts`). | None. |
+| 13 | `.agents/skills/phaser4-loading-assets/SKILL.md` | `loading-assets` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `LoaderPlugin` (`this.load.spritesheet`, `image`, `tilemapTiledJSON`, `audio` in `apps/client/src/game/WorldScene.ts` and `apps/client/src/game/assets/*`). | Advisory: internal skill text mentions a relative `references/REFERENCE.md` file that is not bundled in `.agents/skills/phaser4-loading-assets/`; do not attempt to open it. |
+| 14 | `.agents/skills/phaser4-scenes/SKILL.md` | `scenes` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `Scene` lifecycle (`init`, `preload`, `create`, `update`) and transitions (`apps/client/src/game/WorldScene.ts`). | Advisory: internal skill text mentions an unbundled `references/REFERENCE.md`; do not attempt to open it. |
+| 15 | `.agents/skills/phaser4-sprites-and-images/SKILL.md` | `sprites-and-images` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `Sprite`/`Image` creation, origin `(0.5, 0.9167)` / `(0.5, 0.90)`, Y-sorted depth, tint, and alpha (`apps/client/src/game/world/ActorViewSystem.ts`, `apps/client/src/game/assets/SpriteProfiles.ts`). | Advisory: internal skill text contains a malformed relative link on line 416; do not attempt to open it. |
+| 16 | `.agents/skills/phaser4-animations/SKILL.md` | `animations` | `ACTIVE (TASK-SCOPED)` | Phaser 4 `AnimationManager`, directional row registration, `play`/`chain`, and animation events (`apps/client/src/game/combat/AnimationRegistry.ts`, `apps/client/src/game/assets/runtimeAnimationProjection.json`). | Governed by `docs/pipelines/ANIMATION_VFX_FEEDBACK.md` and `assets/corekit/v01b/profiles/animation.json`. |
+| 17 | `.agents/skills/phaser4-tilemaps/SKILL.md` | `tilemaps` | `ACTIVE (TASK-SCOPED)` | Phaser 4 Tiled JSON map loading, layers, GIDs, and tile properties (`apps/client/src/game/world/MapView.ts`, `maps/*.tmj`). | Use together with `.agents/skills/world-and-map-qa/SKILL.md`. |
+| 18 | `.agents/skills/phaser4-physics-arcade/SKILL.md` | `physics-arcade` | `REFERENCE-ONLY` | Reference only for Phaser 4 Arcade API syntax if ever needed. | Tông Môn 8D uses server-authoritative tile collision (`apps/server/src/runtime/world/WorldRuntime.ts` + `apps/client/src/game/world/MapView.ts`), not client-authoritative Arcade physics. Internal `references/REFERENCE.md` is unbundled. |
 | 19 | `.agents/skills/phaser4-v3-to-v4-migration/SKILL.md` | `v3-to-v4-migration` | `REFERENCE-ONLY` | Reference only when diagnosing Phaser 3 vs Phaser 4 API differences. | Runtime already runs Phaser `4.2.1`. |
 | 20 | `.agents/skills/phaser-core/SKILL.md` | `phaser-core` | `REFERENCE-ONLY` | Bundled reference: `.agents/skills/phaser-core/references/scene-flow.md`. | Duplicated and superseded by `phaser4-game-setup-and-config`, `phaser4-scenes`, and `phaser4-loading-assets`. |
 | 21 | `.agents/skills/phaser-arcade-physics/SKILL.md` | `phaser-arcade-physics` | `REFERENCE-ONLY` | Bundled reference: `.agents/skills/phaser-arcade-physics/references/bodies-and-collision.md`. | Duplicated by `phaser4-physics-arcade` and focused on platformer gravity; do not route for MMO movement. |
-| 22 | `.agents/skills/game-playtest/SKILL.md` | `game-playtest` | `ACTIVE (TASK-SCOPED)` | Playwright browser smoke/E2E verification (`tests/e2e/runPlaytest.ts`, `tests/e2e/game.spec.ts`, desktop `1280x720` + mobile `390x844` captures in `artifacts/playtest/runs/<run-id>/`). | Ignore 3D/React Three Fiber/SpectorJS bullets and unbundled parent-relative `../../references/*` links inside the skill text. |
-| 23 | `.agents/skills/game-ui-frontend/SKILL.md` | `game-ui-frontend` | `ACTIVE (TASK-SCOPED)` | DOM HUD overlay (`apps/client/src/hud.ts`, `apps/client/src/style.css`) over Phaser WebGL playfield (`<= 20–25%` viewport coverage per `RULES.md` Rule 4 and `docs/pipelines/UX_WORLD_FIRST.md`). | Ignore 3D pointer-lock/React Three Fiber bullets and unbundled `../../references/*` links inside the skill text. |
-| 24 | `.agents/skills/create-game-assets/SKILL.md` | `create-game-assets` | `REFERENCE-ONLY` | Optional helper scripts: `.agents/skills/create-game-assets/scripts/asset_report.py`, `build_preview_sheet.py`; bundled refs in `.agents/skills/create-game-assets/references/*.md`. | Superseded by `.agents/skills/ai-art-production/SKILL.md` and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`. Ignore unbundled `../../references/*` links. |
-| 25 | `.agents/skills/sprite-pipeline/SKILL.md` | `sprite-pipeline` | `REFERENCE-ONLY` | Optional helper scripts: `.agents/skills/sprite-pipeline/scripts/build_sprite_edit_canvas.py`, `normalize_sprite_strip.py`, `render_sprite_preview_sheet.py`. | Superseded by explicitly audited, non-generative `generate2dsprite` post-processing scripts (`assemble_frames.py`, `scale_frames.py`, `palette_tool.py`, `pixel_reduce.py`, `sheet_qc.py`); never run legacy `packages/art-tools/build_assets.py` as a whole command. Ignore non-existent `imagegen` skill mention and unbundled `../../references/*` link. |
+| 22 | `.agents/skills/game-playtest/SKILL.md` | `game-playtest` | `ACTIVE (TASK-SCOPED)` | Playwright browser smoke/E2E verification (`tests/e2e/runPlaytest.ts`, `tests/e2e/runArchFoundationVerification.ts`, `tests/e2e/game.spec.ts`, desktop `1280x720` + mobile `390x844` captures in `artifacts/playtest/runs/<run-id>/`). | Ignore 3D/React Three Fiber/SpectorJS bullets and unbundled parent-relative `../../references/*` links inside the skill text. |
+| 23 | `.agents/skills/game-ui-frontend/SKILL.md` | `game-ui-frontend` | `ACTIVE (TASK-SCOPED)` | DOM HUD overlay (`apps/client/src/ui/HudShell.ts`, `apps/client/src/features/**`, `apps/client/src/style.css`) over Phaser WebGL playfield (`<= 20–25%` viewport coverage per `RULES.md` Rule 4 and `docs/pipelines/UX_WORLD_FIRST.md`). | Ignore 3D pointer-lock/React Three Fiber bullets and unbundled `../../references/*` links inside the skill text. |
+| 24 | `.agents/skills/create-game-assets/SKILL.md` | `create-game-assets` | `REFERENCE-ONLY` | Optional helper scripts: `.agents/skills/create-game-assets/scripts/asset_report.py`, `build_preview_sheet.py`; bundled refs in `.agents/skills/create-game-assets/references/*.md`. | Superseded by `.agents/skills/ai-art-production/SKILL.md`, `assets/corekit/v01b/catalog.json`, and `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`. Ignore unbundled `../../references/*` links. |
+| 25 | `.agents/skills/sprite-pipeline/SKILL.md` | `sprite-pipeline` | `REFERENCE-ONLY` | Optional helper scripts: `.agents/skills/sprite-pipeline/scripts/build_sprite_edit_canvas.py`, `normalize_sprite_strip.py`, `render_sprite_preview_sheet.py`. | Superseded by explicitly audited, non-generative `generate2dsprite` post-processing scripts (`assemble_frames.py`, `scale_frames.py`, `palette_tool.py`, `pixel_reduce.py`, `sheet_qc.py`); `packages/art-tools/build_assets.py` is disabled (`exit code 2`). Ignore non-existent `imagegen` skill mention and unbundled `../../references/*` link. |
 | 26 | `.agents/skills/game-feel/SKILL.md` | `game-feel` | `REFERENCE-ONLY` | Conceptual reference for trauma shake, hit-stop, and easing (`.agents/skills/game-feel/references/feedback-recipes.md`). | Subordinate to `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`; ignore Godot 4.7 GDScript and Unity 6.3 C# code blocks. |
 | 27 | `.agents/skills/game-ui-ux/SKILL.md` | `game-ui-ux` | `REFERENCE-ONLY` | Conceptual UI layout reference (`.agents/skills/game-ui-ux/references/layout-and-flow.md`). | Subordinate to `docs/UX_DESIGN.md`, `docs/pipelines/UX_WORLD_FIRST.md`, and `.agents/skills/game-ui-frontend/SKILL.md`. |
 | 28 | `.agents/skills/level-design/SKILL.md` | `level-design` | `REFERENCE-ONLY` | Conceptual pacing reference (`.agents/skills/level-design/references/pacing-and-flow.md`). | Subordinate to `docs/WORLD_DESIGN.md`, `docs/pipelines/WORLD_SCENE_ASSEMBLY.md`, and `.agents/skills/world-and-map-qa/SKILL.md`. |
@@ -79,7 +79,7 @@ All 30 installed workspace skills are classified into five operational tiers:
 
 - **System Ownership (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
   - **TD-01** owns Character Level (`1–350+`), `Phàm Nhân` (starter state) + 17 major cultivation realms (`Luyện Khí` through `Thánh Cảnh`) = 18 ordered entries (with `Đại Thánh` and `Cổ Thần` as lore only per `GD-044`), 6 origin stats (`Thể Phách, Lực Đạo, Linh Tính, Thân Pháp, Thần Thức, Ngộ Tính`), `+1` free stat point per level, separate Character EXP vs `Tu Vi`, no excessive EXP overflow banking at capped non-Saint realms, 3 immutable `Tiên Thiên` + 3 active `Hậu Thiên` destinies (`Phàm, Hoàng, Tiên, Thần`), and at-most-1-of-10 Legendary `Thần Phẩm` signature exclusivity across all innate and acquired traits.
-  - **TD-05** owns the playfield-first Character/Destiny HUD presentation, visual bindings, and visual review obligations for `S1` player-visible state (`docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md`).
+  - **TD-05** owns the playfield-first Character/Destiny HUD presentation, visual bindings, and visual review obligations for `S1` player-visible state (`docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `assets/corekit/v01b/catalog.json`).
 - **Context Manifest Candidate Pool (Verified Existing Paths)**:
   - `docs/DECISIONS.md` (`GD-010`–`GD-023`, `GD-028`, `GD-044`)
   - `docs/systems/CHARACTER.md`
@@ -89,28 +89,16 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `docs/technical/TD01_MIGRATION_TESTS.md`
   - `docs/systems/VISUAL_CONTENT_CONTRACT.md`
   - `docs/pipelines/UX_WORLD_FIRST.md`
+  - `assets/corekit/v01b/catalog.json`
 - **Slice-Wide Candidate Source Pool (Not a Blanket Edit Authorization — Each Task Requires a Per-Task Code Allowlist)**:
-  - `packages/shared/src/index.ts` *(touched in `S1-B1a` `b04ebdc`, `S1-D`)*
-  - `packages/game-data/src/index.ts` *(touched in `S1-B1a` `b04ebdc`, `S1-B1b` `cb360e8`)*
-  - `packages/game-data/src/td01Numeric.ts` *(created in `S1-B1b` `cb360e8`)*
-  - `packages/game-data/src/runSimulation.ts`
-  - `apps/server/src/index.ts` *(touched in `S1-D`)*
-  - `apps/server/src/db.ts` *(touched in `S1-B2` `2773944`, `S1-C` `bf2d24f`, `S1-D`)*
-  - `apps/server/src/characterV02Repository.ts` *(created in `S1-C` `bf2d24f`)*
-  - `apps/server/src/characterV02Actions.ts` *(created in `S1-D`)*
-  - `apps/server/src/guestIdentity.ts` *(created in `S1-D`)*
-  - `apps/server/src/worldEngine.ts`
-  - `apps/server/src/zoneRoom.ts` *(touched in `S1-D`)*
-  - `apps/server/src/__tests__/td01Contracts.test.ts` *(created in `S1-B1a` `b04ebdc`)*
-  - `apps/server/src/__tests__/td01Numeric.test.ts` *(created in `S1-B1b` `cb360e8`)*
-  - `apps/server/src/__tests__/dbTransactions.test.ts` *(created in `S1-B2` `2773944`)*
-  - `apps/server/src/__tests__/characterV02Persistence.test.ts` *(created in `S1-C` `bf2d24f`)*
-  - `apps/server/src/__tests__/characterV02Actions.test.ts` *(created in `S1-D`)*
-  - `apps/server/src/__tests__/server.test.ts`
-  - `apps/client/src/hud.ts`
-  - `apps/client/src/network.ts`
-  - `apps/client/src/WorldScene.ts`
-  - `apps/client/src/style.css`
+  - `packages/shared/src/index.ts`, `packages/shared/src/protocols/character.ts`, `packages/shared/src/snapshots/index.ts`
+  - `packages/game-data/src/index.ts`, `packages/game-data/src/catalogs/{realms,destinies,appearances}.ts`, `packages/game-data/src/rules/{characterContracts,characterProgression,statPipeline,destinyModifiers}.ts`, `packages/game-data/src/td01Numeric.ts`
+  - `apps/server/src/index.ts`, `apps/server/src/app/createGameServer.ts`, `apps/server/src/infrastructure/database/{DbPorts,PgAdapter,LegacyWorldPorts}.ts`, `apps/server/src/guestIdentity.ts`
+  - `apps/server/src/features/character/{CharacterService,CharacterCreationCommands,CharacterProgressionCommands,CharacterRepository,CharacterValidation,CharacterSnapshot}.ts`, `apps/server/src/features/destiny/{DestinyRoller,DestinyOwnership}.ts`
+  - `apps/server/src/transport/colyseus/ZoneRoom.ts`
+  - `apps/server/src/__tests__/{td01Contracts,td01Numeric,dbTransactions,characterV02Persistence,characterV02Actions,server}.test.ts`
+  - `apps/client/src/app/GameBootstrap.ts`, `apps/client/src/network/GameNetworkClient.ts`
+  - `apps/client/src/features/character/{CharacterCreationView,CharacterPanel}.ts`, `apps/client/src/ui/{HudShell,ports}.ts`, `apps/client/src/game/WorldScene.ts`, `apps/client/src/style.css`
 - **Skill Manifest Candidate Pool (Active Skills Routed)**:
   - `.agents/skills/mmorpg-server-integrity/SKILL.md`
   - `.agents/skills/cultivation-balance/SKILL.md`
@@ -127,7 +115,7 @@ All 30 installed workspace skills are classified into five operational tiers:
 - **System Ownership (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
   - **TD-02** is the sole owner of combat/damage/mitigation/realm oppression math (`docs/systems/COMBAT.md`), `Công pháp` and `Võ kỹ` registration/ownership/slots across 6 tiers (`Phàm, Linh, Hoàng, Địa, Thiên, Thần` in `docs/systems/TECHNIQUES.md`), and the 6 independent Dao mastery paths (`Kiếm Đạo, Đao Đạo, Chỉ Đạo, Chưởng Đạo, Thể Tu, Pháp Tu`) × 10 `Đạo Cảnh` stages with `3→4`, `6→7`, and `9→10` trial gates (`docs/systems/DAO_MASTERY.md`).
   - **TD-01** supplies authoritative character stat/realm snapshots consumed by `TD-02` (`docs/systems/CHARACTER.md`, `docs/systems/CULTIVATION.md`).
-  - **TD-05** owns the in-world skill cast animations, hit VFX, HUD feedback, and visual review obligations (`docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/UX_WORLD_FIRST.md`).
+  - **TD-05** owns the in-world skill cast animations, hit VFX, HUD feedback, and visual review obligations (`docs/systems/VISUAL_CONTENT_CONTRACT.md`, `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`, `docs/pipelines/UX_WORLD_FIRST.md`, `assets/corekit/v01b/catalog.json`).
 - **Context Manifest Candidate Pool (Verified Existing Paths)**:
   - `docs/DECISIONS.md` (`GD-024`–`GD-027`, `GD-030`–`GD-032`)
   - `docs/systems/COMBAT.md`
@@ -141,17 +129,11 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `docs/pipelines/ANIMATION_VFX_FEEDBACK.md`
   - `docs/pipelines/UX_WORLD_FIRST.md`
 - **Slice-Wide Candidate Source Pool (Not a Blanket Edit Authorization — Each Task Requires a Per-Task Code Allowlist)**:
-  - `packages/shared/src/index.ts`
-  - `packages/game-data/src/index.ts`
-  - `packages/game-data/src/runSimulation.ts`
-  - `apps/server/src/db.ts`
-  - `apps/server/src/worldEngine.ts`
-  - `apps/server/src/zoneRoom.ts`
+  - `packages/shared/src/index.ts`, `packages/shared/src/protocols/world.ts`
+  - `packages/game-data/src/index.ts`, `packages/game-data/src/catalogs/{world,techniques}.ts`, `packages/game-data/src/rules/legacyProgression.ts`, `packages/game-data/src/runSimulation.ts`
+  - `apps/server/src/features/combat/LegacyCombatService.ts`, `apps/server/src/runtime/world/WorldRuntime.ts`, `apps/server/src/transport/colyseus/ZoneRoom.ts`
   - `apps/server/src/__tests__/server.test.ts`
-  - `apps/client/src/WorldScene.ts`
-  - `apps/client/src/hud.ts`
-  - `apps/client/src/network.ts`
-  - `apps/client/src/audio.ts`
+  - `apps/client/src/game/WorldScene.ts`, `apps/client/src/game/combat/{AnimationRegistry,CombatVisuals}.ts`, `apps/client/src/ui/HudShell.ts`, `apps/client/src/network/GameNetworkClient.ts`, `apps/client/src/audio.ts`
 - **Skill Manifest Candidate Pool (Active Skills Routed)**:
   - `.agents/skills/mmorpg-server-integrity/SKILL.md`
   - `.agents/skills/cultivation-balance/SKILL.md`
@@ -169,8 +151,10 @@ All 30 installed workspace skills are classified into five operational tiers:
 
 - **System Ownership (`docs/technical/TD_FREEZE_CONTRACT_MAP.md`)**:
   - **TD-05** owns the visual content contract (`docs/systems/VISUAL_CONTENT_CONTRACT.md`), native generative art production (`docs/pipelines/AI_ASSET_PRODUCTION.md`, `docs/pipelines/ARGON_NATIVE_ASSET_PROFILE.md`), animation/VFX feedback (`docs/pipelines/ANIMATION_VFX_FEEDBACK.md`), Tiled/Phaser scene assembly (`docs/pipelines/WORLD_SCENE_ASSEMBLY.md`), and vertical slice visual acceptance (`docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`).
-  - **Visual Reference & Proof Gate**: `Candidate A` (`assets/concepts/candidate_a_classic_xianxia.jpg`, `DEC-002`) is currently a `PROPOSED` visual reference (`PROPOSED` / `TECHNICALLY_VERIFIED`), not a fully `HUMAN_APPROVED` style lock. An initial art production proof must receive owner creative approval (`HUMAN_APPROVED`) before scaling asset production across characters, maps, or items.
+  - **Visual Direction & Core Kit Baseline**: `V01-B — Thiên Mệnh Tiên Cung` (`DEC-006`) + Grounded Tier I `Tân Thủ Thôn` Core Kit (`DEC-007`/`DEC-008`, `assets/corekit/v01b/catalog.json`) + `HERO-ANIMSET-01` (`DEC-009`) are the sole active visual masters. Reuse existing Core Kit assets before generating any new raw AI sheets.
 - **Context Manifest Candidate Pool (Verified Existing Paths)**:
+  - `assets/corekit/v01b/catalog.json`
+  - `assets/corekit/v01b/COREKIT_INDEX.md`
   - `docs/ART_BIBLE.md`
   - `docs/CHARACTER_VISUAL_BIBLE.md`
   - `docs/systems/VISUAL_CONTENT_CONTRACT.md`
@@ -184,15 +168,13 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `docs/technical/TD05_MIGRATION_TESTS.md`
   - `docs/technical/TD05_VERTICAL_SLICE_ACCEPTANCE.md`
 - **Slice-Wide Candidate Source & Tooling Pool (Not a Blanket Edit Authorization — Each Task Requires a Per-Task Code Allowlist)**:
-  - `packages/art-tools/build_assets.py` *(legacy monolithic tooling containing procedural `ImageDraw` tileset/VFX generation and full manifest/map rewrites — **never execute as a whole command**, with or without `--force`; candidate for separately approved command-level audit/refactor only)*
-  - `packages/art-tools/verify_manifest.ts` *(currently implements character source SHA checks and asset dimensions/alpha/frame checks to current validator scope; portable provenance paths across all fields are not comprehensively enforced and provider/method allowlists are not yet implemented — future enforcement is a separately approved tooling task)*
-  - `assets/manifest.json`
-  - `assets/provenance.json`
-  - `maps/tan_thu_thon.tmj`
-  - `maps/thanh_truc_lam.tmj`
-  - `apps/client/src/WorldScene.ts`
-  - `apps/client/src/hud.ts`
-  - `tests/e2e/runPlaytest.ts`
+  - `assets/corekit/v01b/catalog.json`, `assets/corekit/v01b/profiles/*.json`
+  - `packages/art-tools/verify_manifest.ts`, `packages/art-tools/corekit/validateCorekit.ts`
+  - `packages/art-tools/build_assets.py` *(disabled fail-closed guard returning exit code `2`; historical generator quarantined at `packages/art-tools/legacy/build_assets.py`)*
+  - `assets/manifest.json`, `assets/provenance.json`
+  - `maps/tan_thu_thon.tmj`, `maps/thanh_truc_lam.tmj`
+  - `apps/client/src/game/WorldScene.ts`, `apps/client/src/game/assets/{RuntimeAssetBindings,SpriteProfiles,runtimeAnimationProjection.json}`, `apps/client/src/game/world/{MapView,ActorViewSystem,CameraView,MinimapView}.ts`, `apps/client/src/ui/HudShell.ts`
+  - `tests/e2e/runPlaytest.ts`, `tests/e2e/runArchFoundationVerification.ts`
 - **Skill Manifest Candidate Pool (Active Skills & Permitted Post-Processing Scripts Routed)**:
   - `.agents/skills/pixel-art-director/SKILL.md`
   - `.agents/skills/ai-art-production/SKILL.md`
@@ -203,7 +185,7 @@ All 30 installed workspace skills are classified into five operational tiers:
   - `.agents/skills/world-and-map-qa/SKILL.md`
   - `.agents/skills/game-playtest/SKILL.md`
 - **Forbidden Skills / Routes**:
-  - Whole-command execution of `python packages/art-tools/build_assets.py` (including with `--force` / `npm run generate:art` / `npm run generate:art:force`)
+  - `packages/art-tools/build_assets.py` / `packages/art-tools/legacy/build_assets.py` (`npm run generate:art` / `npm run generate:art:force`)
   - `.agents/skills/generate2dmedia/SKILL.md` (`route_media.py`, `generate_media.py`, `cli_media.py`)
   - `.agents/skills/video2dsprite/SKILL.md`
   - `.agents/skills/codeart2d/SKILL.md`
